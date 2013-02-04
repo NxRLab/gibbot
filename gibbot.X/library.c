@@ -118,3 +118,18 @@ void initMagnets(void)
     TRISAbits.TRISA0 = 1;
     TRISAbits.TRISA4 = 1;
 }
+
+
+/* Delays for 10 cycles, plus branch time */
+void delay() {
+	asm("nop");
+	asm("nop");
+	asm("nop");
+	asm("nop");
+	asm("nop");
+	asm("nop");
+	asm("nop");
+	asm("nop");
+	asm("nop");
+	asm("nop");
+}

@@ -20,4 +20,9 @@ void delaysec(int tref);
 void initAnalogInput(void);
 void initMagnets(void);
 
+// misc fxns
+void delay();
+void setup_counters();
+
+
 #endif /* __LIBRARY_H_ */

@@ -8,6 +8,8 @@
  *
  * Modified 30-MAY-2011 by Andy Wilson for NU32v2 Monkeybot with multiple LS7366R counters
  *
+ *
+ *
  * LIMS
  ********************************************************************/
  
@@ -186,17 +188,4 @@ void setup_counters() {
 	clear_reg_7366(MOT,CNTR);
 }
 
-/* Delays for 10 cycles, plus branch time */
-void delay() {
-	asm("nop");
-	asm("nop");
-	asm("nop");
-	asm("nop");
-	asm("nop");
-	asm("nop");
-	asm("nop");
-	asm("nop");
-	asm("nop");
-	asm("nop");
-}
 
