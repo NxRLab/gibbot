@@ -1,0 +1,31 @@
+TO DO List:
+
+---- Right now the parsing of the messages from the PIC is very
+   "dumb."  I just look for the total number of characters to be
+   correct.  I should fix this.
+
+---- Clean up the structure of the code a bit, there are a few pretty
+   long functions
+
+---- Investigate the use of the io Python package to provide more code
+   portability.  With this package, we can make EOLs and tabs
+   standard across all OS's.
+
+---- Investigate the "bytearray" datatype available in Python 2.6+.  I
+   believe I can get rid of a lot of &0xFF statments by using it.
+
+---- [DONE] Remember last set of arguments used/ load any file with arguments
+   saved in it
+
+---- [DONE] Add a -x option for mplabx directory structure/ figure out how to
+   call script from mplabx
+
+---- [DONE] Add sample usage to help listings
+
+---- [DONE] Add a switch for listing ports and exiting
+
+---- [DONE] Figure out why the Windows machines require an extra delay
+   after sending a message.
+
+---- [DONE] Add arg to reset the PIC into run mode
+
