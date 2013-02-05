@@ -15,6 +15,7 @@
  
 #include <plib.h>
 #include "7366.h"
+#include "data.h"
 
 void ss_low(int module) {
         if (module == MOT) {
