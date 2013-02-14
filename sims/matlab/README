@@ -1,0 +1,6 @@
+The content in this folder corresponds to Matlab code written
+for simulating a two-link, single joint brachiating/walking robot.  The 
+code is not well documented, but the structure should become clear after 
+enough digging around.  The main functions are called in test.m.  Other
+initial conditions can be found in solutions.m.  Before running any code,
+please make sure to run mbinit.m.
