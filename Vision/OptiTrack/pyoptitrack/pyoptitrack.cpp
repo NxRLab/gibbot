@@ -1,7 +1,68 @@
 #include <Python.h>
 #include "cameralibrary.h"
+#include <vector>
 
 using namespace CameraLibrary;
+
+class CameraListener : public cCameraListener
+{
+	Camera *camera;
+	PyObject *callback;
+
+public:
+
+	CameraListener(Camera *camera, PyObject *callback)
+		: camera(camera), callback(callback)
+	{
+		Py_INCREF(callback);
+	}
+
+	~CameraListener()
+	{
+		camera->RemoveListener(this);
+		camera->Release();
+		Py_DECREF(callback);
+	}
+
+	// executed on background thread!
+    virtual void FrameAvailable()
+	{
+		Frame *frame = camera->GetFrame();
+		if (frame) {
+			int count = frame->ObjectCount();
+			
+			// Synchronize with the Python interpreter
+			PyGILState_STATE gstate = PyGILState_Ensure();
+
+			PyObject *blobs = PyList_New(count);
+			for (int i = 0; i < count; i++) {
+				cObject *obj = frame->Object(i);
+				PyObject *item = Py_BuildValue("(f,f)", obj->X(), obj->Y());
+				PyList_SetItem(blobs, i, item);
+			}
+
+			PyObject *arglist = Py_BuildValue("(i,O)", camera->UID(), blobs);
+			PyEval_CallObject(callback, arglist);
+			Py_DECREF(arglist);
+
+			// End synchronize
+			PyGILState_Release(gstate);
+
+			frame->Release();
+		}
+	}
+
+    virtual void FrameOverflow()
+	{
+		// ignore (assume FrameAvailable is doing its job)
+	}
+    virtual void ButtonPressed()
+	{
+		// ignore (we don't have buttons)
+	}
+};
+
+static std::vector<CameraListener *> listeners;
 
 static PyObject *
 pyoptitrack_waitForInitialization(PyObject *self, PyObject *args)
@@ -16,15 +77,20 @@ pyoptitrack_waitForInitialization(PyObject *self, PyObject *args)
 	
     CameraManager::X().WaitForInitialization();
 
-	return Py_None;
+	Py_RETURN_NONE;
 }
 
 static PyObject *
 pyoptitrack_shutdown(PyObject *self, PyObject *args)
 {
+	for (size_t i = 0; i < listeners.size(); i++) {
+		delete listeners[i];
+	}
+	listeners.clear();
+
     CameraManager::X().Shutdown();
 
-	return Py_None;
+	Py_RETURN_NONE;
 }
 
 static PyObject *
@@ -46,19 +112,28 @@ static PyObject *
 pyoptitrack_startCamera(PyObject *self, PyObject *args)
 {
 	int cameraUID;
-	if (!PyArg_ParseTuple(args, "i", &cameraUID)) {
+	PyObject *callback;
+	if (!PyArg_ParseTuple(args, "iO", &cameraUID, &callback)) {
 		return NULL;
 	}
+	if (!PyCallable_Check(callback)) {
+        PyErr_SetString(PyExc_TypeError, "callback parameter must be callable");
+        return NULL;
+    }
     Camera *camera = CameraManager::X().GetCamera(cameraUID);
 	if (!camera) {
 		PyErr_SetString(PyExc_ValueError, "Invalid camera UID");
 		return NULL;
 	}
+
+	CameraListener *listener = new CameraListener(camera, callback);
+	listeners.push_back(listener);
 	
     camera->SetVideoType(SegmentMode);
+	camera->AttachListener(listener);
     camera->Start();
 
-	return Py_None;
+	Py_RETURN_NONE;
 }
 
 static PyObject *
@@ -81,7 +156,7 @@ pyoptitrack_setIntensityForCamera(PyObject *self, PyObject *args)
 
 	camera->SetIntensity(intensity);
 
-	return Py_None;
+	Py_RETURN_NONE;
 }
 
 static PyObject *
@@ -104,37 +179,6 @@ pyoptitrack_getDimensionsForCamera(PyObject *self, PyObject *args)
 }
 
 static PyObject *
-pyoptitrack_getBlobsForCamera(PyObject *self, PyObject *args)
-{
-	int cameraUID;
-	if (!PyArg_ParseTuple(args, "i", &cameraUID)) {
-		return NULL;
-	}
-    Camera *camera = CameraManager::X().GetCamera(cameraUID);
-	if (!camera) {
-		PyErr_SetString(PyExc_ValueError, "Invalid camera UID");
-		return NULL;
-	}
-
-	Frame *frame = camera->GetFrame();
-	if (frame) {
-		int count = frame->ObjectCount();
-	
-		PyObject *result = PyList_New(count);
-		for (int i = 0; i < count; i++) {
-			cObject *obj = frame->Object(i);
-			PyObject *item = Py_BuildValue("(f,f)", obj->X(), obj->Y());
-			PyList_SetItem(result, i, item);
-		}
-
-		frame->Release();
-		return result;
-	}
-
-	return Py_None;
-}
-
-static PyObject *
 pyoptitrack_foo(PyObject *self, PyObject *args)
 {
 	return Py_BuildValue("i", 1337);
@@ -145,10 +189,9 @@ static PyMethodDef PyoptitrackMethods[] =
 	{"waitForInitialization", pyoptitrack_waitForInitialization, METH_VARARGS, "no args.  Wait for CameraManager to initialize"},
 	{"shutdown", pyoptitrack_shutdown, METH_VARARGS, "no args.  Shut down CameraManager"},
 	{"getCameraList", pyoptitrack_getCameraList, METH_VARARGS, "arg: camera UID.  Returns a list of connected camera UIDs"},
-	{"startCamera", pyoptitrack_startCamera, METH_VARARGS, "arg: camera UID.  Calls SetVideoType(SegmentMode) and Start()"},
+	{"startCamera", pyoptitrack_startCamera, METH_VARARGS, "args: cameraUID, callback(cameraUID, blobs).  Starts the camera and passes a list of (x, y) tuples to callback after each frame"},
 	{"setIntensityForCamera", pyoptitrack_setIntensityForCamera, METH_VARARGS, "args: camera UID, int [0, 16).  Varies active lighting"},
 	{"getDimensionsForCamera", pyoptitrack_getDimensionsForCamera, METH_VARARGS, "arg: camera UID.  Returns a tuple (width, height)"},
-	{"getBlobsForCamera", pyoptitrack_getBlobsForCamera, METH_VARARGS, "arg: camera UID.  Returns a list of (x, y) tuples"},
 	{"foo", pyoptitrack_foo, METH_VARARGS, "just testing"},
 	{NULL, NULL, 0, NULL}
 };

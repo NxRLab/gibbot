@@ -3,13 +3,16 @@ from Tkinter import *
 
 SCALE = .5
 
+cameras = []
+leftBlobs = []
+rightBlobs = []
+
 class BlobFrame(Frame):
 
-    def __init__(self, parent, cameras):
+    def __init__(self, parent):
         Frame.__init__(self, parent)
 
         self.parent = parent
-        self.cameras = cameras
 
         self.initUI()
         self.animate()
@@ -21,37 +24,44 @@ class BlobFrame(Frame):
         self.canvas = Canvas(self)
         self.canvas.pack(fill=BOTH, expand=1)
 
-        self.colors = ['red', 'green', 'blue', 'orange', 'purple']
-
     def animate(self):
-        self.drawBlobs()
+        self.drawFrame()
         self.after(1, self.animate)
-        
-    def drawBlobs(self):
+
+    def drawFrame(self):
         self.canvas.delete(ALL)
+        self.drawBlobs(leftBlobs, 'red')
+        self.drawBlobs(rightBlobs, 'green')
         
-        for camera in self.cameras:
-            blobs = pyoptitrack.getBlobsForCamera(camera)
-            if not blobs:
-                print 'skipping blobless frame'
-                continue
-            for blob in blobs:
-                x = blob[0] * SCALE
-                y = blob[1] * SCALE
-                R = 4
-                self.canvas.create_oval(x-R, y-R, x+R, y+R, fill=self.colors[camera], \
-                                        outline="black", width=1)
+    def drawBlobs(self, blobs, color):
+        for blob in blobs:
+            x = blob[0] * SCALE
+            y = blob[1] * SCALE
+            R = 4
+            self.canvas.create_oval(x-R, y-R, x+R, y+R, fill=color, \
+                                    outline="black", width=1)
+
+def gotBlobs(camera, blobs):
+    global leftBlobs, rightBlobs
+    try:
+        if camera == cameras[0]:
+            leftBlobs = blobs
+        elif camera == cameras[1]:
+            rightBlobs = blobs
+    except Exception as e:
+        print e
 
 def main():
-    print "initializing cameras..."
+    global cameras
+    print "Initializing cameras..."
     pyoptitrack.waitForInitialization()
     cameras = pyoptitrack.getCameraList()
     for camera in cameras:
-        pyoptitrack.startCamera(camera)
+        pyoptitrack.startCamera(camera, gotBlobs)
         pyoptitrack.setIntensityForCamera(camera, 0)
     
     root = Tk()
-    blobFrame = BlobFrame(root, cameras)
+    blobFrame = BlobFrame(root)
     dims = pyoptitrack.getDimensionsForCamera(cameras[0])
     dims = (dims[0]*SCALE, dims[1]*SCALE)
     root.geometry("%dx%d+0+0" % dims) # WIDTHxHEIGHT+X+Y
