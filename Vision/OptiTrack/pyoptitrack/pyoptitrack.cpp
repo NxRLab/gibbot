@@ -112,8 +112,9 @@ static PyObject *
 pyoptitrack_startCamera(PyObject *self, PyObject *args)
 {
 	int cameraUID;
+	int numericLabel;
 	PyObject *callback;
-	if (!PyArg_ParseTuple(args, "iO", &cameraUID, &callback)) {
+	if (!PyArg_ParseTuple(args, "iiO", &cameraUID, &numericLabel, &callback)) {
 		return NULL;
 	}
 	if (!PyCallable_Check(callback)) {
@@ -131,6 +132,7 @@ pyoptitrack_startCamera(PyObject *self, PyObject *args)
 	
     camera->SetVideoType(SegmentMode);
 	camera->AttachListener(listener);
+	camera->SetNumeric(true, numericLabel);
     camera->Start();
 
 	Py_RETURN_NONE;
@@ -189,7 +191,7 @@ static PyMethodDef PyoptitrackMethods[] =
 	{"waitForInitialization", pyoptitrack_waitForInitialization, METH_VARARGS, "no args.  Wait for CameraManager to initialize"},
 	{"shutdown", pyoptitrack_shutdown, METH_VARARGS, "no args.  Shut down CameraManager"},
 	{"getCameraList", pyoptitrack_getCameraList, METH_VARARGS, "arg: camera UID.  Returns a list of connected camera UIDs"},
-	{"startCamera", pyoptitrack_startCamera, METH_VARARGS, "args: cameraUID, callback(cameraUID, blobs).  Starts the camera and passes a list of (x, y) tuples to callback after each frame"},
+	{"startCamera", pyoptitrack_startCamera, METH_VARARGS, "args: cameraUID, numericLabel, callback(cameraUID, blobs).  Displays numeric label on the camera and begins passing lists of (x, y) tuples to callback"},
 	{"setIntensityForCamera", pyoptitrack_setIntensityForCamera, METH_VARARGS, "args: camera UID, int [0, 16).  Varies active lighting"},
 	{"getDimensionsForCamera", pyoptitrack_getDimensionsForCamera, METH_VARARGS, "arg: camera UID.  Returns a tuple (width, height)"},
 	{"foo", pyoptitrack_foo, METH_VARARGS, "just testing"},

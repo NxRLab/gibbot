@@ -3,7 +3,6 @@ from Tkinter import *
 
 SCALE = .5
 
-cameras = []
 leftBlobs = []
 rightBlobs = []
 
@@ -45,27 +44,30 @@ def gotBlobs(camera, blobs):
     global leftBlobs, rightBlobs
     try:
         if camera == cameras[0]:
-            leftBlobs = blobs
+            leftBlobs = [(b[1], b[0]) for b in blobs]
         elif camera == cameras[1]:
-            rightBlobs = blobs
+            rightBlobs = [(b[1]+dims[1], b[0]) for b in blobs]
     except Exception as e:
         print e
 
 def main():
-    global cameras
+    global cameras, dims
     print "Initializing cameras..."
     pyoptitrack.waitForInitialization()
     cameras = pyoptitrack.getCameraList()
-    for camera in cameras:
-        pyoptitrack.startCamera(camera, gotBlobs)
-        pyoptitrack.setIntensityForCamera(camera, 0)
+
+    for i in range(2):
+        pyoptitrack.startCamera(cameras[i], i, gotBlobs)
+        pyoptitrack.setIntensityForCamera(cameras[i], 0)
     
     root = Tk()
     blobFrame = BlobFrame(root)
     dims = pyoptitrack.getDimensionsForCamera(cameras[0])
-    dims = (dims[0]*SCALE, dims[1]*SCALE)
+    dims = (dims[1]*SCALE*2, dims[0]*SCALE)
     root.geometry("%dx%d+0+0" % dims) # WIDTHxHEIGHT+X+Y
     root.mainloop()
+
+    print 'Shutting down...'
     pyoptitrack.shutdown()
 
 
