@@ -152,8 +152,8 @@
 <wire x1="5.15" y1="-3.75" x2="-5.15" y2="-3.75" width="0.127" layer="21"/>
 <wire x1="-5.15" y1="-3.75" x2="-5.15" y2="3.75" width="0.127" layer="21"/>
 <circle x="-3.81" y="-2.54" radius="0.635" width="0.127" layer="21"/>
-<text x="-4.445" y="2.54" size="0.8128" layer="25">&gt;NAME</text>
-<text x="-2.54" y="-3.175" size="0.8128" layer="27">&gt;VALUE</text>
+<text x="-5.715" y="-3.81" size="0.8128" layer="25" rot="R90">&gt;NAME</text>
+<text x="6.35" y="-3.175" size="0.8128" layer="27" rot="R90">&gt;VALUE</text>
 </package>
 <package name="QFN-24">
 <description>&lt;h3&gt;24-pin QFN with Exposed Thermal pad&lt;/h3&gt;
@@ -315,18 +315,6 @@ Package used by L3G4200D 3-axis gyro&lt;br&gt;
 <smd name="14" x="-3.81" y="3.0734" dx="0.6604" dy="2.032" layer="1"/>
 <text x="-3.556" y="-0.508" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
 <text x="-4.699" y="-1.778" size="1.27" layer="25" ratio="10" rot="R90">&gt;NAME</text>
-</package>
-<package name="BH4AA-PC-FLIPPED">
-<wire x1="0" y1="0" x2="-57.15" y2="0" width="0.127" layer="22"/>
-<wire x1="-57.15" y1="0" x2="-57.15" y2="61.72" width="0.127" layer="22"/>
-<wire x1="-57.15" y1="61.72" x2="0" y2="61.72" width="0.127" layer="22"/>
-<wire x1="0" y1="61.72" x2="0" y2="0" width="0.127" layer="22"/>
-<hole x="-28.575" y="58.16" drill="2.36"/>
-<hole x="-28.575" y="3.56" drill="2.36"/>
-<pad name="+" x="-1.405" y="8.19" drill="2"/>
-<pad name="-" x="-1.405" y="20.89" drill="2"/>
-<text x="-42.8625" y="28.575" size="3.81" layer="26">&gt;NAME
-</text>
 </package>
 <package name="BH4AA-PC">
 <wire x1="0" y1="0" x2="-57.15" y2="0" width="0.127" layer="21"/>
@@ -490,6 +478,65 @@ Package used by L3G4200D 3-axis gyro&lt;br&gt;
 <wire x1="1.905" y1="-19.05" x2="2.54" y2="-19.685" width="0.1524" layer="21"/>
 <wire x1="1.905" y1="-21.59" x2="2.54" y2="-22.225" width="0.1524" layer="21"/>
 <wire x1="1.905" y1="-24.13" x2="2.54" y2="-24.765" width="0.1524" layer="21"/>
+</package>
+<package name="QFPN-24">
+<smd name="P$1" x="0" y="0" dx="2.3" dy="2.3" layer="1"/>
+<smd name="9" x="-0.25" y="-1.8" dx="0.25" dy="0.4" layer="1"/>
+<smd name="8" x="-0.75" y="-1.8" dx="0.25" dy="0.4" layer="1"/>
+<smd name="7" x="-1.25" y="-1.8" dx="0.25" dy="0.4" layer="1"/>
+<smd name="10" x="0.25" y="-1.8" dx="0.25" dy="0.4" layer="1"/>
+<smd name="11" x="0.75" y="-1.8" dx="0.25" dy="0.4" layer="1"/>
+<smd name="12" x="1.25" y="-1.8" dx="0.25" dy="0.4" layer="1"/>
+<smd name="22" x="-0.25" y="1.8" dx="0.25" dy="0.4" layer="1"/>
+<smd name="21" x="0.25" y="1.8" dx="0.25" dy="0.4" layer="1"/>
+<smd name="20" x="0.75" y="1.8" dx="0.25" dy="0.4" layer="1"/>
+<smd name="19" x="1.25" y="1.8" dx="0.25" dy="0.4" layer="1"/>
+<smd name="23" x="-0.75" y="1.8" dx="0.25" dy="0.4" layer="1"/>
+<smd name="24" x="-1.25" y="1.8" dx="0.25" dy="0.4" layer="1"/>
+<smd name="16" x="1.8" y="0.25" dx="0.25" dy="0.4" layer="1" rot="R90"/>
+<smd name="3" x="-1.8" y="0.25" dx="0.25" dy="0.4" layer="1" rot="R90"/>
+<smd name="2" x="-1.8" y="0.75" dx="0.25" dy="0.4" layer="1" rot="R90"/>
+<smd name="1" x="-1.8" y="1.25" dx="0.25" dy="0.4" layer="1" rot="R90"/>
+<smd name="4" x="-1.8" y="-0.25" dx="0.25" dy="0.4" layer="1" rot="R90"/>
+<smd name="5" x="-1.8" y="-0.75" dx="0.25" dy="0.4" layer="1" rot="R90"/>
+<smd name="6" x="-1.8" y="-1.25" dx="0.25" dy="0.4" layer="1" rot="R90"/>
+<smd name="17" x="1.8" y="0.75" dx="0.25" dy="0.4" layer="1" rot="R90"/>
+<smd name="18" x="1.8" y="1.25" dx="0.25" dy="0.4" layer="1" rot="R90"/>
+<smd name="15" x="1.8" y="-0.25" dx="0.25" dy="0.4" layer="1" rot="R90"/>
+<smd name="14" x="1.8" y="-0.75" dx="0.25" dy="0.4" layer="1" rot="R90"/>
+<smd name="13" x="1.8" y="-1.25" dx="0.25" dy="0.4" layer="1" rot="R90"/>
+<wire x1="-2" y1="2" x2="-2" y2="-2" width="0.127" layer="21"/>
+<wire x1="-2" y1="-2" x2="2" y2="-2" width="0.127" layer="21"/>
+<wire x1="2" y1="-2" x2="2" y2="2" width="0.127" layer="21"/>
+<wire x1="-2" y1="2" x2="2" y2="2" width="0.127" layer="21"/>
+<circle x="-1.3" y="1.3" radius="0.1" width="0" layer="21"/>
+<text x="-2.032" y="2.286" size="0.4064" layer="25">&gt;NAME</text>
+<text x="-2.032" y="-2.54" size="0.4064" layer="27">&gt;VALUE</text>
+</package>
+<package name="LGA-16">
+<smd name="6" x="-0.325" y="-1.7" dx="0.3" dy="0.4" layer="1"/>
+<smd name="7" x="0.325" y="-1.7" dx="0.3" dy="0.4" layer="1"/>
+<smd name="8" x="0.975" y="-1.7" dx="0.3" dy="0.4" layer="1"/>
+<smd name="5" x="-0.975" y="-1.7" dx="0.3" dy="0.4" layer="1"/>
+<smd name="15" x="-0.325" y="1.7" dx="0.3" dy="0.4" layer="1"/>
+<smd name="16" x="-0.975" y="1.7" dx="0.3" dy="0.4" layer="1"/>
+<smd name="14" x="0.325" y="1.7" dx="0.3" dy="0.4" layer="1"/>
+<smd name="13" x="0.975" y="1.7" dx="0.3" dy="0.4" layer="1"/>
+<smd name="2" x="-1.7" y="0.325" dx="0.3" dy="0.4" layer="1" rot="R90"/>
+<smd name="11" x="1.7" y="0.325" dx="0.3" dy="0.4" layer="1" rot="R90"/>
+<smd name="1" x="-1.7" y="0.975" dx="0.3" dy="0.4" layer="1" rot="R90"/>
+<smd name="3" x="-1.7" y="-0.325" dx="0.3" dy="0.4" layer="1" rot="R90"/>
+<smd name="4" x="-1.7" y="-0.975" dx="0.3" dy="0.4" layer="1" rot="R90"/>
+<smd name="12" x="1.7" y="0.975" dx="0.3" dy="0.4" layer="1" rot="R90"/>
+<smd name="10" x="1.7" y="-0.325" dx="0.3" dy="0.4" layer="1" rot="R90"/>
+<smd name="9" x="1.7" y="-0.975" dx="0.3" dy="0.4" layer="1" rot="R90"/>
+<wire x1="-2" y1="2" x2="-2" y2="-2" width="0.127" layer="21"/>
+<wire x1="-2" y1="-2" x2="2" y2="-2" width="0.127" layer="21"/>
+<wire x1="2" y1="2" x2="2" y2="-2" width="0.127" layer="21"/>
+<wire x1="2" y1="2" x2="-2" y2="2" width="0.127" layer="21"/>
+<circle x="-1.75" y="1.525" radius="0.15" width="0" layer="21"/>
+<text x="-1.95" y="2.275" size="0.3048" layer="25">&gt;NAME</text>
+<text x="-1.95" y="-2.6" size="0.3048" layer="27">&gt;VALUE</text>
 </package>
 </packages>
 <symbols>
@@ -714,6 +761,27 @@ Package used by L3G4200D 3-axis gyro&lt;br&gt;
 <technology name=""/>
 </technologies>
 </device>
+<device name="QFPN-24" package="QFPN-24">
+<connects>
+<connect gate="G$1" pin="CS" pad="12"/>
+<connect gate="G$1" pin="GND@1" pad="6"/>
+<connect gate="G$1" pin="GND@2" pad="8"/>
+<connect gate="G$1" pin="GND@3" pad="9"/>
+<connect gate="G$1" pin="GND@4" pad="10"/>
+<connect gate="G$1" pin="INT_1" pad="7"/>
+<connect gate="G$1" pin="INT_2" pad="3"/>
+<connect gate="G$1" pin="RESERVED@1" pad="4"/>
+<connect gate="G$1" pin="RESERVED@2" pad="13"/>
+<connect gate="G$1" pin="SDI/SDO/SDA" pad="16"/>
+<connect gate="G$1" pin="SDO/SA0" pad="15"/>
+<connect gate="G$1" pin="SPC/SCL" pad="11"/>
+<connect gate="G$1" pin="VDD" pad="5"/>
+<connect gate="G$1" pin="VDD_IO" pad="14"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
 </devices>
 </deviceset>
 <deviceset name="A3G4250D" prefix="U">
@@ -722,6 +790,29 @@ Package used by L3G4200D 3-axis gyro&lt;br&gt;
 </gates>
 <devices>
 <device name="" package="LGA16-4X4">
+<connects>
+<connect gate="G$1" pin="CS" pad="5"/>
+<connect gate="G$1" pin="DRDY/INT2" pad="6"/>
+<connect gate="G$1" pin="GND" pad="13"/>
+<connect gate="G$1" pin="INT1" pad="7"/>
+<connect gate="G$1" pin="PLLFILT" pad="14"/>
+<connect gate="G$1" pin="RESERVED@1" pad="8"/>
+<connect gate="G$1" pin="RESERVED@2" pad="9"/>
+<connect gate="G$1" pin="RESERVED@3" pad="10"/>
+<connect gate="G$1" pin="RESERVED@4" pad="11"/>
+<connect gate="G$1" pin="RESERVED@5" pad="12"/>
+<connect gate="G$1" pin="RESERVED@6" pad="15"/>
+<connect gate="G$1" pin="SCL/SPC" pad="2"/>
+<connect gate="G$1" pin="SDA/SDI/SDO" pad="3"/>
+<connect gate="G$1" pin="SDO/SA0" pad="4"/>
+<connect gate="G$1" pin="VDD" pad="16"/>
+<connect gate="G$1" pin="VDD_IO" pad="1"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+<device name="LGA16" package="LGA-16">
 <connects>
 <connect gate="G$1" pin="CS" pad="5"/>
 <connect gate="G$1" pin="DRDY/INT2" pad="6"/>
@@ -782,15 +873,6 @@ Various common sizes : AA, AAA, 20mm coin cell and 12mm coin cell.</description>
 </gates>
 <devices>
 <device name="TOP" package="BH4AA-PC">
-<connects>
-<connect gate="G$1" pin="+" pad="+"/>
-<connect gate="G$1" pin="-" pad="-"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="BOTTOM" package="BH4AA-PC-FLIPPED">
 <connects>
 <connect gate="G$1" pin="+" pad="+"/>
 <connect gate="G$1" pin="-" pad="-"/>
@@ -5551,10 +5633,10 @@ type 0309, grid 2.5 mm</description>
 <part name="P+1" library="SparkFun" deviceset="VCC" device=""/>
 <part name="GND2" library="SparkFun" deviceset="GND" device=""/>
 <part name="GND3" library="SparkFun" deviceset="GND" device=""/>
-<part name="ACCELEROMETER" library="lyndon" deviceset="AIS328DQ" device="-ES" value="AIS328DQ"/>
+<part name="ACCELEROMETER" library="lyndon" deviceset="AIS328DQ" device="QFPN-24" value="AIS328DQ"/>
 <part name="P+2" library="SparkFun" deviceset="VCC" device=""/>
 <part name="GND4" library="SparkFun" deviceset="GND" device=""/>
-<part name="GYROSCOPE" library="lyndon" deviceset="A3G4250D" device=""/>
+<part name="GYROSCOPE" library="lyndon" deviceset="A3G4250D" device="LGA16" value="A3G4250D"/>
 <part name="P+3" library="SparkFun" deviceset="VCC" device=""/>
 <part name="GND5" library="SparkFun" deviceset="GND" device=""/>
 <part name="C5" library="SparkFun" deviceset="CAP" device="0603-CAP" value="10 nF"/>
@@ -5583,7 +5665,7 @@ type 0309, grid 2.5 mm</description>
 <part name="P+5" library="monkeybot" deviceset="+5V" device=""/>
 <part name="P+6" library="SparkFun" deviceset="VCC" device=""/>
 <part name="GND8" library="SparkFun" deviceset="GND" device=""/>
-<part name="4XAA" library="lyndon" deviceset="BATTERY" device="BOTTOM"/>
+<part name="4XAA" library="lyndon" deviceset="BATTERY" device="TOP"/>
 <part name="JP6" library="lyndon" deviceset="M013X2" device="PTH"/>
 <part name="P+7" library="SparkFun" deviceset="VCC" device=""/>
 </parts>

@@ -5797,7 +5797,8 @@ type 0309, grid 2.5 mm</description>
 <wire x1="233.68" y1="-38.1" x2="226.06" y2="-38.1" width="0.1524" layer="91"/>
 <wire x1="226.06" y1="-38.1" x2="226.06" y2="-40.64" width="0.1524" layer="91"/>
 <pinref part="GYROSCOPE" gate="G$1" pin="RESERVED@1"/>
-<wire x1="226.06" y1="-40.64" x2="226.06" y2="-45.72" width="0.1524" layer="91"/>
+<wire x1="226.06" y1="-40.64" x2="226.06" y2="-43.18" width="0.1524" layer="91"/>
+<wire x1="226.06" y1="-43.18" x2="226.06" y2="-45.72" width="0.1524" layer="91"/>
 <wire x1="226.06" y1="-45.72" x2="226.06" y2="-48.26" width="0.1524" layer="91"/>
 <wire x1="226.06" y1="-48.26" x2="226.06" y2="-50.8" width="0.1524" layer="91"/>
 <wire x1="226.06" y1="-50.8" x2="226.06" y2="-55.88" width="0.1524" layer="91"/>
@@ -5817,6 +5818,9 @@ type 0309, grid 2.5 mm</description>
 <wire x1="203.2" y1="-48.26" x2="203.2" y2="-55.88" width="0.1524" layer="91"/>
 <wire x1="203.2" y1="-55.88" x2="226.06" y2="-55.88" width="0.1524" layer="91"/>
 <junction x="226.06" y="-55.88"/>
+<pinref part="GYROSCOPE" gate="G$1" pin="RESERVED@2"/>
+<wire x1="233.68" y1="-43.18" x2="226.06" y2="-43.18" width="0.1524" layer="91"/>
+<junction x="226.06" y="-43.18"/>
 </segment>
 <segment>
 <pinref part="C5" gate="G$1" pin="2"/>
@@ -6168,18 +6172,6 @@ type 0309, grid 2.5 mm</description>
 <wire x1="45.72" y1="-50.8" x2="38.1" y2="-50.8" width="0.1524" layer="91"/>
 <label x="38.1" y="-50.8" size="1.778" layer="95"/>
 <pinref part="MOTOR" gate="G$1" pin="7-MOSI"/>
-</segment>
-</net>
-<net name="N$25" class="0">
-<segment>
-<pinref part="JP6" gate="G$1" pin="17"/>
-<wire x1="375.92" y1="-53.34" x2="373.38" y2="-53.34" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$30" class="0">
-<segment>
-<pinref part="JP6" gate="G$1" pin="18"/>
-<wire x1="391.16" y1="-53.34" x2="393.7" y2="-53.34" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="INT_1" class="0">
