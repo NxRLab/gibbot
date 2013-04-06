@@ -1,4 +1,4 @@
-update=4/4/2013 12:17:40 PM
+update=4/5/2013 10:35:30 AM
 version=1
 last_client=eeschema
 [cvpcb]
@@ -142,3 +142,5 @@ LibName28=atmel
 LibName29=contrib
 LibName30=valves
 LibName31=C:/Users/jvanderploeg/Documents/GitHub/gibbot/PCB/Master Library/schematic_lib
+LibName32=C:/Users/jvanderploeg/Documents/PCB Designs/Master Library/Miscellanious/Misc
+LibName33=C:/Users/jvanderploeg/Documents/PCB Designs/Master Library/Connectors/Connectors

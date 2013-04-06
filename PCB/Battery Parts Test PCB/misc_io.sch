@@ -1,0 +1,316 @@
+EESchema Schematic File Version 2  date 4/6/2013 11:57:37 AM
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:special
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:schematic_lib
+LIBS:Misc
+LIBS:Connectors
+LIBS:batt_test_parts-cache
+EELAYER 25  0
+EELAYER END
+$Descr A4 11700 8267
+encoding utf-8
+Sheet 3 4
+Title ""
+Date "6 apr 2013"
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+NoConn ~ 7050 4050
+NoConn ~ 7050 4150
+NoConn ~ 7050 4250
+NoConn ~ 7050 4350
+NoConn ~ 7050 4450
+NoConn ~ 7050 4550
+NoConn ~ 7050 4650
+NoConn ~ 7050 4750
+NoConn ~ 7050 4850
+NoConn ~ 7050 4950
+NoConn ~ 6250 5050
+NoConn ~ 6250 5150
+NoConn ~ 6250 5250
+NoConn ~ 6250 4450
+NoConn ~ 6250 4350
+NoConn ~ 6250 4250
+NoConn ~ 6250 4150
+Text Notes 1950 4850 0    60   ~ 0
+PSD might be best setting up an LED\n
+$Comp
+L +3.3V #PWR24
+U 1 1 5160514E
+P 5600 3800
+F 0 "#PWR24" H 5600 3760 30  0001 C CNN
+F 1 "+3.3V" H 5600 3910 30  0000 C CNN
+	1    5600 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L +3.3V #PWR22
+U 1 1 5160514A
+P 5350 3800
+F 0 "#PWR22" H 5350 3760 30  0001 C CNN
+F 1 "+3.3V" H 5350 3910 30  0000 C CNN
+	1    5350 3800
+	1    0    0    -1  
+$EndComp
+Connection ~ 5600 4650
+Wire Wire Line
+	5600 4300 5600 4650
+Wire Wire Line
+	5850 4850 6250 4850
+Wire Wire Line
+	4550 4950 6250 4950
+Wire Wire Line
+	4550 4850 5350 4850
+Wire Wire Line
+	4550 4750 6250 4750
+Wire Wire Line
+	4550 4650 6250 4650
+Wire Wire Line
+	4550 4550 6250 4550
+Wire Wire Line
+	3650 2400 4750 2400
+Wire Wire Line
+	3650 2300 4750 2300
+Wire Wire Line
+	4100 2250 4100 2300
+Connection ~ 4100 2300
+Wire Wire Line
+	4600 2250 4600 2400
+Connection ~ 4600 2400
+Wire Wire Line
+	5350 4300 5350 4550
+Connection ~ 5350 4550
+$Comp
+L R R44
+U 1 1 5160513A
+P 5600 4050
+F 0 "R44" V 5680 4050 50  0000 C CNN
+F 1 "10K" V 5600 4050 50  0000 C CNN
+	1    5600 4050
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R43
+U 1 1 51605137
+P 5350 4050
+F 0 "R43" V 5430 4050 50  0000 C CNN
+F 1 "10K" V 5350 4050 50  0000 C CNN
+	1    5350 4050
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R45
+U 1 1 5160511D
+P 5600 4850
+F 0 "R45" V 5680 4850 50  0000 C CNN
+F 1 "10K" V 5600 4850 50  0000 C CNN
+	1    5600 4850
+	0    1    1    0   
+$EndComp
+Text Label 4950 4950 0    60   ~ 0
+INT
+Text Label 4950 4850 0    60   ~ 0
+FETSOFF
+Text Label 4950 4750 0    60   ~ 0
+PSD
+Text Label 4950 4650 0    60   ~ 0
+~SD
+Text Label 4950 4550 0    60   ~ 0
+~EOC
+NoConn ~ 5550 2400
+NoConn ~ 5550 2500
+NoConn ~ 4750 2500
+Text HLabel 4550 4950 0    60   Input ~ 0
+STAT5
+Text HLabel 4550 4850 0    60   Input ~ 0
+STAT4
+Text HLabel 4550 4750 0    60   Input ~ 0
+STAT3
+Text HLabel 4550 4650 0    60   Input ~ 0
+STAT2
+Text HLabel 4550 4550 0    60   Input ~ 0
+STAT1
+Text HLabel 3650 2300 0    60   Input ~ 0
+SCL
+Text HLabel 3650 2400 0    60   Input ~ 0
+SDA
+$Comp
+L GND #PWR29
+U 1 1 51604E24
+P 6650 3800
+F 0 "#PWR29" H 6650 3800 30  0001 C CNN
+F 1 "GND" H 6650 3730 30  0001 C CNN
+	1    6650 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L +3.3V #PWR28
+U 1 1 51604E23
+P 6650 3400
+F 0 "#PWR28" H 6650 3360 30  0001 C CNN
+F 1 "+3.3V" H 6650 3510 30  0000 C CNN
+	1    6650 3400
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C13
+U 1 1 51604E22
+P 6650 3600
+F 0 "C13" H 6700 3700 50  0000 L CNN
+F 1 "0.1uF" H 6700 3500 50  0000 L CNN
+	1    6650 3600
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_13X2 P3
+U 1 1 515F1B1F
+P 6650 4650
+F 0 "P3" H 6650 5350 60  0000 C CNN
+F 1 "CONN_13X2" V 6650 4650 50  0000 C CNN
+	1    6650 4650
+	1    0    0    -1  
+$EndComp
+$Comp
+L +3.3V #PWR27
+U 1 1 515F1B1E
+P 6250 4050
+F 0 "#PWR27" H 6250 4010 30  0001 C CNN
+F 1 "+3.3V" H 6250 4160 30  0000 C CNN
+	1    6250 4050
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR30
+U 1 1 515F1B1D
+P 7050 5250
+F 0 "#PWR30" H 7050 5250 30  0001 C CNN
+F 1 "GND" H 7050 5180 30  0001 C CNN
+	1    7050 5250
+	1    0    0    -1  
+$EndComp
+NoConn ~ 7050 5050
+NoConn ~ 7050 5150
+$Comp
+L CONN_4X2 P2
+U 1 1 515F0E9E
+P 5150 2450
+F 0 "P2" H 5150 2700 50  0000 C CNN
+F 1 "CONN_4X2" V 5150 2450 40  0000 C CNN
+	1    5150 2450
+	1    0    0    -1  
+$EndComp
+$Comp
+L +3.3V #PWR23
+U 1 1 515F0E9D
+P 5550 2300
+F 0 "#PWR23" H 5550 2260 30  0001 C CNN
+F 1 "+3.3V" H 5550 2410 30  0000 C CNN
+	1    5550 2300
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR21
+U 1 1 515F0E9C
+P 4750 2600
+F 0 "#PWR21" H 4750 2600 30  0001 C CNN
+F 1 "GND" H 4750 2530 30  0001 C CNN
+	1    4750 2600
+	1    0    0    -1  
+$EndComp
+NoConn ~ 5550 2600
+$Comp
+L R R41
+U 1 1 515F0E9A
+P 4100 2000
+F 0 "R41" V 4180 2000 50  0000 C CNN
+F 1 "10K" V 4100 2000 50  0000 C CNN
+	1    4100 2000
+	1    0    0    -1  
+$EndComp
+$Comp
+L +3.3V #PWR19
+U 1 1 515F0E99
+P 4100 1750
+F 0 "#PWR19" H 4100 1710 30  0001 C CNN
+F 1 "+3.3V" H 4100 1860 30  0000 C CNN
+	1    4100 1750
+	1    0    0    -1  
+$EndComp
+$Comp
+L +3.3V #PWR20
+U 1 1 515F0E98
+P 4600 1750
+F 0 "#PWR20" H 4600 1710 30  0001 C CNN
+F 1 "+3.3V" H 4600 1860 30  0000 C CNN
+	1    4600 1750
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R42
+U 1 1 515F0E97
+P 4600 2000
+F 0 "R42" V 4680 2000 50  0000 C CNN
+F 1 "10K" V 4600 2000 50  0000 C CNN
+	1    4600 2000
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C12
+U 1 1 515F0E96
+P 6000 2100
+F 0 "C12" H 6050 2200 50  0000 L CNN
+F 1 "0.1uF" H 6050 2000 50  0000 L CNN
+	1    6000 2100
+	1    0    0    -1  
+$EndComp
+$Comp
+L +3.3V #PWR25
+U 1 1 515F0E95
+P 6000 1900
+F 0 "#PWR25" H 6000 1860 30  0001 C CNN
+F 1 "+3.3V" H 6000 2010 30  0000 C CNN
+	1    6000 1900
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR26
+U 1 1 515F0E94
+P 6000 2300
+F 0 "#PWR26" H 6000 2300 30  0001 C CNN
+F 1 "GND" H 6000 2230 30  0001 C CNN
+	1    6000 2300
+	1    0    0    -1  
+$EndComp
+$EndSCHEMATC
