@@ -1,6 +1,6 @@
-update=4/4/2013 11:06:07 AM
+update=4/5/2013 10:35:30 AM
 version=1
-last_client=kicad
+last_client=eeschema
 [cvpcb]
 version=1
 NetITyp=0
@@ -77,6 +77,8 @@ LibName7=display
 LibName8=valves
 LibName9=led
 LibName10=dip_sockets
+[general]
+version=1
 [eeschema]
 version=1
 LibDir=
@@ -107,8 +109,6 @@ offY_E=0
 RptD_X=0
 RptD_Y=100
 RptLab=1
-SimCmd=
-UseNetN=0
 LabSize=60
 [eeschema/libraries]
 LibName1=power
@@ -141,5 +141,6 @@ LibName27=opto
 LibName28=atmel
 LibName29=contrib
 LibName30=valves
-[general]
-version=1
+LibName31=C:/Users/jvanderploeg/Documents/GitHub/gibbot/PCB/Master Library/schematic_lib
+LibName32=C:/Users/jvanderploeg/Documents/PCB Designs/Master Library/Miscellanious/Misc
+LibName33=C:/Users/jvanderploeg/Documents/PCB Designs/Master Library/Connectors/Connectors
