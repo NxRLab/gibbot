@@ -4,3 +4,8 @@ code is not well documented, but the structure should become clear after
 enough digging around.  The main functions are called in test.m.  Other
 initial conditions can be found in solutions.m.  Before running any code,
 please make sure to run mbinit.m.
+
+mb = monkey bot
+md = monkey derivative (central differencing)
+mm = monkey map (gaits over time)
+mp = monkey plotter
