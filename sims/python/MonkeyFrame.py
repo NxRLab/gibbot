@@ -24,7 +24,7 @@ class MonkeyFrame(Frame):
     	w = self.winfo_width()
     	h = self.winfo_height()
     	S = 5
-    	L = 50
+    	L = min(w,h)/4 - S
 
     	x1 = w/2
     	y1 = h/2
@@ -33,3 +33,8 @@ class MonkeyFrame(Frame):
     	x3 = x2 + math.cos(bot.q1 + bot.q2) * L
     	y3 = y2 + math.sin(bot.q1 + bot.q2) * L
     	self.c.coords(self.line, x1, y1, x2, y2, x3, y3)
+    	self.c.coords(self.o1, x1-S, y1-S, x1+S, y1+S)
+    	self.c.coords(self.o2, x2-S, y2-S, x2+S, y2+S)
+    	self.c.coords(self.o3, x3-S, y3-S, x3+S, y3+S)
+
+
