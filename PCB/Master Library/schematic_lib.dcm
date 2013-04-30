@@ -1,4 +1,8 @@
-EESchema-DOCLIB  Version 2.0  Date: 4/6/2013 11:11:03 AM
+EESchema-DOCLIB  Version 2.0  Date: 4/24/2013 11:36:07 AM
+#
+$CMP LTC4000
+D LTC4000 UFD package
+$ENDCMP
 #
 $CMP PWR_SWITCH
 D Symbole general de connecteur
