@@ -1,5 +1,5 @@
 from Tkinter import *
-from MonkeyBot import *
+from GibbotModel import *
 
 class InputFrame(Frame):
 
@@ -83,6 +83,6 @@ class InputFrame(Frame):
         q2 = float(self.q2InitVar.get())
         q1d = float(self.q1dInitVar.get())
         q2d = float(self.q2dInitVar.get())
-        bot = MonkeyBot(q1, q2, q1d, q2d)
+        bot = GibbotModel(q1, q2, q1d, q2d)
         self.restartFunction(controller, timeScale, bot)
 

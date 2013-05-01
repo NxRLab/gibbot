@@ -1,5 +1,5 @@
 from math import *
-from MonkeyBot import *
+from GibbotModel import *
 
 # All controllers should return an accelleration scalar (q2dd).
 # Controllers shoud NOT modify the bot directly.

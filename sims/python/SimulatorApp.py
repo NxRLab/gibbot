@@ -1,8 +1,8 @@
 import time
 from Tkinter import *
-from MonkeyBot import *
+from GibbotModel import *
 from InputFrame import *
-from MonkeyFrame import *
+from GibbotFrame import *
 from Controllers import *
 
 
@@ -11,7 +11,7 @@ CONTROLLERS = {
     "2. Spong": spongController
 }
 
-DEFAULT_BOT = MonkeyBot(.3, .4, 0, 0)
+DEFAULT_BOT = GibbotModel(.3, .4, 0, 0)
 
 DT = .001
 TIME_SCALE = 1.0
@@ -21,13 +21,13 @@ FPS = 40
 class SimulatorApp(Tk):
     def __init__(self):
         Tk.__init__(self)
-        self.title('Python Monkey Simulator')
+        self.title('Python Gibbot Simulator')
 
         self.inputFrame = InputFrame(self, CONTROLLERS, TIME_SCALE, DEFAULT_BOT, self.restart)
         self.inputFrame.grid(row=0, column=0, sticky=N+W)
 
-        self.monkeyFrame = MonkeyFrame(self)
-        self.monkeyFrame.grid(row=0, column=1, sticky=N+S+E+W)
+        self.gibbotFrame = GibbotFrame(self)
+        self.gibbotFrame.grid(row=0, column=1, sticky=N+S+E+W)
         self.rowconfigure(0, weight=1)
         self.columnconfigure(1, weight=1)
 
@@ -45,7 +45,7 @@ class SimulatorApp(Tk):
 
         # update UI
         self.inputFrame.update(self.bot, self.t - self.startTime)
-        self.monkeyFrame.update(self.bot)
+        self.gibbotFrame.update(self.bot)
 
         while self.t < frameEndTime:
             # advance physics
