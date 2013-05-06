@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[      3577,        124]
-NotebookOptionsPosition[      3043,        102]
-NotebookOutlinePosition[      3386,        117]
-CellTagsIndexPosition[      3343,        114]
+NotebookDataLength[      5058,        170]
+NotebookOptionsPosition[      4484,        146]
+NotebookOutlinePosition[      4827,        161]
+CellTagsIndexPosition[      4784,        158]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -78,26 +78,70 @@ Cell[BoxData[{
   RowBox[{
    RowBox[{"Ton", " ", "=", " ", 
     RowBox[{"dc", "/", "f"}]}], ";"}], 
-  "\[IndentingNewLine]"}], "\[IndentingNewLine]", "Iin", \
-"\[IndentingNewLine]", "Vin", "\[IndentingNewLine]", "R", \
-"\[IndentingNewLine]", "c", "\[IndentingNewLine]", 
- RowBox[{"L", 
-  "\[IndentingNewLine]"}], "\[IndentingNewLine]", "Ts", \
-"\[IndentingNewLine]", "Ton"}], "Input"],
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Iin: \>\"", ",", " ", "Iin"}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Vin: \>\"", ",", " ", "Vin"}], "]"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<R: \>\"", ",", " ", "R"}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<c: \>\"", ",", " ", "c"}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<L: \>\"", ",", " ", "L"}], "]"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Ts: \>\"", ",", " ", "Ts"}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Ton: \>\"", ",", " ", "Ton"}], "]"}]}], "Input"],
 
-Cell[BoxData["6.666666666666666`"], "Output"],
+Cell[CellGroupData[{
 
-Cell[BoxData["40.5`"], "Output"],
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Iin: \"\>", "\[InvisibleSpace]", "6.666666666666666`"}],
+  SequenceForm["Iin: ", 6.666666666666666],
+  Editable->False]], "Print"],
 
-Cell[BoxData["10.8`"], "Output"],
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Vin: \"\>", "\[InvisibleSpace]", "40.5`"}],
+  SequenceForm["Vin: ", 40.5],
+  Editable->False]], "Print"],
 
-Cell[BoxData["7.233796296296296`*^-6"], "Output"],
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"R: \"\>", "\[InvisibleSpace]", "10.8`"}],
+  SequenceForm["R: ", 10.8],
+  Editable->False]], "Print"],
 
-Cell[BoxData["0.0001265625`"], "Output"],
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"c: \"\>", "\[InvisibleSpace]", "7.233796296296296`*^-6"}],
+  SequenceForm["c: ", 7.233796296296296*^-6],
+  Editable->False]], "Print"],
 
-Cell[BoxData["6.25`*^-6"], "Output"],
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"L: \"\>", "\[InvisibleSpace]", "0.0001265625`"}],
+  SequenceForm["L: ", 0.0001265625],
+  Editable->False]], "Print"],
 
-Cell[BoxData["1.5625`*^-6"], "Output"]
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Ts: \"\>", "\[InvisibleSpace]", "6.25`*^-6"}],
+  SequenceForm["Ts: ", 6.25*^-6],
+  Editable->False]], "Print"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Ton: \"\>", "\[InvisibleSpace]", "1.5625`*^-6"}],
+  SequenceForm["Ton: ", 1.5625*^-6],
+  Editable->False]], "Print"]
+}, Open  ]]
 }, Open  ]]
 },
 WindowSize->{707, 517},
@@ -117,14 +161,16 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[579, 22, 2155, 63, 532, "Input"],
-Cell[2737, 87, 45, 0, 31, "Output"],
-Cell[2785, 89, 32, 0, 31, "Output"],
-Cell[2820, 91, 32, 0, 31, "Output"],
-Cell[2855, 93, 49, 0, 31, "Output"],
-Cell[2907, 95, 40, 0, 31, "Output"],
-Cell[2950, 97, 36, 0, 31, "Output"],
-Cell[2989, 99, 38, 0, 31, "Output"]
+Cell[579, 22, 2681, 76, 552, "Input"],
+Cell[CellGroupData[{
+Cell[3285, 102, 179, 4, 23, "Print"],
+Cell[3467, 108, 153, 4, 23, "Print"],
+Cell[3623, 114, 149, 4, 23, "Print"],
+Cell[3775, 120, 183, 4, 23, "Print"],
+Cell[3961, 126, 165, 4, 23, "Print"],
+Cell[4129, 132, 159, 4, 23, "Print"],
+Cell[4291, 138, 165, 4, 23, "Print"]
+}, Open  ]]
 }, Open  ]]
 }
 ]
