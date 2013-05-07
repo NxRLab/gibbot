@@ -11,10 +11,10 @@ CONTROLLERS = {
     "2. Spong": spongController
 }
 
-DEFAULT_BOT = GibbotModel(.3, .4, 0, 0)
+DEFAULT_BOT = GibbotModel(1.077398914708292,  0.986794824173209, 0, 0)
 
 DT = .001
-TIME_SCALE = 1.0
+TIME_SCALE = 1
 FPS = 40
 
 

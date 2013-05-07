@@ -8,6 +8,6 @@ def nullController(bot):
     return 0
 
 def spongController(bot):
-    return .1 # need to implement...
+    return .6 # need to implement...
 
 
