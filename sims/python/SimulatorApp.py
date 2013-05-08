@@ -34,39 +34,37 @@ class SimulatorApp(Tk):
         self.controller = nullController
         self.bot = DEFAULT_BOT
         self.timeScale = TIME_SCALE
-        self.t = time.time() * self.timeScale
-        self.startTime = self.t
+        self.t = 0
 
         self.animate()
 
     def animate(self):
-        frameStartTime = time.time()*self.timeScale
-        frameEndTime = frameStartTime + 1.0/FPS*self.timeScale
+        frameStartTime = time.time()
+        frameInterval = 1.0/FPS
 
         # update UI
-        self.inputFrame.update(self.bot, self.t - self.startTime)
+        self.inputFrame.update(self.bot, self.t)
         self.gibbotFrame.update(self.bot)
 
-        while self.t < frameEndTime:
-            # advance physics
+        # advance physics
+        simulationInterval = frameInterval * self.timeScale
+        simulationTicks = int(simulationInterval / DT)
+        for i in xrange(0, simulationTicks):
             self.bot.advanceState(self.controller, DT)
-            self.t += DT
+        self.t += simulationInterval
 
         # schedule next frame
-        waitTime = frameEndTime - time.time()*self.timeScale
+        waitTime = frameStartTime + frameInterval - time.time()
         millis = int(waitTime * 1000)
-        if millis > 0:
-            self.after(millis, self.animate)
-        else:
-            self.animate()
+        if millis < 1:
+            millis = 1
+        self.after(millis, self.animate)
 
     def restart(self, controller, timeScale, bot):
         self.controller = controller
         self.timeScale = timeScale
         self.bot = bot
-
-        self.t = time.time() * timeScale
-        self.startTime = self.t
+        self.t = 0
 
 
 

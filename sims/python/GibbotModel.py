@@ -3,10 +3,23 @@ import numpy as np
 
 class GibbotModel:
     def __init__(self, q1, q2, q1d=0., q2d=0.):
+        # State
         self.q1 = q1
         self.q2 = q2
         self.q1d = q1d
         self.q2d = q2d
+        # Link Masses
+        self.m1 = 3.083276839957533
+        self.m2 = 3.083276839957533
+        # Link Lengths
+        self.l1 = 0.610
+        self.l2 = 0.610
+        # Length to Link's Center of Mass
+        self.r2 = 6.37687066165708e-2
+        self.r1 = self.l1 - self.r2
+        # Moments of Inertia
+        self.I1 = 5.386568898408416e-2
+        self.I2 = 5.386568898408416e-2
 
     def __repr__(self):
         return '(q1={}, q2={}, q1d={}, q2d={})'.format(self.q1, self.q2, self.q1d, self.q2d)
@@ -34,19 +47,18 @@ class GibbotModel:
     def getAccelerations(self, controller):
         '''Initialize Parameters'''
         # Link Masses
-        m1 = 3.083276839957533
-        m2 = 3.083276839957533
+        m1 = self.m1
+        m2 = self.m2
         # Link Lengths
-        l1 = 0.610
-        l2 = 0.610
+        l1 = self.l1
+        l2 = self.l2
         # Length to Link's Center of Mass
-        r2 = 6.37687066165708e-2
-        r1 = l1 - r2
+        r1 = self.r1
+        r2 = self.r2
         # Moments of Inertia
-        I1 = 5.386568898408416e-2
-        I2 = 5.386568898408416e-2
+        I1 = self.I1
+        I2 = self.I2
 
-        print I1
         # Gravity
         g = 9.81
         # Scaling

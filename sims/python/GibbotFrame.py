@@ -21,23 +21,25 @@ class GibbotFrame(Frame):
         self.c.pack(fill=BOTH, expand=1)
 
     def update(self, bot):
-    	w = self.winfo_width()
-    	h = self.winfo_height()
-    	S = 5
-    	L = min(w,h)/4 - S
+        w = self.winfo_width()
+        h = self.winfo_height()
+        S = 5
+        L = (min(w,h) - S*4) / 2
+        l1 = L / (bot.l1 + bot.l2) * bot.l1
+        l2 = L - l1
 
-    	theta = bot.q1 + pi/2
-    	phi = theta + bot.q2
+        theta = bot.q1 + pi/2
+        phi = theta + bot.q2
 
-    	x1 = w/2
-    	y1 = h/2
-    	x2 = x1 + math.cos(theta) * L
-    	y2 = y1 + math.sin(theta) * L
-    	x3 = x2 + math.cos(phi) * L
-    	y3 = y2 + math.sin(phi) * L
-    	self.c.coords(self.line, x1, y1, x2, y2, x3, y3)
-    	self.c.coords(self.o1, x1-S, y1-S, x1+S, y1+S)
-    	self.c.coords(self.o2, x2-S, y2-S, x2+S, y2+S)
-    	self.c.coords(self.o3, x3-S, y3-S, x3+S, y3+S)
+        x1 = w/2
+        y1 = h/2
+        x2 = x1 + math.cos(theta) * l1
+        y2 = y1 + math.sin(theta) * l1
+        x3 = x2 + math.cos(phi) * l2
+        y3 = y2 + math.sin(phi) * l2
+        self.c.coords(self.line, x1, y1, x2, y2, x3, y3)
+        self.c.coords(self.o1, x1-S, y1-S, x1+S, y1+S)
+        self.c.coords(self.o2, x2-S, y2-S, x2+S, y2+S)
+        self.c.coords(self.o3, x3-S, y3-S, x3+S, y3+S)
 
 
