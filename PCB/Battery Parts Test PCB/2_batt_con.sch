@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date 4/30/2013 1:48:29 PM
+EESchema Schematic File Version 2  date 5/7/2013 3:13:49 PM
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -39,7 +39,7 @@ $Descr A4 11700 8267
 encoding utf-8
 Sheet 8 9
 Title ""
-Date "30 apr 2013"
+Date "7 may 2013"
 Rev ""
 Comp ""
 Comment1 ""
@@ -323,18 +323,18 @@ F 1 "100nF" V 8200 350 50  0000 L CNN
 	0    1    -1   0   
 $EndComp
 Wire Wire Line
-	3700 7300 3700 1650
+	3700 1650 3700 7300
 Connection ~ 3700 6350
 Connection ~ 3500 1550
 Wire Wire Line
-	3500 5000 4200 5000
+	4200 5000 3500 5000
 Wire Wire Line
-	3500 1550 3500 5000
+	3500 5000 3500 1550
 Connection ~ 3100 2250
 Wire Wire Line
-	4200 2250 3100 2250
+	3100 2250 4200 2250
 Wire Wire Line
-	4200 2750 4200 2250
+	4200 2250 4200 2750
 Connection ~ 7800 1150
 Connection ~ 8350 1250
 Connection ~ 8050 1350
@@ -351,9 +351,9 @@ Wire Wire Line
 	6450 1650 6450 1850
 Connection ~ 3100 1350
 Wire Wire Line
-	3100 7000 3100 1350
+	3100 1350 3100 7000
 Wire Wire Line
-	1550 7000 3100 7000
+	3100 7000 1550 7000
 Wire Wire Line
 	4500 5850 4900 5850
 Connection ~ 4200 5000
@@ -367,26 +367,26 @@ Wire Wire Line
 Wire Wire Line
 	1850 3450 2300 3450
 Wire Wire Line
-	1350 5150 1350 1250
+	1350 1250 1350 5150
 Connection ~ 1550 3800
 Wire Wire Line
-	1450 3800 1550 3800
+	1550 3800 1450 3800
 Wire Wire Line
-	1450 1150 1450 3800
+	1450 3800 1450 1150
 Wire Wire Line
 	1550 2550 1550 1050
 Wire Wire Line
 	6200 800  8800 800 
 Connection ~ 5300 1050
 Wire Wire Line
-	5300 800  5300 1050
+	5300 1050 5300 800 
 Wire Notes Line
 	1100 2650 1100 7200
 Wire Wire Line
 	4200 3650 4200 3950
 Connection ~ 1350 1250
 Wire Wire Line
-	1550 5150 1550 5000
+	1550 5000 1550 5150
 Wire Wire Line
 	5700 1050 1300 1050
 Wire Wire Line
@@ -422,9 +422,9 @@ Connection ~ 1450 1150
 Wire Wire Line
 	4200 5150 4200 4850
 Wire Wire Line
-	4200 6350 4200 6050
+	4200 6050 4200 6350
 Wire Wire Line
-	5700 800  5300 800 
+	5300 800  5700 800 
 Wire Wire Line
 	1550 3050 1550 3250
 Wire Wire Line
@@ -434,7 +434,7 @@ Wire Wire Line
 Wire Wire Line
 	1550 5150 1350 5150
 Wire Wire Line
-	1550 6350 1550 7000
+	1550 7000 1550 6350
 Wire Wire Line
 	4500 4650 4950 4650
 Wire Wire Line
@@ -460,21 +460,21 @@ Wire Wire Line
 Connection ~ 7950 1150
 Connection ~ 7400 1050
 Wire Wire Line
-	3300 3800 3300 1450
+	3300 1450 3300 3800
 Wire Wire Line
-	4200 3800 3300 3800
+	3300 3800 4200 3800
 Connection ~ 3300 1450
 Wire Wire Line
-	3700 6350 4200 6350
+	4200 6350 3700 6350
 Connection ~ 3700 1650
 Wire Notes Line
-	5800 2650 1100 2650
+	1100 2650 5800 2650
 Wire Notes Line
-	5800 7200 5800 2650
+	5800 2650 5800 7200
 Wire Notes Line
 	5800 7200 1100 7200
 Wire Wire Line
-	4050 7300 3700 7300
+	3700 7300 4050 7300
 Text HLabel 4050 7300 2    60   Output ~ 0
 BAT_BOT
 $EndSCHEMATC
