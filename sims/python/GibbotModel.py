@@ -68,9 +68,9 @@ class GibbotModel:
 
 
         '''Simplified Variables'''
-        B = (m1*r1 + m2*l1)/(m2+r2)         # Beta
+        B = (m1*r1 + m2*l1)/(m2*r2)         # Beta
         G = (g*dt**2)/dx                    # Gamma = 1
-        K1 = (1./dx)*(I2/(m2*r2)+r2) 
+        K1 = (1./dx)*(I2/(m2*r2)+r2)
         K2 = (1./dx)*((I1+m1*r1**2)/(m2*r2) + (l1**2)/r2)
         D = l1/dx                           # Delta
 
@@ -94,7 +94,7 @@ class GibbotModel:
         M = dt * np.mat([[K1+K2+2*D*c2, D*c2+K1],
                     [K1+D*c2, K1]])
 
-        
+
         C = dt * np.mat([[-D*s2*q2d, -D*s2*(q1d+q2d)],
                     [D*s2*q1d, 0]])
 
@@ -104,10 +104,10 @@ class GibbotModel:
 
         M2 = np.linalg.inv(M)*(u-C*qd-g)
 
-        q1dd = M2[0,0] 
+        q1dd = M2[0,0]
         q2dd = M2[1,0]
 
         return (q1dd, q2dd)
 
-       
+
 
