@@ -20,6 +20,8 @@ class GibbotModel:
         # Moments of Inertia
         self.I1 = 5.386568898408416e-2
         self.I2 = 5.386568898408416e-2
+        # Gravity
+        self.g = 9.81
 
     def __repr__(self):
         return '(q1={}, q2={}, q1d={}, q2d={})'.format(self.q1, self.q2, self.q1d, self.q2d)
@@ -58,9 +60,9 @@ class GibbotModel:
         # Moments of Inertia
         I1 = self.I1
         I2 = self.I2
-
         # Gravity
-        g = 9.81
+        g = self.g
+        
         # Scaling
         dx = l1+l2
         dt = sqrt((l1+l2)/g)
