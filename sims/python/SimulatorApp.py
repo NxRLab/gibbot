@@ -8,11 +8,13 @@ from Controllers import *
 
 CONTROLLERS = {
     "1. Null": nullController,
+    "2. Spong Combined": spongCombined,
     "2. Spong Swing Up": spongSwingUpController,
     "3. Spong Balance": spongBalanceController
 }
 
-DEFAULT_BOT = GibbotModel(1.077398914708292,  0.986794824173209, 0, 0)
+DEFAULT_BOT = GibbotModel(-.8, .4, 0, 0)
+#DEFAULT_BOT = GibbotModel(1.077398914708292,  0.986794824173209, 0, 0)
 
 DT = .001
 TIME_SCALE = 1

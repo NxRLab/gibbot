@@ -9,19 +9,21 @@ class GibbotModel:
         self.q1d = q1d
         self.q2d = q2d
         # Link Masses
-        self.m1 = 3.083276839957533
-        self.m2 = 3.083276839957533
+        self.m1 = 1. #3.083276839957533
+        self.m2 = 1. #3.083276839957533
         # Link Lengths
-        self.l1 = 0.610
-        self.l2 = 0.610
+        self.l1 = 1. #0.610
+        self.l2 = 2. #0.610
         # Length to Link's Center of Mass
-        self.r2 = 6.37687066165708e-2
-        self.r1 = self.l1 - self.r2
+        self.r2 = 1. #6.37687066165708e-2
+        self.r1 = .5 #self.l1 - self.r2
         # Moments of Inertia
-        self.I1 = 5.386568898408416e-2
-        self.I2 = 5.386568898408416e-2
+        self.I1 = .083 #5.386568898408416e-2
+        self.I2 = .33 #5.386568898408416e-2
         # Gravity
         self.g = 9.81
+        # Torque
+        self.MAX_T = 2
 
     def __repr__(self):
         return '(q1={}, q2={}, q1d={}, q2d={})'.format(self.q1, self.q2, self.q1d, self.q2d)
@@ -62,7 +64,7 @@ class GibbotModel:
         I2 = self.I2
         # Gravity
         g = self.g
-        
+
         # Scaling
         dx = l1+l2
         dt = sqrt((l1+l2)/g)
@@ -90,8 +92,16 @@ class GibbotModel:
         c2 = cos(q2)
         s12 = sin(q1+q2)
         c12 = cos(q1+q2)
+
+        U = controller(self)
+        if U > self.MAX_T:
+            print U, '>', self.MAX_T
+            U = self.MAX_T
+        elif U < -self.MAX_T:
+            print U, '<', -self.MAX_T
+            U = -self.MAX_T
         u = np.mat([[0],
-                    [controller(self)]])
+                    [U]])
 
         M = dt * np.mat([[K1+K2+2*D*c2, D*c2+K1],
                     [K1+D*c2, K1]])
