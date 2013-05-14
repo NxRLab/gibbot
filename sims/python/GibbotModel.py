@@ -8,22 +8,24 @@ class GibbotModel:
         self.q2 = q2
         self.q1d = q1d
         self.q2d = q2d
+
+        # Currently our gibbot guesstimated parameters
         # Link Masses
         self.m1 = 1. #3.083276839957533
-        self.m2 = 1. #3.083276839957533
+        self.m2 = 1.5 #3.083276839957533
         # Link Lengths
         self.l1 = 1. #0.610
-        self.l2 = 2. #0.610
+        self.l2 = 1. #0.610
         # Length to Link's Center of Mass
-        self.r2 = 1. #6.37687066165708e-2
-        self.r1 = .5 #self.l1 - self.r2
+        self.r2 = .7 #6.37687066165708e-2
+        self.r1 = .3 #self.l1 - self.r2
         # Moments of Inertia
-        self.I1 = .083 #5.386568898408416e-2
+        self.I1 = .33 #5.386568898408416e-2
         self.I2 = .33 #5.386568898408416e-2
         # Gravity
         self.g = 9.81
         # Torque
-        self.MAX_T = 2
+        self.MAX_T = 100
 
     def __repr__(self):
         return '(q1={}, q2={}, q1d={}, q2d={})'.format(self.q1, self.q2, self.q1d, self.q2d)
@@ -40,6 +42,7 @@ class GibbotModel:
         self.q1 += self.q1d * dt
         self.q2 += self.q2d * dt
 
+
         # normalize angles [-pi, +pi]
         self.q1 = self.q1 % (pi*2)
         if self.q1 > pi:
@@ -47,6 +50,7 @@ class GibbotModel:
         self.q2 = self.q2 % (pi*2)
         if self.q2 > pi:
             self.q2 -= 2*pi
+
 
     def getAccelerations(self, controller):
         '''Initialize Parameters'''
@@ -73,10 +77,15 @@ class GibbotModel:
 
         '''Simplified Variables'''
         B = (m1*r1 + m2*l1)/(m2*r2)         # Beta
+
         G = (g*dt**2)/dx                    # Gamma = 1
+
         K1 = (1./dx)*(I2/(m2*r2)+r2)
+
         K2 = (1./dx)*((I1+m1*r1**2)/(m2*r2) + (l1**2)/r2)
+
         D = l1/dx                           # Delta
+
 
         '''State Updates'''
 

@@ -16,8 +16,10 @@ def spongCombined(bot):
 
 def spongSwingUpController(bot):
     alpha = pi/10.
+    #Our Gains
+    #Spring force based on velocities(high limits velocities)
     kd = 8.
-    kp = 20.
+    kp = 20.    #Spring force based on position
 
     # parameters
     q1 = bot.q1
@@ -34,7 +36,7 @@ def spongSwingUpController(bot):
     I1 = bot.I1
     m2 = bot.m2
     I2 = bot.I2
-    
+
     r1 = bot.r1
     l1 = bot.l1
     r2 = bot.r2
@@ -62,28 +64,30 @@ def spongSwingUpController(bot):
     return U
 
 def spongBalanceController(bot):
+
+    #The papers A, B, and K matrices for their robot
     q1_adjusted = bot.q1 - pi if bot.q1 > 0 else bot.q1 + pi
+
     X = np.mat([[q1_adjusted],
                 [bot.q2],
                 [bot.q1d],
                 [bot.q2d]])
 
-    A = np.mat([[0, 0, 1, 0],
-                 [0, 0, 0, 1],
-                 [12.49, -12.54, 0, 0],
-                 [-14.49, 29.36, 0, 0]])
-
-    B = np.mat([[0],
-                 [0],
-                 [-2.98],
-                 [5.98]])
 
     K = np.mat([-242.52, -96.33, -104.59, -49.05])
+
+    #Our Calculated A, B, and K Matrices for the papers robot
+    '''q1_adjusted = bot.q1 - pi if bot.q1 > 0 else bot.q1 + pi
+
+    X = np.mat([[q1_adjusted],
+                [bot.q2],
+                [bot.q1d],
+                [bot.q2d]])
+
+
+    K = np.mat([-57.379, -23.5845, -45.0506, -21.1648])'''
+
     u = -K*X;
+    return u
 
-
-    dX = A*X + B*u
-    q2dd = dX[3,0]
-
-    return q2dd
 
