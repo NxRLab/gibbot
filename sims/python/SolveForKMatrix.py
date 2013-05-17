@@ -67,6 +67,12 @@ def getKMatrix():
 
     d1 = l1/dx                           # Delta
 
+    # b = 18
+    # G = 1
+    # K1 = .276829359066204
+    # K2 = 8.842649843207664
+    # d1 = .5
+
 
     A = np.array([[0,0,1,0],[0,0,0,1],[(-(b*G*K1*c1) + d1*G*c2*c12)/(K1*K2 - (d1**2)*(c2**2)),(-2*(d1**2)*c2*s2*(K1*(-(G*u) - b*G*s1 + d1*((q1d + q2d)**2)*s2) + d1*c2*(d1*(q1d**2)*s2 + G*(-u + s12))))/((K1*K2 - (d1**2)*(c2**2))**2) + (d1*K1*((q1d + q2d)**2)*c2 + d1*c2*(d1*(q1d**2)*c2 + G*c12) - d1*s2*(d1*(q1d**2)*s2 + G*(-u + s12)))/(K1*K2 - (d1**2)*(c2**2)),(2*d1*K1*(q1d + q2d)*s2 + 2*(d1**2)*q1d*c2*s2)/(K1*K2 - (d1**2)*(c2**2)),(2*d1*K1*(q1d + q2d)*s2)/(K1*K2 - (d1**2)*(c2**2))],[-((G*(K1 + K2 + 2*d1*c2)*c12 + (K1 + d1*c2)*(-(b*G*c1) - G*c12))/(K1*K2 - (d1**2)*(c2**2))),(2*(d1**2)*c2*s2*((K1 + d1*c2)*(-(b*G*s1) + d1*q2d*(2*q1d + q2d)*s2 - G*s12) + (K1 + K2 + 2*d1*c2)*(d1*(q1d**2)*s2 + G*(-u + s12))))/((K1*K2 - (d1**2)*(c2**2))**2) - ((K1 + d1*c2)*(d1*q2d*(2*q1d + q2d)*c2 - G*c12) + (K1 + K2 + 2*d1*c2)*(d1*(q1d**2)*c2 + G*c12) - d1*s2*(-(b*G*s1) + d1*q2d*(2*q1d + q2d)*s2 - G*s12) - 2*d1*s2*(d1*(q1d**2)*s2 + G*(-u + s12)))/(K1*K2 - (d1**2)*(c2**2)),-((2*d1*q2d*(K1 + d1*c2)*s2 + 2*d1*q1d*(K1 + K2 + 2*d1*c2)*s2)/(K1*K2 - (d1**2)*(c2**2))),-(((K1 + d1*c2)*(d1*q2d*s2 + d1*(2*q1d + q2d)*s2))/(K1*K2 - (d1**2)*(c2**2)))]])
 
@@ -79,6 +85,9 @@ def getKMatrix():
     P = sp.linalg.solve_continuous_are(A, B, Q, R)
 
     K = np.dot(np.linalg.inv(R), np.dot(B.transpose(),P))
+    print A
+    print B
+
 
     return K
 
@@ -86,5 +95,3 @@ def getKMatrix():
 if __name__ == '__main__':
     K = getKMatrix()
     print K
-    R = np.array([[1]])
-    print np.linalg.inv(R)
