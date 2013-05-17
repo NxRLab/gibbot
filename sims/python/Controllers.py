@@ -77,19 +77,42 @@ def spongBalanceController(bot):
     K = np.mat([-242.52, -96.33, -104.59, -49.05])'''
 
     #Our Calculated A, B, and K Matrices for the papers robot
-    q1_adjusted = bot.q1 - pi if bot.q1 > 0 else bot.q1 + pi
+    #bot.q1 = bot.q1 % (2*pi)
+    #bot.q2 = bot.q2 % (2*pi)
+    #q1_adjusted = bot.q1 - pi if bot.q1 > 0 else bot.q1 + pi
 
-    X = np.mat([[q1_adjusted],
+#    X = np.mat([[q1_adjusted],
+#                [bot.q2],
+#                [bot.q1d],
+#                [bot.q2d]])
+
+    X = np.mat([[bot.q1],
                 [bot.q2],
                 [bot.q1d],
                 [bot.q2d]])
 
+    Xd = np.mat([[pi],
+                [0],
+                [0],
+                [0]])
+
+    tau = 2*pi
+    e = X - Xd
+    e[0] = e[0] % tau
+    e[0] = e[0] - tau if e[0] > pi else e[0]
+    e[1] = e[1] % tau
+    e[1] = e[1] - tau if e[1] > pi else e[1]
+
 
     K = np.mat([-111.10644284, -41.54117392, -104.82015473, -42.18446835])
+    print "error: ", e, "\n"
+    #raw_input();
+	
+
 
     # K = np.mat([-57.379, -23.5845, -45.0506, -21.1648])
 
-    u = -K*X;
+    u = -K*e;
     return u
 
 

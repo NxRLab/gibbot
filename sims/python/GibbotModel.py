@@ -85,6 +85,8 @@ class GibbotModel:
         K2 = (1./dx)*((I1+m1*r1**2)/(m2*r2) + (l1**2)/r2)
 
         D = l1/dx                           # Delta
+		
+        #print B, G, K1, K2, D
 
 
         '''State Updates'''

@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date 5/15/2013 1:47:03 AM
+EESchema Schematic File Version 2  date 5/15/2013 3:48:59 PM
 LIBS:schematic_lib
 LIBS:power
 LIBS:device
@@ -30,6 +30,7 @@ LIBS:opto
 LIBS:atmel
 LIBS:contrib
 LIBS:valves
+LIBS:Battery Charger-cache
 EELAYER 27 0
 EELAYER END
 $Descr A4 11693 8268
@@ -133,10 +134,10 @@ F 3 "~" H 5600 2850 30  0000 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L GND #PWR?
+L GND #PWR01
 U 1 1 51931E3F
 P 3750 3400
-F 0 "#PWR?" H 3750 3400 30  0001 C CNN
+F 0 "#PWR01" H 3750 3400 30  0001 C CNN
 F 1 "GND" H 3750 3330 30  0001 C CNN
 F 2 "" H 3750 3400 60  0000 C CNN
 F 3 "" H 3750 3400 60  0000 C CNN
@@ -264,6 +265,153 @@ F 3 "~" H 3750 5100 30  0000 C CNN
 	1    3750 5100
 	0    -1   1    0   
 $EndComp
+$Comp
+L R R?
+U 1 1 5193309A
+P 1700 5750
+F 0 "R?" V 1780 5750 40  0000 C CNN
+F 1 "R" V 1707 5751 40  0000 C CNN
+F 2 "~" V 1630 5750 30  0000 C CNN
+F 3 "~" H 1700 5750 30  0000 C CNN
+	1    1700 5750
+	-1   0    0    -1  
+$EndComp
+$Comp
+L C C?
+U 1 1 519330A0
+P 1850 5800
+F 0 "C?" H 1850 5900 40  0000 L CNN
+F 1 "C" H 1856 5715 40  0000 L CNN
+F 2 "~" H 1888 5650 30  0000 C CNN
+F 3 "~" H 1850 5800 60  0000 C CNN
+	1    1850 5800
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR02
+U 1 1 519331F9
+P 2800 6300
+F 0 "#PWR02" H 2800 6300 30  0001 C CNN
+F 1 "GND" H 2800 6230 30  0001 C CNN
+F 2 "" H 2800 6300 60  0000 C CNN
+F 3 "" H 2800 6300 60  0000 C CNN
+	1    2800 6300
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C?
+U 1 1 5193339E
+P 1200 4550
+F 0 "C?" H 1200 4650 40  0000 L CNN
+F 1 "1u" H 1206 4465 40  0000 L CNN
+F 2 "~" H 1238 4400 30  0000 C CNN
+F 3 "~" H 1200 4550 60  0000 C CNN
+	1    1200 4550
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R?
+U 1 1 51933539
+P 1250 4250
+F 0 "R?" V 1330 4250 40  0000 C CNN
+F 1 "R" V 1257 4251 40  0000 C CNN
+F 2 "~" V 1180 4250 30  0000 C CNN
+F 3 "~" H 1250 4250 30  0000 C CNN
+	1    1250 4250
+	0    -1   1    0   
+$EndComp
+NoConn ~ 2150 4350
+NoConn ~ 2150 3850
+NoConn ~ 2150 4050
+NoConn ~ 2150 3750
+$Comp
+L R R?
+U 1 1 51933657
+P 950 3950
+F 0 "R?" V 1030 3950 40  0000 C CNN
+F 1 "R" V 957 3951 40  0000 C CNN
+F 2 "~" V 880 3950 30  0000 C CNN
+F 3 "~" H 950 3950 30  0000 C CNN
+	1    950  3950
+	1    0    0    1   
+$EndComp
+$Comp
+L R R?
+U 1 1 5193365D
+P 950 3350
+F 0 "R?" V 1030 3350 40  0000 C CNN
+F 1 "R" V 957 3351 40  0000 C CNN
+F 2 "~" V 880 3350 30  0000 C CNN
+F 3 "~" H 950 3350 30  0000 C CNN
+	1    950  3350
+	1    0    0    1   
+$EndComp
+$Comp
+L THERMISTOR TH?
+U 1 1 51933D05
+P 4400 5850
+F 0 "TH?" V 4500 5900 50  0000 C CNN
+F 1 "NTC_THERMISTOR" V 4300 5850 50  0000 C CNN
+F 2 "~" H 4400 5850 60  0000 C CNN
+F 3 "~" H 4400 5850 60  0000 C CNN
+	1    4400 5850
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R?
+U 1 1 51933E2B
+P 1500 4850
+F 0 "R?" V 1580 4850 40  0000 C CNN
+F 1 "R" V 1507 4851 40  0000 C CNN
+F 2 "~" V 1430 4850 30  0000 C CNN
+F 3 "~" H 1500 4850 30  0000 C CNN
+	1    1500 4850
+	1    0    0    1   
+$EndComp
+$Comp
+L CONN_2 P?
+U 1 1 5193E2C6
+P 700 1100
+F 0 "P?" V 650 1100 40  0000 C CNN
+F 1 "WALL" V 750 1100 40  0000 C CNN
+F 2 "" H 700 1100 60  0000 C CNN
+F 3 "" H 700 1100 60  0000 C CNN
+	1    700  1100
+	-1   0    0    -1  
+$EndComp
+$Comp
+L GND #PWR03
+U 1 1 5193EBCD
+P 1200 1300
+F 0 "#PWR03" H 1200 1300 30  0001 C CNN
+F 1 "GND" H 1200 1230 30  0001 C CNN
+F 2 "" H 1200 1300 60  0000 C CNN
+F 3 "" H 1200 1300 60  0000 C CNN
+	1    1200 1300
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_2 P?
+U 1 1 5193FB49
+P 7550 2050
+F 0 "P?" V 7500 2050 40  0000 C CNN
+F 1 "SYS" V 7600 2050 40  0000 C CNN
+F 2 "" H 7550 2050 60  0000 C CNN
+F 3 "" H 7550 2050 60  0000 C CNN
+	1    7550 2050
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_2 P?
+U 1 1 5193FB4F
+P 5250 5750
+F 0 "P?" V 5200 5750 40  0000 C CNN
+F 1 "BAT" V 5300 5750 40  0000 C CNN
+F 2 "" H 5250 5750 60  0000 C CNN
+F 3 "" H 5250 5750 60  0000 C CNN
+	1    5250 5750
+	1    0    0    -1  
+$EndComp
 Wire Wire Line
 	3300 1950 4100 1950
 Wire Wire Line
@@ -327,9 +475,11 @@ Wire Wire Line
 Wire Wire Line
 	3750 3150 3750 3400
 Wire Wire Line
-	1850 1550 1850 1950
+	1850 1600 1850 1950
 Wire Wire Line
-	1850 1950 1850 3150
+	1850 1950 1850 2250
+Wire Wire Line
+	1850 2250 1850 3150
 Wire Wire Line
 	1850 1950 2150 1950
 Connection ~ 3750 3150
@@ -350,17 +500,17 @@ Connection ~ 3750 1700
 Wire Wire Line
 	3200 1700 3250 1700
 Wire Wire Line
-	3200 1550 1850 1550
+	3200 1600 1850 1600
 Wire Wire Line
-	3200 1500 3200 1550
+	3200 1500 3200 1600
 Wire Wire Line
-	3200 1550 3200 1700
-Connection ~ 3200 1550
+	3200 1600 3200 1700
+Connection ~ 3200 1600
 Wire Wire Line
 	3200 1100 3200 1000
 Connection ~ 3200 1000
 Wire Wire Line
-	1200 1000 2400 1000
+	1050 1000 2400 1000
 Wire Wire Line
 	2400 1000 2450 1000
 Wire Wire Line
@@ -491,35 +641,10 @@ Connection ~ 4050 5100
 Wire Wire Line
 	4700 4900 4900 4900
 Wire Wire Line
-	4900 4100 4900 4900
+	4700 5100 4750 5100
 Wire Wire Line
-	4900 4900 4900 5500
-Connection ~ 4900 4100
-Wire Wire Line
-	4750 5100 4700 5100
+	4750 5100 4900 5100
 Connection ~ 4750 4700
-$Comp
-L R R?
-U 1 1 5193309A
-P 1700 5750
-F 0 "R?" V 1780 5750 40  0000 C CNN
-F 1 "R" V 1707 5751 40  0000 C CNN
-F 2 "~" V 1630 5750 30  0000 C CNN
-F 3 "~" H 1700 5750 30  0000 C CNN
-	1    1700 5750
-	-1   0    0    -1  
-$EndComp
-$Comp
-L C C?
-U 1 1 519330A0
-P 1850 5800
-F 0 "C?" H 1850 5900 40  0000 L CNN
-F 1 "C" H 1856 5715 40  0000 L CNN
-F 2 "~" H 1888 5650 30  0000 C CNN
-F 3 "~" H 1850 5800 60  0000 C CNN
-	1    1850 5800
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	1700 5500 1700 5400
 Connection ~ 1700 5400
@@ -533,17 +658,6 @@ Wire Wire Line
 	1850 5600 1850 5300
 Wire Wire Line
 	1850 5300 2150 5300
-$Comp
-L GND #PWR?
-U 1 1 519331F9
-P 2800 6300
-F 0 "#PWR?" H 2800 6300 30  0001 C CNN
-F 1 "GND" H 2800 6230 30  0001 C CNN
-F 2 "" H 2800 6300 60  0000 C CNN
-F 3 "" H 2800 6300 60  0000 C CNN
-	1    2800 6300
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	3350 5250 3400 5250
 Wire Wire Line
@@ -568,25 +682,8 @@ Connection ~ 3400 5250
 Wire Wire Line
 	3400 5150 3350 5150
 Connection ~ 3400 5150
-$Comp
-L C C?
-U 1 1 5193339E
-P 1200 4550
-F 0 "C?" H 1200 4650 40  0000 L CNN
-F 1 "1u" H 1206 4465 40  0000 L CNN
-F 2 "~" H 1238 4400 30  0000 C CNN
-F 3 "~" H 1200 4550 60  0000 C CNN
-	1    1200 4550
-	0    -1   -1   0   
-$EndComp
 Wire Wire Line
 	2100 4650 2150 4650
-Wire Wire Line
-	950  4150 950  4250
-Wire Wire Line
-	950  4250 950  4550
-Wire Wire Line
-	950  4550 950  6200
 Connection ~ 2800 6200
 Wire Wire Line
 	2150 4450 2100 4450
@@ -594,47 +691,10 @@ Wire Wire Line
 	2100 4450 2100 4550
 Wire Wire Line
 	2100 4550 2100 4650
-$Comp
-L R R?
-U 1 1 51933539
-P 1250 4250
-F 0 "R?" V 1330 4250 40  0000 C CNN
-F 1 "R" V 1257 4251 40  0000 C CNN
-F 2 "~" V 1180 4250 30  0000 C CNN
-F 3 "~" H 1250 4250 30  0000 C CNN
-	1    1250 4250
-	0    -1   1    0   
-$EndComp
 Wire Wire Line
 	1500 4250 2150 4250
 Wire Wire Line
 	1000 4250 950  4250
-NoConn ~ 2150 4350
-NoConn ~ 2150 3850
-NoConn ~ 2150 4050
-NoConn ~ 2150 3750
-$Comp
-L R R?
-U 1 1 51933657
-P 950 3950
-F 0 "R?" V 1030 3950 40  0000 C CNN
-F 1 "R" V 957 3951 40  0000 C CNN
-F 2 "~" V 880 3950 30  0000 C CNN
-F 3 "~" H 950 3950 30  0000 C CNN
-	1    950  3950
-	1    0    0    1   
-$EndComp
-$Comp
-L R R?
-U 1 1 5193365D
-P 950 3350
-F 0 "R?" V 1030 3350 40  0000 C CNN
-F 1 "R" V 957 3351 40  0000 C CNN
-F 2 "~" V 880 3350 30  0000 C CNN
-F 3 "~" H 950 3350 30  0000 C CNN
-	1    950  3350
-	1    0    0    1   
-$EndComp
 Wire Wire Line
 	2150 3650 950  3650
 Wire Wire Line
@@ -649,48 +709,15 @@ Wire Wire Line
 	950  3000 950  3100
 Connection ~ 1500 3000
 Connection ~ 4900 4900
-$Comp
-L BATTERY BT?
-U 1 1 51933A3C
-P 4900 5800
-F 0 "BT?" H 4900 6000 50  0000 C CNN
-F 1 "BATTERY" H 4900 5610 50  0000 C CNN
-F 2 "~" H 4900 5800 60  0000 C CNN
-F 3 "~" H 4900 5800 60  0000 C CNN
-	1    4900 5800
-	0    1    1    0   
-$EndComp
 Wire Wire Line
-	4900 6200 4900 6100
+	4900 6200 4900 5850
 Connection ~ 3400 6200
 Connection ~ 6800 1950
-$Comp
-L THERMISTOR TH?
-U 1 1 51933D05
-P 4400 5850
-F 0 "TH?" V 4500 5900 50  0000 C CNN
-F 1 "THERMISTOR" V 4300 5850 50  0000 C CNN
-F 2 "~" H 4400 5850 60  0000 C CNN
-F 3 "~" H 4400 5850 60  0000 C CNN
-	1    4400 5850
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	4400 6100 4400 6200
 Connection ~ 4400 6200
 Wire Wire Line
 	4400 5600 4400 5550
-$Comp
-L R R?
-U 1 1 51933E2B
-P 1500 4850
-F 0 "R?" V 1580 4850 40  0000 C CNN
-F 1 "R" V 1507 4851 40  0000 C CNN
-F 2 "~" V 1430 4850 30  0000 C CNN
-F 3 "~" H 1500 4850 30  0000 C CNN
-	1    1500 4850
-	1    0    0    1   
-$EndComp
 Wire Wire Line
 	1400 4550 1500 4550
 Wire Wire Line
@@ -715,4 +742,69 @@ Connection ~ 1500 5200
 Wire Wire Line
 	1500 4600 1500 4550
 Connection ~ 1500 4550
+Wire Wire Line
+	1850 2250 2150 2250
+Connection ~ 1850 2250
+Wire Wire Line
+	1050 1200 1200 1200
+Wire Wire Line
+	1200 1200 1200 1300
+Wire Wire Line
+	4900 5100 4900 5650
+Connection ~ 4750 5100
+Wire Wire Line
+	4900 4900 4900 4100
+Connection ~ 4900 4100
+Text Label 4900 5400 0    60   ~ 0
+VBAT
+Text Label 6900 1950 0    60   ~ 0
+VSYS
+Text Label 1150 1000 0    60   ~ 0
+VIN
+$Comp
+L GND #PWR04
+U 1 1 5193FFAA
+P 7100 2250
+F 0 "#PWR04" H 7100 2250 30  0001 C CNN
+F 1 "GND" H 7100 2180 30  0001 C CNN
+F 2 "" H 7100 2250 60  0000 C CNN
+F 3 "" H 7100 2250 60  0000 C CNN
+	1    7100 2250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7100 2250 7100 2150
+Wire Wire Line
+	7100 2150 7200 2150
+$Comp
+L CONN_3 K?
+U 1 1 519401D2
+P 700 6700
+F 0 "K?" V 650 6700 50  0000 C CNN
+F 1 "PIC" V 750 6700 40  0000 C CNN
+F 2 "" H 700 6700 60  0000 C CNN
+F 3 "" H 700 6700 60  0000 C CNN
+	1    700  6700
+	0    -1   1    0   
+$EndComp
+Wire Wire Line
+	2150 5050 700  5050
+Wire Wire Line
+	700  5050 700  6350
+Wire Wire Line
+	2150 5150 800  5150
+Wire Wire Line
+	800  5150 800  6350
+Wire Wire Line
+	2150 3950 600  3950
+Wire Wire Line
+	600  3950 600  6350
+Wire Wire Line
+	950  4200 950  4250
+Wire Wire Line
+	950  4250 950  4550
+Wire Wire Line
+	950  4550 950  6200
+Text Notes 1200 6600 0    60   ~ 0
+For current limited by RIS and RCS sense resistors leave CL and IL disconnected.\n\nThe battery manager chips give similar information outputted by IIMON and IBMON.\nAdding capacitors to IIMON and IBMON could affet internal control loops so it is\ndisconnected for now.
 $EndSCHEMATC
