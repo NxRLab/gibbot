@@ -1,5 +1,5 @@
 
-#define WIN32_LEAN_AND_MEAN  	// Exclude rarely-used stuff from Windows headers
+#define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 
 #include <windows.h>
 #include <stdio.h>
@@ -22,15 +22,55 @@ using namespace cv;
 using namespace std;
 
 // Constants
-#define RECORDED_FRAMES 15
+#define RECORDED_FRAMES 3
 #define NUMBER_OF_POINTS 13
 #define X_FRAMES 100
+
+void printMat(const Mat& m)
+{
+	cout << "[";
+	for (int i = 0; i < m.rows; i++) {
+		for (int j = 0; j < m.cols; j++) {
+			cout << m.at<double>(i,j) << " ";
+		}
+		cout << "\n ";
+	}
+	cout << "]\n";
+}
+
+static bool runCalibration( vector<vector<Point3f> > objectPoints, vector<vector<Point2f> > imagePoints,
+                    Size imageSize, float aspectRatio,
+                    int flags, Mat& cameraMatrix, Mat& distCoeffs,
+                    vector<Mat>& rvecs, vector<Mat>& tvecs)
+{
+    cameraMatrix = Mat::eye(3, 3, CV_64F);
+    if( flags & CV_CALIB_FIX_ASPECT_RATIO )
+        cameraMatrix.at<double>(0,0) = aspectRatio;
+
+    distCoeffs = Mat::zeros(8, 1, CV_64F);
+
+    //objectPoints.resize(imagePoints.size(),objectPoints[0]);
+
+    double rms = calibrateCamera(objectPoints, imagePoints, imageSize, cameraMatrix,
+                    distCoeffs, rvecs, tvecs, flags|CV_CALIB_FIX_K4|CV_CALIB_FIX_K5);
+                    ///*|CV_CALIB_FIX_K3*/|CV_CALIB_FIX_K4|CV_CALIB_FIX_K5);
+    printf("RMS error reported by calibrateCamera: %g\n", rms);
+
+    bool ok = checkRange(cameraMatrix) && checkRange(distCoeffs);
+
+    
+    return ok;
+}
+
 
 int main(int argc, char* argv[])
 {
     printf("==============================================================================\n");
     printf("== Frame Synchronization Example                          NaturalPoint 2010 ==\n");
     printf("==============================================================================\n\n");
+	
+	Mat M(2,2, CV_8UC3, Scalar(0,0,255));
+	printMat(M);
 
     //== This example attaches a frame synchronizer for all connected cameras.  Once
     //== attached, it receives their synchronized frame data as a FrameGroup vs. the
@@ -110,10 +150,10 @@ int main(int argc, char* argv[])
     for(int i=0; i<cameraCount; i++)
         camera[i]->Start();
 
-    //== Create Object Points Vector of Vectors ==-- DBE
-	vector<vector<Point2f>> objectPoints (RECORDED_FRAMES);
+    //== Create Image Points Vector of Vectors ==-- DBE
+	vector<vector<Point2f>> imagePoints (RECORDED_FRAMES);
 	for(int i = 0; i < RECORDED_FRAMES; i++)
-		objectPoints[i].resize(NUMBER_OF_POINTS);
+		imagePoints[i].resize(NUMBER_OF_POINTS);
 	
 	//== Initialize Total Recorded Frame Count ==-- DBE
 	int TotalFrames = 0;
@@ -157,10 +197,10 @@ int main(int argc, char* argv[])
 						cObject *object = frame->Object(j);
 						printf("\tObject #%d: (%4.2f,%4.2f)\n", j, object->X(), object->Y());
 						cv::circle(M, cv::Point2f(object->X(), object->Y()), object->Radius(), cv::Scalar(255, 0, 0));
-						//== Record a point into objectPoints ==-- DBE
+						//== Record a point into imagePoints ==-- DBE
 						if(frame->ObjectCount() == NUMBER_OF_POINTS)
 						{
-							objectPoints[TotalFrames][j] = Point2f(object->X(), object->Y());
+							imagePoints[TotalFrames][j] = Point2f(object->X(), object->Y());
 						}
 					}
 
@@ -183,18 +223,19 @@ int main(int argc, char* argv[])
 
         Sleep(2);
     }
-    //== Create Image Points ==-- DBE
-	vector<vector<Point2f>> imagePoints (RECORDED_FRAMES);
+    //== Create Object Points ==-- DBE
+	vector<vector<Point3f>> objectPoints (RECORDED_FRAMES);   //Point3f instead of 2f
 	for (int i = 0; i < RECORDED_FRAMES; i++)
-		imagePoints[i].resize(NUMBER_OF_POINTS);
-	int x, y;
+		objectPoints[i].resize(NUMBER_OF_POINTS);
+	int x, y, z;
 	for( int i = 0; i < RECORDED_FRAMES; i++)
 	{
 		x = 0;
 		y = 0;
+		z = 0;
 		for ( int j = 0; j < NUMBER_OF_POINTS; j++)
 		{
-			imagePoints[i][j] = Point2f(x, y);
+			objectPoints[i][j] = Point3f(x, y, z);
 			if (y%2 == 0)
 			{
 				x= x +2;;
@@ -215,7 +256,7 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
-/*
+///*
 	//== Print Object Points ==-- DBE
 	for( int i = 0; i < RECORDED_FRAMES; i++)
 	{
@@ -225,7 +266,7 @@ int main(int argc, char* argv[])
 		}
 		cout << endl << endl;
 	}
-
+///*
 	//== Print Image Points ==-- DBE
 	for( int i = 0; i < RECORDED_FRAMES; i++)
 	{
@@ -235,15 +276,30 @@ int main(int argc, char* argv[])
 		}
 		cout << endl << endl;
 	}
-*/
-
-    //== Create Output Arrays ==-- DBE
-	Mat cameraMatrix = Mat::eye(3, 3, CV_64F);
-	vector<float> distCoeffs;
-	vector<Mat> rvecs, tvecs;
+//*/
 
 	//== Define Image Size ==-- DBE
 	Size imageSize = Size(1280, 1024);
+
+    //Initialize Camera Matrix
+	Mat cameraMatrix = Mat::eye(3, 3, CV_64F);
+	cout << "cameaMatrix = ";
+	printMat(cameraMatrix);
+
+
+	// double aspectRatio=1;
+	 //Get initial Camera Matrix; doesn't work
+	// cameraMatrix=initCameraMatrix2D(objectPoints,imagePoints,imageSize,aspectRatio);
+
+
+	 
+	//Initialize distCoeffs
+	Mat distCoeffs;
+	distCoeffs = Mat::zeros(8, 1, CV_64F);
+
+	//Create rvecs and tvecs output vectors
+	vector<Mat> rvecs, tvecs;
+	
 
 	//== Define Flags ==-- DBE
 	int flags=0;
@@ -251,15 +307,32 @@ int main(int argc, char* argv[])
 	//== Define Criteria ==-- DBE
 	TermCriteria criteria=TermCriteria( TermCriteria::COUNT+TermCriteria::EPS, 30, DBL_EPSILON);
 
+	
+	cout<<"Frames in objectPoints: "<<objectPoints.size()<<endl;
+	cout<<"Frames in imagePoints:  "<<imagePoints.size()<<endl;
+	cout<<"Points in a frame of objectPoints: "<<objectPoints[2].size()<<endl;
+	cout<<"Points in a frame of imagePoints:  "<<imagePoints[2].size()<<endl;
+
+	cout<<"imageSize="<<imageSize.width<<","<<imageSize.height<<endl;
+	cout << "distCoeffs = ";
+	printMat(distCoeffs);
+
+	runCalibration( objectPoints, imagePoints,
+                    imageSize, 1,
+                    flags, cameraMatrix, distCoeffs,
+                    rvecs, tvecs);
+
 	//== Perform Calibration ==-- DBE
-	double Re_Projection_Error =  calibrateCamera(objectPoints,  imagePoints, imageSize,
-		cameraMatrix, distCoeffs, rvecs, tvecs, flags,
-		criteria);
+	//double Re_Projection_Error =  calibrateCamera(objectPoints, imagePoints, imageSize,
+		//cameraMatrix, distCoeffs, rvecs, tvecs, flags);
+		//criteria);
+
+	
 
 	//== Print Calibration ==-- DBE
 	cout << "\nCalibration Results:\n" << endl;
 	cout << "Camera Matrix" << cameraMatrix << endl;
-	cout << endl << "Re-projection Error: " << Re_Projection_Error << endl;
+	//cout << endl << "Re-projection Error: " << Re_Projection_Error << endl;
 
     //== Destroy synchronizer ==--
 
