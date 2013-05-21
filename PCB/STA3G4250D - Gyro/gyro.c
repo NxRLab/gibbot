@@ -76,8 +76,8 @@ int main(void) {
     /* do this later */
 
     // set baud rate
-    SPI2BRG = 255;85; // 465.11 kHz
-    SPI4BRG = 255;85;
+    SPI2BRG = 85; // 465.11 kHz
+    SPI4BRG = 85;
 
     // clear overrun bit
     SPI2STATbits.SPIROV = 0;
@@ -102,18 +102,39 @@ int main(void) {
     SPI4CONbits.ON = 1;
 
     // (gyro) stay in spi mode
-    if (!SPI4STATbits.SPITBF) SPI4BUF = (2 << 14 | 0x05 << 8);
+    /*if (!SPI4STATbits.SPITBF) SPI4BUF = (2 << 14 | 0x05 << 8);
     while (!SPI4STATbits.SPIRBF);
     printf("init: 0x%x\r", SPI4BUF);
     if (!SPI4STATbits.SPITBF) SPI4BUF = (0 << 14 | 0x05 << 8) | 0x20;
+     */
+
+    if (!SPI4STATbits.SPITBF) SPI4BUF = (0 << 14 | CTRL_REG1 << 8) | (0x3f & 0xff);
+    while (!SPI4STATbits.SPIRBF);
+    printf("ctrl1: 0x%x\r", SPI4BUF);
 
     // (gyro) read who am i register
+    short data;
     while (1) {
         while (NU32USER);
         if (!SPI4STATbits.SPITBF) SPI4BUF = (2 << 14 | WHO_AM_I << 8);
-
         while (!SPI4STATbits.SPIRBF);
-        printf("spi4: 0x%x\r", SPI4BUF);
+        printf("who am i: 0x%x\r", SPI4BUF);
+
+        if (!SPI4STATbits.SPITBF) SPI4BUF = (2 << 14 | STATUS_REG << 8);
+        while (!SPI4STATbits.SPIRBF);
+        printf("status: 0x%x\r", SPI4BUF);
+
+        if (!SPI4STATbits.SPITBF) SPI4BUF = (2 << 14 | OUT_Z_H << 8);
+        while (!SPI4STATbits.SPIRBF);
+        data = SPI4BUF << 8;
+
+        if (!SPI4STATbits.SPITBF) SPI4BUF = (2 << 14 | OUT_Z_L << 8);
+        while (!SPI4STATbits.SPIRBF);
+        data = data | (SPI4BUF & 0xff);
+
+        printf("z: %d\r", data);
+
+        
     }
 
     // spi test code btw SPI2 (slave) and SPI4 (master)
@@ -132,6 +153,7 @@ int main(void) {
 }
 
 // use printf and friends
+
 void _mon_putc(char c) {
     PutCharacter(UART1, c);
 }

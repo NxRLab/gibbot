@@ -1,0 +1,1337 @@
+# EESchema Netlist Version 1.1 created  5/7/2013 3:19:05 PM
+(
+ ( /51709CAD/51780BC4 SM0603 C1 C
+  ( 1 N-000067 )
+  ( 2 /battery_manager/power/VSS )
+ )
+ ( /51709CAD/51780BC6 SM0603 C2 C
+  ( 1 N-000067 )
+  ( 2 /battery_manager/power/VSS )
+ )
+ ( /51709CAD/515E35FB/51780849 SM0603 C3 10uF
+  ( 1 /battery_manager/power/VDD )
+  ( 2 /battery_manager/power/VSS )
+ )
+ ( /51709CAD/515E35FB/51780844 SM0603 C4 100nF
+  ( 1 /battery_manager/power/VDD )
+  ( 2 /battery_manager/power/VSS )
+ )
+ ( /51709CAD/515E35FB/5177035E SM0603 C5 10nF
+  ( 1 N-000102 )
+  ( 2 /battery_manager/power/VSS )
+ )
+ ( /51709CAD/515F2F19/515F2F3D SM0603 C6 100nF
+  ( 1 /battery_manager/batt_input/MBAT2 )
+  ( 2 /battery_manager/batt_input/MBAT1 )
+ )
+ ( /51709CAD/515F2F19/5176E003 SM0603 C7 100nF
+  ( 1 /battery_manager/batt_input/MBAT3 )
+  ( 2 /battery_manager/batt_input/MBAT2 )
+ )
+ ( /51709CAD/515F2F19/5176E041 SM0603 C8 100nF
+  ( 1 /battery_manager/batt_input/MBAT6 )
+  ( 2 /battery_manager/batt_input/MBAT7 )
+ )
+ ( /51709CAD/515F2F19/5176E018 SM0603 C9 100nF
+  ( 1 /battery_manager/batt_input/MBAT4 )
+  ( 2 /battery_manager/batt_input/MBAT3 )
+ )
+ ( /51709CAD/515F2F19/5176E042 SM0603 C10 100nF
+  ( 1 /battery_manager/batt_input/MBAT5 )
+  ( 2 /battery_manager/batt_input/MBAT6 )
+ )
+ ( /51709CAD/515F2F19/5176E017 SM0603 C11 100nF
+  ( 1 /battery_manager/batt_input/MBAT5 )
+  ( 2 /battery_manager/batt_input/MBAT4 )
+ )
+ ( /51781C83/51781CA0 SM0603 C12 33uF
+  ( 1 /batt_man_2/VDDHVM )
+  ( 2 /batt_man_2/2_power/VSS )
+ )
+ ( /51781C83/51781C9F SM0603 C13 220nF
+  ( 1 /batt_man_2/VDDHVM )
+  ( 2 /batt_man_2/2_power/VSS )
+ )
+ ( /51781C83/51781CE8/51781CFE SM0603 C14 10uF
+  ( 1 /batt_man_2/2_power/VDD )
+  ( 2 /batt_man_2/2_power/VSS )
+ )
+ ( /51781C83/51781CE8/51781CFF SM0603 C15 100nF
+  ( 1 /batt_man_2/2_power/VDD )
+  ( 2 /batt_man_2/2_power/VSS )
+ )
+ ( /51781C83/51781CE8/51781D00 SM0603 C16 10nF
+  ( 1 N-000130 )
+  ( 2 /batt_man_2/2_power/VSS )
+ )
+ ( /51781C83/51781CB4/51781CE0 SM0603 C17 100nF
+  ( 1 /batt_man_2/2_batt_con/MBAT2 )
+  ( 2 /batt_man_2/2_batt_con/MBAT1 )
+ )
+ ( /51781C83/51781CB4/51781CD0 SM0603 C18 100nF
+  ( 1 /batt_man_2/2_batt_con/MBAT3 )
+  ( 2 /batt_man_2/2_batt_con/MBAT2 )
+ )
+ ( /51781C83/51781CB4/51781CCD SM0603 C19 100nF
+  ( 1 /batt_man_2/2_batt_con/MBAT6 )
+  ( 2 /batt_man_2/2_batt_con/MBAT7 )
+ )
+ ( /51781C83/51781CB4/51781CCE SM0603 C20 100nF
+  ( 1 /batt_man_2/2_batt_con/MBAT4 )
+  ( 2 /batt_man_2/2_batt_con/MBAT3 )
+ )
+ ( /51781C83/51781CB4/51781CCC SM0603 C21 100nF
+  ( 1 /batt_man_2/2_batt_con/MBAT5 )
+  ( 2 /batt_man_2/2_batt_con/MBAT6 )
+ )
+ ( /51781C83/51781CB4/51781CCF SM0603 C22 100nF
+  ( 1 /batt_man_2/2_batt_con/MBAT5 )
+  ( 2 /batt_man_2/2_batt_con/MBAT4 )
+ )
+ ( /5169884D/51755A25 SM0603 C23 C
+  ( 1 N-000044 )
+  ( 2 GND )
+ )
+ ( /5169884D/51755695 SM0603 C24 C
+  ( 1 N-000024 )
+  ( 2 GND )
+ )
+ ( /5169884D/5175557E SM0603 C25 C
+  ( 1 N-000022 )
+  ( 2 GND )
+ )
+ ( /5169884D/517558BF SM0603 C26 C
+  ( 1 N-000028 )
+  ( 2 GND )
+ )
+ ( /5169884D/51756550 SM0603 C27 C
+  ( 1 N-000038 )
+  ( 2 GND )
+ )
+ ( /5169884D/517560BB SM0603 C28 C
+  ( 1 N-000034 )
+  ( 2 GND )
+ )
+ ( /5169884D/5169B83D SM0603 C29 1uF
+  ( 1 /battery_charger/VIN )
+  ( 2 GND )
+ )
+ ( /5169884D/51756268 SM0603 C30 C
+  ( 1 /battery_charger/CONV_OUT )
+  ( 2 GND )
+ )
+ ( /5169884D/5169B955 SM0603 C31 0.1uF
+  ( 1 N-000032 )
+  ( 2 GND )
+ )
+ ( /5169884D/518484F3 SM0603 C32 C
+  ( 1 N-000017 )
+  ( 2 N-000037 )
+ )
+ ( /5169884D/51755984 LED-0603 D1 LED
+  ( 1 N-000044 )
+  ( 2 N-000045 )
+ )
+ ( /5169884D/5175599B LED-0603 D2 LED
+  ( 1 N-000044 )
+  ( 2 N-000043 )
+ )
+ ( /51709CAD/515E35FB/51780C40 PIN_ARRAY_3X1 K1 CONN_3
+  ( 1 /battery_manager/power/VSS )
+  ( 2 /battery_manager/power/POW_EN )
+  ( 3 N-000102 )
+ )
+ ( /51781C83/51781CE8/51781CFD PIN_ARRAY_3X1 K2 CONN_3
+  ( 1 /batt_man_2/2_power/VSS )
+  ( 2 /batt_man_2/2_power/POW_EN )
+  ( 3 N-000130 )
+ )
+ ( /51781833 PIN_ARRAY_2X1 P1 CONN_2
+  ( 1 /battery_manager/BAT_TOP )
+  ( 2 /batt_man_2/BAT_BOT )
+ )
+ ( /51709CAD/515F0E4F/51847E55 PIN_ARRAY_5x2 P2 CONN_5X2
+  ( 1 +3.3V )
+  ( 2 ? )
+  ( 3 /battery_manager/misc_io/SCK )
+  ( 4 /battery_manager/misc_io/MOSI )
+  ( 5 /battery_manager/misc_io/MISO )
+  ( 6 /battery_manager/misc_io/CS_N )
+  ( 7 ? )
+  ( 8 /battery_manager/misc_io/CLK )
+  ( 9 DGND )
+  ( 10 /battery_manager/misc_io/IRQ )
+ )
+ ( /51709CAD/515F2F19/5176DEEE PIN_ARRAY_7x1 P3 CONN_7
+  ( 1 /battery_manager/BAT_TOP )
+  ( 2 N-000115 )
+  ( 3 N-000110 )
+  ( 4 N-000113 )
+  ( 5 N-000116 )
+  ( 6 N-000117 )
+  ( 7 GND )
+ )
+ ( /51781C83/51781CB4/51781CD1 PIN_ARRAY_7x1 P4 CONN_7
+  ( 1 N-000128 )
+  ( 2 N-000120 )
+  ( 3 N-000119 )
+  ( 4 N-000125 )
+  ( 5 N-000122 )
+  ( 6 N-000118 )
+  ( 7 /batt_man_2/BAT_BOT )
+ )
+ ( /5169884D/517559ED PIN_ARRAY_2X1 P5 CONN_2
+  ( 1 N-000015 )
+  ( 2 GND )
+ )
+ ( /5169884D/517559F6 PIN_ARRAY_2X1 P6 CONN_2
+  ( 1 N-000027 )
+  ( 2 GND )
+ )
+ ( /5169884D/5169B7D4 PIN_ARRAY_2X1 P7 CONN_2
+  ( 1 /battery_charger/VIN )
+  ( 2 GND )
+ )
+ ( /5169884D/5169B988 PIN_ARRAY_2X1 P8 CONN_2
+  ( 1 N-000032 )
+  ( 2 GND )
+ )
+ ( /5169884D/51755E22 PIN_ARRAY_2X1 P9 CONN_2
+  ( 1 /battery_charger/BATT+ )
+  ( 2 GND )
+ )
+ ( /51709CAD/515F2F19/5176DB85 SOT23 Q1 MOSFET_N/NDS7002A
+  ( D N-000108 )
+  ( G /battery_manager/batt_input/DISCH6 )
+  ( S N-000115 )
+ )
+ ( /51709CAD/515F2F19/5176DC97 SOT23 Q2 MOSFET_N/NDS7002A
+  ( D N-000107 )
+  ( G /battery_manager/batt_input/DISCH5 )
+  ( S N-000110 )
+ )
+ ( /51709CAD/515F2F19/5176DCB7 SOT23 Q3 MOSFET_N/NDS7002A
+  ( D N-000109 )
+  ( G /battery_manager/batt_input/DISCH4 )
+  ( S N-000113 )
+ )
+ ( /51709CAD/515F2F19/51603408 SOT23 Q4 MOSFET_N/NDS7002A
+  ( D N-000114 )
+  ( G /battery_manager/batt_input/DISCH3 )
+  ( S N-000116 )
+ )
+ ( /51709CAD/515F2F19/5160367A SOT23 Q5 MOSFET_N/NDS7002A
+  ( D N-000112 )
+  ( G /battery_manager/batt_input/DISCH2 )
+  ( S N-000117 )
+ )
+ ( /51709CAD/515F2F19/51603681 SOT23 Q6 MOSFET_N/NDS7002A
+  ( D N-000111 )
+  ( G /battery_manager/batt_input/DISCH1 )
+  ( S GND )
+ )
+ ( /51781C83/51781CB4/51781CD8 SOT23 Q7 MOSFET_N/NDS7002A
+  ( D N-000127 )
+  ( G /batt_man_2/2_batt_con/DISCH6 )
+  ( S N-000120 )
+ )
+ ( /51781C83/51781CB4/51781CD7 SOT23 Q8 MOSFET_N/NDS7002A
+  ( D N-000126 )
+  ( G /batt_man_2/2_batt_con/DISCH5 )
+  ( S N-000119 )
+ )
+ ( /51781C83/51781CB4/51781CD5 SOT23 Q9 MOSFET_N/NDS7002A
+  ( D N-000129 )
+  ( G /batt_man_2/2_batt_con/DISCH4 )
+  ( S N-000125 )
+ )
+ ( /51781C83/51781CB4/51781CDD SOT23 Q10 MOSFET_N/NDS7002A
+  ( D N-000121 )
+  ( G /batt_man_2/2_batt_con/DISCH3 )
+  ( S N-000122 )
+ )
+ ( /51781C83/51781CB4/51781CDC SOT23 Q11 MOSFET_N/NDS7002A
+  ( D N-000123 )
+  ( G /batt_man_2/2_batt_con/DISCH2 )
+  ( S N-000118 )
+ )
+ ( /51781C83/51781CB4/51781CDB SOT23 Q12 MOSFET_N/NDS7002A
+  ( D N-000124 )
+  ( G /batt_man_2/2_batt_con/DISCH1 )
+  ( S /batt_man_2/BAT_BOT )
+ )
+ ( /5169884D/51756226 $noname$ Q13 MOSFET_N
+  ( D N-000019 )
+  ( G N-000035 )
+  ( S N-000036 )
+ )
+ ( /5169884D/5169BA40 $noname$ Q14 MOSFET_P
+  ( D /battery_charger/BATT+ )
+  ( G N-000020 )
+  ( S N-000013 )
+ )
+ ( /5169884D/5169B912 $noname$ Q15 MOSFET_P
+  ( D /battery_charger/CONV_OUT )
+  ( G N-000025 )
+  ( S N-000032 )
+ )
+ ( /51709CAD/5176ED49 SM0603 R1 R
+  ( 1 N-000071 )
+  ( 2 N-000058 )
+ )
+ ( /51709CAD/5176ED50 SM0603 R2 R
+  ( 1 N-000071 )
+  ( 2 N-000075 )
+ )
+ ( /51709CAD/5176EA49 SM0603 R3 121K
+  ( 1 N-000059 )
+  ( 2 /battery_manager/power/VSS )
+ )
+ ( /51709CAD/515E35FB/51770333 SM0603 R4 10
+  ( 1 /battery_manager/power/VSS )
+  ( 2 GND )
+ )
+ ( /51709CAD/515F2F19/515F402E SM0603 R5 500
+  ( 1 /battery_manager/BAT_TOP )
+  ( 2 N-000108 )
+ )
+ ( /51709CAD/515F2F19/5176DB38 SM0603 R6 500
+  ( 1 N-000115 )
+  ( 2 N-000107 )
+ )
+ ( /51709CAD/515F2F19/5176DCAF SM0603 R7 500
+  ( 1 N-000110 )
+  ( 2 N-000109 )
+ )
+ ( /51709CAD/515F2F19/5176DD74 SM0603 R8 500
+  ( 1 N-000113 )
+  ( 2 N-000114 )
+ )
+ ( /51709CAD/515F2F19/5176DD86 SM0603 R9 500
+  ( 1 N-000116 )
+  ( 2 N-000112 )
+ )
+ ( /51709CAD/515F2F19/5176DDA8 SM0603 R10 500
+  ( 1 N-000117 )
+  ( 2 N-000111 )
+ )
+ ( /51709CAD/515F2F19/51759A6D SM0603 R11 10
+  ( 1 /battery_manager/BAT_TOP )
+  ( 2 /battery_manager/power/VDD )
+ )
+ ( /51709CAD/515F2F19/515F2F45 SM0603 R12 1K
+  ( 1 /battery_manager/BAT_TOP )
+  ( 2 /battery_manager/batt_input/MBAT7 )
+ )
+ ( /51709CAD/515F2F19/515F2F34 SM0603 R13 1K
+  ( 1 N-000115 )
+  ( 2 /battery_manager/batt_input/MBAT6 )
+ )
+ ( /51709CAD/515F2F19/515F2F32 SM0603 R14 1K
+  ( 1 N-000110 )
+  ( 2 /battery_manager/batt_input/MBAT5 )
+ )
+ ( /51709CAD/515F2F19/515F2F33 SM0603 R15 1K
+  ( 1 N-000113 )
+  ( 2 /battery_manager/batt_input/MBAT4 )
+ )
+ ( /51709CAD/515F2F19/515F2F2E SM0603 R16 1K
+  ( 1 N-000116 )
+  ( 2 /battery_manager/batt_input/MBAT3 )
+ )
+ ( /51709CAD/515F2F19/515F2F2F SM0603 R17 1K
+  ( 1 N-000117 )
+  ( 2 /battery_manager/batt_input/MBAT2 )
+ )
+ ( /51709CAD/515F2F19/515F2F31 SM0603 R18 1K
+  ( 1 GND )
+  ( 2 /battery_manager/batt_input/MBAT1 )
+ )
+ ( /51781C83/51781CA5 SM0603 R19 R
+  ( 1 N-000094 )
+  ( 2 N-000090 )
+ )
+ ( /51781C83/51781CA4 SM0603 R20 R
+  ( 1 N-000094 )
+  ( 2 N-000082 )
+ )
+ ( /51781C83/51781CA6 SM0603 R21 121K
+  ( 1 N-000083 )
+  ( 2 /batt_man_2/2_power/VSS )
+ )
+ ( /51781C83/51781C9D SM0603 R22 1.5K
+  ( 1 N-000084 )
+  ( 2 N-000087 )
+ )
+ ( /51781C83/51781CE8/51781D01 SM0603 R23 10
+  ( 1 /batt_man_2/2_power/VSS )
+  ( 2 /batt_man_2/BAT_BOT )
+ )
+ ( /51781C83/51781CB4/51781CDE SM0603 R24 500
+  ( 1 N-000128 )
+  ( 2 N-000127 )
+ )
+ ( /51781C83/51781CB4/51781CD9 SM0603 R25 500
+  ( 1 N-000120 )
+  ( 2 N-000126 )
+ )
+ ( /51781C83/51781CB4/51781CD6 SM0603 R26 500
+  ( 1 N-000119 )
+  ( 2 N-000129 )
+ )
+ ( /51781C83/51781CB4/51781CD4 SM0603 R27 500
+  ( 1 N-000125 )
+  ( 2 N-000121 )
+ )
+ ( /51781C83/51781CB4/51781CD3 SM0603 R28 500
+  ( 1 N-000122 )
+  ( 2 N-000123 )
+ )
+ ( /51781C83/51781CB4/51781CD2 SM0603 R29 500
+  ( 1 N-000118 )
+  ( 2 N-000124 )
+ )
+ ( /51781C83/51781CB4/51781CDA SM0603 R30 10
+  ( 1 N-000128 )
+  ( 2 /batt_man_2/2_power/VDD )
+ )
+ ( /51781C83/51781CB4/51781CDF SM0603 R31 1K
+  ( 1 N-000128 )
+  ( 2 /batt_man_2/2_batt_con/MBAT7 )
+ )
+ ( /51781C83/51781CB4/51781CE1 SM0603 R32 1K
+  ( 1 N-000120 )
+  ( 2 /batt_man_2/2_batt_con/MBAT6 )
+ )
+ ( /51781C83/51781CB4/51781CE3 SM0603 R33 1K
+  ( 1 N-000119 )
+  ( 2 /batt_man_2/2_batt_con/MBAT5 )
+ )
+ ( /51781C83/51781CB4/51781CE2 SM0603 R34 1K
+  ( 1 N-000125 )
+  ( 2 /batt_man_2/2_batt_con/MBAT4 )
+ )
+ ( /51781C83/51781CB4/51781CE6 SM0603 R35 1K
+  ( 1 N-000122 )
+  ( 2 /batt_man_2/2_batt_con/MBAT3 )
+ )
+ ( /51781C83/51781CB4/51781CE5 SM0603 R36 1K
+  ( 1 N-000118 )
+  ( 2 /batt_man_2/2_batt_con/MBAT2 )
+ )
+ ( /51781C83/51781CB4/51781CE4 SM0603 R37 1K
+  ( 1 /batt_man_2/BAT_BOT )
+  ( 2 /batt_man_2/2_batt_con/MBAT1 )
+ )
+ ( /5169884D/517552C1 SM0603 R38 100K
+  ( 1 GND )
+  ( 2 N-000011 )
+ )
+ ( /5169884D/5175597E SM0603 R39 330
+  ( 1 N-000045 )
+  ( 2 N-000015 )
+ )
+ ( /5169884D/5175599C SM0603 R40 330
+  ( 1 N-000043 )
+  ( 2 N-000027 )
+ )
+ ( /5169884D/51755B34 SM0603 R41 10K
+  ( 1 N-000044 )
+  ( 2 N-000012 )
+ )
+ ( /5169884D/517557D7 SM0603 R42 R
+  ( 1 GND )
+  ( 2 N-000030 )
+ )
+ ( /5169884D/51755879 SM0603 R43 R
+  ( 1 GND )
+  ( 2 N-000029 )
+ )
+ ( /5169884D/517552B3 SM0603 R44 1.1M
+  ( 1 N-000011 )
+  ( 2 /battery_charger/VIN )
+ )
+ ( /5169884D/517555E3 SM0603 R45 R
+  ( 1 N-000021 )
+  ( 2 GND )
+ )
+ ( /5169884D/517562CA SM0603 R46 R
+  ( 1 N-000036 )
+  ( 2 GND )
+ )
+ ( /5169884D/51756532 SM0603 R47 220K
+  ( 1 N-000038 )
+  ( 2 N-000034 )
+ )
+ ( /5169884D/5169B820 SM0603 R48 5m
+  ( 1 N-000038 )
+  ( 2 /battery_charger/VIN )
+ )
+ ( /5169884D/51755FB6 SM0603 R49 DNI
+  ( 1 N-000034 )
+  ( 2 N-000018 )
+ )
+ ( /5169884D/5169BA20 SM0603 R50 5m
+  ( 1 N-000013 )
+  ( 2 N-000032 )
+ )
+ ( /5169884D/51755F4D SM0603 R51 DNI
+  ( 1 N-000018 )
+  ( 2 GND )
+ )
+ ( /5169884D/51756039 SM0603 R52 R
+  ( 1 GND )
+  ( 2 /battery_charger/FD_VOLT )
+ )
+ ( /5169884D/51755E05 SM0603 R53 R
+  ( 1 N-000032 )
+  ( 2 N-000014 )
+ )
+ ( /5169884D/51756036 SM0603 R54 R
+  ( 1 /battery_charger/FD_VOLT )
+  ( 2 /battery_charger/CONV_OUT )
+ )
+ ( /5169884D/51755E44 SM0603 R55 R
+  ( 1 /battery_charger/BATT+ )
+  ( 2 N-000016 )
+ )
+ ( /5169884D/51755DF2 SM0603 R56 R
+  ( 1 N-000014 )
+  ( 2 N-000042 )
+ )
+ ( /5169884D/51755DEC SM0603 R57 R
+  ( 1 N-000016 )
+  ( 2 N-000042 )
+ )
+ ( /51709CAD/515F0E4F/5184844A SM0603 R58 1K
+  ( 1 +3.3V )
+  ( 2 /battery_manager/misc_io/MISO )
+ )
+ ( /51709CAD/515F0E4F/51848113 SM0603 R59 1K
+  ( 1 +3.3V )
+  ( 2 /battery_manager/misc_io/IRQ )
+ )
+ ( /5169884D/518484F7 SM0603 R60 R
+  ( 1 N-000037 )
+  ( 2 N-000039 )
+ )
+ ( /51781C83/51781C9E SW_PUSH_SMALL SW1 SW_PUSH
+  ( 1 /batt_man_2/2_power/VDD )
+  ( 2 N-000087 )
+ )
+ ( /5169884D/5175620C $noname$ T1 TRANSFO
+  ( 1 N-000038 )
+  ( 2 N-000019 )
+  ( 3 GND )
+  ( 4 /battery_charger/CONV_OUT )
+ )
+ ( /51709CAD/5176EDC5 PIN_ARRAY_2X1 TH1 THERMISTOR
+  ( 1 N-000058 )
+  ( 2 N-000056 )
+ )
+ ( /51709CAD/5176EDC9 PIN_ARRAY_2X1 TH2 THERMISTOR
+  ( 1 N-000075 )
+  ( 2 N-000056 )
+ )
+ ( /51781C83/51781CA3 PIN_ARRAY_2X1 TH3 THERMISTOR
+  ( 1 N-000090 )
+  ( 2 N-000092 )
+ )
+ ( /51781C83/51781CA2 PIN_ARRAY_2X1 TH4 THERMISTOR
+  ( 1 N-000082 )
+  ( 2 N-000092 )
+ )
+ ( /5169884D/51755AB6 PIN_ARRAY_2X1 TH5 THERMISTOR
+  ( 1 N-000012 )
+  ( 2 GND )
+ )
+ ( /51709CAD/51780114 TESTPOINT TP1 TEST_POINT
+  ( 1 N-000067 )
+ )
+ ( /51781C83/51781CA1 TESTPOINT TP2 TEST_POINT
+  ( 1 /batt_man_2/VDDHVM )
+ )
+ ( /51709CAD/51770C87 TESTPOINT TP3 TEST_POINT
+  ( 1 /battery_manager/PD_N )
+ )
+ ( /51709CAD/515E35FB/5178A99F TESTPOINT TP4 TEST_POINT
+  ( 1 GND )
+ )
+ ( /51709CAD/515E35FB/5178A9A6 TESTPOINT TP5 TEST_POINT
+  ( 1 GND )
+ )
+ ( /51709CAD/515E35FB/5178A9A2 TESTPOINT TP6 TEST_POINT
+  ( 1 GND )
+ )
+ ( /51709CAD/515E35FB/5178A9A3 TESTPOINT TP7 TEST_POINT
+  ( 1 GND )
+ )
+ ( /51709CAD/51717785 ATA6870 U1 ATA6870
+  ( 1 /battery_manager/batt_input/DISCH5 )
+  ( 2 /battery_manager/batt_input/MBAT5 )
+  ( 3 /battery_manager/batt_input/DISCH4 )
+  ( 4 /battery_manager/batt_input/MBAT4 )
+  ( 5 /battery_manager/batt_input/DISCH3 )
+  ( 6 /battery_manager/batt_input/MBAT3 )
+  ( 7 /battery_manager/batt_input/DISCH2 )
+  ( 8 /battery_manager/batt_input/MBAT2 )
+  ( 9 /battery_manager/batt_input/DISCH1 )
+  ( 10 /battery_manager/batt_input/MBAT1 )
+  ( 11 /battery_manager/misc_io/IRQ )
+  ( 12 /battery_manager/misc_io/CLK )
+  ( 13 /battery_manager/misc_io/CS_N )
+  ( 14 /battery_manager/misc_io/SCK )
+  ( 15 /battery_manager/misc_io/MOSI )
+  ( 16 /battery_manager/misc_io/MISO )
+  ( 17 N-000102 )
+  ( 18 ? )
+  ( 19 /battery_manager/power/VSS )
+  ( 20 /battery_manager/power/VSS )
+  ( 21 /battery_manager/power/VSS )
+  ( 22 /battery_manager/power/VSS )
+  ( 23 N-000102 )
+  ( 24 /battery_manager/power/VSS )
+  ( 25 ? )
+  ( 26 N-000102 )
+  ( 27 /battery_manager/power/VSS )
+  ( 28 N-000056 )
+  ( 29 N-000058 )
+  ( 30 N-000075 )
+  ( 31 N-000071 )
+  ( 32 N-000059 )
+  ( 33 ? )
+  ( 34 /battery_manager/power/POW_EN )
+  ( 35 ? )
+  ( 36 N-000067 )
+  ( 37 /batt_man_2/VDDHVM )
+  ( 38 /battery_manager/PD_N )
+  ( 39 /batt_man_2/MISO )
+  ( 40 /batt_man_2/MOSI )
+  ( 41 /batt_man_2/SCK )
+  ( 42 /batt_man_2/CS_N )
+  ( 43 /batt_man_2/CLK )
+  ( 44 /batt_man_2/IRQ )
+  ( 45 /battery_manager/power/VDD )
+  ( 46 /battery_manager/batt_input/MBAT7 )
+  ( 47 /battery_manager/batt_input/DISCH6 )
+  ( 48 /battery_manager/batt_input/MBAT6 )
+ )
+ ( /51781C83/51781CA7 ATA6870 U2 ATA6870
+  ( 1 /batt_man_2/2_batt_con/DISCH5 )
+  ( 2 /batt_man_2/2_batt_con/MBAT5 )
+  ( 3 /batt_man_2/2_batt_con/DISCH4 )
+  ( 4 /batt_man_2/2_batt_con/MBAT4 )
+  ( 5 /batt_man_2/2_batt_con/DISCH3 )
+  ( 6 /batt_man_2/2_batt_con/MBAT3 )
+  ( 7 /batt_man_2/2_batt_con/DISCH2 )
+  ( 8 /batt_man_2/2_batt_con/MBAT2 )
+  ( 9 /batt_man_2/2_batt_con/DISCH1 )
+  ( 10 /batt_man_2/2_batt_con/MBAT1 )
+  ( 11 /batt_man_2/IRQ )
+  ( 12 /batt_man_2/CLK )
+  ( 13 /batt_man_2/CS_N )
+  ( 14 /batt_man_2/SCK )
+  ( 15 /batt_man_2/MOSI )
+  ( 16 /batt_man_2/MISO )
+  ( 17 /batt_man_2/2_power/VSS )
+  ( 18 ? )
+  ( 19 /batt_man_2/2_power/VSS )
+  ( 20 /batt_man_2/2_power/VSS )
+  ( 21 /batt_man_2/2_power/VSS )
+  ( 22 /batt_man_2/2_power/VSS )
+  ( 23 N-000130 )
+  ( 24 /batt_man_2/2_power/VSS )
+  ( 25 ? )
+  ( 26 N-000130 )
+  ( 27 /batt_man_2/2_power/VSS )
+  ( 28 N-000092 )
+  ( 29 N-000090 )
+  ( 30 N-000082 )
+  ( 31 N-000094 )
+  ( 32 N-000083 )
+  ( 33 ? )
+  ( 34 /batt_man_2/2_power/POW_EN )
+  ( 35 /battery_manager/PD_N )
+  ( 36 /batt_man_2/VDDHVM )
+  ( 37 /batt_man_2/2_power/VDD )
+  ( 38 N-000084 )
+  ( 39 /batt_man_2/2_power/VDD )
+  ( 40 /batt_man_2/2_power/VDD )
+  ( 41 /batt_man_2/2_power/VDD )
+  ( 42 /batt_man_2/2_power/VDD )
+  ( 43 /batt_man_2/2_power/VDD )
+  ( 44 /batt_man_2/2_power/VDD )
+  ( 45 /batt_man_2/2_power/VDD )
+  ( 46 /batt_man_2/2_batt_con/MBAT7 )
+  ( 47 /batt_man_2/2_batt_con/DISCH6 )
+  ( 48 /batt_man_2/2_batt_con/MBAT6 )
+ )
+ ( /5169884D/5169B6F2 28-SSOP U3 LTC4000
+  ( 1 N-000011 )
+  ( 2 N-000023 )
+  ( 3 N-000022 )
+  ( 4 N-000021 )
+  ( 5 ? )
+  ( 6 N-000024 )
+  ( 7 N-000030 )
+  ( 8 N-000029 )
+  ( 9 N-000028 )
+  ( 10 GND )
+  ( 11 N-000015 )
+  ( 12 N-000027 )
+  ( 13 N-000044 )
+  ( 14 N-000012 )
+  ( 15 N-000042 )
+  ( 16 N-000016 )
+  ( 17 /battery_charger/BATT+ )
+  ( 18 N-000020 )
+  ( 19 N-000013 )
+  ( 20 N-000032 )
+  ( 21 N-000014 )
+  ( 22 N-000025 )
+  ( 23 /battery_charger/CONV_OUT )
+  ( 24 N-000039 )
+  ( 25 N-000017 )
+  ( 26 N-000038 )
+  ( 27 /battery_charger/VIN )
+  ( 28 GND )
+  ( PAD GND )
+ )
+ ( /5169884D/5169B882 $noname$ U4 LTC3873
+  ( 1 N-000018 )
+  ( 2 N-000039 )
+  ( 3 /battery_charger/FD_VOLT )
+  ( 4 GND )
+  ( 5 N-000035 )
+  ( 6 N-000034 )
+  ( 7 N-000023 )
+  ( 8 N-000036 )
+ )
+)
+*
+{ Allowed footprints by component:
+$component C1
+ SM*
+ C?
+ C1-1
+$endlist
+$component C2
+ SM*
+ C?
+ C1-1
+$endlist
+$component C3
+ SM*
+ C?
+ C1-1
+$endlist
+$component C4
+ SM*
+ C?
+ C1-1
+$endlist
+$component C5
+ SM*
+ C?
+ C1-1
+$endlist
+$component C6
+ SM*
+ C?
+ C1-1
+$endlist
+$component C7
+ SM*
+ C?
+ C1-1
+$endlist
+$component C8
+ SM*
+ C?
+ C1-1
+$endlist
+$component C9
+ SM*
+ C?
+ C1-1
+$endlist
+$component C10
+ SM*
+ C?
+ C1-1
+$endlist
+$component C11
+ SM*
+ C?
+ C1-1
+$endlist
+$component C12
+ SM*
+ C?
+ C1-1
+$endlist
+$component C13
+ SM*
+ C?
+ C1-1
+$endlist
+$component C14
+ SM*
+ C?
+ C1-1
+$endlist
+$component C15
+ SM*
+ C?
+ C1-1
+$endlist
+$component C16
+ SM*
+ C?
+ C1-1
+$endlist
+$component C17
+ SM*
+ C?
+ C1-1
+$endlist
+$component C18
+ SM*
+ C?
+ C1-1
+$endlist
+$component C19
+ SM*
+ C?
+ C1-1
+$endlist
+$component C20
+ SM*
+ C?
+ C1-1
+$endlist
+$component C21
+ SM*
+ C?
+ C1-1
+$endlist
+$component C22
+ SM*
+ C?
+ C1-1
+$endlist
+$component C23
+ SM*
+ C?
+ C1-1
+$endlist
+$component C24
+ SM*
+ C?
+ C1-1
+$endlist
+$component C25
+ SM*
+ C?
+ C1-1
+$endlist
+$component C26
+ SM*
+ C?
+ C1-1
+$endlist
+$component C27
+ SM*
+ C?
+ C1-1
+$endlist
+$component C28
+ SM*
+ C?
+ C1-1
+$endlist
+$component C29
+ SM*
+ C?
+ C1-1
+$endlist
+$component C30
+ SM*
+ C?
+ C1-1
+$endlist
+$component C31
+ SM*
+ C?
+ C1-1
+$endlist
+$component C32
+ SM*
+ C?
+ C1-1
+$endlist
+$component D1
+ LED-3MM
+ LED-5MM
+ LED-10MM
+ LED-0603
+ LED-0805
+ LED-1206
+ LEDV
+$endlist
+$component D2
+ LED-3MM
+ LED-5MM
+ LED-10MM
+ LED-0603
+ LED-0805
+ LED-1206
+ LEDV
+$endlist
+$component R1
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R2
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R3
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R4
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R5
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R6
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R7
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R8
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R9
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R10
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R11
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R12
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R13
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R14
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R15
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R16
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R17
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R18
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R19
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R20
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R21
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R22
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R23
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R24
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R25
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R26
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R27
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R28
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R29
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R30
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R31
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R32
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R33
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R34
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R35
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R36
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R37
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R38
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R39
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R40
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R41
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R42
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R43
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R44
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R45
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R46
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R47
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R48
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R49
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R50
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R51
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R52
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R53
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R54
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R55
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R56
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R57
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R58
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R59
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R60
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component TH1
+ R?
+ SM0603
+ SM0805
+$endlist
+$component TH2
+ R?
+ SM0603
+ SM0805
+$endlist
+$component TH3
+ R?
+ SM0603
+ SM0805
+$endlist
+$component TH4
+ R?
+ SM0603
+ SM0805
+$endlist
+$component TH5
+ R?
+ SM0603
+ SM0805
+$endlist
+$endfootprintlist
+}
