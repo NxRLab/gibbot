@@ -26,6 +26,7 @@ using namespace std;
 #define NUMBER_OF_POINTS 13
 #define X_FRAMES 100
 
+
 void printMat(const Mat& m)
 {
 	cout << "[";
@@ -38,30 +39,156 @@ void printMat(const Mat& m)
 	cout << "]\n";
 }
 
-static bool runCalibration( vector<vector<Point3f> > objectPoints, vector<vector<Point2f> > imagePoints,
-                    Size imageSize, float aspectRatio,
-                    int flags, Mat& cameraMatrix, Mat& distCoeffs,
-                    vector<Mat>& rvecs, vector<Mat>& tvecs)
+
+static Mat prepareCameraMatrix(Mat& cameraMatrix0, int rtype)
 {
-    cameraMatrix = Mat::eye(3, 3, CV_64F);
-    if( flags & CV_CALIB_FIX_ASPECT_RATIO )
-        cameraMatrix.at<double>(0,0) = aspectRatio;
+    Mat cameraMatrix = Mat::eye(3, 3, rtype);
+    if( cameraMatrix0.size() == cameraMatrix.size() )
+        cameraMatrix0.convertTo(cameraMatrix, rtype);
+    return cameraMatrix;
+}
 
-    distCoeffs = Mat::zeros(8, 1, CV_64F);
+static Mat prepareDistCoeffs(Mat& distCoeffs0, int rtype)
+{
+    Mat distCoeffs = Mat::zeros(distCoeffs0.cols == 1 ? Size(1, 8) : Size(8, 1), rtype);
+    if( distCoeffs0.size() == Size(1, 4) ||
+       distCoeffs0.size() == Size(1, 5) ||
+       distCoeffs0.size() == Size(1, 8) ||
+       distCoeffs0.size() == Size(4, 1) ||
+       distCoeffs0.size() == Size(5, 1) ||
+       distCoeffs0.size() == Size(8, 1) )
+    {
+        Mat dstCoeffs(distCoeffs, Rect(0, 0, distCoeffs0.cols, distCoeffs0.rows));
+        distCoeffs0.convertTo(dstCoeffs, rtype);
+    }
+    return distCoeffs;
+}
 
-    //objectPoints.resize(imagePoints.size(),objectPoints[0]);
 
-    double rms = calibrateCamera(objectPoints, imagePoints, imageSize, cameraMatrix,
-                    distCoeffs, rvecs, tvecs, flags|CV_CALIB_FIX_K4|CV_CALIB_FIX_K5);
-                    ///*|CV_CALIB_FIX_K3*/|CV_CALIB_FIX_K4|CV_CALIB_FIX_K5);
-    printf("RMS error reported by calibrateCamera: %g\n", rms);
+static void collectCalibrationData( InputArrayOfArrays objectPoints,
+                                    InputArrayOfArrays imagePoints1,
+                                    InputArrayOfArrays imagePoints2,
+                                    Mat& objPtMat, Mat& imgPtMat1, Mat* imgPtMat2,
+                                    Mat& npoints )
+{
+    int nimages = (int)objectPoints.total();
+    int i, j = 0, ni = 0, total = 0;
+    CV_Assert(nimages > 0 && nimages == (int)imagePoints1.total() &&
+        (!imgPtMat2 || nimages == (int)imagePoints2.total()));
+
+	cout << " nimages:  " << nimages << endl;
+    for( i = 0; i < nimages; i++ )
+    {
+		printMat(objectPoints.getMat(i));
+        ni = objectPoints.getMat(i).checkVector(3, CV_32F);
+        CV_Assert( ni >= 0 );
+        total += ni;
+    }
+
+    npoints.create(1, (int)nimages, CV_32S);
+    objPtMat.create(1, (int)total, CV_32FC3);
+    imgPtMat1.create(1, (int)total, CV_32FC2);
+    Point2f* imgPtData2 = 0;
+
+    if( imgPtMat2 )
+    {
+        imgPtMat2->create(1, (int)total, CV_32FC2);
+        imgPtData2 = imgPtMat2->ptr<Point2f>();
+    }
+
+    Point3f* objPtData = objPtMat.ptr<Point3f>();
+    Point2f* imgPtData1 = imgPtMat1.ptr<Point2f>();
+
+    for( i = 0; i < nimages; i++, j += ni )
+    {
+        Mat objpt = objectPoints.getMat(i);
+        Mat imgpt1 = imagePoints1.getMat(i);
+        ni = objpt.checkVector(3, CV_32F);
+        int ni1 = imgpt1.checkVector(2, CV_32F);
+        CV_Assert( ni > 0 && ni == ni1 );
+        npoints.at<int>(i) = ni;
+        memcpy( objPtData + j, objpt.data, ni*sizeof(objPtData[0]) );
+        memcpy( imgPtData1 + j, imgpt1.data, ni*sizeof(imgPtData1[0]) );
+
+        if( imgPtData2 )
+        {
+            Mat imgpt2 = imagePoints2.getMat(i);
+            int ni2 = imgpt2.checkVector(2, CV_32F);
+            CV_Assert( ni == ni2 );
+            memcpy( imgPtData2 + j, imgpt2.data, ni*sizeof(imgPtData2[0]) );
+        }
+    }
+}
+
+double mycalibrateCamera( InputArrayOfArrays _objectPoints,
+                            InputArrayOfArrays _imagePoints,
+                            Size imageSize, InputOutputArray _cameraMatrix, InputOutputArray _distCoeffs,
+                            OutputArrayOfArrays _rvecs, OutputArrayOfArrays _tvecs, int flags, TermCriteria criteria )
+{
+    int rtype = CV_64F;
+    Mat cameraMatrix = _cameraMatrix.getMat();
+    cameraMatrix = prepareCameraMatrix(cameraMatrix, rtype);
+    Mat distCoeffs = _distCoeffs.getMat();
+    distCoeffs = prepareDistCoeffs(distCoeffs, rtype);
+    if( !(flags & CALIB_RATIONAL_MODEL) )
+        distCoeffs = distCoeffs.rows == 1 ? distCoeffs.colRange(0, 5) : distCoeffs.rowRange(0, 5);
+
+    int    i;
+    size_t nimages = _objectPoints.total();
+    CV_Assert( nimages > 0 );
+    Mat objPt, imgPt, npoints, rvecM((int)nimages, 3, CV_64FC1), tvecM((int)nimages, 3, CV_64FC1);
+    collectCalibrationData( _objectPoints, _imagePoints, noArray(),
+                            objPt, imgPt, 0, npoints );
+    CvMat c_objPt = objPt, c_imgPt = imgPt, c_npoints = npoints;
+    CvMat c_cameraMatrix = cameraMatrix, c_distCoeffs = distCoeffs;
+    CvMat c_rvecM = rvecM, c_tvecM = tvecM;
+
+    double reprojErr = cvCalibrateCamera2(&c_objPt, &c_imgPt, &c_npoints, imageSize,
+                                          &c_cameraMatrix, &c_distCoeffs, &c_rvecM,
+                                          &c_tvecM, flags, criteria );
+
+    bool rvecs_needed = _rvecs.needed(), tvecs_needed = _tvecs.needed();
+
+    if( rvecs_needed )
+        _rvecs.create((int)nimages, 1, CV_64FC3);
+    if( tvecs_needed )
+        _tvecs.create((int)nimages, 1, CV_64FC3);
+
+    for( i = 0; i < (int)nimages; i++ )
+    {
+        if( rvecs_needed )
+        {
+            _rvecs.create(3, 1, CV_64F, i, true);
+            Mat rv = _rvecs.getMat(i);
+            memcpy(rv.data, rvecM.ptr<double>(i), 3*sizeof(double));
+        }
+        if( tvecs_needed )
+        {
+            _tvecs.create(3, 1, CV_64F, i, true);
+            Mat tv = _tvecs.getMat(i);
+            memcpy(tv.data, tvecM.ptr<double>(i), 3*sizeof(double));
+        }
+    }
+    cameraMatrix.copyTo(_cameraMatrix);
+    distCoeffs.copyTo(_distCoeffs);
+
+    return reprojErr;
+}
+
+bool runCalibration( Size& imageSize, Mat& cameraMatrix, Mat& distCoeffs, vector<vector<Point3f> > objectPoints, 
+                    vector<vector<Point2f> > imagePoints, vector<Mat>& rvecs, vector<Mat>& tvecs)
+{
+	TermCriteria criteria=TermCriteria( TermCriteria::COUNT+TermCriteria::EPS, 30, DBL_EPSILON);
+    //Find intrinsic and extrinsic camera parameters
+	double rms = mycalibrateCamera(objectPoints, imagePoints, imageSize, cameraMatrix,
+                                 distCoeffs, rvecs, tvecs, 0, criteria);
+    
+	cout << "Re-projection error reported by calibrateCamera: "<< rms << endl;
 
     bool ok = checkRange(cameraMatrix) && checkRange(distCoeffs);
 
-    
     return ok;
 }
-
 
 int main(int argc, char* argv[])
 {
@@ -317,14 +444,34 @@ int main(int argc, char* argv[])
 	cout << "distCoeffs = ";
 	printMat(distCoeffs);
 
-	runCalibration( objectPoints, imagePoints,
-                    imageSize, 1,
-                    flags, cameraMatrix, distCoeffs,
-                    rvecs, tvecs);
+	cout << "object points total: " << static_cast<InputArrayOfArrays>(objectPoints).total()  << endl;
+	
 
+	objectPoints.resize(imagePoints.size(),objectPoints[0]); 
+
+
+	runCalibration(imageSize, cameraMatrix, distCoeffs, objectPoints, imagePoints, rvecs, tvecs);
+
+	
 	//== Perform Calibration ==-- DBE
-	//double Re_Projection_Error =  calibrateCamera(objectPoints, imagePoints, imageSize,
-		//cameraMatrix, distCoeffs, rvecs, tvecs, flags);
+	vector<Point3f> w0(1, Point3f(1,2,3));
+	vector<vector<Point3f>> w(1);
+	w[0] = w0;
+	vector<Point2f> p0(1, Point2f(17,5));
+	vector<vector<Point2f>> p(1);
+	p[0] = p0;
+	Mat A = Mat::zeros(3,3, CV_64F);
+	Mat k = Mat::zeros(8,1, CV_64F);
+	Size is = Size(10, 10);
+	vector<Mat> rv(1);
+	vector<Mat> tv(1);
+
+
+	//runCalibration(is, A, k, w, p, rv, tv);
+
+	//double Re_Projection_Error =  calibrateCamera(w, p, is, A, k, rv, tv, flags);
+
+//	double Re_Projection_Error =  calibrateCamera(w, p, is, A, k, rv, tv, flags);
 		//criteria);
 
 	
