@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[     12492,        391]
-NotebookOptionsPosition[     11250,        345]
-NotebookOutlinePosition[     11595,        360]
-CellTagsIndexPosition[     11552,        357]
+NotebookDataLength[     18438,        539]
+NotebookOptionsPosition[     17141,        492]
+NotebookOutlinePosition[     17485,        507]
+CellTagsIndexPosition[     17442,        504]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -27,22 +27,80 @@ Cell[CellGroupData[{
 Cell[BoxData[
  RowBox[{"\[IndentingNewLine]", 
   RowBox[{
-   RowBox[{"Vfloat", " ", "=", " ", 
-    RowBox[{"3.6", "*", "15"}]}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Vfloat", " ", "=", " ", 
+     RowBox[{"3.6", "*", "15"}]}], ";"}], "\[IndentingNewLine]", 
    RowBox[{
     RowBox[{"r", " ", "=", " ", "0.86"}], ";"}], "\[IndentingNewLine]", 
    "\[IndentingNewLine]", 
-   RowBox[{"Voutinst", " ", "=", " ", 
-    RowBox[{"r", " ", "Vfloat"}]}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Voutinst", " ", "=", " ", 
+     RowBox[{"r", " ", "Vfloat"}]}], ";"}], "\[IndentingNewLine]", 
    RowBox[{
     RowBox[{"Vout", " ", "=", " ", 
      RowBox[{"1.225", "*", "Voutinst"}]}], ";"}], "\[IndentingNewLine]", 
    RowBox[{
     RowBox[{"Vdcdc", " ", "=", " ", 
      RowBox[{"1.1", "*", "Vout"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Iout", " ", "=", " ", "1"}], ";"}], "\[IndentingNewLine]", 
    "\[IndentingNewLine]", 
-   RowBox[{"Vcellnom", " ", "=", " ", 
-    RowBox[{"Voutinst", "/", "15"}]}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Vcellnom", " ", "=", " ", 
+     RowBox[{"Voutinst", "/", "15"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Iilim", " ", "=", " ", "5.0"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Iclim", " ", "=", " ", "1.25"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Ris", " ", "=", " ", 
+     RowBox[{
+      RowBox[{"50", "/", "1000"}], "/", "Iilim"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Rcs", " ", "=", " ", 
+     RowBox[{
+      RowBox[{"50", "/", "1000"}], "/", "Iclim"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Icx", " ", "=", " ", 
+     RowBox[{"20", "/", "1000"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Rcx", " ", "=", " ", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"Rcs", " ", "Icx"}], " ", "+", " ", 
+        RowBox[{"0.5", "/", "1000"}]}], ")"}], "/", 
+      RowBox[{"(", 
+       RowBox[{"0.25", " ", "*", " ", 
+        RowBox[{"10", "^", 
+         RowBox[{"(", 
+          RowBox[{"-", "6"}], ")"}]}]}], ")"}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Rcl", " ", "=", " ", 
+     RowBox[{"1", "/", 
+      RowBox[{"(", 
+       RowBox[{"50", "*", 
+        RowBox[{"10", "^", 
+         RowBox[{"(", 
+          RowBox[{"-", "6"}], ")"}]}]}], ")"}]}]}], ";"}], " ", 
+   RowBox[{"(*", " ", "trickle", " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Rcl", "/", "Rcs"}], " ", "2.5", "*", 
+     RowBox[{"10", "^", 
+      RowBox[{"-", "6"}]}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Ril", " ", "=", " ", 
+     RowBox[{"Ris", " ", 
+      RowBox[{"Iilim", "/", 
+       RowBox[{"(", 
+        RowBox[{"2.5", " ", "*", " ", 
+         RowBox[{"10", "^", 
+          RowBox[{"-", "6"}]}]}], ")"}]}]}]}], ";"}], "\[IndentingNewLine]", 
    "\[IndentingNewLine]", 
    RowBox[{"Print", "[", 
     RowBox[{
@@ -60,14 +118,24 @@ Cell[BoxData[
       RowBox[{"Vout", "/", "1.193"}], " ", "-", " ", "1"}]}], "]"}], 
    "\[IndentingNewLine]", 
    RowBox[{"Print", "[", 
+    RowBox[{"\"\<RVM1/RVM2 = \>\"", ",", " ", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Vdcdc", "/", "2"}], "/", "1.193"}], " ", "-", " ", "1"}]}], 
+    "]"}], "\[IndentingNewLine]", 
+   RowBox[{"Print", "[", 
     RowBox[{"\"\<Rsys = \>\"", ",", " ", 
-     RowBox[{"Vout", "/", "1"}]}], "]"}], "\[IndentingNewLine]"}]}]], "Input"],
-
-Cell[BoxData["54.`"], "Output"],
-
-Cell[BoxData["46.44`"], "Output"],
-
-Cell[BoxData["3.0959999999999996`"], "Output"],
+     RowBox[{"Vout", "/", "Iout"}]}], "]"}], "\[IndentingNewLine]", 
+   RowBox[{"Print", "[", 
+    RowBox[{
+    "\"\<Ris = \>\"", ",", " ", "Ris", ",", " ", "\"\< \[CapitalOmega] \>\"", 
+     ",", " ", "\"\<Rcs = \>\"", ",", " ", "Rcs", ",", " ", 
+     "\"\< \[CapitalOmega] \>\"", ",", " ", "\"\<Rcx = \>\"", ",", " ", "Rcx",
+      ",", " ", "\"\< \[CapitalOmega] \>\"", ",", " ", "\"\<Icx = \>\"", ",", 
+     " ", "Icx", ",", " ", "\"\< A \>\"", ",", " ", "\"\<Rcl = \>\"", ",", 
+     " ", "Rcl", ",", " ", "\"\< \[CapitalOmega] \>\"", ",", " ", 
+     "\"\<Ril = \>\"", ",", " ", "Ril", ",", " ", 
+     "\"\< \[CapitalOmega] \>\""}], "]"}], "\[IndentingNewLine]"}]}]], "Input"],
 
 Cell[CellGroupData[{
 
@@ -97,8 +165,36 @@ Cell[BoxData[
 
 Cell[BoxData[
  InterpretationBox[
+  RowBox[{"\<\"RVM1/RVM2 = \"\>", "\[InvisibleSpace]", "25.227116512992456`"}],
+  SequenceForm["RVM1/RVM2 = ", 25.227116512992456`],
+  Editable->False]], "Print"],
+
+Cell[BoxData[
+ InterpretationBox[
   RowBox[{"\<\"Rsys = \"\>", "\[InvisibleSpace]", "56.889`"}],
   SequenceForm["Rsys = ", 56.889],
+  Editable->False]], "Print"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Ris = \"\>", "\[InvisibleSpace]", "0.010000000000000002`", 
+   "\[InvisibleSpace]", "\<\" \[CapitalOmega] \"\>", 
+   "\[InvisibleSpace]", "\<\"Rcs = \"\>", "\[InvisibleSpace]", 
+   "0.04000000000000001`", "\[InvisibleSpace]", "\<\" \[CapitalOmega] \"\>", 
+   "\[InvisibleSpace]", "\<\"Rcx = \"\>", "\[InvisibleSpace]", 
+   "5200.000000000001`", "\[InvisibleSpace]", "\<\" \[CapitalOmega] \"\>", 
+   "\[InvisibleSpace]", "\<\"Icx = \"\>", "\[InvisibleSpace]", 
+   FractionBox["1", "50"], "\[InvisibleSpace]", "\<\" A \"\>", 
+   "\[InvisibleSpace]", "\<\"Rcl = \"\>", "\[InvisibleSpace]", "20000", 
+   "\[InvisibleSpace]", "\<\" \[CapitalOmega] \"\>", 
+   "\[InvisibleSpace]", "\<\"Ril = \"\>", "\[InvisibleSpace]", 
+   "20000.000000000007`", "\[InvisibleSpace]", "\<\" \[CapitalOmega] \"\>"}],
+  SequenceForm[
+  "Ris = ", 0.010000000000000002`, " \[CapitalOmega] ", "Rcs = ", 
+   0.04000000000000001, " \[CapitalOmega] ", "Rcx = ", 5200.000000000001, 
+   " \[CapitalOmega] ", "Icx = ", 
+   Rational[1, 50], " A ", "Rcl = ", 20000, " \[CapitalOmega] ", "Ril = ", 
+   20000.000000000007`, " \[CapitalOmega] "],
   Editable->False]], "Print"]
 }, Open  ]]
 }, Open  ]]
@@ -116,11 +212,12 @@ Cell[BoxData[{
    RowBox[{"f", " ", "=", " ", "200000."}], ";"}], " ", 
   RowBox[{"(*", " ", 
    RowBox[{"min", " ", 
-    RowBox[{"freq", "."}]}], " ", "*)"}], 
-  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"Vout", " ", "=", " ", 
-   RowBox[{"3.6", "*", "15"}]}], ";"}], "\[IndentingNewLine]", 
+    RowBox[{"freq", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"Vout", " ", "=", " ", 
+     RowBox[{"3.6", "*", "15"}]}], ";"}], "*)"}]}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Vout", "  ", "=", " ", "Vdcdc"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
@@ -128,7 +225,8 @@ Cell[BoxData[{
    RowBox[{"Iout", " ", "=", " ", "5."}], ";"}], 
   "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{"Vin", " ", "=", "36"}], ";"}], "\[IndentingNewLine]", 
+  RowBox[{"Vin", " ", "=", 
+   RowBox[{"Vdcdc", "/", "2"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Vd", " ", "=", " ", "0.85"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
@@ -153,9 +251,9 @@ Cell[BoxData[{
     RowBox[{"(", 
      RowBox[{"1", "-", "dc"}], ")"}]}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{"ivar", " ", "=", " ", "0.4"}], ";"}], "\[IndentingNewLine]", 
+  RowBox[{"ivar", " ", "=", " ", "0.2"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{"vvar", " ", "=", " ", "0.001"}], ";"}], "\[IndentingNewLine]", 
+  RowBox[{"vvar", " ", "=", " ", "0.01"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
    RowBox[{"Vrip", " ", "=", " ", 
@@ -216,8 +314,8 @@ Cell[BoxData[{
     RowBox[{"dc", "/", "f"}]}], ";"}], 
   "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
  RowBox[{"Print", "[", 
-  RowBox[{
-  "\"\<duty cycle: \>\"", ",", " ", "dc", ",", " ", "\"\< <= 70\>\""}], 
+  RowBox[{"\"\<duty cycle: \>\"", ",", " ", 
+   RowBox[{"dc", " ", "*", " ", "100"}], ",", " ", "\"\< <= 70\>\""}], 
   "]"}], "\[IndentingNewLine]", 
  RowBox[{"Print", "[", 
   RowBox[{
@@ -225,12 +323,41 @@ Cell[BoxData[{
    RowBox[{
     RowBox[{"(", 
      RowBox[{"1", "+", 
-      RowBox[{"ivar", "/", "2"}]}], ")"}], "Iin"}]}], 
+      RowBox[{"ivar", "/", "2"}]}], ")"}], "Iin"}], ",", " ", 
+   "\"\< IL(ripple): \>\"", ",", " ", 
+   RowBox[{"ivar", " ", "Iin"}]}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Imax(out): \>\"", ",", " ", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"1", "+", 
+      RowBox[{"ivar", "/", "2"}]}], ")"}], " ", "Iout"}], ",", " ", 
+   "\"\< Irms(cout): \>\"", ",", " ", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"1", "+", 
+      RowBox[{"ivar", "/", "2"}]}], ")"}], " ", "Iout", "  ", 
+    RowBox[{"Sqrt", "[", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"Vout", " ", "-", " ", "Vin"}], ")"}], "/", "Vin"}], "]"}]}]}],
+   "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Irms(cin): \>\"", ",", " ", 
+   RowBox[{"0.3", 
+    RowBox[{"Vin", "/", 
+     RowBox[{"(", 
+      RowBox[{"L", " ", "f"}], ")"}]}], "dc"}]}], 
   "]"}], "\[IndentingNewLine]", 
  RowBox[{"Print", "[", 
   RowBox[{
   "\"\<Vin: \>\"", ",", " ", "Vin", ",", " ", "\"\< Vout: \>\"", ",", " ", 
-   "Vout"}], "]"}], "\[IndentingNewLine]", 
+   "Vout", ",", " ", "\"\< Vout(ripple-pp): \>\"", ",", " ", 
+   RowBox[{
+    RowBox[{"Vout", "/", 
+     RowBox[{"(", 
+      RowBox[{"Rload", " ", "c"}], ")"}]}], " ", "dc", " ", "Ts"}]}], " ", 
+  "]"}], "\[IndentingNewLine]", 
  RowBox[{"Print", "[", 
   RowBox[{"\"\<Rload: \>\"", ",", " ", "Rload"}], 
   "]"}], "\[IndentingNewLine]", 
@@ -264,25 +391,44 @@ Cell[CellGroupData[{
 
 Cell[BoxData[
  InterpretationBox[
-  RowBox[{"\<\"duty cycle: \"\>", "\[InvisibleSpace]", "0.4324264243337712`", 
+  RowBox[{"\<\"duty cycle: \"\>", "\[InvisibleSpace]", "50.6700521379393`", 
    "\[InvisibleSpace]", "\<\" <= 70\"\>"}],
-  SequenceForm["duty cycle: ", 0.4324264243337712, " <= 70"],
+  SequenceForm["duty cycle: ", 50.6700521379393, " <= 70"],
   Editable->False]], "Print"],
 
 Cell[BoxData[
  InterpretationBox[
-  RowBox[{"\<\"Iin: \"\>", "\[InvisibleSpace]", "8.809430555555558`", 
+  RowBox[{"\<\"Iin: \"\>", "\[InvisibleSpace]", "10.135830700614754`", 
    "\[InvisibleSpace]", "\<\" Ipeak: \"\>", "\[InvisibleSpace]", 
-   "10.57131666666667`"}],
-  SequenceForm["Iin: ", 8.809430555555558, " Ipeak: ", 10.57131666666667],
+   "11.149413770676231`", "\[InvisibleSpace]", "\<\" IL(ripple): \"\>", 
+   "\[InvisibleSpace]", "2.027166140122951`"}],
+  SequenceForm[
+  "Iin: ", 10.135830700614754`, " Ipeak: ", 11.149413770676231`, 
+   " IL(ripple): ", 2.027166140122951],
   Editable->False]], "Print"],
 
 Cell[BoxData[
  InterpretationBox[
-  RowBox[{"\<\"Vin: \"\>", "\[InvisibleSpace]", "36", 
+  RowBox[{"\<\"Imax(out): \"\>", "\[InvisibleSpace]", "5.5`", 
+   "\[InvisibleSpace]", "\<\" Irms(cout): \"\>", "\[InvisibleSpace]", "5.5`"}],
+  SequenceForm["Imax(out): ", 5.5, " Irms(cout): ", 5.5],
+  Editable->False]], "Print"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Irms(cin): \"\>", "\[InvisibleSpace]", "0.608149842036885`"}],
+  SequenceForm["Irms(cin): ", 0.608149842036885],
+  Editable->False]], "Print"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Vin: \"\>", "\[InvisibleSpace]", "31.288950000000003`", 
    "\[InvisibleSpace]", "\<\" Vout: \"\>", "\[InvisibleSpace]", 
-   "62.57790000000001`"}],
-  SequenceForm["Vin: ", 36, " Vout: ", 62.57790000000001],
+   "62.57790000000001`", "\[InvisibleSpace]", "\<\" Vout(ripple-pp): \"\>", 
+   "\[InvisibleSpace]", "0.31708254556827525`"}],
+  SequenceForm[
+  "Vin: ", 31.288950000000003`, " Vout: ", 62.57790000000001, 
+   " Vout(ripple-pp): ", 0.31708254556827525`],
   Editable->False]], "Print"],
 
 Cell[BoxData[
@@ -293,19 +439,19 @@ Cell[BoxData[
 
 Cell[BoxData[
  InterpretationBox[
-  RowBox[{"\<\"c: \"\>", "\[InvisibleSpace]", "399.50206063162864`", 
+  RowBox[{"\<\"c: \"\>", "\[InvisibleSpace]", "39.95020606316287`", 
    "\[InvisibleSpace]", "\<\" \[Mu]F\"\>"}],
-  SequenceForm["c: ", 399.50206063162864`, " \[Mu]F"],
+  SequenceForm["c: ", 39.95020606316287, " \[Mu]F"],
   Editable->False]], "Print"],
 
 Cell[BoxData[
  InterpretationBox[
-  RowBox[{"\<\"L: \"\>", "\[InvisibleSpace]", "22.08904306845124`", 
+  RowBox[{"\<\"L: \"\>", "\[InvisibleSpace]", "39.104163602131266`", 
    "\[InvisibleSpace]", "\<\" \[Mu]H\"\>", 
    "\[InvisibleSpace]", "\<\" Isat: \"\>", "\[InvisibleSpace]", 
-   "10.57131666666667`"}],
+   "11.149413770676231`"}],
   SequenceForm[
-  "L: ", 22.08904306845124, " \[Mu]H", " Isat: ", 10.57131666666667],
+  "L: ", 39.104163602131266`, " \[Mu]H", " Isat: ", 11.149413770676231`],
   Editable->False]], "Print"],
 
 Cell[BoxData[
@@ -317,15 +463,16 @@ Cell[BoxData[
 Cell[BoxData[
  InterpretationBox[
   RowBox[{"\<\"Rdson \[InvisibleComma]<= \"\>", "\[InvisibleSpace]", 
-   "6.9370103692539065`", "\[InvisibleSpace]", "\<\" m\[CapitalOmega]\"\>"}],
+   "6.577326381608093`", "\[InvisibleSpace]", "\<\" m\[CapitalOmega]\"\>"}],
   SequenceForm[
-  "Rdson \[InvisibleComma]<= ", 6.9370103692539065`, " m\[CapitalOmega]"],
+  "Rdson \[InvisibleComma]<= ", 6.577326381608093, " m\[CapitalOmega]"],
   Editable->False]], "Print"],
 
 Cell[BoxData[
  InterpretationBox[
-  RowBox[{"\<\"Rvcc \[InvisibleComma]>= \"\>", "\[InvisibleSpace]", "1440.`"}],
-  SequenceForm["Rvcc \[InvisibleComma]>= ", 1440.],
+  RowBox[{"\<\"Rvcc \[InvisibleComma]>= \"\>", "\[InvisibleSpace]", 
+   "1251.5580000000002`"}],
+  SequenceForm["Rvcc \[InvisibleComma]>= ", 1251.5580000000002`],
   Editable->False]], "Print"],
 
 Cell[BoxData[
@@ -336,15 +483,15 @@ Cell[BoxData[
 
 Cell[BoxData[
  InterpretationBox[
-  RowBox[{"\<\"Ton: \"\>", "\[InvisibleSpace]", "2.162132121668856`*^-6"}],
-  SequenceForm["Ton: ", 2.162132121668856*^-6],
+  RowBox[{"\<\"Ton: \"\>", "\[InvisibleSpace]", "2.5335026068969654`*^-6"}],
+  SequenceForm["Ton: ", 2.5335026068969654`*^-6],
   Editable->False]], "Print"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
 },
-WindowSize->{707, 833},
-WindowMargins->{{Automatic, 34}, {32, Automatic}},
+WindowSize->{1264, 903},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
 FrontEndVersion->"9.0 for Microsoft Windows (32-bit) (November 20, 2012)",
 StyleDefinitions->"Default.nb"
 ]
@@ -362,34 +509,35 @@ Notebook[{
 Cell[CellGroupData[{
 Cell[579, 22, 53, 0, 79, "Section"],
 Cell[CellGroupData[{
-Cell[657, 26, 1505, 37, 312, "Input"],
-Cell[2165, 65, 31, 0, 31, "Output"],
-Cell[2199, 67, 33, 0, 31, "Output"],
-Cell[2235, 69, 46, 0, 31, "Output"],
+Cell[657, 26, 4220, 111, 572, "Input"],
 Cell[CellGroupData[{
-Cell[2306, 73, 384, 8, 23, "Print"],
-Cell[2693, 83, 201, 5, 23, "Print"],
-Cell[2897, 90, 201, 5, 23, "Print"],
-Cell[3101, 97, 161, 4, 23, "Print"]
+Cell[4902, 141, 384, 8, 23, "Print"],
+Cell[5289, 151, 201, 5, 23, "Print"],
+Cell[5493, 158, 201, 5, 23, "Print"],
+Cell[5697, 165, 196, 4, 23, "Print"],
+Cell[5896, 171, 161, 4, 23, "Print"],
+Cell[6060, 177, 1186, 20, 40, "Print"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[3323, 108, 53, 0, 79, "Section"],
+Cell[7307, 204, 53, 0, 79, "Section"],
 Cell[CellGroupData[{
-Cell[3401, 112, 5137, 148, 832, "Input"],
+Cell[7385, 208, 6226, 179, 872, "Input"],
 Cell[CellGroupData[{
-Cell[8563, 264, 248, 5, 23, "Print"],
-Cell[8814, 271, 302, 6, 23, "Print"],
-Cell[9119, 279, 269, 6, 23, "Print"],
-Cell[9391, 287, 186, 4, 23, "Print"],
-Cell[9580, 293, 233, 5, 23, "Print"],
-Cell[9816, 300, 354, 8, 23, "Print"],
-Cell[10173, 310, 186, 4, 23, "Print"],
-Cell[10362, 316, 302, 6, 23, "Print"],
-Cell[10667, 324, 195, 4, 23, "Print"],
-Cell[10865, 330, 155, 4, 23, "Print"],
-Cell[11023, 336, 187, 4, 23, "Print"]
+Cell[13636, 391, 244, 5, 23, "Print"],
+Cell[13883, 398, 444, 9, 23, "Print"],
+Cell[14330, 409, 264, 5, 23, "Print"],
+Cell[14597, 416, 191, 4, 23, "Print"],
+Cell[14791, 422, 454, 9, 23, "Print"],
+Cell[15248, 433, 186, 4, 23, "Print"],
+Cell[15437, 439, 230, 5, 23, "Print"],
+Cell[15670, 446, 360, 8, 23, "Print"],
+Cell[16033, 456, 186, 4, 23, "Print"],
+Cell[16222, 462, 299, 6, 23, "Print"],
+Cell[16524, 470, 226, 5, 23, "Print"],
+Cell[16753, 477, 155, 4, 23, "Print"],
+Cell[16911, 483, 190, 4, 23, "Print"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
