@@ -18,8 +18,8 @@ def spongSwingUpController(bot):
     alpha = pi/10.
     #Our Gains
     #Spring force based on velocities(high limits velocities)
-    kd = 8.
-    kp = 20.    #Spring force based on position
+    kd = 0. #8.
+    kp = 0.    #Spring force based on position
 
     # parameters
     q1 = bot.q1

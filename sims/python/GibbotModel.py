@@ -2,8 +2,10 @@ from math import *
 import numpy as np
 
 class GibbotModel:
-    def __init__(self, q1, q2, q1d=0., q2d=0.):
+    def __init__(self, x1, y1, q1, q2, q1d=0., q2d=0.):
         # State
+        self.x1 = x1
+        self.y1 = y1
         self.q1 = q1
         self.q2 = q2
         self.q1d = q1d
@@ -25,10 +27,39 @@ class GibbotModel:
         # Gravity
         self.g = 9.81
         # Torque
-        self.MAX_T = 100
+        self.MAX_T = 5
+
+    @property
+    def cx(self):
+        return self.x1 + self.l1*cos(self.q1 + pi/2)
+
+    @property
+    def cy(self):
+        return self.y1 + self.l1*sin(self.q1 + pi/2)
+
+    @property
+    def x2(self):
+        return self.cx + self.l2*cos(self.q1 + pi/2 + self.q2)
+
+    @property
+    def y2(self):
+        return self.cy + self.l2*sin(self.q1 + pi/2 + self.q2)
 
     def __repr__(self):
         return '(q1={}, q2={}, q1d={}, q2d={})'.format(self.q1, self.q2, self.q1d, self.q2d)
+
+    def switch(self):
+        x = self.x2
+        y = self.y2
+        q1 = self.q1 + self.q2 + pi
+        q2 = -self.q2
+
+        self.x1 = x
+        self.y1 = y
+        self.q1 = q1
+        self.q2 = q2
+        self.q1d = 0
+        self.q2d = 0
 
     def advanceState(self, controller, dt):
         # second order
