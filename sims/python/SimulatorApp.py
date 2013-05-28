@@ -13,8 +13,7 @@ CONTROLLERS = {
     "3. Spong Balance": spongBalanceController
 }
 
-DEFAULT_BOT = GibbotModel(-3.1, .4, 0, 0)
-#DEFAULT_BOT = GibbotModel(1.077398914708292,  0.986794824173209, 0, 0)
+DEFAULT_BOT = GibbotModel(0, 0, 0, .1, 0, 0)
 
 DT = .001
 TIME_SCALE = 1
