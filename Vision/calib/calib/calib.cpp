@@ -22,7 +22,7 @@ using namespace cv;
 using namespace std;
 
 // Constants
-#define RECORDED_FRAMES 15
+#define RECORDED_FRAMES 10
 #define NUMBER_OF_POINTS 13
 #define X_FRAMES 100
 
@@ -118,6 +118,26 @@ int main(int argc, char* argv[])
 
     printf("\n");
 
+	// after reading documentation, found following info: --nr
+	for(int i = 0; i < cameraCount; i++) {
+		cout << "camera " << i << endl;
+		cout << "physical pixel width: " << camera[i]->PhysicalPixelWidth() << endl;
+		cout << "physical pixel height: " << camera[i]->PhysicalPixelHeight() << endl;
+		cout << "focal length: " << camera[i]->FocalLength() << endl;
+		Core::DistortionModel dm;
+		camera[i]->GetDistortionModel(dm);
+		cout << "f horizontal: " << dm.HorizontalFocalLength << endl;
+		cout << "f vertical: " << dm.VerticalFocalLength << endl;
+		cout << "kc1: " << dm.KC1 << endl;
+		cout << "kc2: " << dm.KC2 << endl;
+		cout << "kc3: " << dm.KC3 << endl;
+		cout << "t0: " << dm.Tangential0 << endl;
+		cout << "t1: " << dm.Tangential1 << endl;
+		cout << "cx: " << dm.LensCenterX << endl;
+		cout << "cy: " << dm.LensCenterY << endl;
+		cout << "distort?: " << dm.Distort << endl;
+	}
+
     //== Create and attach frame synchronizer ==--
 
     cModuleSync * sync = new cModuleSync();
@@ -165,7 +185,7 @@ int main(int argc, char* argv[])
 
     //== Disconnect devices and shutdown Camera Library ==--
     CameraManager::X().Shutdown();
-	
+
 	return 0;
 }
 
@@ -453,9 +473,6 @@ bool runCalibration( Size& imageSize, Mat& cameraMatrix, Mat& distCoeffs, vector
 	double rms = mycalibrateCamera(objpnts, imgpnts, imageSize, cameraMatrix,
                                  distCoeffs, rvecs, tvecs, 0, criteria);
     
-	imgpnts.clear();
-	objpnts.clear();
-
 	std::cout << "Re-projection error reported by calibrateCamera: "<< rms << endl;
 
     bool ok = checkRange(cameraMatrix) && checkRange(distCoeffs);
