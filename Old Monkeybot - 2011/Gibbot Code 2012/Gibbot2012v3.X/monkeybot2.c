@@ -104,6 +104,18 @@ int main(void) {
     char input[124];
     char *space;
 
+    int enc = 0;
+    initPIC();
+    printf("Hello World 2 \r");
+    while (1) {
+        // read motor encoder
+        read_7366(MOT, CNTR, readbuf);
+        enc = (((int) (readbuf[0])) << 8) | ((int) (readbuf[1]));
+        printf("enc: %d -- r0: 0x%x -- r1: 0x%x\r",
+                enc, readbuf[0], readbuf[1]);
+    }
+
+
     th2 = (int) (atan2(((float) ACC2X - 505.0), ((float) ACC2Y - 530.0))*180.0 / 3.1416);
     initPIC();
 
@@ -136,42 +148,42 @@ int main(void) {
         if (space != NULL) {
             *space = '\0';
         }
-/*
-        if (th2 - oldth2 > 0) {
-            DIR = 0;
-        } else {
-            DIR = 1;
-        }
+        /*
+                if (th2 - oldth2 > 0) {
+                    DIR = 0;
+                } else {
+                    DIR = 1;
+                }
 
-        if (ISCMD(input, T1)) {
-            parse1arg(space, &t1, T1);
-            SetDCOC4PWM(t1);
-            printf("th2: %d\r", th2);
-        } else if (ISCMD(input, E1)) {
-            if (space != NULL) {
-                if (ISCMD(space + 1, ON)) {
-                    EMAG1 = 1;
-                } else if (ISCMD(space + 1, OFF)) {
-                    EMAG1 = 0;
+                if (ISCMD(input, T1)) {
+                    parse1arg(space, &t1, T1);
+                    SetDCOC4PWM(t1);
+                    printf("th2: %d\r", th2);
+                } else if (ISCMD(input, E1)) {
+                    if (space != NULL) {
+                        if (ISCMD(space + 1, ON)) {
+                            EMAG1 = 1;
+                        } else if (ISCMD(space + 1, OFF)) {
+                            EMAG1 = 0;
+                        }
+                    } else {
+                        EMAG1 = !EMAG1;
+                    }
+                    printf("e1 is %s\r", EMAG1 ? ON : OFF);
+                } else if (ISCMD(input, E2)) {
+                    if (space != NULL) {
+                        if (ISCMD(space + 1, ON)) {
+                            EMAG2 = 1;
+                        } else if (ISCMD(space + 1, OFF)) {
+                            EMAG2 = 0;
+                        }
+                    } else {
+                        EMAG2 = !EMAG2;
+                    }
+                    printf("e2 is %s\r", EMAG2 ? ON : OFF);
                 }
-            } else {
-                EMAG1 = !EMAG1;
-            }
-            printf("e1 is %s\r", EMAG1 ? ON : OFF);
-        } else if (ISCMD(input, E2)) {
-            if (space != NULL) {
-                if (ISCMD(space + 1, ON)) {
-                    EMAG2 = 1;
-                } else if (ISCMD(space + 1, OFF)) {
-                    EMAG2 = 0;
-                }
-            } else {
-                EMAG2 = !EMAG2;
-            }
-            printf("e2 is %s\r", EMAG2 ? ON : OFF);
-        }
-        continue;
-*/
+                continue;
+         */
 
         if (ISCMD(input, T1)) {
             parse1arg(space, &t1, T1);
@@ -400,15 +412,15 @@ void __ISR(_TIMER_3_VECTOR, ipl1) T3Interrupt(void) {
         roll = 1;
     }
 
-    read_7366(MOT, CNTR, readbuf);
+    read_7366(MOT, CNTR, readbuf); //corresponds to encoders
     sensors[sample][MOTOR] =
             (((int) (readbuf[0])) << 8) | ((int) (readbuf[1]));
 
-    read_7366(MAG1, CNTR, readbuf);
+    read_7366(MAG1, CNTR, readbuf); //corresponds to encoders
     sensors[sample][MAGNET1] =
             (((int) (readbuf[0])) << 8) | ((int) (readbuf[1]));
 
-    read_7366(MAG2, CNTR, readbuf);
+    read_7366(MAG2, CNTR, readbuf); //corresponds to encoders
     sensors[sample][MAGNET2] =
             (((int) (readbuf[0])) << 8) | ((int) (readbuf[1]));
 
