@@ -1,14 +1,34 @@
+'''
+Author Jimmy Paul
+'''
+
 import pyoptitrack
 from Tkinter import *
 import numpy as np
 import traceback
 import math
 from TakeVisionCoordinates import *
+import serial
 
 BOARD_SIZE = (1828.8, 1219.2) # 8' x 6' in millimeters
 MAX_CLUSTER_DIST = 60 # in millimeters
 CAMERA_OVERLAP = 50 # in millimeters
 SCALE = .5
+
+''' This File is the same as DisplayBlobs.py however adds the Command Robot 
+function allows you to send commands to the robot via pyserial'''
+def CommandRobot():
+
+
+    COM3 = 2
+    ser = serial.Serial(COM3,38400)
+    print ser.portstr
+    a = ser.write("u 1000\r\n")
+    print a
+    ser.close()
+
+
+
 
 class BlobFrame(Frame):
 
@@ -73,10 +93,13 @@ class BlobFrame(Frame):
         nodes = [getNode(1), getNode(2), getNode(3)]
         self.drawBlobs(nodes, '#00F')
         
+
         text = 'joint missing'
         if nodes[0]:
             text = 'joint position: (%d, %d) millimeters' % nodes[0]
         self.canvas.create_text(2, 2, text=text, anchor=NW)
+
+
         
         
     def drawBlobs(self, blobs, color):
@@ -91,6 +114,7 @@ class BlobFrame(Frame):
 
 
 def main():
+    '''
     print "Initializing cameras..."
     pyoptitrack.waitForInitialization()
     cameras = pyoptitrack.getCameraList()
@@ -106,6 +130,8 @@ def main():
 
     print 'Shutting down...'
     pyoptitrack.shutdown()
+'''
+    CommandRobot()
 
 
 if __name__ == '__main__':
