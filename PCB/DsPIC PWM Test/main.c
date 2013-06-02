@@ -49,7 +49,7 @@ int main(int argc, char** argv) {
     IOCON1bits.POLH = 0; //PWM1H active high (default)
     IOCON1bits.POLL = 0; //PWM1L active low O(default)
     IOCON1bits.PMOD = 0b00; //Complementary output mode
-
+    PTCONbits.PTEN = 1; //enable pwm
 
     return (EXIT_SUCCESS);
 }
