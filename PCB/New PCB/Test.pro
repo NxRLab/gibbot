@@ -1,8 +1,6 @@
-update=5/28/2013 11:21:18 PM
+update=5/31/2013 2:20:45 PM
 version=1
 last_client=eeschema
-[general]
-version=1
 [cvpcb]
 version=1
 NetIExt=net
@@ -44,8 +42,8 @@ LibName14=dip_sockets
 LibName15=pga_sockets
 LibName16=valves
 LibName17=test
-LibName18=My_FPs
-LibName19=layout_lib
+[general]
+version=1
 [eeschema]
 version=1
 LibDir=
@@ -86,4 +84,3 @@ LibName28=atmel
 LibName29=contrib
 LibName30=valves
 LibName31=MyLib
-LibName32=C:/Users/jvanderploeg/Documents/PCB Designs/Master Library/Miscellanious/Misc
