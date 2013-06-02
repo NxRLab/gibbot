@@ -107,13 +107,6 @@ int main(void) {
     int enc = 0;
     initPIC();
     printf("Hello World 2 \r");
-    while (1) {
-        // read motor encoder
-        read_7366(MOT, CNTR, readbuf);
-        enc = (((int) (readbuf[0])) << 8) | ((int) (readbuf[1]));
-        printf("enc: %d -- r0: 0x%x -- r1: 0x%x\r",
-                enc, readbuf[0], readbuf[1]);
-    }
 
 
     th2 = (int) (atan2(((float) ACC2X - 505.0), ((float) ACC2Y - 530.0))*180.0 / 3.1416);
