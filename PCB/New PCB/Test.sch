@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2
+EESchema Schematic File Version 2  date 6/2/2013 3:28:30 PM
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -925,4 +925,16 @@ Text Label 14300 7350 0    60   ~ 0
 ACCEL[1:3]
 Text Notes 6200 9450 0    60   ~ 0
 Need to add the motor hall effect sensors
+Text Notes 12000 12550 0    60   ~ 0
+Add LED
+Text Notes 8150 13200 0    60   ~ 0
+Change Labels
+Text Notes 10300 14550 0    60   ~ 0
+Add decoupling
+Text Notes 4700 1850 0    157  ~ 0
+6 IR LEDs for Vision group
+Text Notes 5750 2150 0    60   ~ 0
+3 on each end of board
+Text Notes 15500 1750 0    157  ~ 0
+Mounting Holes as well
 $EndSCHEMATC

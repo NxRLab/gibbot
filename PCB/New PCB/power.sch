@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2
+EESchema Schematic File Version 2  date 6/2/2013 3:28:30 PM
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -1136,4 +1136,10 @@ F 3 "" H 6100 4800 60  0000 C CNN
 $EndComp
 Text Notes 3250 4150 0    60   ~ 0
 Could use the fixed 5V Version (LT1076-5)
+Text Notes 8000 1700 0    60   ~ 0
+Tantalum
+Text Notes 3400 3500 0    60   ~ 0
+Add extra caps for in/out for buck converter\nPut them to through hole components
+Text Notes 5250 4450 0    60   ~ 0
+Sense Resistor on dc dc
 $EndSCHEMATC

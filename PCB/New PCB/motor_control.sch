@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2
+EESchema Schematic File Version 2  date 6/2/2013 3:28:30 PM
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -540,7 +540,7 @@ PWM2H
 Text Label 9050 4500 0    60   ~ 0
 PWM1H
 Text Notes 9200 2500 0    60   ~ 0
-PMOS NOTE:\nSince typically a PMOS is driven with a\nlow voltage, and our circuit demands a \nhigh voltage to drive the resistor divider \nnetwork, we invert the signal to keep the\nlogic levels compatable. \n\n*** This will upset duty cycle of PWM!
+PMOS NOTE:\nSince typically a PMOS is driven with a\nlow voltage, and our circuit demands a \nhigh voltage to drive the resistor divider \nnetwork, we invert the signal to keep the\nlogic levels compatable. 
 $Comp
 L +24V #PWR072
 U 1 1 51A90C79
@@ -580,4 +580,12 @@ Text Label 3650 1500 0    60   ~ 0
 MagnetControl[1:2]
 Text Label 1350 5250 0    60   ~ 0
 MotorOut[0:2]
+Text Notes 3400 7050 0    60   ~ 0
+Add pull down resistors
+Text Notes 2650 2200 0    60   ~ 0
+Add pull down resistors
+Text Notes 9250 4950 0    60   ~ 0
+Double check initialization routine for fast PWM
+Text Notes 2700 4150 0    60   ~ 0
+Check for flyback diodes
 $EndSCHEMATC
