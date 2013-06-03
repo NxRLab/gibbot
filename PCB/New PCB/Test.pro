@@ -1,11 +1,6 @@
-update=5/31/2013 2:20:45 PM
+update=6/3/2013 9:19:38 AM
 version=1
-last_client=eeschema
-[cvpcb]
-version=1
-NetIExt=net
-[cvpcb/libraries]
-EquName1=devcms
+last_client=cvpcb
 [pcbnew]
 version=1
 PadDrlX=320
@@ -24,7 +19,6 @@ TxtLar=120
 MSegLar=120
 LastNetListRead=
 [pcbnew/libraries]
-LibDir=../New PCB;../Master Library
 LibName1=sockets
 LibName2=connect
 LibName3=discret
@@ -41,7 +35,7 @@ LibName13=led
 LibName14=dip_sockets
 LibName15=pga_sockets
 LibName16=valves
-LibName17=test
+LibDir=../New PCB;../Master Library
 [general]
 version=1
 [eeschema]
@@ -84,3 +78,8 @@ LibName28=atmel
 LibName29=contrib
 LibName30=valves
 LibName31=MyLib
+[cvpcb]
+version=1
+NetIExt=net
+[cvpcb/libraries]
+EquName1=devcms

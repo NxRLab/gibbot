@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date 6/2/2013 3:28:30 PM
+EESchema Schematic File Version 2
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -37,7 +37,7 @@ $Descr A2 23386 16535
 encoding utf-8
 Sheet 1 4
 Title ""
-Date "2 jun 2013"
+Date "3 jun 2013"
 Rev ""
 Comp ""
 Comment1 ""
@@ -309,21 +309,11 @@ F 3 "~" H 10700 13400 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 Text Label 9100 13650 0    60   ~ 0
-TX2
+TX
 Text Label 9100 13550 0    60   ~ 0
-RX2
-Text Label 8000 7650 2    60   ~ 0
-ANC3
-Text Label 8000 7750 2    60   ~ 0
-ANC2
-Text Label 8000 7850 2    60   ~ 0
-ANC1
+RX
 Entry Wire Line
 	7700 7950 7800 7850
-Entry Wire Line
-	7700 7850 7800 7750
-Entry Wire Line
-	7700 7750 7800 7650
 $Comp
 L R R15
 U 1 1 51A3085C
@@ -344,11 +334,11 @@ TX
 Text Label 12750 8600 2    60   ~ 0
 RX
 Text Label 12850 8750 2    60   ~ 0
-SPI_CLK
+SPI_BUS0
 Text Label 12850 8850 2    60   ~ 0
-SPI_DIN
+SPI_BUS1
 Text Label 12850 8950 2    60   ~ 0
-SPI_DOUT
+SPI_BUS2
 Entry Wire Line
 	12750 8500 12850 8400
 Entry Wire Line
@@ -473,10 +463,6 @@ Text Label 12650 6500 0    60   ~ 0
 LED4
 NoConn ~ 8100 7950
 NoConn ~ 8100 8050
-NoConn ~ 8100 8150
-NoConn ~ 8100 8250
-NoConn ~ 8100 8350
-NoConn ~ 8100 8450
 NoConn ~ 8100 8550
 NoConn ~ 8100 8650
 NoConn ~ 8100 8750
@@ -521,7 +507,6 @@ F 3 "" H 9600 13150 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 NoConn ~ 9600 13050
-NoConn ~ 11800 12950
 NoConn ~ 11800 13050
 NoConn ~ 11800 13150
 NoConn ~ 11800 13250
@@ -559,7 +544,7 @@ $EndComp
 Text Notes 5700 4900 0    60   ~ 0
 Reset Switch
 Text Label 14100 8850 0    60   ~ 0
-SPI_BUS[1:3]
+SPI_BUS[0..2]
 Entry Wire Line
 	8000 6750 8100 6650
 Entry Wire Line
@@ -573,19 +558,7 @@ Entry Wire Line
 Entry Wire Line
 	8000 7250 8100 7150
 Text Label 6400 7250 0    60   ~ 0
-Motor_Control[1:6]
-Text Label 8100 6650 2    60   ~ 0
-PWM1L
-Text Label 8100 6750 2    60   ~ 0
-PWM1H
-Text Label 8100 6850 2    60   ~ 0
-PWM2L
-Text Label 8100 6950 2    60   ~ 0
-PWM2H
-Text Label 8100 7050 2    60   ~ 0
-PWM3L
-Text Label 8100 7150 2    60   ~ 0
-PWM3H
+MotorControl[0..5]
 Wire Bus Line
 	8000 7350 8000 7450
 Wire Bus Line
@@ -662,10 +635,6 @@ Wire Wire Line
 Wire Bus Line
 	7700 5650 7700 7950
 Wire Wire Line
-	8100 7650 7800 7650
-Wire Wire Line
-	8100 7750 7800 7750
-Wire Wire Line
 	7800 7850 8100 7850
 Wire Wire Line
 	12550 8500 12750 8500
@@ -733,11 +702,11 @@ Entry Wire Line
 Entry Wire Line
 	8000 7450 8100 7350
 Text Label 6400 7350 0    60   ~ 0
-MagnetControl[1:2]
+MagnetControl[0..1]
 Text Label 8100 7250 2    60   ~ 0
-MagnetControl1
+MagnetControl0
 Text Label 8100 7350 2    60   ~ 0
-MagnetControl2
+MagnetControl1
 Wire Bus Line
 	900  7250 2100 7250
 Wire Bus Line
@@ -862,40 +831,34 @@ S 2100 7150 3500 2100
 U 51A8FDF4
 F0 "motor_control" 50
 F1 "motor_control.sch" 50
-F2 "MotorControl[1:6]" I R 5600 7250 60 
-F3 "MagnetControl[1:2]" I R 5600 7350 60 
-F4 "MotorOut[0:2]" O L 2100 7250 60 
+F2 "MotorControl[0..5]" I R 5600 7250 60 
+F3 "MagnetControl[0..1]" I R 5600 7350 60 
+F4 "MotorOut[0..2]" O L 2100 7250 60 
 $EndSheet
 $Sheet
 S 16750 3700 4800 5300
 U 51A8FE90
 F0 "sensors" 50
 F1 "sensors.sch" 50
-F2 "SPI_BUS[1:3]" I L 16750 8100 60 
-F3 "ANC[1:3]" O L 16750 5650 60 
-F4 "MotorIn[1:3]" I L 16750 4300 60 
-F5 "ENC[1:3]" I L 16750 6550 60 
-F6 "GYRO[1:3]" I L 16750 6900 60 
-F7 "ACCEL[1:3]" I L 16750 7350 60 
+F2 "SPI_BUS[0..2]" I L 16750 8100 60 
+F3 "ANC[0..2]" O L 16750 5650 60 
+F4 "ENC[0..2]" I L 16750 6550 60 
+F5 "GYRO[0..2]" I L 16750 6900 60 
+F6 "ACCEL[0..2]" I L 16750 7350 60 
+F7 "MotorOut[0..2]" I L 16750 4300 60 
 $EndSheet
-Text Label 12700 6700 0    60   ~ 0
-ENC1
 Text Label 12700 6800 0    60   ~ 0
-ENC2
+ENC1
 Text Label 12700 6900 0    60   ~ 0
-ENC3
-Text Label 12700 7000 0    60   ~ 0
-GYRO1
+ENC2
 Text Label 12700 7100 0    60   ~ 0
-GYRO2
+GYRO1
 Text Label 12700 7200 0    60   ~ 0
-GYRO3
-Text Label 12700 7300 0    60   ~ 0
-ACCEL1
+GYRO2
 Text Label 12700 7400 0    60   ~ 0
-ACCEL2
+ACCEL1
 Text Label 12700 7500 0    60   ~ 0
-ACCEL3
+ACCEL2
 $Comp
 L R R32
 U 1 1 51A91DB6
@@ -914,27 +877,495 @@ Wire Wire Line
 	12950 9650 13000 9650
 Connection ~ 13000 9650
 Text Label 3200 3050 0    60   ~ 0
-MotorOut[0:2]
-Text Label 14350 5650 0    60   ~ 0
-ANC[1:3]
+MotorOut[0..2]
 Text Label 14300 6550 0    60   ~ 0
-ENC[1:3]
+ENC[0..2]
 Text Label 14300 6900 0    60   ~ 0
-GYRO[1:3]
+GYRO[0..2]
 Text Label 14300 7350 0    60   ~ 0
-ACCEL[1:3]
-Text Notes 6200 9450 0    60   ~ 0
-Need to add the motor hall effect sensors
-Text Notes 12000 12550 0    60   ~ 0
-Add LED
-Text Notes 8150 13200 0    60   ~ 0
-Change Labels
+ACCEL[0..2]
 Text Notes 10300 14550 0    60   ~ 0
 Add decoupling
-Text Notes 4700 1850 0    157  ~ 0
+Text Notes 950  750  0    157  ~ 0
 6 IR LEDs for Vision group
-Text Notes 5750 2150 0    60   ~ 0
+Text Notes 5500 1450 0    157  ~ 0
+Mounting Holes
+Text Label 8100 6650 2    60   ~ 0
+MotorControl0
+Text Label 8100 6750 2    60   ~ 0
+MotorControl1
+Text Label 8100 6850 2    60   ~ 0
+MotorControl2
+Text Label 8100 6950 2    60   ~ 0
+MotorControl3
+Text Label 8100 7050 2    60   ~ 0
+MotorControl4
+Text Label 8100 7150 2    60   ~ 0
+MotorControl5
+Entry Wire Line
+	7700 7850 7800 7750
+Entry Wire Line
+	7700 7750 7800 7650
+Wire Wire Line
+	7800 7650 8100 7650
+Wire Wire Line
+	7800 7750 8100 7750
+Text Label 8050 7650 2    60   ~ 0
+ANC0
+Text Label 8050 7750 2    60   ~ 0
+ANC1
+Text Label 8050 7850 2    60   ~ 0
+ANC2
+Text Label 8150 5650 0    60   ~ 0
+ANC[0..2]
+Text Label 12700 7000 0    60   ~ 0
+GYRO0
+Text Label 12700 7300 0    60   ~ 0
+ACCEL0
+Text Label 12700 6700 0    60   ~ 0
+ENC0
+Text Label 12700 6800 0    60   ~ 0
+ENC1
+Text Label 12700 6900 0    60   ~ 0
+ENC2
+Text Notes 3300 6750 0    118  ~ 0
+Actuators
+Text Notes 3250 5100 0    118  ~ 0
+Programming header
+$Comp
+L CONN_2 P10
+U 1 1 51AC32A2
+P 3400 1500
+F 0 "P10" V 3350 1500 40  0000 C CNN
+F 1 "CONN_2" V 3450 1500 40  0000 C CNN
+F 2 "" H 3400 1500 60  0000 C CNN
+F 3 "" H 3400 1500 60  0000 C CNN
+	1    3400 1500
+	-1   0    0    1   
+$EndComp
+$Comp
+L R R42
+U 1 1 51AC331D
+P 4150 1150
+F 0 "R42" V 4230 1150 50  0000 C CNN
+F 1 "330" V 4150 1150 50  0000 C CNN
+F 2 "" H 4150 1150 60  0000 C CNN
+F 3 "" H 4150 1150 60  0000 C CNN
+	1    4150 1150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3750 1400 4150 1400
+$Comp
+L VCC #PWR018
+U 1 1 51AC33C5
+P 4150 900
+F 0 "#PWR018" H 4150 1000 30  0001 C CNN
+F 1 "VCC" H 4150 1000 30  0000 C CNN
+F 2 "" H 4150 900 60  0000 C CNN
+F 3 "" H 4150 900 60  0000 C CNN
+	1    4150 900 
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR019
+U 1 1 51AC33D4
+P 3750 1600
+F 0 "#PWR019" H 3750 1600 30  0001 C CNN
+F 1 "GND" H 3750 1530 30  0001 C CNN
+F 2 "" H 3750 1600 60  0000 C CNN
+F 3 "" H 3750 1600 60  0000 C CNN
+	1    3750 1600
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_2 P11
+U 1 1 51AC34B7
+P 3400 2400
+F 0 "P11" V 3350 2400 40  0000 C CNN
+F 1 "CONN_2" V 3450 2400 40  0000 C CNN
+F 2 "" H 3400 2400 60  0000 C CNN
+F 3 "" H 3400 2400 60  0000 C CNN
+	1    3400 2400
+	-1   0    0    1   
+$EndComp
+$Comp
+L R R43
+U 1 1 51AC34BD
+P 4150 2050
+F 0 "R43" V 4230 2050 50  0000 C CNN
+F 1 "330" V 4150 2050 50  0000 C CNN
+F 2 "" H 4150 2050 60  0000 C CNN
+F 3 "" H 4150 2050 60  0000 C CNN
+	1    4150 2050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3750 2300 4150 2300
+$Comp
+L VCC #PWR020
+U 1 1 51AC34C4
+P 4150 1800
+F 0 "#PWR020" H 4150 1900 30  0001 C CNN
+F 1 "VCC" H 4150 1900 30  0000 C CNN
+F 2 "" H 4150 1800 60  0000 C CNN
+F 3 "" H 4150 1800 60  0000 C CNN
+	1    4150 1800
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR021
+U 1 1 51AC34CA
+P 3750 2500
+F 0 "#PWR021" H 3750 2500 30  0001 C CNN
+F 1 "GND" H 3750 2430 30  0001 C CNN
+F 2 "" H 3750 2500 60  0000 C CNN
+F 3 "" H 3750 2500 60  0000 C CNN
+	1    3750 2500
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_2 P8
+U 1 1 51AC34EB
+P 2100 1500
+F 0 "P8" V 2050 1500 40  0000 C CNN
+F 1 "CONN_2" V 2150 1500 40  0000 C CNN
+F 2 "" H 2100 1500 60  0000 C CNN
+F 3 "" H 2100 1500 60  0000 C CNN
+	1    2100 1500
+	-1   0    0    1   
+$EndComp
+$Comp
+L R R40
+U 1 1 51AC34F1
+P 2850 1150
+F 0 "R40" V 2930 1150 50  0000 C CNN
+F 1 "330" V 2850 1150 50  0000 C CNN
+F 2 "" H 2850 1150 60  0000 C CNN
+F 3 "" H 2850 1150 60  0000 C CNN
+	1    2850 1150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2450 1400 2850 1400
+$Comp
+L VCC #PWR022
+U 1 1 51AC34F8
+P 2850 900
+F 0 "#PWR022" H 2850 1000 30  0001 C CNN
+F 1 "VCC" H 2850 1000 30  0000 C CNN
+F 2 "" H 2850 900 60  0000 C CNN
+F 3 "" H 2850 900 60  0000 C CNN
+	1    2850 900 
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR023
+U 1 1 51AC34FE
+P 2450 1600
+F 0 "#PWR023" H 2450 1600 30  0001 C CNN
+F 1 "GND" H 2450 1530 30  0001 C CNN
+F 2 "" H 2450 1600 60  0000 C CNN
+F 3 "" H 2450 1600 60  0000 C CNN
+	1    2450 1600
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_2 P9
+U 1 1 51AC3504
+P 2100 2400
+F 0 "P9" V 2050 2400 40  0000 C CNN
+F 1 "CONN_2" V 2150 2400 40  0000 C CNN
+F 2 "" H 2100 2400 60  0000 C CNN
+F 3 "" H 2100 2400 60  0000 C CNN
+	1    2100 2400
+	-1   0    0    1   
+$EndComp
+$Comp
+L R R41
+U 1 1 51AC350A
+P 2850 2050
+F 0 "R41" V 2930 2050 50  0000 C CNN
+F 1 "330" V 2850 2050 50  0000 C CNN
+F 2 "" H 2850 2050 60  0000 C CNN
+F 3 "" H 2850 2050 60  0000 C CNN
+	1    2850 2050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2450 2300 2850 2300
+$Comp
+L VCC #PWR024
+U 1 1 51AC3511
+P 2850 1800
+F 0 "#PWR024" H 2850 1900 30  0001 C CNN
+F 1 "VCC" H 2850 1900 30  0000 C CNN
+F 2 "" H 2850 1800 60  0000 C CNN
+F 3 "" H 2850 1800 60  0000 C CNN
+	1    2850 1800
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR025
+U 1 1 51AC3517
+P 2450 2500
+F 0 "#PWR025" H 2450 2500 30  0001 C CNN
+F 1 "GND" H 2450 2430 30  0001 C CNN
+F 2 "" H 2450 2500 60  0000 C CNN
+F 3 "" H 2450 2500 60  0000 C CNN
+	1    2450 2500
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_2 P6
+U 1 1 51AC3553
+P 850 1500
+F 0 "P6" V 800 1500 40  0000 C CNN
+F 1 "CONN_2" V 900 1500 40  0000 C CNN
+F 2 "" H 850 1500 60  0000 C CNN
+F 3 "" H 850 1500 60  0000 C CNN
+	1    850  1500
+	-1   0    0    1   
+$EndComp
+$Comp
+L R R38
+U 1 1 51AC3559
+P 1600 1150
+F 0 "R38" V 1680 1150 50  0000 C CNN
+F 1 "330" V 1600 1150 50  0000 C CNN
+F 2 "" H 1600 1150 60  0000 C CNN
+F 3 "" H 1600 1150 60  0000 C CNN
+	1    1600 1150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1200 1400 1600 1400
+$Comp
+L VCC #PWR026
+U 1 1 51AC3560
+P 1600 900
+F 0 "#PWR026" H 1600 1000 30  0001 C CNN
+F 1 "VCC" H 1600 1000 30  0000 C CNN
+F 2 "" H 1600 900 60  0000 C CNN
+F 3 "" H 1600 900 60  0000 C CNN
+	1    1600 900 
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR027
+U 1 1 51AC3566
+P 1200 1600
+F 0 "#PWR027" H 1200 1600 30  0001 C CNN
+F 1 "GND" H 1200 1530 30  0001 C CNN
+F 2 "" H 1200 1600 60  0000 C CNN
+F 3 "" H 1200 1600 60  0000 C CNN
+	1    1200 1600
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_2 P7
+U 1 1 51AC356C
+P 850 2400
+F 0 "P7" V 800 2400 40  0000 C CNN
+F 1 "CONN_2" V 900 2400 40  0000 C CNN
+F 2 "" H 850 2400 60  0000 C CNN
+F 3 "" H 850 2400 60  0000 C CNN
+	1    850  2400
+	-1   0    0    1   
+$EndComp
+$Comp
+L R R39
+U 1 1 51AC3572
+P 1600 2050
+F 0 "R39" V 1680 2050 50  0000 C CNN
+F 1 "330" V 1600 2050 50  0000 C CNN
+F 2 "" H 1600 2050 60  0000 C CNN
+F 3 "" H 1600 2050 60  0000 C CNN
+	1    1600 2050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1200 2300 1600 2300
+$Comp
+L VCC #PWR028
+U 1 1 51AC3579
+P 1600 1800
+F 0 "#PWR028" H 1600 1900 30  0001 C CNN
+F 1 "VCC" H 1600 1900 30  0000 C CNN
+F 2 "" H 1600 1800 60  0000 C CNN
+F 3 "" H 1600 1800 60  0000 C CNN
+	1    1600 1800
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR029
+U 1 1 51AC357F
+P 1200 2500
+F 0 "#PWR029" H 1200 2500 30  0001 C CNN
+F 1 "GND" H 1200 2430 30  0001 C CNN
+F 2 "" H 1200 2500 60  0000 C CNN
+F 3 "" H 1200 2500 60  0000 C CNN
+	1    1200 2500
+	1    0    0    -1  
+$EndComp
+Text Notes 4400 850  0    60   ~ 0
 3 on each end of board
-Text Notes 15500 1750 0    157  ~ 0
-Mounting Holes as well
+$Comp
+L CONN_1 P12
+U 1 1 51AC38F8
+P 6300 1800
+F 0 "P12" H 6380 1800 40  0000 L CNN
+F 1 "CONN_1" H 6300 1855 30  0001 C CNN
+F 2 "" H 6300 1800 60  0000 C CNN
+F 3 "" H 6300 1800 60  0000 C CNN
+	1    6300 1800
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P14
+U 1 1 51AC39C4
+P 6500 1800
+F 0 "P14" H 6580 1800 40  0000 L CNN
+F 1 "CONN_1" H 6500 1855 30  0001 C CNN
+F 2 "" H 6500 1800 60  0000 C CNN
+F 3 "" H 6500 1800 60  0000 C CNN
+	1    6500 1800
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P13
+U 1 1 51AC39D1
+P 6300 2200
+F 0 "P13" H 6380 2200 40  0000 L CNN
+F 1 "CONN_1" H 6300 2255 30  0001 C CNN
+F 2 "" H 6300 2200 60  0000 C CNN
+F 3 "" H 6300 2200 60  0000 C CNN
+	1    6300 2200
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P15
+U 1 1 51AC39D7
+P 6500 2200
+F 0 "P15" H 6580 2200 40  0000 L CNN
+F 1 "CONN_1" H 6500 2255 30  0001 C CNN
+F 2 "" H 6500 2200 60  0000 C CNN
+F 3 "" H 6500 2200 60  0000 C CNN
+	1    6500 2200
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 6300 1950
+NoConn ~ 6500 1950
+NoConn ~ 6300 2350
+NoConn ~ 6500 2350
+$Comp
+L C C53
+U 1 1 51AC3F28
+P 10550 15000
+F 0 "C53" H 10600 15100 50  0000 L CNN
+F 1 "0.1uF" H 10600 14900 50  0000 L CNN
+F 2 "" H 10550 15000 60  0000 C CNN
+F 3 "" H 10550 15000 60  0000 C CNN
+	1    10550 15000
+	1    0    0    -1  
+$EndComp
+$Comp
+L VCC #PWR030
+U 1 1 51AC3F88
+P 10550 14800
+F 0 "#PWR030" H 10550 14900 30  0001 C CNN
+F 1 "VCC" H 10550 14900 30  0000 C CNN
+F 2 "" H 10550 14800 60  0000 C CNN
+F 3 "" H 10550 14800 60  0000 C CNN
+	1    10550 14800
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR031
+U 1 1 51AC3F97
+P 10550 15200
+F 0 "#PWR031" H 10550 15200 30  0001 C CNN
+F 1 "GND" H 10550 15130 30  0001 C CNN
+F 2 "" H 10550 15200 60  0000 C CNN
+F 3 "" H 10550 15200 60  0000 C CNN
+	1    10550 15200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	11800 12950 12600 12950
+Wire Wire Line
+	12600 12950 12600 13100
+$Comp
+L LED D9
+U 1 1 51AC418F
+P 12600 13300
+F 0 "D9" H 12600 13400 50  0000 C CNN
+F 1 "LED" H 12600 13200 50  0000 C CNN
+F 2 "" H 12600 13300 60  0000 C CNN
+F 3 "" H 12600 13300 60  0000 C CNN
+	1    12600 13300
+	0    1    1    0   
+$EndComp
+$Comp
+L GND #PWR032
+U 1 1 51AC419E
+P 12600 13500
+F 0 "#PWR032" H 12600 13500 30  0001 C CNN
+F 1 "GND" H 12600 13430 30  0001 C CNN
+F 2 "" H 12600 13500 60  0000 C CNN
+F 3 "" H 12600 13500 60  0000 C CNN
+	1    12600 13500
+	1    0    0    -1  
+$EndComp
+Text Notes 12750 13000 0    61   ~ 0
+Status LED
+$Comp
+L CONN_6 P16
+U 1 1 51AC45B7
+P 7050 9950
+F 0 "P16" V 7000 9950 60  0000 C CNN
+F 1 "CONN_6" V 7100 9950 60  0000 C CNN
+F 2 "" H 7050 9950 60  0000 C CNN
+F 3 "" H 7050 9950 60  0000 C CNN
+	1    7050 9950
+	0    1    1    0   
+$EndComp
+NoConn ~ 6800 9600
+$Comp
+L +5V #PWR033
+U 1 1 51AC45C6
+P 6900 9600
+F 0 "#PWR033" H 6900 9690 20  0001 C CNN
+F 1 "+5V" H 6900 9690 30  0000 C CNN
+F 2 "" H 6900 9600 60  0000 C CNN
+F 3 "" H 6900 9600 60  0000 C CNN
+	1    6900 9600
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR034
+U 1 1 51AC45D5
+P 7000 9600
+F 0 "#PWR034" H 7000 9600 30  0001 C CNN
+F 1 "GND" H 7000 9530 30  0001 C CNN
+F 2 "" H 7000 9600 60  0000 C CNN
+F 3 "" H 7000 9600 60  0000 C CNN
+	1    7000 9600
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	7200 8350 7200 9600
+Wire Wire Line
+	8100 8350 7200 8350
+Wire Wire Line
+	7100 8250 7100 9600
+Wire Wire Line
+	8100 8250 7100 8250
+NoConn ~ 8100 8150
+Wire Wire Line
+	8100 8450 7300 8450
+Wire Wire Line
+	7300 8450 7300 9600
+Text Notes 6600 10200 0    61   ~ 0
+Hall effect connector
 $EndSCHEMATC
