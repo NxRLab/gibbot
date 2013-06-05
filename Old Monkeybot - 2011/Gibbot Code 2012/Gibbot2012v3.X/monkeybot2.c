@@ -9,7 +9,7 @@
 
 #define T1 "t1"
 #define T2 "t2"
-#define T3 "t3"
+#define T3 "t3"`
 #define T4 "t4"
 #define F1 "f1"
 #define F2 "f2"
@@ -123,6 +123,7 @@ int main(void) {
     t4 = 800;
     f4 = 100;
     u4 = 1000;
+    u3 = 1000;
 
     LED0 = 1;
     LED1 = 1;

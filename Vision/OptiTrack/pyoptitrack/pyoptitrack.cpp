@@ -37,7 +37,14 @@ public:
 			PyObject *blobs = PyList_New(count);
 			for (int i = 0; i < count; i++) {
 				cObject *obj = frame->Object(i);
-				PyObject *item = Py_BuildValue("(f,f)", obj->X(), obj->Y());
+				float x = obj->X();
+				float y = obj->Y();
+				
+				Core::DistortionModel model;
+				camera->GetDistortionModel(model);
+				Core::Undistort2DPoint(model, x, y);
+
+				PyObject *item = Py_BuildValue("(f,f)", x, y);
 				PyList_SetItem(blobs, i, item);
 			}
 

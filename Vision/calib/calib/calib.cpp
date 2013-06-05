@@ -22,7 +22,7 @@ using namespace cv;
 using namespace std;
 
 // Constants
-#define RECORDED_FRAMES 10
+#define RECORDED_FRAMES 2
 #define NUMBER_OF_POINTS 13
 #define X_FRAMES 100
 
@@ -31,6 +31,8 @@ using namespace std;
 vector<vector<Point2f>> GetImagePoints(cModuleSync * sync);
 vector<vector<Point3f>> MakeObjectPoints();
 void printMat(const Mat& m);
+void printMatOBJ(const Mat& m);
+void printMatIMG(const Mat& m);
 static Mat prepareCameraMatrix(Mat& cameraMatrix0, int rtype);
 static Mat prepareDistCoeffs(Mat& distCoeffs0, int rtype);
 static void collectCalibrationData( InputArrayOfArrays objectPoints,
@@ -138,6 +140,7 @@ int main(int argc, char* argv[])
 		cout << "distort?: " << dm.Distort << endl;
 	}
 
+
     //== Create and attach frame synchronizer ==--
 
     cModuleSync * sync = new cModuleSync();
@@ -158,13 +161,28 @@ int main(int argc, char* argv[])
 	vector<vector<Point2f>> imagePoints = GetImagePoints(sync);
 	vector<vector<Point3f>> objectPoints = MakeObjectPoints();   //Only Works for our board (Alternating rows of 3 and 2 dots placed two inches apart horizontally and 1 inch vertically on a plane [z = 0])
 	
+	//== Test built in Optitrack Code
+	cout << endl;
+	Core::DistortionModel dm;
+	camera[1]->GetDistortionModel(dm);
+
+	for (int i = 0; i < RECORDED_FRAMES; i++)
+	{
+		for (int j = 0; j < NUMBER_OF_POINTS ; j++)
+		{
+			Core::Undistort2DPoint(dm, imagePoints[i][j].x, imagePoints[i][j].y);
+			cout << "["<< imagePoints[i][j].x << ", " << imagePoints[i][j].y <<"], ";
+		}
+		cout << endl << "----------------------------------" << endl;
+	}
+			
+
 	//Initialize Camera Matrix and distortion coefficient matrix
 	Mat cameraMatrix = Mat::eye(3, 3, CV_64F);
 	Mat distCoeffs = Mat::zeros(8, 1, CV_64F);
 
 	//Create rvecs and tvecs output vectors
 	vector<Mat> rvecs, tvecs;
-
 
 	//== Perform Calibration ==-- 
 	runCalibration(imageSize, cameraMatrix, distCoeffs, objectPoints, imagePoints, rvecs, tvecs);	
@@ -318,7 +336,28 @@ void printMat(const Mat& m)
 	}
 	cout << "]\n";
 }
-
+void printMatOBJ(const Mat& m)
+{
+	cout << "[";
+	for (int i = 0; i < m.rows; i++) {
+		for (int j = 0; j < m.cols; j++) {
+			cout << m.at<Point3f>(i,j) << " ";
+		}
+		cout << "\n ";
+	}
+	cout << "]\n";
+}
+void printMatIMG(const Mat& m)
+{
+	cout << "[";
+	for (int i = 0; i < m.rows; i++) {
+		for (int j = 0; j < m.cols; j++) {
+			cout << m.at<Point2f>(i,j) << " ";
+		}
+		cout << "\n ";
+	}
+	cout << "]\n";
+}
 
 static Mat prepareCameraMatrix(Mat& cameraMatrix0, int rtype)
 {
@@ -356,10 +395,13 @@ static void collectCalibrationData( InputArrayOfArrays objectPoints,
     CV_Assert(nimages > 0 && nimages == (int)imagePoints1.total() &&
         (!imgPtMat2 || nimages == (int)imagePoints2.total()));
 
-	cout << " nimages:  " << nimages << endl;
+	cout << " Number of Frames:  " << nimages << endl;
     for( i = 0; i < nimages; i++ )
     {
-		printMat(objectPoints.getMat(i));
+		cout << endl << "Object Points: " << endl;
+		printMatOBJ(objectPoints.getMat(i));
+		cout << endl << "Image Points: " << endl;
+		printMatIMG(imagePoints1.getMat(i));
         ni = objectPoints.getMat(i).checkVector(3, CV_32F);
         CV_Assert( ni >= 0 );
         total += ni;
@@ -467,9 +509,44 @@ bool runCalibration( Size& imageSize, Mat& cameraMatrix, Mat& distCoeffs, vector
 	{
 		imgpnts[i] = Mat(imagePoints[i], true);
 		objpnts[i] = Mat(objectPoints[i], true);
+		/*
+		imgpnts[i] = Mat(NUMBER_OF_POINTS,1,CV_64F);
+		for(int j = 0; j < NUMBER_OF_POINTS; j++)
+		{
+			//imgpnts[i].at<double>(j,0) = imagePoints[i][j].x;
+			//imgpnts[i].at<double>(j,1) = imagePoints[i][j].y;
+			imgpnts[i].at<Point2f>(j,0) = imagePoints[i][j];
+		}
+
+		objpnts[i] = Mat(NUMBER_OF_POINTS,1,CV_64F);
+		for(int j = 0; j < NUMBER_OF_POINTS; j++)
+		{
+			//objpnts[i].at<double>(j,0) = objectPoints[i][j].x;
+			//objpnts[i].at<double>(j,1) = objectPoints[i][j].y;
+			//objpnts[i].at<double>(j,2) = objectPoints[i][j].z;
+			objpnts[i].at<Point3f>(j,0) = objectPoints[i][j];
+		}
+		*/
 	}
 
+/*	///
+	vector<Mat> tempobjpnts (5);
+	vector<Mat> tempimgpnts (5);
+	for(int i = 0; i < 5; i++)
+	{
+		tempimgpnts[i] = Mat(objectPoints[i+2], true);
+		tempobjpnts[i] = Mat(objectPoints[i], true);
+	}
+	
 
+
+	printMat(tempimgpnts[0]);
+	printMat(tempimgpnts[1]);
+
+	printMat(tempobjpnts[0]);
+	printMat(tempobjpnts[1]);
+
+	//// */
 	double rms = mycalibrateCamera(objpnts, imgpnts, imageSize, cameraMatrix,
                                  distCoeffs, rvecs, tvecs, 0, criteria);
     

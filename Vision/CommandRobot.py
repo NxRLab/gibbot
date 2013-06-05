@@ -22,11 +22,16 @@ def CommandRobot():
 
     COM3 = 2
     ser = serial.Serial(COM3,38400)
-    print ser.portstr
-    a = ser.write("u 1000\r\n")
-    print a
+    a = ser.write("e1\r\n")
+    wait(10000000);
+    ser.write("F\r\n")
+    wait(10000000);
+    a = ser.write("u1 1000\r\n")
     ser.close()
 
+def wait(i):
+    for x in range(1,i):
+        x=x+1
 
 
 
@@ -111,6 +116,8 @@ class BlobFrame(Frame):
             R = 4
             self.canvas.create_oval(x-R, y-R, x+R, y+R, fill=color, \
                                     outline="black", width=1)
+
+
 
 
 def main():
