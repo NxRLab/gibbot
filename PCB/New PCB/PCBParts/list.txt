@@ -1,0 +1,32 @@
+Cable assembly
+	https://www.sparkfun.com/products/10361 (5 pin, need 2)
+	https://www.sparkfun.com/products/10357 (2 pin, need 10)
+	https://www.sparkfun.com/products/10360 (6 pin, need 1)
+	http://www.jameco.com/webapp/wcs/stores/servlet/ProductDisplay?langId=-1&storeId=10001&productId=2094514&catalogId=10001&CID=MERCH
+		OSTTE030161 (3 pin, need 1)
+		OSTTA020161 (2 pin, need 2)
+
+
+ATS200CSM-1/CTX893CT-ND			(20 MHz clock)
+SS1H10-E3/61T - DIODE SCHOTTKY 	(flyback diodes, need at least 6)
+TSL1315RA-101K2R5-PF 			(Inductor, need one for each DCDC, may need different type for each)
+MBR340G 						(DIODE SCHOTTKY 40V 3A, one for each DCDC)
+A3G4250D 						(gyro, check to see if we have any)
+ACS716 							(current sensor, need 3, check if we have any)
+AIS328DQ						(accel, check inventory)
+LT1074HVCT						(dc dc converter, may want 5V fixed version)
+HEF4049B						(inverter for PMOS driver)
+MMPQ3904						(transistors for PMOS driver)
+IRLR024PBFTR-ND					(NMOS bldc driver)
+FDD5614P						(PMOS bldc driver)
+tlv1117							(3.3v reg)
+xbee							(need one)
+
+(decoder)
+http://www.usdigital.com/products/interfaces/ics/lfls7366r-s
+
+High powered caps (may need calculation)
+
+
+Switch
+SW148-ND (11 amps), others are higher current but dpdt
