@@ -4,9 +4,6 @@ import PIL.Image
 import PIL.ImageTk
 import math
 from GibbotModel import *
-from InputFrame import *
-from GibbotFrame import *
-from Controllers import *
 
 
 BOARD_SIZE = (2.4384, 1.8288) # 8' x 6' in meters
@@ -16,6 +13,8 @@ START_BOT = GibbotModel(1, 1, -pi/4, -pi/2)
 DT = .001
 FPS = 40
 GOAL_RADIUS = START_BOT.l1 * math.sqrt(2)/2 # meters away from goal
+
+FULLSCREEN_MODE = False
 
 class UserApp(Tk):
     def __init__(self):
@@ -28,8 +27,6 @@ class UserApp(Tk):
         self.botIsVertical = False
         self.t = 0
         self.goal = (2.0, 1.0)
-
-        print (self.bot.x1, self.bot.y1), (self.bot.cx, self.bot.cy), (self.bot.x2, self.bot.y2)
 
         self.after(1, self.animate)
 
@@ -48,6 +45,8 @@ class UserApp(Tk):
         self.target = self.c.create_image(0, 0, image=self.targetPhoto)
 
         self.c.bind('<Button-1>', self.mousePressed)
+
+        self.c.bind("<Escape>", self.escapePressed)
 
         self.c.pack(fill=BOTH, expand=1)
 
@@ -70,17 +69,29 @@ class UserApp(Tk):
     def mousePressed(self, event):
         (scale, offset) = self.boardScaleAndOffset()
         x = (event.x - offset[0]) / scale
+        if x < GOAL_RADIUS:
+            x = GOAL_RADIUS
+        elif x > BOARD_SIZE[0] - GOAL_RADIUS:
+            x = BOARD_SIZE[0] - GOAL_RADIUS
         y = (event.y - offset[1]) / scale
+        if y < GOAL_RADIUS:
+            y = GOAL_RADIUS
+        elif y > BOARD_SIZE[1] - GOAL_RADIUS:
+            y = BOARD_SIZE[1] - GOAL_RADIUS
         self.goal = (x,y)
 
         self.move()
+        
+    def escapePressed(self, e):
+        print 'esc'
+        e.widget.quit()
 
     def update(self):
         (scale, offset) = self.boardScaleAndOffset()
         def coords(obj, *raw):
             N = len(raw)
             if N % 2:
-                raise ValueError('An even number of arguments is required')
+                raise ValueError('An even number of coordinates is required')
             adjusted = []
             for i in xrange(0, N, 2):
                 x = offset[0] + scale*raw[i]
@@ -137,6 +148,8 @@ class UserApp(Tk):
     def move(self):
         bot = self.bot
         goal = self.goal
+
+        # calculate distances (and perhaps switch)
         diff1 = (goal[0] - bot.x1, goal[1] - bot.y1)
         diff2 = (goal[0] - bot.x2, goal[1] - bot.y2)
         dist1 = math.sqrt(diff1[0]**2 + diff1[1]**2)
@@ -148,9 +161,9 @@ class UserApp(Tk):
             diff = diff2
             dist = dist2
             bot.switch()
-            print 'switch!'
 
-        if abs(diff[0]) > GOAL_RADIUS:
+        # swing towards goal
+        if abs(diff[0]) > GOAL_RADIUS: # horizontal
             if self.botIsVertical:
                 self.botIsVertical = False
                 if diff[0] < 0:
@@ -164,7 +177,7 @@ class UserApp(Tk):
                     bot.x1 -= bot.l1 * math.sqrt(2)
                 else:
                     bot.x1 += bot.l1 * math.sqrt(2)
-        elif abs(diff[1]) > GOAL_RADIUS:
+        elif abs(diff[1]) > GOAL_RADIUS: # vertical
             if diff[1] < 0:
                 self.botIsVertical = True
                 bot.q1 = -math.pi
@@ -172,9 +185,18 @@ class UserApp(Tk):
             else:
                 bot.y1 = goal[1]
 
+        print bot
+
 
 if __name__ == '__main__':
     app = UserApp()
-    app.geometry("800x500+100+100") # WIDTHxHEIGHT+X+Y
+    if FULLSCREEN_MODE:
+        app.overrideredirect(1)
+        w, h = app.winfo_screenwidth(), app.winfo_screenheight()
+        app.geometry("{}x{}+0+0".format(w,h)) # WIDTHxHEIGHT+X+Y
+        app.lift()
+    else:
+        app.geometry("800x500+100+100") # WIDTHxHEIGHT+X+Y
+    app.focus_set()
     app.mainloop()
 

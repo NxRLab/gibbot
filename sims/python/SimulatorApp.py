@@ -3,19 +3,19 @@ from Tkinter import *
 from GibbotModel import *
 from InputFrame import *
 from GibbotFrame import *
-from Controllers import *
+from Controller import *
 
 
-CONTROLLERS = {
-    "1. Null": nullController,
-    "2. Spong Combined": spongCombined,
-    "2. Spong Swing Up": spongSwingUpController,
-    "3. Spong Balance": spongBalanceController
-}
+controllerTypes = [
+    ThrashSwingBalanceController,
+    Controller,
+    SpongSwingUpController,
+    SpongBalanceController
+]
 
-DEFAULT_BOT = GibbotModel(0, 0, 0, .1, 0, 0)
+defaultBot = GibbotModel(0, 0, 0, 0, 0, 0)
 
-DT = .001
+DT = .01
 TIME_SCALE = 1
 FPS = 40
 
@@ -25,7 +25,12 @@ class SimulatorApp(Tk):
         Tk.__init__(self)
         self.title('Python Gibbot Simulator')
 
-        self.inputFrame = InputFrame(self, CONTROLLERS, TIME_SCALE, DEFAULT_BOT, self.restart)
+        self.controller = controllerTypes[0]()
+        self.bot = defaultBot
+        self.timeScale = 1
+        self.t = 0
+
+        self.inputFrame = InputFrame(self, controllerTypes, TIME_SCALE, defaultBot, self.restart)
         self.inputFrame.grid(row=0, column=0, sticky=N+W)
 
         self.gibbotFrame = GibbotFrame(self)
@@ -33,10 +38,6 @@ class SimulatorApp(Tk):
         self.rowconfigure(0, weight=1)
         self.columnconfigure(1, weight=1)
 
-        self.controller = nullController
-        self.bot = DEFAULT_BOT
-        self.timeScale = TIME_SCALE
-        self.t = 0
 
         self.animate()
 
@@ -62,8 +63,9 @@ class SimulatorApp(Tk):
             millis = 1
         self.after(millis, self.animate)
 
-    def restart(self, controller, timeScale, bot):
-        self.controller = controller
+    def restart(self, controllerType, timeScale, bot):
+        print '** RESTART **'
+        self.controller = controllerType()
         self.timeScale = timeScale
         self.bot = bot
         self.t = 0
