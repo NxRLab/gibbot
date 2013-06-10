@@ -88,8 +88,11 @@ def getKMatrix():
     P = sp.linalg.solve_continuous_are(A, B, Q, R)
 
     K = np.dot(np.linalg.inv(R), np.dot(B.transpose(),P))
-    print A
-    print B
+    
+    print "A = ", A
+    print "B = ", B
+    print "Q = ", Q
+    print "R = ", R
 
 
     return K
