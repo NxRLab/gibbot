@@ -107,15 +107,7 @@ class SpongBalanceController(Controller):
         e[1] = e[1] % tau
         e[1] = e[1] - tau if e[1] > pi else e[1]
 
-
-        K = np.mat([-111.10644284, -41.54117392, -104.82015473, -42.18446835])
-        print "error: ", e, "\n"
-        #raw_input();
-    	
-
-
-        # K = np.mat([-57.379, -23.5845, -45.0506, -21.1648])
-
+        K = np.mat([-70.76723814, -21.38274773, -64.75693739, -22.72923491])
         u = -K*e;
         return u
 
