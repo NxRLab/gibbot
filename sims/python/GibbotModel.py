@@ -1,6 +1,23 @@
 from math import *
 import numpy as np
 
+'''
+The state variables are:
+(x1,y1) - fixed pivot point
+q1 - angle of first link (0 is down)
+q2 - angle of second link (0 is straight with respect to first link)
+q1d, q2d - angular velocities
+
+Other points on the robot:
+(m1x,m1y) - center of mass 1
+(x2,y2) - torque joint point
+(m2x,m2y) - center of mass 2
+(x3,y3) - distant point
+
+Variables ending in 'd' are derivatives with respect to time.
+For example, m1xd, is the derivative of m1x with respect to time.
+'''
+
 class GibbotModel:
     def __init__(self, x1, y1, q1, q2, q1d=0., q2d=0.):
         # State
