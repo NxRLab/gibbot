@@ -59,21 +59,30 @@ class UserApp(Tk):
         if scaleW < scaleH:
             scale = scaleW
             xOffset = 0
-            yOffset = (h - scale*BOARD_SIZE[1]) / 2
+            yOffset = (h + scale*BOARD_SIZE[1]) / 2
         else:
             scale = scaleH
             xOffset = (w - scale*BOARD_SIZE[0]) / 2
-            yOffset = 0
-        return (scale, (xOffset, yOffset))
+            yOffset = h
+        return scale, (xOffset, yOffset)
+
+    def pointToBoard(self, screenPoint):
+        x = (screenPoint[0] - self.offset[0]) / self.scale
+        y = (self.offset[1] - screenPoint[1]) / self.scale
+        return x, y
+
+    def pointToScreen(self, boardPoint):
+        x = self.offset[0] + boardPoint[0] * self.scale
+        y = self.offset[1] - boardPoint[1] * self.scale
+        return x, y
 
     def mousePressed(self, event):
-        (scale, offset) = self.boardScaleAndOffset()
-        x = (event.x - offset[0]) / scale
+        x, y = self.pointToBoard((event.x, event.y))
+        print (event.x, event.y), (x,y), self.pointToScreen((x,y))
         if x < GOAL_RADIUS:
             x = GOAL_RADIUS
         elif x > BOARD_SIZE[0] - GOAL_RADIUS:
             x = BOARD_SIZE[0] - GOAL_RADIUS
-        y = (event.y - offset[1]) / scale
         if y < GOAL_RADIUS:
             y = GOAL_RADIUS
         elif y > BOARD_SIZE[1] - GOAL_RADIUS:
@@ -87,16 +96,14 @@ class UserApp(Tk):
         e.widget.quit()
 
     def update(self):
-        (scale, offset) = self.boardScaleAndOffset()
+        self.scale, self.offset = self.boardScaleAndOffset()
         def coords(obj, *raw):
             N = len(raw)
             if N % 2:
                 raise ValueError('An even number of coordinates is required')
             adjusted = []
             for i in xrange(0, N, 2):
-                x = offset[0] + scale*raw[i]
-                y = offset[1] + scale*raw[i+1]
-                adjusted += [int(x), int(y)]
+                adjusted += map(int, self.pointToScreen((raw[i], raw[i+1])))
             self.c.coords(obj, *adjusted)
         def ovalCenter(oval, x, y, r=0.02):
             coords(oval, x-r, y-r, x+r, y+r)
@@ -107,17 +114,17 @@ class UserApp(Tk):
         # draw gibbot
         x1 = self.bot.x1
         y1 = self.bot.y1
+        x3 = self.bot.x3
+        y3 = self.bot.y3
         x2 = self.bot.x2
         y2 = self.bot.y2
-        cx = self.bot.cx
-        cy = self.bot.cy
         ovalCenter(self.o1, x1, y1)
-        ovalCenter(self.o2, x2, y2)
-        ovalCenter(self.o3, cx, cy)
-        coords(self.line, x1, y1, cx, cy, x2, y2)
+        ovalCenter(self.o2, x3, y3)
+        ovalCenter(self.o3, x2, y2)
+        coords(self.line, x1, y1, x2, y2, x3, y3)
 
         # draw banana
-        imSize = int(.2*scale)
+        imSize = int(.2*self.scale)
         thumb = self.targetImage.copy()
         thumb.thumbnail((imSize, imSize), PIL.Image.ANTIALIAS)
         self.targetPhoto = PIL.ImageTk.PhotoImage(thumb)
@@ -151,7 +158,7 @@ class UserApp(Tk):
 
         # calculate distances (and perhaps switch)
         diff1 = (goal[0] - bot.x1, goal[1] - bot.y1)
-        diff2 = (goal[0] - bot.x2, goal[1] - bot.y2)
+        diff2 = (goal[0] - bot.x3, goal[1] - bot.y3)
         dist1 = math.sqrt(diff1[0]**2 + diff1[1]**2)
         dist2 = math.sqrt(diff2[0]**2 + diff2[1]**2)
         if dist1 < dist2:
@@ -179,11 +186,11 @@ class UserApp(Tk):
                     bot.x1 += bot.l1 * math.sqrt(2)
         elif abs(diff[1]) > GOAL_RADIUS: # vertical
             if diff[1] < 0:
+                bot.y1 = goal[1]
+            else:
                 self.botIsVertical = True
                 bot.q1 = -math.pi
                 bot.q2 = 0
-            else:
-                bot.y1 = goal[1]
 
         print bot
 
