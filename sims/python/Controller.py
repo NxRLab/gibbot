@@ -134,7 +134,7 @@ class ThrashSwingBalanceController(Controller):
         thrashAngleLimit = pi/2
 
         energy = bot.energy
-        print energy,
+        print energy
 
         # Did the energy cross a state change boundary?
         if self.state == self.SwingUp:
