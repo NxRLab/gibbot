@@ -7,7 +7,7 @@ from Controller import *
 
 
 controllerTypes = [
-    ThrashSwingBalanceController,
+    ThrashSwingController,
     Controller,
     SpongSwingUpController,
     SpongBalanceController
@@ -53,7 +53,8 @@ class SimulatorApp(Tk):
         simulationInterval = frameInterval * self.timeScale
         simulationTicks = int(simulationInterval / DT)
         for i in xrange(0, simulationTicks):
-            self.bot.advanceState(self.controller, DT)
+            controlTorque = self.controller.control(self.bot)
+            self.bot.advanceState(controlTorque, DT)
         self.t += simulationInterval
 
         # schedule next frame
