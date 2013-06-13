@@ -3,7 +3,7 @@ from Tkinter import *
 from GibbotModel import *
 
 
-class GibbotFrame(Frame):
+class FixedPointGibbotFrame(Frame):
 
     def __init__(self, parent):
         Frame.__init__(self, parent)

@@ -1,7 +1,7 @@
 from Tkinter import *
 from GibbotModel import *
 
-class InputFrame(Frame):
+class FixedPointInputFrame(Frame):
 
     def __init__(self, parent, controllerTypes, timeScale, defaultBot, restartCallback):
         Frame.__init__(self, parent)

@@ -1,8 +1,8 @@
 import time
 from Tkinter import *
 from GibbotModel import *
-from InputFrame import *
-from GibbotFrame import *
+from FixedPointInputFrame import *
+from FixedPointGibbotFrame import *
 from Controller import *
 
 
@@ -20,20 +20,20 @@ TIME_SCALE = 1
 FPS = 40
 
 
-class SimulatorApp(Tk):
+class FixedPointSimulatorApp(Tk):
     def __init__(self):
         Tk.__init__(self)
-        self.title('Python Gibbot Simulator')
+        self.title('Fixed-Point Gibbot Simulator')
 
         self.controller = controllerTypes[0]()
         self.bot = defaultBot
         self.timeScale = 1
         self.t = 0
 
-        self.inputFrame = InputFrame(self, controllerTypes, TIME_SCALE, defaultBot, self.restart)
+        self.inputFrame = FixedPointInputFrame(self, controllerTypes, TIME_SCALE, defaultBot, self.restart)
         self.inputFrame.grid(row=0, column=0, sticky=N+W)
 
-        self.gibbotFrame = GibbotFrame(self)
+        self.gibbotFrame = FixedPointGibbotFrame(self)
         self.gibbotFrame.grid(row=0, column=1, sticky=N+S+E+W)
         self.rowconfigure(0, weight=1)
         self.columnconfigure(1, weight=1)
@@ -75,7 +75,7 @@ class SimulatorApp(Tk):
 
 
 if __name__ == '__main__':
-    app = SimulatorApp()
+    app = FixedPointSimulatorApp()
     app.geometry("800x500+100+100") # WIDTHxHEIGHT+X+Y
     app.mainloop()
 
