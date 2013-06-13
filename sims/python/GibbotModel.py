@@ -89,8 +89,8 @@ class GibbotModel:
     @property
     def energy(self):
         # Potential Energy: m * g * h
-        pe1 = self.m1 * self.g * self.m1y
-        pe2 = self.m2 * self.g * self.m2y
+        pe1 = self.m1 * self.g * (self.m1y - self.y1)
+        pe2 = self.m2 * self.g * (self.m2y - self.y1)
 
         # Kinetic Energy: 1/2 * mass * (tangential velocity)^2
         v1sq = (self.q1d * self.r1)**2
@@ -120,9 +120,9 @@ class GibbotModel:
         self.q2d = 0
         self.normalizeAngles()
 
-    def advanceState(self, controller, dt):
+    def advanceState(self, controlTorque, dt):
         # second order
-        (q1dd, q2dd) = self.getAccelerations(controller)
+        (q1dd, q2dd) = self.getAccelerations(controlTorque)
 
         # first order
         self.q1d += q1dd * dt
@@ -144,7 +144,7 @@ class GibbotModel:
             self.q2 -= 2*pi
 
 
-    def getAccelerations(self, controller):
+    def getAccelerations(self, controlTorque):
         '''Initialize Parameters'''
         # Link Masses
         m1 = self.m1
@@ -194,7 +194,7 @@ class GibbotModel:
         s12 = sin(q1+q2)
         c12 = cos(q1+q2)
 
-        U = controller.control(self)
+        U = controlTorque
         if U > self.maxTorque:
             print U, '>', self.maxTorque
             U = self.maxTorque

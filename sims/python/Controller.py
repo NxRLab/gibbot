@@ -111,30 +111,26 @@ class SpongBalanceController(Controller):
         u = -K*e;
         return u
 
-class ThrashSwingBalanceController(Controller):
-    name = 'Thrash, Swing, Balance'
+class ThrashSwingController(Controller):
+    name = 'Thrash, Swing'
 
     # states
     ThrashLeft=1
     ThrashRight=2
     SwingUp=3
-    Balance=4
 
     def __init__(self):
         self.swingUpController = SpongSwingUpController()
-        self.balanceController = SpongBalanceController()
         self.state = self.SwingUp
 
     def control(self, bot):
         # Gains
         beginThrashEnergy = -5.1
         endThrashEnergy = 0
-        beginBalanceEnergy = 4.
-        endBalanceEnergy = 3.
         thrashAngleLimit = pi/2
 
         energy = bot.energy
-        print energy,
+        #print energy,
 
         # Did the energy cross a state change boundary?
         if self.state == self.SwingUp:
@@ -144,8 +140,6 @@ class ThrashSwingBalanceController(Controller):
                     self.state = self.ThrashRight
                 else:
                     self.state = self.ThrashLeft
-            if energy > beginBalanceEnergy:
-                self.state = self.Balance
         elif self.state == self.ThrashLeft:
             if energy > endThrashEnergy:
                 self.state = self.SwingUp
@@ -156,56 +150,15 @@ class ThrashSwingBalanceController(Controller):
                 self.state = self.SwingUp
             elif bot.q2 < -thrashAngleLimit:
                 self.state = self.ThrashLeft
-        elif self.state == self.Balance:
-            if energy < endBalanceEnergy:
-                self.state = self.SwingUp
 
         # Control for state
         if self.state == self.SwingUp:
-            print 'SWING UP'
+            #print 'SWING UP'
             return self.swingUpController.control(bot)
         elif self.state == self.ThrashLeft:
-            print 'THRASH LEFT'
+            #print 'THRASH LEFT'
             return +bot.maxTorque
         elif self.state == self.ThrashRight:
-            print 'THRASH RIGHT'
+            #print 'THRASH RIGHT'
             return -bot.maxTorque
-        elif self.state == self.Balance:
-            print 'BALANCE'
-            return self.balanceController.control(bot)
-
-
-    def controlThrash(self, bot):
-        u = bot.maxTorque
-
-        # don't spin in circles
-        if bot.q2 < -pi/2:
-            return +u
-        if bot.q2 > pi/2:
-            return -u
-
-        # keep pushing to increase abs(energy)
-        if self.getXEnergy(bot) < 0:
-            return -u
-        return +u
-
-    def getXEnergy(self, bot):
-        q1global = bot.q1 + pi/2
-        q2global = q1global + bot.q2
-
-        # Potential Energy: m * g * x
-        pe1 = bot.m1 * bot.g * bot.m1x
-        pe2 = bot.m2 * bot.g * bot.m1y
-
-        # Kinetic Energy: 1/2 * mass * (tangential x velocity)^2
-        # Preserve sign of energy: sign(x) is implemented as cmp(x,0)
-        v1 = -sin(q1global) * bot.q1d * bot.r1
-        ke1 = 0.5 * bot.m1 * v1**2 * cmp(v1,0)
-        q2dglobal = bot.q1d + bot.q2d
-        r2global = sqrt(bot.m2x**2 + bot.m2y**2)
-        v2 = -sin(q2global) * q2dglobal * r2global
-        ke2 = 0.5 * bot.m2 * v2**2 * cmp(v2,0)
-
-        # print 'pe1={:.3f}, pe2={:.3f}, ke1={:.3f}, ke2={:.3f}'.format(pe1, pe2, ke1, ke2)
-        return pe1 + pe2 + ke1 + ke2
 
