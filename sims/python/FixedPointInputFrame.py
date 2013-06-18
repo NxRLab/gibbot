@@ -1,18 +1,18 @@
 from Tkinter import *
 from GibbotModel import *
 
-class InputFrame(Frame):
+class FixedPointInputFrame(Frame):
 
-    def __init__(self, parent, controllerDict, timeScale, defaultBot, restartFunction):
+    def __init__(self, parent, controllerTypes, timeScale, defaultBot, restartCallback):
         Frame.__init__(self, parent)
-        self.controllerDict = controllerDict
-        self.restartFunction = restartFunction
+        self.controllerTypes = controllerTypes
+        self.restartCallback = restartCallback
 
-        controllerList = tuple(sorted(controllerDict.keys()))
+        controllerNames = [c.name for c in controllerTypes]
 
         # variables
         self.controllerVar = StringVar(self)
-        self.controllerVar.set(controllerList[0])
+        self.controllerVar.set(controllerNames[0])
         self.q1InitVar = StringVar(self)
         self.q1InitVar.set(defaultBot.q1)
         self.q2InitVar = StringVar(self)
@@ -36,7 +36,7 @@ class InputFrame(Frame):
 
         # row 0
         Label(self, text="Controller:").grid(row=0, column=0)
-        OptionMenu(self, self.controllerVar, *controllerList).grid(row=0, column=1, columnspan=2, sticky=W+E)
+        OptionMenu(self, self.controllerVar, *controllerNames).grid(row=0, column=1, columnspan=2, sticky=W+E)
 
         # row 1
         Label(self, text="Time scale:").grid(row=1)
@@ -77,12 +77,15 @@ class InputFrame(Frame):
         self.timeElapsedVar.set(t)
 
     def restart(self, event=None):
-        controller = self.controllerDict[self.controllerVar.get()]
+        controllerName = self.controllerVar.get()
+        for c in self.controllerTypes:
+            if c.name == controllerName:
+                controllerType = c
         timeScale = float(self.timeScaleVar.get())
         q1 = float(self.q1InitVar.get())
         q2 = float(self.q2InitVar.get())
         q1d = float(self.q1dInitVar.get())
         q2d = float(self.q2dInitVar.get())
         bot = GibbotModel(0, 0, q1, q2, q1d, q2d)
-        self.restartFunction(controller, timeScale, bot)
+        self.restartCallback(controllerType, timeScale, bot)
 

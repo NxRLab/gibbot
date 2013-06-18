@@ -1,20 +1,37 @@
 from math import *
 import numpy as np
 
+'''
+The state variables are:
+(x1,y1) - fixed pivot point
+q1 - angle of first link (0 is down)
+q2 - angle of second link (0 is straight with respect to first link)
+q1d, q2d - angular velocities
+
+Other points on the robot:
+(m1x,m1y) - center of mass 1
+(x2,y2) - torque joint point
+(m2x,m2y) - center of mass 2
+(x3,y3) - distant point
+
+Variables ending in 'd' are derivatives with respect to time.
+For example, m1xd, is the derivative of m1x with respect to time.
+'''
+
 class GibbotModel:
     def __init__(self, x1, y1, q1, q2, q1d=0., q2d=0.):
         # State
-        self.x1 = x1
-        self.y1 = y1
-        self.q1 = q1
-        self.q2 = q2
-        self.q1d = q1d
-        self.q2d = q2d
+        self.x1 = float(x1)
+        self.y1 = float(y1)
+        self.q1 = float(q1)
+        self.q2 = float(q2)
+        self.q1d = float(q1d)
+        self.q2d = float(q2d)
 
         # Currently our gibbot guesstimated parameters
         # Link Masses (Kg)
-        self.m1 = 0.9
-        self.m2 = 1.1
+        self.m1 = 1.0
+        self.m2 = 1.0
         # Link Lengths (m)
         self.l1 = 0.267
         self.l2 = 0.267
@@ -27,30 +44,71 @@ class GibbotModel:
         # Gravity
         self.g = 9.81
         # Torque
-        self.MAX_T = 5
-
-    @property
-    def cx(self):
-        return self.x1 + self.l1*cos(self.q1 + pi/2)
-
-    @property
-    def cy(self):
-        return self.y1 + self.l1*sin(self.q1 + pi/2)
+        self.maxTorque = 5
 
     @property
     def x2(self):
-        return self.cx + self.l2*cos(self.q1 + pi/2 + self.q2)
-
+        return self.x1 - self.l1*sin(self.q1)
     @property
     def y2(self):
-        return self.cy + self.l2*sin(self.q1 + pi/2 + self.q2)
+        return self.y1 - self.l1*cos(self.q1)
+    @property
+    def x2d(self):
+        return self.q1d*self.l1*cos(self.q1 - pi)
+    @property
+    def y2d(self):
+        return self.q1d*self.l1*sin(self.q1 - pi)
+
+    @property
+    def x3(self):
+        return self.x2 - self.l2*sin(self.q1 + self.q2)
+    @property
+    def y3(self):
+        return self.y2 - self.l2*cos(self.q1 + self.q2)
+
+    @property
+    def m1x(self):
+        return self.x1 - self.r1*sin(self.q1)
+    @property
+    def m1y(self):
+        return self.y1 - self.r1*cos(self.q1)
+
+    @property
+    def m2x(self):
+        return self.x2 - self.r2*sin(self.q1 + self.q2)
+    @property
+    def m2y(self):
+        return self.y2 - self.r2*cos(self.q1 + self.q2)
+    @property
+    def m2xd(self):
+        return self.x2d + self.q2d*self.r2*cos(self.q1 + self.q2)
+    @property
+    def m2yd(self):
+        return self.y2d + self.q2d*self.r2*sin(self.q1 + self.q2)
+
+    @property
+    def energy(self):
+        # Potential Energy: m * g * h
+        pe1 = self.m1 * self.g * (self.m1y - self.y1)
+        pe2 = self.m2 * self.g * (self.m2y - self.y1)
+
+        # Kinetic Energy: 1/2 * mass * (tangential velocity)^2
+        v1sq = (self.q1d * self.r1)**2
+        v2sq = self.m2xd**2 + self.m2yd**2
+        ke1 = 0.5 * self.m1 * v1sq + 0.5 * self.I1 * self.q1d**2
+        ke2 = 0.5 * self.m2 * v2sq + 0.5 * self.I2 * (self.q1d + self.q2d)**2
+
+        #print 'pe1={:.3f}, pe2={:.3f}, ke1={:.3f}, ke2={:.3f}'.format(pe1, pe2, ke1, ke2)
+        #print 'm1=({:.3f}, {:.3f}); m2=({:.3f}, {:.3f})'.format(self.m1x, self.m1y, self.m2x, self.m2y)
+        return pe1 + pe2 + ke1 + ke2
 
     def __repr__(self):
-        return '(q1={}, q2={}, q1d={}, q2d={})'.format(self.q1, self.q2, self.q1d, self.q2d)
+        params = (self.x1, self.y1, self.q1, self.q2, self.q1d, self.q2d)
+        return '(x1={}, y1={}, q1={}, q2={}, q1d={}, q2d={})'.format(*params)
 
     def switch(self):
-        x = self.x2
-        y = self.y2
+        x = self.x3
+        y = self.y3
         q1 = self.q1 + self.q2 + pi
         q2 = -self.q2
 
@@ -60,10 +118,11 @@ class GibbotModel:
         self.q2 = q2
         self.q1d = 0
         self.q2d = 0
+        self.normalizeAngles()
 
-    def advanceState(self, controller, dt):
+    def advanceState(self, controlTorque, dt):
         # second order
-        (q1dd, q2dd) = self.getAccelerations(controller)
+        (q1dd, q2dd) = self.getAccelerations(controlTorque)
 
         # first order
         self.q1d += q1dd * dt
@@ -72,9 +131,11 @@ class GibbotModel:
         # zeroth order
         self.q1 += self.q1d * dt
         self.q2 += self.q2d * dt
+        self.normalizeAngles()
 
 
-        # normalize angles [-pi, +pi]
+    def normalizeAngles(self):
+        # constrain to [-pi, +pi]
         self.q1 = self.q1 % (pi*2)
         if self.q1 > pi:
             self.q1 -= 2*pi
@@ -83,7 +144,7 @@ class GibbotModel:
             self.q2 -= 2*pi
 
 
-    def getAccelerations(self, controller):
+    def getAccelerations(self, controlTorque):
         '''Initialize Parameters'''
         # Link Masses
         m1 = self.m1
@@ -116,8 +177,6 @@ class GibbotModel:
         K2 = (1./dx)*((I1+m1*r1**2)/(m2*r2) + (l1**2)/r2)
 
         D = l1/dx                           # Delta
-		
-        #print B, G, K1, K2, D
 
 
         '''State Updates'''
@@ -135,13 +194,13 @@ class GibbotModel:
         s12 = sin(q1+q2)
         c12 = cos(q1+q2)
 
-        U = controller(self)
-        if U > self.MAX_T:
-            print U, '>', self.MAX_T
-            U = self.MAX_T
-        elif U < -self.MAX_T:
-            print U, '<', -self.MAX_T
-            U = -self.MAX_T
+        U = controlTorque
+        if U > self.maxTorque:
+            print U, '>', self.maxTorque
+            U = self.maxTorque
+        elif U < -self.maxTorque:
+            print U, '<', -self.maxTorque
+            U = -self.maxTorque
         u = np.mat([[0],
                     [U]])
 

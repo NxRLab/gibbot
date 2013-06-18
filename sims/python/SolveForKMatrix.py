@@ -8,6 +8,8 @@ def getKMatrix():
 
 
     '''Initialize Parameters'''
+
+
     # Link Masses
     # m1 = self.m1
     # m2 = self.m2
@@ -23,18 +25,7 @@ def getKMatrix():
     # # Gravity
     # g = self.g
 
-
-    m1 = 1.
-    m2 = 1.5
-
-    l1 = 1.
-    l2 = 1.
-
-    r1 = .3
-    r2 = .7
-
-    I1 = .33
-    I2 = .33
+    #OLD GIBBOT PARAMETERS
 
     g = 9.81
 
@@ -43,6 +34,18 @@ def getKMatrix():
     q1d = 0
     q2d = 0
     u = 0
+
+    m1 = 1
+    m2 = 1
+
+    l1 = .267
+    l2 = .267
+
+    r1 = .107
+    r2 = .156
+
+    I1 = m1 * (l1**2 / 3 + .077**2 / 12)
+    I2 = m2 * (l2**2 / 3 + 0.077**2 / 12)
 
     # Scaling/non-dimensionalizing
     dx = l1+l2
@@ -85,8 +88,11 @@ def getKMatrix():
     P = sp.linalg.solve_continuous_are(A, B, Q, R)
 
     K = np.dot(np.linalg.inv(R), np.dot(B.transpose(),P))
-    print A
-    print B
+    
+    print "A = ", A
+    print "B = ", B
+    print "Q = ", Q
+    print "R = ", R
 
 
     return K
@@ -94,4 +100,4 @@ def getKMatrix():
 
 if __name__ == '__main__':
     K = getKMatrix()
-    print K
+    print "K = ", K
