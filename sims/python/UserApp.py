@@ -3,16 +3,19 @@ from Tkinter import *
 import PIL.Image
 import PIL.ImageTk
 import math
+import copy
 from GibbotModel import *
+from Controller import *
 
 
 BOARD_SIZE = (2.4384, 1.8288) # 8' x 6' in meters
 
 START_BOT = GibbotModel(1, 1, -pi/4, -pi/2)
 
-DT = .001
+DT = .01
 FPS = 40
 GOAL_RADIUS = START_BOT.l1 * math.sqrt(2)/2 # meters away from goal
+BOARD_PAD = START_BOT.l1 + START_BOT.l2 # mimimum meters to border where clamping is allowed
 
 FULLSCREEN_MODE = False
 
@@ -24,9 +27,9 @@ class UserApp(Tk):
         self.initCanvas()
 
         self.bot = START_BOT
-        self.botIsVertical = False
         self.t = 0
-        self.goal = (2.0, 1.0)
+        self.goal = (1.8, 1.0)
+        self.controller = None
 
         self.after(1, self.animate)
 
@@ -59,44 +62,56 @@ class UserApp(Tk):
         if scaleW < scaleH:
             scale = scaleW
             xOffset = 0
-            yOffset = (h - scale*BOARD_SIZE[1]) / 2
+            yOffset = (h + scale*BOARD_SIZE[1]) / 2
         else:
             scale = scaleH
             xOffset = (w - scale*BOARD_SIZE[0]) / 2
-            yOffset = 0
-        return (scale, (xOffset, yOffset))
+            yOffset = h
+        return scale, (xOffset, yOffset)
+
+    def pointToBoard(self, screenPoint):
+        x = (screenPoint[0] - self.offset[0]) / self.scale
+        y = (self.offset[1] - screenPoint[1]) / self.scale
+        return x, y
+
+    def pointToScreen(self, boardPoint):
+        x = self.offset[0] + boardPoint[0] * self.scale
+        y = self.offset[1] - boardPoint[1] * self.scale
+        return x, y
 
     def mousePressed(self, event):
-        (scale, offset) = self.boardScaleAndOffset()
-        x = (event.x - offset[0]) / scale
-        if x < GOAL_RADIUS:
-            x = GOAL_RADIUS
-        elif x > BOARD_SIZE[0] - GOAL_RADIUS:
-            x = BOARD_SIZE[0] - GOAL_RADIUS
-        y = (event.y - offset[1]) / scale
-        if y < GOAL_RADIUS:
-            y = GOAL_RADIUS
-        elif y > BOARD_SIZE[1] - GOAL_RADIUS:
-            y = BOARD_SIZE[1] - GOAL_RADIUS
+        x, y = self.pointToBoard((event.x, event.y))
+        if x < BOARD_PAD:
+            x = BOARD_PAD
+        elif x > BOARD_SIZE[0] - BOARD_PAD:
+            x = BOARD_SIZE[0] - BOARD_PAD
+        if y < BOARD_PAD:
+            y = BOARD_PAD
+        elif y > BOARD_SIZE[1] - BOARD_PAD:
+            y = BOARD_SIZE[1] - BOARD_PAD
         self.goal = (x,y)
+        print 'Goal set to', self.goal
 
-        self.move()
+        d1sq = (self.bot.x1 - x)**2 + (self.bot.y1 - y)**2
+        d3sq = (self.bot.x3 - x)**2 + (self.bot.y3 - y)**2
+        if d3sq < d1sq:
+            self.bot.switch()
+            print 'switch for goal'
+        self.controller = ThrashSwingController()
         
     def escapePressed(self, e):
         print 'esc'
         e.widget.quit()
 
-    def update(self):
-        (scale, offset) = self.boardScaleAndOffset()
+    def updateUI(self):
+        self.scale, self.offset = self.boardScaleAndOffset()
         def coords(obj, *raw):
             N = len(raw)
             if N % 2:
                 raise ValueError('An even number of coordinates is required')
             adjusted = []
             for i in xrange(0, N, 2):
-                x = offset[0] + scale*raw[i]
-                y = offset[1] + scale*raw[i+1]
-                adjusted += [int(x), int(y)]
+                adjusted += map(int, self.pointToScreen((raw[i], raw[i+1])))
             self.c.coords(obj, *adjusted)
         def ovalCenter(oval, x, y, r=0.02):
             coords(oval, x-r, y-r, x+r, y+r)
@@ -107,36 +122,52 @@ class UserApp(Tk):
         # draw gibbot
         x1 = self.bot.x1
         y1 = self.bot.y1
+        x3 = self.bot.x3
+        y3 = self.bot.y3
         x2 = self.bot.x2
         y2 = self.bot.y2
-        cx = self.bot.cx
-        cy = self.bot.cy
         ovalCenter(self.o1, x1, y1)
-        ovalCenter(self.o2, x2, y2)
-        ovalCenter(self.o3, cx, cy)
-        coords(self.line, x1, y1, cx, cy, x2, y2)
+        ovalCenter(self.o2, x3, y3)
+        ovalCenter(self.o3, x2, y2)
+        coords(self.line, x1, y1, x2, y2, x3, y3)
 
         # draw banana
-        imSize = int(.2*scale)
+        imSize = int(.2*self.scale)
         thumb = self.targetImage.copy()
         thumb.thumbnail((imSize, imSize), PIL.Image.ANTIALIAS)
         self.targetPhoto = PIL.ImageTk.PhotoImage(thumb)
         self.c.itemconfigure(self.target, image=self.targetPhoto)
         coords(self.target, self.goal[0], self.goal[1])
 
-
     def animate(self):
         frameStartTime = time.time()
         frameInterval = 1.0/FPS
 
         # update UI
-        self.update()
+        self.updateUI()
 
         # advance physics
-        simulationTicks = int(frameInterval / DT)
-        for i in xrange(0, simulationTicks):
-            pass #self.bot.advanceState(nullController, DT)
-        self.t += frameInterval
+        if self.controller:
+            oldBot = copy.copy(self.bot)
+            simulationTicks = int(frameInterval / DT)
+            for i in xrange(0, simulationTicks):
+                controlTorque = self.controller.control(self.bot)
+                controlTorque = max(min(controlTorque, self.bot.maxTorque), -self.bot.maxTorque)
+                self.bot.advanceState(controlTorque, DT)
+            self.t += frameInterval
+
+            destAngle = math.atan2(self.goal[1]-self.bot.y1, self.goal[0]-self.bot.x1)
+            interMagnetAngle = math.atan2(self.bot.y3-self.bot.y1, self.bot.x3-self.bot.x1)
+            if abs(destAngle-interMagnetAngle) < 0.1:
+                goalDistSq = (self.bot.x3 - self.goal[0])**2 + (self.bot.y3 - self.goal[1])**2
+                if goalDistSq < GOAL_RADIUS**2:
+                    self.controller = None
+                    self.bot.q1d = 0
+                    self.bot.q2d = 0
+                else:
+                    self.controller = ThrashSwingController()
+                    self.bot.switch()
+                    print 'switch during control'
 
         # schedule next frame
         waitTime = frameStartTime + frameInterval - time.time()
@@ -144,48 +175,6 @@ class UserApp(Tk):
         if millis < 1:
             millis = 1
         self.after(millis, self.animate)
-
-    def move(self):
-        bot = self.bot
-        goal = self.goal
-
-        # calculate distances (and perhaps switch)
-        diff1 = (goal[0] - bot.x1, goal[1] - bot.y1)
-        diff2 = (goal[0] - bot.x2, goal[1] - bot.y2)
-        dist1 = math.sqrt(diff1[0]**2 + diff1[1]**2)
-        dist2 = math.sqrt(diff2[0]**2 + diff2[1]**2)
-        if dist1 < dist2:
-            diff = diff1
-            dist = dist1
-        else:
-            diff = diff2
-            dist = dist2
-            bot.switch()
-
-        # swing towards goal
-        if abs(diff[0]) > GOAL_RADIUS: # horizontal
-            if self.botIsVertical:
-                self.botIsVertical = False
-                if diff[0] < 0:
-                    bot.q1 = pi/4
-                    bot.q2 = pi/2
-                else:
-                    bot.q1 = -pi/4
-                    bot.q2 = -pi/2
-            else:
-                if diff[0] < 0:
-                    bot.x1 -= bot.l1 * math.sqrt(2)
-                else:
-                    bot.x1 += bot.l1 * math.sqrt(2)
-        elif abs(diff[1]) > GOAL_RADIUS: # vertical
-            if diff[1] < 0:
-                self.botIsVertical = True
-                bot.q1 = -math.pi
-                bot.q2 = 0
-            else:
-                bot.y1 = goal[1]
-
-        print bot
 
 
 if __name__ == '__main__':
