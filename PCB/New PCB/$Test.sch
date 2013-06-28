@@ -37,7 +37,7 @@ $Descr A2 23386 16535
 encoding utf-8
 Sheet 1 4
 Title ""
-Date "27 jun 2013"
+Date "28 jun 2013"
 Rev ""
 Comp ""
 Comment1 ""
@@ -1453,7 +1453,7 @@ F 1 "2.2K" V 7100 9000 50  0000 C CNN
 F 2 "~" H 7100 9000 60  0000 C CNN
 F 3 "~" H 7100 9000 60  0000 C CNN
 	1    7100 9000
-	1    0    0    -1  
+	-1   0    0    -1  
 $EndComp
 $Comp
 L R R45
