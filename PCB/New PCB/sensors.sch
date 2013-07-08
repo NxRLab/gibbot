@@ -37,7 +37,7 @@ $Descr A2 23386 16535
 encoding utf-8
 Sheet 4 4
 Title ""
-Date "1 jul 2013"
+Date "8 jul 2013"
 Rev ""
 Comp ""
 Comment1 ""
@@ -1447,8 +1447,6 @@ Wire Notes Line
 Text Notes 15750 4400 0    118  ~ 0
 Motor Current Sensing
 Wire Notes Line
-	2450 2650 2450 9450
-Wire Notes Line
 	2450 9450 9700 9450
 Wire Notes Line
 	9700 9450 9700 2650
@@ -1527,4 +1525,6 @@ Wire Wire Line
 	15800 7750 15050 7750
 Wire Wire Line
 	16500 6750 16500 6200
+Wire Notes Line
+	2450 2650 2450 9450
 $EndSCHEMATC
