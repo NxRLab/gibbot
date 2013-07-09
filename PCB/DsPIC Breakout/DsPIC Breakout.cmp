@@ -1,0 +1,115 @@
+Cmp-Mod V01 Created by CvPcb (2013-05-31 BZR 4019)-stable date = 7/9/2013 11:28:15 AM
+
+BeginCmp
+TimeStamp = /51DB864E;
+Reference = C1;
+ValeurCmp = 0.1 uF;
+IdModule  = SM0603;
+EndCmp
+
+BeginCmp
+TimeStamp = /51DB8613;
+Reference = C2;
+ValeurCmp = 0.1 uF;
+IdModule  = SM0603;
+EndCmp
+
+BeginCmp
+TimeStamp = /51DB83D4;
+Reference = C3;
+ValeurCmp = 10 uF;
+IdModule  = SM0603;
+EndCmp
+
+BeginCmp
+TimeStamp = /51DB873F;
+Reference = C4;
+ValeurCmp = 0.1 uF;
+IdModule  = SM0603;
+EndCmp
+
+BeginCmp
+TimeStamp = /51DB884F;
+Reference = C5;
+ValeurCmp = 0.1uF;
+IdModule  = SM0603;
+EndCmp
+
+BeginCmp
+TimeStamp = /51DB8792;
+Reference = C6;
+ValeurCmp = 0.1 uF;
+IdModule  = SM0603;
+EndCmp
+
+BeginCmp
+TimeStamp = /51DC33F4;
+Reference = CR1;
+ValeurCmp = CERAMIC_RES;
+IdModule  = 8MHZ_CER_RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /51DB88AB;
+Reference = J1;
+ValeurCmp = BREADBOARD_HEADER_L;
+IdModule  = PIN_ARRAY_16x1;
+EndCmp
+
+BeginCmp
+TimeStamp = /51DB88C2;
+Reference = J2;
+ValeurCmp = BREADBOARD_HEADER_L;
+IdModule  = PIN_ARRAY_16x1;
+EndCmp
+
+BeginCmp
+TimeStamp = /51DB88EC;
+Reference = J3;
+ValeurCmp = BREADBOARD_HEADER_L;
+IdModule  = PIN_ARRAY_16x1;
+EndCmp
+
+BeginCmp
+TimeStamp = /51DB88D7;
+Reference = J4;
+ValeurCmp = BREADBOARD_HEADER_L;
+IdModule  = PIN_ARRAY_16x1;
+EndCmp
+
+BeginCmp
+TimeStamp = /51DB72F1;
+Reference = P1;
+ValeurCmp = CONN_2;
+IdModule  = JST-1mm-2pin;
+EndCmp
+
+BeginCmp
+TimeStamp = /51DB7233;
+Reference = P2;
+ValeurCmp = PROG_H;
+IdModule  = PIN_ARRAY_5x1;
+EndCmp
+
+BeginCmp
+TimeStamp = /51DB72A6;
+Reference = R1;
+ValeurCmp = 10K;
+IdModule  = SM0603;
+EndCmp
+
+BeginCmp
+TimeStamp = /51DC32FF;
+Reference = R2;
+ValeurCmp = 1M;
+IdModule  = SM0603;
+EndCmp
+
+BeginCmp
+TimeStamp = /51DAF2EC;
+Reference = U1;
+ValeurCmp = DSPIC33EP512MC806;
+IdModule  = MY_TQFP_64;
+EndCmp
+
+EndListe

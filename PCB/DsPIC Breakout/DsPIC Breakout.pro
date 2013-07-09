@@ -1,11 +1,6 @@
-update=7/8/2013 11:54:14 AM
+update=7/9/2013 11:33:26 AM
 version=1
 last_client=eeschema
-[cvpcb]
-version=1
-NetIExt=net
-[cvpcb/libraries]
-EquName1=devcms
 [pcbnew]
 version=1
 LastNetListRead=
@@ -26,7 +21,6 @@ DrawSegmentWidth=0.200000000000
 BoardOutlineThickness=0.100000000000
 ModuleOutlineThickness=0.150000000000
 [pcbnew/libraries]
-LibDir=
 LibName1=sockets
 LibName2=connect
 LibName3=discret
@@ -43,8 +37,15 @@ LibName13=led
 LibName14=dip_sockets
 LibName15=pga_sockets
 LibName16=valves
+LibName17=BreakoutLayout
+LibDir=
 [general]
 version=1
+[cvpcb]
+version=1
+NetIExt=net
+[cvpcb/libraries]
+EquName1=devcms
 [eeschema]
 version=1
 LibDir=
@@ -86,3 +87,4 @@ LibName29=contrib
 LibName30=valves
 LibName31=C:/Users/MSI/Documents/GitHub/gibbot/PCB/New PCB/MyLib
 LibName32=dspic33ep512mc806
+LibName33=DsPIC

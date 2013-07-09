@@ -1,6 +1,6 @@
-update=6/4/2013 1:16:43 PM
+update=7/9/2013 11:00:09 AM
 version=1
-last_client=kicad
+last_client=pcbnew
 [cvpcb]
 version=1
 NetIExt=net
@@ -46,14 +46,16 @@ LibName28=atmel
 LibName29=contrib
 LibName30=valves
 LibName31=MyLib
+[general]
+version=1
 [pcbnew]
 version=1
 LastNetListRead=Test.net
 UseCmpFile=1
-PadDrill=0.750000000000
-PadDrillOvalY=0.750000000000
-PadSizeH=1.000000000000
-PadSizeV=1.000000000000
+PadDrill=0.000000000000
+PadDrillOvalY=0.000000000000
+PadSizeH=2.540000000000
+PadSizeV=2.540000000000
 PcbTextSizeV=1.500000000000
 PcbTextSizeH=1.500000000000
 PcbTextThickness=0.300000000000
@@ -84,5 +86,4 @@ LibName14=dip_sockets
 LibName15=pga_sockets
 LibName16=valves
 LibName17=layout_lib
-[general]
-version=1
+LibName18=C:/Users/MSI/Documents/GitHub/gibbot/PCB/DsPIC Breakout/BreakoutLayout

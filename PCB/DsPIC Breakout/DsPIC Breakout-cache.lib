@@ -1,11 +1,11 @@
-EESchema-LIBRARY Version 2.3  Date: 7/8/2013 4:47:46 PM
+EESchema-LIBRARY Version 2.3  Date: 7/9/2013 2:38:23 PM
 #encoding utf-8
 #
-# Breadboard_Header_L
+# Breadboard_Header_16x1
 #
-DEF Breadboard_Header_L J 0 40 Y Y 1 F N
+DEF Breadboard_Header_16x1 J 0 40 Y Y 1 F N
 F0 "J" -1050 4250 60 H I C CNN
-F1 "Breadboard_Header_L" -1150 2550 60 V V C CNN
+F1 "Breadboard_Header_16x1" -1150 2600 60 V V C CNN
 F2 "~" -2950 3000 60 H V C CNN
 F3 "~" -2950 3000 60 H V C CNN
 DRAW
@@ -46,6 +46,31 @@ P 2 0 1 20  -80 -30  80 -30 N
 P 2 0 1 20  -80 30  80 30 N
 X ~ 1 0 200 170 D 40 40 1 1 P
 X ~ 2 0 -200 170 U 40 40 1 1 P
+ENDDRAW
+ENDDEF
+#
+# CERAMIC_RES
+#
+DEF CERAMIC_RES CR 0 40 Y N 1 F N
+F0 "CR" -250 150 60 H V C CNN
+F1 "CERAMIC_RES" 200 150 60 H V C CNN
+F2 "~" 0 0 60 H V C CNN
+F3 "~" 0 0 60 H V C CNN
+DRAW
+P 2 0 1 0  -200 -250  -100 -250 N
+P 2 0 1 0  -200 -200  -100 -200 N
+P 2 0 1 0  -150 0  -150 -200 N
+P 2 0 1 16  -100 100  -100 -100 N
+P 2 0 1 16  100 100  100 -100 N
+P 2 0 1 0  150 -250  250 -250 N
+P 2 0 1 0  150 -200  250 -200 N
+P 2 0 1 0  200 0  200 -200 N
+P 3 0 1 0  -150 -250  -150 -300  0 -300 N
+P 3 0 1 0  200 -250  200 -300  0 -300 N
+P 5 0 1 12  -50 50  50 50  50 -50  -50 -50  -50 50 f
+X 1 1 -300 0 200 R 40 40 1 1 P
+X ~ 2 0 -400 100 U 50 50 1 1 I
+X 3 3 300 0 200 L 40 40 1 1 P
 ENDDRAW
 ENDDEF
 #

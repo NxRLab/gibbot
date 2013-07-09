@@ -5170,7 +5170,7 @@
     )
   )
 
-  (module SM0603 (layer B.Cu) (tedit 51AE546A) (tstamp 51DB1F0E)
+  (module SM0603 (layer B.Cu) (tedit 51AE546A) (tstamp 51DD182D)
     (at 130.048 166.878 180)
     (path /51A8FB7D/51A3CEB9)
     (attr smd)
