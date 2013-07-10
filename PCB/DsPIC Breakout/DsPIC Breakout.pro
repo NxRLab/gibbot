@@ -1,6 +1,6 @@
-update=7/9/2013 11:33:26 AM
+update=7/9/2013 5:18:27 PM
 version=1
-last_client=eeschema
+last_client=kicad
 [pcbnew]
 version=1
 LastNetListRead=
@@ -39,8 +39,6 @@ LibName15=pga_sockets
 LibName16=valves
 LibName17=BreakoutLayout
 LibDir=
-[general]
-version=1
 [cvpcb]
 version=1
 NetIExt=net
@@ -88,3 +86,5 @@ LibName30=valves
 LibName31=C:/Users/MSI/Documents/GitHub/gibbot/PCB/New PCB/MyLib
 LibName32=dspic33ep512mc806
 LibName33=DsPIC
+[general]
+version=1

@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2013-05-31 BZR 4019)-stable date = 7/9/2013 11:28:15 AM
+Cmp-Mod V01 Created by CvPcb (2013-05-31 BZR 4019)-stable date = 7/10/2013 11:24:06 AM
 
 BeginCmp
 TimeStamp = /51DB864E;
@@ -50,31 +50,17 @@ IdModule  = 8MHZ_CER_RES;
 EndCmp
 
 BeginCmp
-TimeStamp = /51DB88AB;
+TimeStamp = /51DD8EA7;
 Reference = J1;
-ValeurCmp = BREADBOARD_HEADER_L;
-IdModule  = PIN_ARRAY_16x1;
+ValeurCmp = BREADBOARD_HEADER_32X1;
+IdModule  = PIN_ARRAY_32X1;
 EndCmp
 
 BeginCmp
-TimeStamp = /51DB88C2;
+TimeStamp = /51DDA107;
 Reference = J2;
-ValeurCmp = BREADBOARD_HEADER_L;
-IdModule  = PIN_ARRAY_16x1;
-EndCmp
-
-BeginCmp
-TimeStamp = /51DB88EC;
-Reference = J3;
-ValeurCmp = BREADBOARD_HEADER_L;
-IdModule  = PIN_ARRAY_16x1;
-EndCmp
-
-BeginCmp
-TimeStamp = /51DB88D7;
-Reference = J4;
-ValeurCmp = BREADBOARD_HEADER_L;
-IdModule  = PIN_ARRAY_16x1;
+ValeurCmp = BREADBOARD_HEADER_32X1;
+IdModule  = PIN_ARRAY_32X1;
 EndCmp
 
 BeginCmp
