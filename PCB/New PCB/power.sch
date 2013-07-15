@@ -37,7 +37,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 2 4
 Title ""
-Date "8 jul 2013"
+Date "15 jul 2013"
 Rev ""
 Comp ""
 Comment1 ""
@@ -289,17 +289,6 @@ F 2 "" H 8100 1450 60  0001 C CNN
 F 3 "" H 8100 1450 60  0001 C CNN
 	1    8100 1450
 	0    -1   -1   0   
-$EndComp
-$Comp
-L DSPIC33EP512MC806 U1
-U 2 1 51A3CE47
-P 9000 1200
-F 0 "U1" H 9000 1650 60  0000 C CNN
-F 1 "DSPIC33EP512MC806" H 9050 1550 60  0000 C CNN
-F 2 "~" H 9000 1200 60  0000 C CNN
-F 3 "~" H 9000 1200 60  0000 C CNN
-	2    9000 1200
-	1    0    0    -1  
 $EndComp
 Text Notes 3950 700  0    60   ~ 0
 24V DC DC buck converter
