@@ -1,6 +1,22 @@
 #include <p33Fxxxx.h>
 #include <libpic30.h>
 
+/* Configuration Bit Settings */
+_FBS(BWRP_WRPROTECT_OFF) //Boot segment is not write protected (for debugging)
+_FOSCSEL(FNOSC_FRC) //Use internal FRC Oscillator at 7.37 MHz no PLL
+_FOSC(FCKSM_CSECMD & OSCIOFNC_ON)
+//Clock switching is enabled, Fail-Safe Clock Monitor is disabled
+//OSC2 pin does not output the clock, it has digital I/O function
+_FWDT(FWDTEN_OFF)
+//Watchdog timer not enabled automaticatally, enabled/disabled by user software
+_FPOR(FPWRT_PWR128 & LPOL_ON & HPOL_OFF)
+//Power on Reset Timer is enabled for 128ms to allow system power to stablize
+//PWM module low side output pins have active-high output polarity
+//PWM module high side output pins have active-low output polarity
+_FICD(ICS_PGD3 & JTAGEN_OFF)
+//Communicate on PGC1/EMUC3 and PGD1/EMUD3
+//JTAG is Disabled
+
 void ADC_INIT(void);
 
 signed int ADResultAN3_1 = 0;
@@ -26,7 +42,7 @@ int main(void) {
 }
 
 void ADC_Init(void) {
-    AD1CON1bits.FORM    = 1;
+    AD1CON1bits.FORM    = 1; // Signed Integer Output
     AD1CON1bits.AD12B   = 0; // Select 10-bit mode
     AD1CON2bits.CHPS    = 3; // Select 4-channel mode
     AD1CON1bits.SIMSAM  = 1; // Enable Simultaneous Sampling

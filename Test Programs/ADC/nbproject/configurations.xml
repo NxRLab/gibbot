@@ -58,14 +58,10 @@
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
         <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
       </makeCustomizationType>
-      <C30>
-      </C30>
-      <C30-AS>
-      </C30-AS>
-      <C30-LD>
-      </C30-LD>
-      <C30Global>
-      </C30Global>
+      <ASM30-AS>
+      </ASM30-AS>
+      <ASM30-LD>
+      </ASM30-LD>
       <PICkit3PlatformTool>
         <property key="ADC 1" value="true"/>
         <property key="AutoSelectMemRanges" value="auto"/>
