@@ -3,7 +3,7 @@
 #include <p33Fxxxx.h>
 #include "gibbot.h"
 
-void _ISR _U1RXInterrupt(void) {
+void __attribute__ ((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
     int store;
     store = POS1CNT;
     while (!U1STAbits.RIDLE){ // If there is data in the recieve register
@@ -29,20 +29,20 @@ void _ISR _U1RXInterrupt(void) {
 	IFS0bits.U1RXIF = 0;
 }
 
-void _ISR _U1TXInterrupt(void) {
+void __attribute__ ((interrupt, no_auto_psv)) _U1TXInterrupt(void) {
 	IFS0bits.U1TXIF = 0; //We don't care about a transmit interrupt
 }
 
-void _ISR _QEIInterrupt(void) {
+void __attribute__ ((interrupt, no_auto_psv)) _QEIInterrupt(void) {
 	IFS3bits.QEIIF = 0; //We don't care about a transmit interrupt
 }
 
-void _ISR _PWMInterrupt(void) {
-    IFS3bits.PWM1IF = 0;
-}
+//void __attribute__ ((interrupt, no_auto_psv)) _PWMInterrupt(void) {
+//    IFS3bits.PWM1IF = 0;
+//}
 
 
-void _ISR _CNInterrupt(void) {
+void __attribute__ ((interrupt, no_auto_psv)) _CNInterrupt(void) {
     LATAbits.LATA2 = !LATAbits.LATA2;
     char state = 0;
     static char laststate;
