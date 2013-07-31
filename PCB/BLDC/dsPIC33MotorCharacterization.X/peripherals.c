@@ -7,9 +7,7 @@ void init_pwm(void){
     P1DC1 = 186; //Set initial duty cycle as 50% on pin 1
     P1DC2 = 186; //Set initial duty cycle as 50% on pin 2
     P1DC3 = 186; //Set initial duty cycle as 50% on pin 2
-    P1TPER = 186;//Set PWM freq as 20kHz
-
-    IEC3bits.PWM1IE = 1;
+    P1TPER = 186;//Set PWM freq as 20kHz 186
 
     P1DTCON1bits.DTAPS = 0b00; //Set deadtime prescaler as 8:1
     P1DTCON1bits.DTA = 2;
@@ -85,6 +83,4 @@ void init_qei(void){
     IPC14bits.QEIIP = 7;
     QEI1CONbits.QEIM = 0b101; //QEI x2 with reset at MAXxCNT
     MAX1CNT = 0xFFFF; //Set Reset value to maximum
-
-
 }

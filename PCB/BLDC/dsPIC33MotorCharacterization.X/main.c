@@ -3,7 +3,6 @@
 #include <p33Fxxxx.h>
 #include "gibbot.h"
 
-
 /* Configuration Bit Settings */
 //_FBS(BWRP_WRPROTECT_OFF) //Boot segment is not write protected (for debugging)
 //_FGS(GWRP_OFF & GSS_OFF) //general segment is not write protected (for debugging)
@@ -31,7 +30,7 @@ int main(void){
     init_cn();
     init_uart();
     init_qei();
-    state0();
+    commutate(0);
     while(1){
     }
     return 0;

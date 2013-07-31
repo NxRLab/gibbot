@@ -60,7 +60,63 @@ void duty(int duty){
     P1DC3 = duty;
 }
 
+void kick(void){
+    char kick;
+    char state;
+    state = (!S3 << 2) | (!S2 << 1) | !S1;
+    kick = ~state & 0b111;
+    commutate(kick);
+}
 
+void commutate(int state){
+    switch(state){
+        case 0:
+            Float(1); Float(2); Float(3);
+            break;
+        case 1:
+            if(direction){
+            High(1);  Float(2); Low(3);
+            } else{
+            Low(1);  Float(2); High(3);
+            }
+            break;
+        case 2:
+            if(direction){
+            Low(1);   High(2);  Float(3);
+            } else {
+            High(1);   Low(2);  Float(3);
+            }
+            break;
+        case 3:
+            if(direction){
+            Float(1); High(2);  Low(3);
+            } else {
+            Float(1); Low(2);  High(3);
+            }
+            break;
+        case 4:
+            if(direction){
+            Float(1); Low(2);   High(3);
+            } else {
+            Float(1); High(2);   Low(3);
+            }
+            break;
+        case 5:
+            if(direction){
+            High(1);  Low(2);   Float(3);
+            } else{
+            Low(1);  High(2);   Float(3);
+            }
+            break;
+        case 6:
+            if(direction){
+            Low(1);   Float(2); High(3);
+            } else {
+            High(1);   Float(2); Low(3);
+            }
+            break;
+    }
+}
 //Commutation pattern for the Maxon Motor
 void state5() {
     if(direction){
@@ -104,10 +160,9 @@ void state4() {
     Float(1); High(2);   Low(3);
     }
 }
-
 //Off State
 void state0() { Float(1); Float(2); Float(3);}
-
+//For Pittman Motor
 //void state1() {High(1); Float(2); Low(3);}
 //void state2() {Float(1); Low(2); High(3);}
 //void state3() {High(1); Low(2); Float(3);}

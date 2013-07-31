@@ -27,6 +27,8 @@ void duty(int duty);
 void High(int pin);
 void Float(int pin);
 void Low(int pin);
+void commutate(int state);
+void kick(void);
 
 void state0(void);
 void state1(void);
