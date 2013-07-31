@@ -22,6 +22,7 @@ void init_pwm(void);
 void init_cn(void);
 void init_uart (void);
 void init_qei(void);
+void ADC_Init(void);
 
 void duty(int duty);
 void High(int pin);
@@ -29,6 +30,7 @@ void Float(int pin);
 void Low(int pin);
 void commutate(int state);
 void kick(void);
+void Read_ADC(void);
 
 void state0(void);
 void state1(void);
@@ -42,6 +44,10 @@ extern char store;
 extern char array[100];
 extern char direction;
 extern int turncount;
+extern int ADResultAN3_1;
+extern int ADResultAN3_2;
+extern int ADResultAN4;
+extern int ADResultAN5;
 
 
 #endif	/* GIBBOT_H */

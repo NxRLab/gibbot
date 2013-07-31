@@ -8,16 +8,33 @@ void __attribute__ ((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
     store = POS1CNT;
     while (!U1STAbits.RIDLE){ // If there is data in the recieve register
         char echo = U1RXREG;
-        if(echo == 'a'){
+        if(echo == 'a'){ //fully on direction 1
+            duty(372);
+            direction = 1;
+            commutate(1);
+            Read_ADC();
+            printf(", %d,",ADResultAN3_1);
+            printf(" %d,",ADResultAN4);
+            printf(" %d; ",ADResultAN5);
+        }
+        if(echo == 'j'){ //fully on direction 0
             duty(372);
             direction = 0;
+            commutate(1);
+            Read_ADC();
+            printf(", %d,",ADResultAN3_1);
+            printf(" %d,",ADResultAN4);
+            printf(" %d; ",ADResultAN5);
         }
-        if(echo == 's'){
-            duty(186);
-            kick();
-            direction = 0;
-            turncount = 120;
+        if (echo == 'k') { //no current
+            commutate(0);
+            Read_ADC();
+            printf(", %d,",ADResultAN3_1);
+            printf(" %d,",ADResultAN4);
+            printf(" %d; ",ADResultAN5);
         }
+
+
         if(echo == 'd'){
             duty(0);
             direction = 1;
@@ -36,7 +53,7 @@ void __attribute__ ((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
         while(U1STAbits.UTXBF){//wait for buffer to not be full
             U1TXREG = 0x00;
         }
-        U1TXREG = echo;
+       // U1TXREG = echo;
     }
 	IFS0bits.U1RXIF = 0;
 }
