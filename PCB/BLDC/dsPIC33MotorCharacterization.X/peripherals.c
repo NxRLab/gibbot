@@ -53,8 +53,8 @@ void init_uart (void){
     IPC3bits.U1TXIP = 5;
     IPC2bits.U1RXIP = 5;
 
-    IFS0bits.U1TXIF = 0;	// Clear the Transmit Interrupt Flag
-    IEC0bits.U1TXIE = 1;	// Enable Transmit Interrupts
+//    IFS0bits.U1TXIF = 0;	// Clear the Transmit Interrupt Flag
+//    IEC0bits.U1TXIE = 1;	// Enable Transmit Interrupts
     IFS0bits.U1RXIF = 0;	// Clear the Recieve Interrupt Flag
     IEC0bits.U1RXIE = 1;	// Enable Recieve Interrupts
 
