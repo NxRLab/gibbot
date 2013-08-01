@@ -3,6 +3,11 @@
 #include <p33Fxxxx.h>
 #include "gibbot.h"
 
+int ADResultAN3_1;
+int ADResultAN3_2;
+int ADResultAN4;
+int ADResultAN5;
+
 void init_pwm(void){
     P1DC1 = 186; //Set initial duty cycle as 50% on pin 1
     P1DC2 = 186; //Set initial duty cycle as 50% on pin 2
@@ -53,8 +58,8 @@ void init_uart (void){
     IPC3bits.U1TXIP = 5;
     IPC2bits.U1RXIP = 5;
 
-//    IFS0bits.U1TXIF = 0;	// Clear the Transmit Interrupt Flag
-//    IEC0bits.U1TXIE = 1;	// Enable Transmit Interrupts
+    IFS0bits.U1TXIF = 0;	// Clear the Transmit Interrupt Flag
+    IEC0bits.U1TXIE = 0;	// Disable Transmit Interrupts
     IFS0bits.U1RXIF = 0;	// Clear the Recieve Interrupt Flag
     IEC0bits.U1RXIE = 1;	// Enable Recieve Interrupts
 
@@ -83,4 +88,44 @@ void init_qei(void){
     IPC14bits.QEIIP = 7;
     QEI1CONbits.QEIM = 0b101; //QEI x2 with reset at MAXxCNT
     MAX1CNT = 0xFFFF; //Set Reset value to maximum
+}
+
+void ADC_Init(void) {
+//    TRISBbits.TRISB1 = 1;
+//    TRISBbits.TRISB2 = 1;
+//    TRISBbits.TRISB3 = 1;
+    AD1CON1bits.FORM    = 0; // UnSigned Integer Output
+    AD1CON1bits.AD12B   = 0; // Select 10-bit mode
+    AD1CON2bits.CHPS    = 3; // Select 4-channel mode
+    AD1CON1bits.SIMSAM  = 1; // Enable Simultaneous Sampling
+    AD1CON2bits.ALTS    = 0; // Disable Alternate Input Selection
+    AD1CON1bits.ASAM    = 0; // Manual Sampling
+    AD1CON1bits.SSRC    = 0; // Manual Trigger
+    AD1PCFGLbits.PCFG3 = 0; //set AN3 as analog input
+    AD1PCFGLbits.PCFG4 = 0;
+    AD1PCFGLbits.PCFG5 = 0;
+
+    // Initialize MUXA Input Selection
+    AD1CHS0bits.CH0SA       = 0; // Select AN0 for CH0 +ve input
+    AD1CHS0bits.CH0NA       = 0; // Select VREF- for CH0 -ve input    //1 is AN1
+    AD1CHS123bits.CH123SA   = 1; // Select CH1 +ve = AN3, CH2 +ve = AN4, CH3 +ve = AN5
+    AD1CHS123bits.CH123NA   = 0; // Select VREF- for CH1/CH2/CH3 -ve inputs
+    AD1CON1bits.SAMP        = 0;
+    AD1CON1bits.ADON        = 1;
+
+}
+
+void Read_ADC(void) {
+    int i;
+    AD1CON1bits.SAMP = 1;
+        for (i = 0; i < 3; i++) {
+            Nop();
+        }
+       // LATAbits.LATA2 = !LATAbits.LATA2;
+        AD1CON1bits.SAMP = 0;
+        while(!AD1CON1bits.DONE);
+        ADResultAN3_1 = ADC1BUF0;
+        ADResultAN3_2 = ADC1BUF1;
+        ADResultAN4 = ADC1BUF2;
+        ADResultAN5 = ADC1BUF3;
 }
