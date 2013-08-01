@@ -26,12 +26,13 @@ char direction = 1;
 int turncount = 0;
 
 int main(void){
-    init_pwm();
+    //init_pwm();
     ADC_Init();
-    init_cn();
+    init_timer1();
+   // init_cn();
     init_uart();
  //   init_qei();
-    commutate(0);
+   // commutate(1);
     while(1){
     }
     return 0;

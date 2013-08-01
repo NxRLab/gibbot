@@ -23,6 +23,7 @@ void init_cn(void);
 void init_uart (void);
 void init_qei(void);
 void ADC_Init(void);
+void init_timer1(void);
 
 void duty(int duty);
 void High(int pin);

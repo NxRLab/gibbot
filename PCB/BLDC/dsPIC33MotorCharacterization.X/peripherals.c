@@ -8,6 +8,7 @@ int ADResultAN3_2;
 int ADResultAN4;
 int ADResultAN5;
 
+
 void init_pwm(void){
     P1DC1 = 186; //Set initial duty cycle as 50% on pin 1
     P1DC2 = 186; //Set initial duty cycle as 50% on pin 2
@@ -78,18 +79,6 @@ void init_cn(void){
     IEC1bits.CNIE = 1;      //Enable interrupts
 }
 
-void init_qei(void){
-    //Turn on QEI
-    TRISBbits.TRISB0 = 1;
-    TRISBbits.TRISB4 = 1;
-    RPINR14bits.QEA1R = 0; //QEI A
-    RPINR14bits.QEB1R = 4; //QEI B
-    IEC3bits.QEIIE = 1;
-    IPC14bits.QEIIP = 7;
-    QEI1CONbits.QEIM = 0b101; //QEI x2 with reset at MAXxCNT
-    MAX1CNT = 0xFFFF; //Set Reset value to maximum
-}
-
 void ADC_Init(void) {
 //    TRISBbits.TRISB1 = 1;
 //    TRISBbits.TRISB2 = 1;
@@ -112,13 +101,13 @@ void ADC_Init(void) {
     AD1CHS123bits.CH123NA   = 0; // Select VREF- for CH1/CH2/CH3 -ve inputs
     AD1CON1bits.SAMP        = 0;
     AD1CON1bits.ADON        = 1;
-
+    
 }
 
 void Read_ADC(void) {
     int i;
     AD1CON1bits.SAMP = 1;
-        for (i = 0; i < 3; i++) {
+        for (i = 0; i < 30; i++) { //3
             Nop();
         }
        // LATAbits.LATA2 = !LATAbits.LATA2;
@@ -128,4 +117,31 @@ void Read_ADC(void) {
         ADResultAN3_2 = ADC1BUF1;
         ADResultAN4 = ADC1BUF2;
         ADResultAN5 = ADC1BUF3;
+}
+
+void init_qei(void){
+    //Turn on QEI
+    TRISBbits.TRISB0 = 1;
+    TRISBbits.TRISB4 = 1;
+    RPINR14bits.QEA1R = 0; //QEI A
+    RPINR14bits.QEB1R = 4; //QEI B
+    AD1PCFGLbits.PCFG2 = 1;
+    IEC3bits.QEIIE = 1;
+    IPC14bits.QEIIP = 7;
+    QEI1CONbits.QEIM = 0b101; //QEI x2 with reset at MAXxCNT
+    MAX1CNT = 0xFFFF; //Set Reset value to maximum
+}
+
+void init_timer1(void){
+    T1CONbits.TON = 0; //Turn off Timer1
+    T1CONbits.TCKPS = 0b10; //Set prescaler as 8:1
+    T1CONbits.TCS = 0b00; //Select internal clock
+    TMR1 = 0; //Clear Timer1
+    PR1 = 583; //Load Timer1 period value
+
+    IPC0bits.T1IP = 0x01; // Set Timer1 Interrupt Priority Level
+    IFS0bits.T1IF = 0; // Clear Timer1 Interrupt Flag
+    IEC0bits.T1IE = 1; // Enable Timer1 interrupt
+
+    T1CONbits.TON = 1; //Turn on Timer1
 }
