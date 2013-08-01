@@ -27,12 +27,19 @@ int turncount = 0;
 
 int main(void){
     init_pwm();
+    ADC_Init();
     init_cn();
     init_uart();
-    init_qei();
+ //   init_qei();
     commutate(0);
     while(1){
     }
     return 0;
 }
 
+void _mon_putc(char c) {
+    // echo data
+       while (U1STAbits.UTXBF); // wait until tx buffer isn't full
+       U1TXREG = c;
+  //  PutCharacter(UART1, c);
+}
