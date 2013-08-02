@@ -26,13 +26,15 @@ char direction = 1;
 int turncount = 0;
 
 int main(void){
-    //init_pwm();
-    ADC_Init();
+    TRISAbits.TRISA2 = 0;
+    init_pwm();
+    init_ADC();
     init_timer1();
-   // init_cn();
+    init_timer2();
+    init_cn();
     init_uart();
- //   init_qei();
-   // commutate(1);
+    init_qei();
+    commutate(0);
     while(1){
     }
     return 0;
