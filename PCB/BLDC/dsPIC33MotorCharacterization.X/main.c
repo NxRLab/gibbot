@@ -6,8 +6,9 @@
 /* Configuration Bit Settings */
 //_FBS(BWRP_WRPROTECT_OFF) //Boot segment is not write protected (for debugging)
 //_FGS(GWRP_OFF & GSS_OFF) //general segment is not write protected (for debugging)
-_FOSCSEL(FNOSC_FRC) //Use internal FRC Oscillator at 7.37 MHz no PLL
-_FOSC(FCKSM_CSECMD & OSCIOFNC_ON)
+_FOSCSEL(FNOSC_FRCPLL) //Use internal FRC Oscillator at 7.37 MHz no PLL
+
+_FOSC(FCKSM_CSECMD & OSCIOFNC_OFF)
 //Clock switching is enabled, Fail-Safe Clock Monitor is disabled
 //OSC2 pin has digital I/O function
 _FWDT(FWDTEN_OFF)
@@ -26,16 +27,26 @@ char direction = 1;
 int turncount = 0;
 
 int main(void){
+    // Fcy = Fin *( M / (N1 * N2))
+    // Fin = 7.37 MHz
+    //
+    CLKDIVbits.PLLPRE = 0; //N1 = 2
+    PLLFBDbits.PLLDIV =  0b000100000; //M = 34
+    CLKDIVbits.PLLPOST = 0b00; // N2 = 2
+    //Fcy = 62.645 MHz
+
+
     TRISAbits.TRISA2 = 0;
     init_pwm();
     init_ADC();
     init_timer1();
-    init_timer2();
+   //init_timer2();
     init_cn();
     init_uart();
     init_qei();
     commutate(0);
     while(1){
+       // LATAbits.LATA2 = !LATAbits.LATA2;
     }
     return 0;
 }

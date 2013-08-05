@@ -10,11 +10,11 @@ int ADResultAN5;
 
 
 void init_pwm(void){
-    P1DC1 = 186; //Set initial duty cycle as 50% on pin 1
-    P1DC2 = 186; //Set initial duty cycle as 50% on pin 2
-    P1DC3 = 186; //Set initial duty cycle as 50% on pin 2
-    P1TPER = 186;//Set PWM freq as 20kHz 186
-
+    P1DC1 = 396; //Set initial duty cycle as 50% on pin 1
+    P1DC2 = 396; //Set initial duty cycle as 50% on pin 2
+    P1DC3 = 396; //Set initial duty cycle as 50% on pin 2
+    P1TPER = 396;//Set PWM freq as 20kHz 186
+    P1TCONbits.PTCKPS = 1; //1:4 prescaler
     P1DTCON1bits.DTAPS = 0b00; //Set deadtime prescaler as 8:1
     P1DTCON1bits.DTA = 2;
 
@@ -41,19 +41,18 @@ void init_uart (void){
     RPOR3bits.RP6R = 3;    //RP6 tied to UART1 TX datasheet p123
     //Setup UART
 
-    /* For Baud Rate of 9600 */
-    //U1MODEbits.BRGH = 0; // Turn off High Baud Rate Mode
+    /* For Baud Rate of 38400 */
+    U1MODEbits.BRGH = 0; // Turn off High Baud Rate Mode
     // U1BRG = (Fcy/(16*Baud Rate)) - 1
-    // U1BRG = (3.685MHz/(16*9600)) - 1
-    // U1BRG = 23
+    // U1BRG = (31.7962MHz/(16*38400)) - 1
+    U1BRG = 16;
 
     /* For Baud Rate of 38400 */
-    U1MODEbits.BRGH = 1; //High Baud Rate Mode
-    // U1BRG = (Fcy/(16*Baud Rate)) - 1
-    // U1BRG = (3.685MHz/(4*38400)) - 1
-    // U1BRG = 23
+    //U1MODEbits.BRGH = 1; // Turn off High Baud Rate Mode
+    // U1BRG = (Fcy/(4*Baud Rate)) - 1
+    // U1BRG = (31.7962MHz/(4*115200)) - 1
+    //U1BRG = 68;
 
-    U1BRG = 24; //Baud rate ~38400
     U1MODEbits.PDSEL = 0; //8 bits no parity
     U1MODEbits.STSEL = 0; //1 stop selection bit
     IPC2bits.U1RXIP = 7;
@@ -129,10 +128,10 @@ void init_qei(void){
 
 void init_timer1(void){
     T1CONbits.TON = 0; //Turn off Timer1
-    T1CONbits.TCKPS = 0b10; //Set prescaler as 8:1
+    T1CONbits.TCKPS = 0b11; //Set prescaler as 64:1
     T1CONbits.TCS = 0b00; //Select internal clock
     TMR1 = 0; //Clear Timer1
-    PR1 = 583; //Load Timer1 period value 583
+    PR1 = 1439; //Load Timer1 period value 583
 
     IPC0bits.T1IP = 0x02; // Set Timer1 Interrupt Priority Level
     IFS0bits.T1IF = 0; // Clear Timer1 Interrupt Flag
@@ -143,7 +142,7 @@ void init_timer1(void){
 
 void init_timer2(void){
     T2CONbits.TON = 0; //Turn off Timer1
-    T2CONbits.TCKPS = 0b11; //Set prescaler as 64:1?
+    T2CONbits.TCKPS = 0b11; //Set prescaler as 256:1
     T2CONbits.TCS = 0b00; //Select internal clock
     TMR2 = 0; //Clear Timer1
     PR2 = 583; //Load Timer1 period value 583

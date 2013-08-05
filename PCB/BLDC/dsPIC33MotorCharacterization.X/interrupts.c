@@ -11,30 +11,28 @@ char bufferfull = 0;
 struct {
     short encoder, i1, i2, i3;
     char state;
-} data[50];
+} data;
 
 void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
-    int store;
-    store = POS1CNT;
-    while (!U1STAbits.RIDLE) { // If there is data in the recieve register
+    while (U1STAbits.URXDA) { // If there is data in the recieve register
         char echo = U1RXREG;
         if (echo == 'a') { //half on direction 1
             duty(186);
             kick();
             direction = 1;
-            turncount = 120;
+            turncount = 126;
         }
         if (echo == 'j') { //fully on direction 1
             duty(372);
             kick();
             direction = 1;
-            turncount = 120;
+            turncount = 126;
         }
         if (echo == 'k') { //half on direction 0
             duty(186);
             kick();
             direction = 0;
-            turncount = 120;
+            turncount = 126;
         }
         if (echo == 'f') { //fully on direction 0
             duty(372);
@@ -55,40 +53,47 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
             U1TXREG = 0x00;
         }
         U1TXREG = echo;
+      //  LATAbits.LATA2 = 1;
+     //   printf("123 1234 123 123 123 1");
+     //   LATAbits.LATA2 = 0;
     }
     IFS0bits.U1RXIF = 0;
 }
 
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
-    if ((turncount > 0) & (index1 < 50)){
+
+    if (turncount > 0){
         Read_ADC();
-        data[index1].encoder = POSCNT;
-        data[index1].i1 = ADResultAN3_2;
-        data[index1].i2 = ADResultAN4;
-        data[index1].i3 = ADResultAN5;
-        data[index1].state = (!S3 << 2) | (!S2 << 1) | !S1;
+        data.encoder = POSCNT;
+        data.i1 = ADResultAN3_2;
+        data.i2 = ADResultAN4;
+        data.i3 = ADResultAN5;
+        data.state = (!S3 << 2) | (!S2 << 1) | !S1;
         index1++;
-        IFS0bits.T1IF = 0;
+        LATAbits.LATA2 = 1;
+        printf("%d %d %d %d %d \r",turncount,data.i1,data.i2,data.i3,data.state);
+        LATAbits.LATA2 = 0;
     } else{
         if (index1>=1) {bufferfull = 1;}
     }
+        IFS0bits.T1IF = 0;
 }
 
 void __attribute__((interrupt, no_auto_psv)) _T2Interrupt(void) {
-
-    if (1) {//bufferful
-        if (1) {
-            LATAbits.LATA2 = 1;
-            printf("%d", index2);
-            index2++;
-            LATAbits.LATA2 = 0;
-
-        } else {
-            bufferfull = 0;
-            index1 = 0;
-            index2 = 0;
-        }
-    }
+//
+//    if (1) {//bufferful
+//        if (1) {
+//            LATAbits.LATA2 = 1;
+//            printf("%d", index2);
+//            index2++;
+//            LATAbits.LATA2 = 0;
+//
+//        } else {
+//            bufferfull = 0;
+//            index1 = 0;
+//            index2 = 0;
+//        }
+//    }
     IFS0bits.T2IF = 0;
 }
 
@@ -101,7 +106,6 @@ void __attribute__((interrupt, no_auto_psv)) _U1TXInterrupt(void) {
 }
 
 void __attribute__((interrupt, no_auto_psv)) _CNInterrupt(void) {
-                printf("%d", index2);
     char state = 0;
     static char laststate;
     // Is this a CN interrupt?
@@ -113,7 +117,6 @@ void __attribute__((interrupt, no_auto_psv)) _CNInterrupt(void) {
                 turncount = turncount - 1;
             }
             laststate = state;
-
         } else {
             commutate(0);
         }
