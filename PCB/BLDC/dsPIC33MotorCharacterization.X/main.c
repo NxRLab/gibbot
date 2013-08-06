@@ -46,7 +46,6 @@ int main(void){
     init_qei();
     commutate(0);
     while(1){
-       // LATAbits.LATA2 = !LATAbits.LATA2;
     }
     return 0;
 }

@@ -41,11 +41,11 @@ void init_uart (void){
     RPOR3bits.RP6R = 3;    //RP6 tied to UART1 TX datasheet p123
     //Setup UART
 
-    /* For Baud Rate of 38400 */
+    /* For Baud Rate of 230400 */
     U1MODEbits.BRGH = 0; // Turn off High Baud Rate Mode
     // U1BRG = (Fcy/(16*Baud Rate)) - 1
     // U1BRG = (31.7962MHz/(16*38400)) - 1
-    U1BRG = 16;
+    U1BRG = 8;
 
     /* For Baud Rate of 38400 */
     //U1MODEbits.BRGH = 1; // Turn off High Baud Rate Mode
@@ -96,21 +96,27 @@ void init_ADC(void) {        // Initialize analog-digital voltage converter
     AD1CHS123bits.CH123NA   = 0; // Select VREF- for CH1/CH2/CH3 -ve inputs
     AD1CON1bits.SAMP        = 0;
     AD1CON1bits.ADON        = 1; //Turn on the ADC converter
-    
+
+
+    //Initialize Timer3 for ADC Delay Function
+    T3CONbits.TON = 0; // Disable Timer
+    T3CONbits.TCS = 0; // Select internal instruction cycle clock
+    T3CONbits.TGATE = 0; // Disable Gated Timer mode
+    T3CONbits.TCKPS = 0b00; // Select 1:1 Prescaler
+    TMR3 = 0x00; // Clear timer register
 }
 
 void Read_ADC(void) { //manual sampling and conversion function
-    int i;  //itialize counting variable
-    AD1CON1bits.SAMP = 1;          //start sampling
-        for (i = 0; i < 30; i++) { //3=~12µs      //wait for sampling to finish
-            Nop();
-        }
-        AD1CON1bits.SAMP = 0;      //stop sampling
-        while(!AD1CON1bits.DONE);  //wait for conversion to finish
-        ADResultAN3_1 = ADC1BUF0;  //Store AN3
-        ADResultAN3_2 = ADC1BUF1;  //Store AN3
-        ADResultAN4 = ADC1BUF2;    //Store AN4
-        ADResultAN5 = ADC1BUF3;    //Store AN5
+    int i; //itialize counting variable
+    for (i = 0; i < 3; i++) { //3=~12µs      //wait for sampling to finish
+        Nop();
+    }
+    AD1CON1bits.SAMP = 0; //stop sampling
+    while (!AD1CON1bits.DONE); //wait for conversion to finish
+    ADResultAN3_1 = ADC1BUF0; //Store AN3
+    ADResultAN3_2 = ADC1BUF1; //Store AN3
+    ADResultAN4 = ADC1BUF2; //Store AN4
+    ADResultAN5 = ADC1BUF3; //Store AN5
 }
 
 void init_qei(void){
@@ -131,7 +137,7 @@ void init_timer1(void){
     T1CONbits.TCKPS = 0b11; //Set prescaler as 64:1
     T1CONbits.TCS = 0b00; //Select internal clock
     TMR1 = 0; //Clear Timer1
-    PR1 = 1439; //Load Timer1 period value 583
+    PR1 = 1439; //Load Timer1 period value 1439
 
     IPC0bits.T1IP = 0x02; // Set Timer1 Interrupt Priority Level
     IFS0bits.T1IF = 0; // Clear Timer1 Interrupt Flag

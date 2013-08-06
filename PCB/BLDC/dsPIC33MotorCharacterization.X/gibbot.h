@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <p33Fxxxx.h>
 
-#define SYSFREQ 7370000
+#define SYSFREQ 62645000
 #define S3 PORTBbits.RB7
 #define S2 PORTBbits.RB8
 #define S1 PORTBbits.RB9

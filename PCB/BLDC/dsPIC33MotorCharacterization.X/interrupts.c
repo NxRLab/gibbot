@@ -17,10 +17,11 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
     while (U1STAbits.URXDA) { // If there is data in the recieve register
         char echo = U1RXREG;
         if (echo == 'a') { //half on direction 1
-            duty(186);
-            kick();
-            direction = 1;
-            turncount = 126;
+            //duty(395); //186
+            //kick();
+           // direction = 1;
+            index2=1;
+            //turncount = 126;
         }
         if (echo == 'j') { //fully on direction 1
             duty(372);
@@ -49,10 +50,14 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
             duty(0);
             direction = 1;
         }
+        if (echo == 'q') {
+            commutate(0);
+            index2=0;
+        }
         while (U1STAbits.UTXBF) {//wait for buffer to not be full
             U1TXREG = 0x00;
         }
-        U1TXREG = echo;
+       // U1TXREG = echo;
       //  LATAbits.LATA2 = 1;
      //   printf("123 1234 123 123 123 1");
      //   LATAbits.LATA2 = 0;
@@ -61,20 +66,20 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
 }
 
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
+    LATAbits.LATA2 = 1;
+    TMR3 = 0;
+    T3CONbits.TON = 1;
 
-    if (turncount > 0){
+    T3CONbits.TON = 0;
+    LATAbits.LATA2 = 0;
+    if (index2 > 0){    //was turncount
         Read_ADC();
-        data.encoder = POSCNT;
-        data.i1 = ADResultAN3_2;
-        data.i2 = ADResultAN4;
-        data.i3 = ADResultAN5;
-        data.state = (!S3 << 2) | (!S2 << 1) | !S1;
-        index1++;
-        LATAbits.LATA2 = 1;
-        printf("%d %d %d %d %d \r",turncount,data.i1,data.i2,data.i3,data.state);
-        LATAbits.LATA2 = 0;
-    } else{
-        if (index1>=1) {bufferfull = 1;}
+        data.i1 = ADResultAN3_2/2;
+        data.i2 = ADResultAN4/2;
+        data.i3 = ADResultAN5/2;
+        
+        printf("%3d %3d %3d \n",data.i1,data.i2,data.i3);
+        
     }
         IFS0bits.T1IF = 0;
 }
