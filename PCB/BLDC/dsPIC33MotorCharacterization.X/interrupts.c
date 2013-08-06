@@ -17,41 +17,33 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
     while (U1STAbits.URXDA) { // If there is data in the recieve register
         char echo = U1RXREG;
         if (echo == 'a') { //half on direction 1
-            //duty(395); //186
-            //kick();
-           // direction = 1;
+            duty(791); //186
+            kick();
+            direction = 1;
             index2=1;
-            //turncount = 126;
+            turncount = 12600;
         }
-        if (echo == 'j') { //fully on direction 1
-            duty(372);
-            kick();
-            direction = 1;
-            turncount = 126;
-        }
-        if (echo == 'k') { //half on direction 0
-            duty(186);
+        if (echo == 's') { //half on direction 1
+            duty(791); //186
             kick();
             direction = 0;
-            turncount = 126;
+            index2=1;
+            turncount = 12600;
         }
-        if (echo == 'f') { //fully on direction 0
-            duty(372);
+        if (echo == 'd') { //half on direction 1
+            index2=1;
+        }
+        if (echo == 'f') { //half on direction 1
+            duty(791); //186
             kick();
             direction = 0;
-            turncount = 12;
-        }
-
-        if (echo == 'g') {
-            duty(372);
-            direction = 1;
-        }
-        if (echo == 'd') {
-            duty(0);
-            direction = 1;
+            index2=1;
+            turncount = 12600;
         }
         if (echo == 'q') {
+            turncount = 0;
             commutate(0);
+            index1 = 0;
             index2=0;
         }
         while (U1STAbits.UTXBF) {//wait for buffer to not be full
@@ -66,44 +58,28 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
 }
 
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
-    LATAbits.LATA2 = 1;
-    TMR3 = 0;
-    T3CONbits.TON = 1;
 
-    T3CONbits.TON = 0;
-    LATAbits.LATA2 = 0;
     if (index2 > 0){    //was turncount
         Read_ADC();
-        data.i1 = ADResultAN3_2/2;
+        data.i1 = ADResultAN3/2;
         data.i2 = ADResultAN4/2;
         data.i3 = ADResultAN5/2;
         
         printf("%3d %3d %3d \n",data.i1,data.i2,data.i3);
         
     }
+    if (index1 != 0){
+        printf("Test \n");
+    }
         IFS0bits.T1IF = 0;
 }
 
 void __attribute__((interrupt, no_auto_psv)) _T2Interrupt(void) {
-//
-//    if (1) {//bufferful
-//        if (1) {
-//            LATAbits.LATA2 = 1;
-//            printf("%d", index2);
-//            index2++;
-//            LATAbits.LATA2 = 0;
-//
-//        } else {
-//            bufferfull = 0;
-//            index1 = 0;
-//            index2 = 0;
-//        }
-//    }
     IFS0bits.T2IF = 0;
 }
 
 void __attribute__((interrupt, no_auto_psv)) _QEIInterrupt(void) {
-    IFS3bits.QEIIF = 0; //We don't care about a transmit interrupt
+    IFS3bits.QEIIF = 0; //We don't care about a qei interrupt
 }
 
 void __attribute__((interrupt, no_auto_psv)) _U1TXInterrupt(void) {
@@ -121,6 +97,7 @@ void __attribute__((interrupt, no_auto_psv)) _CNInterrupt(void) {
             if (laststate != state) {
                 turncount = turncount - 1;
             }
+
             laststate = state;
         } else {
             commutate(0);

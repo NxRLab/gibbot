@@ -46,8 +46,7 @@ extern char store;
 extern char array[100];
 extern char direction;
 extern int turncount;
-extern int ADResultAN3_1;
-extern int ADResultAN3_2;
+extern int ADResultAN3;
 extern int ADResultAN4;
 extern int ADResultAN5;
 

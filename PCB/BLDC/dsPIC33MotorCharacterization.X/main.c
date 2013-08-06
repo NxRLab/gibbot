@@ -26,12 +26,12 @@ char array[100];
 char direction = 1;
 int turncount = 0;
 
-int main(void){
+int main(void) {
     // Fcy = Fin *( M / (N1 * N2))
     // Fin = 7.37 MHz
     //
     CLKDIVbits.PLLPRE = 0; //N1 = 2
-    PLLFBDbits.PLLDIV =  0b000100000; //M = 34
+    PLLFBDbits.PLLDIV = 0b000100000; //M = 34
     CLKDIVbits.PLLPOST = 0b00; // N2 = 2
     //Fcy = 62.645 MHz
 
@@ -40,19 +40,19 @@ int main(void){
     init_pwm();
     init_ADC();
     init_timer1();
-   //init_timer2();
+    //init_timer2();
     init_cn();
     init_uart();
-    init_qei();
+    //init_qei();
     commutate(0);
-    while(1){
+    while (1) {
     }
     return 0;
 }
 
 void _mon_putc(char c) {
     // echo data
-       while (U1STAbits.UTXBF); // wait until tx buffer isn't full
-       U1TXREG = c;
-  //  PutCharacter(UART1, c);
+    while (U1STAbits.UTXBF); // wait until tx buffer isn't full
+    U1TXREG = c;
+    //  PutCharacter(UART1, c);
 }
