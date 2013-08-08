@@ -43,7 +43,7 @@ int main(void) {
     //init_timer2();
     init_cn();
     init_uart();
-    //init_qei();
+    init_qei();
     commutate(0);
     while (1) {
     }

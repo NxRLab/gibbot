@@ -2,7 +2,8 @@ import serial
 from matplotlib.lines import Line2D
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-ser = serial.Serial(7) #COM 8
+ser = serial.Serial(2) #COM3     #COM 8 needs 7
+print ser.portstr
 ser.baudrate = 115200
 #ser.timeout = 1  #1s timeout; use later
 received = ser.read(9) #read 9 bytes

@@ -46,27 +46,29 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
             index1 = 0;
             index2=0;
         }
-        while (U1STAbits.UTXBF) {//wait for buffer to not be full
-            U1TXREG = 0x00;
-        }
-       // U1TXREG = echo;
-      //  LATAbits.LATA2 = 1;
-     //   printf("123 1234 123 123 123 1");
-     //   LATAbits.LATA2 = 0;
+        while (U1STAbits.UTXBF);//wait for buffer to not be full
     }
     IFS0bits.U1RXIF = 0;
 }
 
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
-
-    if (index2 > 0){    //was turncount
+    if (index2 > 0){    //was turncount?
         Read_ADC();
-        data.i1 = ADResultAN3/2;
-        data.i2 = ADResultAN4/2;
-        data.i3 = ADResultAN5/2;
+        data.i1 = ADResultAN3;
+        data.i2 = ADResultAN4;
+        data.i3 = ADResultAN5;
+        data.encoder = POS1CNT+1700;    //add 1700 to prevent from being negative
+        data.state = 1;
+        //printf("%d \n",data.encoder);
+
+        char *s=(char *)&data;
+        int j;
+        for (j=0;j<10;j++)
+        {
+        _mon_putc(s[j]);
+        }
         
-        printf("%3d %3d %3d \n",data.i1,data.i2,data.i3);
-        
+        //printf("\r");
     }
     if (index1 != 0){
         printf("Test \n");
