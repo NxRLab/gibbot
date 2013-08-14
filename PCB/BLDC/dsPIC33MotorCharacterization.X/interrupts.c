@@ -7,7 +7,6 @@ int lastADC = 0; //variable to store last ADC result
 int index1 = 0;
 int index2 = 0;
 char bufferfull = 0;
-extern void _mon_putc(char c);
 
 struct {
     short encoder, i1, i2, i3;
@@ -54,24 +53,20 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     if (index2 > 0){    //was turncount?
         Read_ADC();
+        data.encoder = POS1CNT+1700;    //add 1700 to prevent from being negative
         data.i1 = ADResultAN3;
         data.i2 = ADResultAN4;
         data.i3 = ADResultAN5;
-        data.encoder = POS1CNT+1700;    //add 1700 to prevent from being negative
         data.state = 1;
-        printf("%d \n",data.encoder);
+        //printf("%d \n",data.encoder);
 
-        char *s=(char *)&data;
+        char *s = (char *) &data;
         int j;
-        for (j=0;j<10;j++)
-        {
-        _mon_putc(s[j]);
+        for (j = 0; j < 10; j++) {
+            while (U1STAbits.UTXBF); // wait until tx buffer isn't full
+            U1TXREG = s[j];
         }
-        
-        //printf("\r");
-    }
-    if (index1 != 0){
-        printf("Test \n");
+
     }
         IFS0bits.T1IF = 0;
 }
@@ -82,10 +77,6 @@ void __attribute__((interrupt, no_auto_psv)) _T2Interrupt(void) {
 
 void __attribute__((interrupt, no_auto_psv)) _QEIInterrupt(void) {
     IFS3bits.QEIIF = 0; //We don't care about a qei interrupt
-}
-
-void __attribute__((interrupt, no_auto_psv)) _U1TXInterrupt(void) {
-    IFS0bits.U1TXIF = 0; //We don't care about a transmit interrupt
 }
 
 void __attribute__((interrupt, no_auto_psv)) _CNInterrupt(void) {

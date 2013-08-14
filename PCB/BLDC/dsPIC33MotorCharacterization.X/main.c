@@ -4,8 +4,6 @@
 #include "gibbot.h"
 
 /* Configuration Bit Settings */
-//_FBS(BWRP_WRPROTECT_OFF) //Boot segment is not write protected (for debugging)
-//_FGS(GWRP_OFF & GSS_OFF) //general segment is not write protected (for debugging)
 _FOSCSEL(FNOSC_FRCPLL) //Use internal FRC Oscillator at 7.37 MHz no PLL
 
 _FOSC(FCKSM_CSECMD & OSCIOFNC_OFF)
@@ -25,7 +23,6 @@ char store;
 char array[100];
 char direction = 1;
 int turncount = 0;
-extern void _mon_putc(char c);
 
 int main(void) {
     // Fcy = Fin *( M / (N1 * N2))
@@ -47,14 +44,6 @@ int main(void) {
     init_qei();
     commutate(0);
     while (1) {
-        U1TXREG = 'a';
     }
     return 0;
-}
-
-void _mon_putc(char c) {
-    // echo data
-    while (U1STAbits.UTXBF); // wait until tx buffer isn't full
-    U1TXREG = c;
-    //  PutCharacter(UART1, c);
 }

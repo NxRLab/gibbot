@@ -5,9 +5,9 @@
             <name>dsPIC33MotorCharacterization</name>
             <creation-uuid>767ce315-180b-46ce-829e-2f52879e5485</creation-uuid>
             <make-project-type>0</make-project-type>
-            <c-extensions/>
+            <c-extensions>c</c-extensions>
             <cpp-extensions/>
-            <header-extensions/>
+            <header-extensions>h</header-extensions>
             <sourceEncoding>ISO-8859-1</sourceEncoding>
             <make-dep-projects/>
         </data>

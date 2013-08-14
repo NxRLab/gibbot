@@ -49,7 +49,7 @@ fig, ax = plt.subplots()
 scope = Scope(ax)
 
 
-ser = serial.Serial(2) #COM 3       7 -> COM 8
+ser = serial.Serial(7) #COM 3       7 -> COM 8
 ser.baudrate = 230400  #set the baud rate
 ser.timeout = 1        #1s timeout
 
@@ -74,6 +74,6 @@ def emitter():
 #animator
 ani = animation.FuncAnimation(fig, scope.update, emitter, interval=10,
     blit=True)
-
 plt.show()      #show the plot
 ser.close()     #close the COM port
+

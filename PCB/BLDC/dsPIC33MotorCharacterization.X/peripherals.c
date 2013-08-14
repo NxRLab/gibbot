@@ -55,7 +55,7 @@ void init_uart (void){
     IPC2bits.U1RXIP = 7;  //Set priority level of RX interrupt
     IFS0bits.U1RXIF = 0;	// Clear the Recieve Interrupt Flag
     IEC0bits.U1RXIE = 1;	// Enable Recieve Interrupts
-
+    
     U1MODEbits.UARTEN = 1; //enable the UART
     U1STAbits.UTXEN = 1;   //Enable UART transmit
 }
