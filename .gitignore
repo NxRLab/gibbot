@@ -165,20 +165,6 @@ pip-log.txt
 
 *.mk
 
-PCB/BLDC/dsPIC33MotorCharacterization.X/nbproject/private/private.xml
-
-PCB/BLDC/dsPIC33MotorCharacterization.X/nbproject/project.xml
-
-PCB/BLDC/dsPIC33MotorCharacterization.X/nbproject/project.xml
-
-PCB/BLDC/dsPIC33MotorCharacterization.X/nbproject/private/configurations.xml
-
-PCB/BLDC/dsPIC33MotorCharacterization.X/nbproject/Makefile-local-default.mk
-
-PCB/BLDC/dsPIC33MotorCharacterization.X/nbproject/Makefile-local-default.mk
-
-PCB/BLDC/dsPIC33MotorCharacterization.X/nbproject/Makefile-genesis.properties
-
-PCB/BLDC/dsPIC33MotorCharacterization.X/nbproject/Makefile-default.mk
-
-PCB/BLDC/dsPIC33MotorCharacterization.X/nbproject/Makefile-default.mk
+#############
+## MPLAB X
+#############
