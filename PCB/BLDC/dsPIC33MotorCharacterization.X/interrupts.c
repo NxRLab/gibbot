@@ -17,11 +17,11 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
     while (U1STAbits.URXDA) { // If there is data in the recieve register
         char echo = U1RXREG;
         if (echo == 'a') { //half on direction 1
-            duty(791); //186
+            duty(395); //186
             kick();
             direction = 1;
-            index2=1;
-            turncount = 42;
+            index2=0;
+            turncount = 4200;
         }
         if (echo == 's') { //half on direction 1
             duty(791); //186
