@@ -1,8 +1,0 @@
-EESchema-DOCLIB  Version 2.0  Date: 7/8/2013 3:05:23 PM
-#
-$CMP SPST
-D Interrupteur simple
-K switch
-$ENDCMP
-#
-#End Doc Library
