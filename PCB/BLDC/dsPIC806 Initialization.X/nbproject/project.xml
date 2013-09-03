@@ -6,7 +6,7 @@
             <name>dsPIC806 Initialization</name>
             <creation-uuid>56e48b1a-e1bd-4f80-b378-ba2aef9bb4e4</creation-uuid>
             <make-project-type>0</make-project-type>
-            <c-extensions/>
+            <c-extensions>c</c-extensions>
             <cpp-extensions/>
             <header-extensions/>
             <sourceEncoding>ISO-8859-1</sourceEncoding>
