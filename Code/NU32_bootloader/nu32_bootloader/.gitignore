@@ -1,0 +1,10 @@
+*.hex
+*.pyc
+TAGS
+*.zip
+*.tar
+*.tar.bz2
+*.tar.gz
+*.exe
+*.o
+
