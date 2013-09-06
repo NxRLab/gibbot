@@ -17,28 +17,58 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
     while (U1STAbits.URXDA) { // If there is data in the recieve register
         char echo = U1RXREG;
         if (echo == 'a') { //half on direction 1
-            duty(395); //186
+            duty(186); //186
             kick();
             direction = 1;
-            index2=0;
-            turncount = 4200;
+            turncount = 42;
         }
         if (echo == 's') { //half on direction 1
-            duty(791); //186
+            duty(372); //186
             kick();
-            direction = 0;
+            direction = 1;
             index2=1;
             turncount = 42;
         }
         if (echo == 'd') { //half on direction 1
+            duty(558); //186
+            kick();
+            direction = 1;
             index2=1;
+            turncount = 42;
         }
         if (echo == 'f') { //half on direction 1
             duty(791); //186
             kick();
-            direction = 0;
+            direction = 1;
             index2=1;
             turncount = 42;
+        }
+        if (echo == 'z') { //half on direction 1
+            duty(186); //186
+            kick();
+            direction = 1;
+            turncount = 24;
+        }
+        if (echo == 'x') { //half on direction 1
+            duty(372); //186
+            kick();
+            direction = 1;
+            index2=1;
+            turncount = 24;
+        }
+        if (echo == 'c') { //half on direction 1
+            duty(558); //186
+            kick();
+            direction = 1;
+            index2=1;
+            turncount = 24;
+        }
+        if (echo == 'v') { //half on direction 1
+            duty(791); //186
+            kick();
+            direction = 1;
+            index2=1;
+            turncount = 24;
         }
         if (echo == 'q') {
             turncount = 0;
@@ -46,6 +76,7 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
             index1 = 0;
             index2=0;
         }
+        U1TXREG = echo;
     }
     IFS0bits.U1RXIF = 0;
 }
