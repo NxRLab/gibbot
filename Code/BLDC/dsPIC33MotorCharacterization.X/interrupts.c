@@ -21,6 +21,7 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
             kick();
             direction = 1;
             turncount = 42;
+            index2 = 1; 
         }
         if (echo == 's') { //half on direction 1
             duty(372); //186
@@ -76,7 +77,6 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
             index1 = 0;
             index2=0;
         }
-        U1TXREG = echo;
     }
     IFS0bits.U1RXIF = 0;
 }
@@ -97,7 +97,7 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
             while (U1STAbits.UTXBF); // wait until tx buffer isn't full
             U1TXREG = s[j];
         }
-
+        index2 = 0;
     }
         IFS0bits.T1IF = 0;
 }
