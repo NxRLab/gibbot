@@ -1,5 +1,3 @@
-import matplotlib
-matplotlib.use('TkAgg')
 import numpy as np
 from matplotlib.lines import Line2D
 from matplotlib.widgets import CheckButtons, Button
