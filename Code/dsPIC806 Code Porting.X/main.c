@@ -3,6 +3,7 @@
 #include <p33EP512MC806.h>
 #include "peripherals.h"
 #include "gibbot.h"
+#include "motorcontrol.h"
 
 /* Configuration Bit Settings */
 _FOSCSEL(FNOSC_FRCPLL & IESO_OFF)
@@ -11,20 +12,27 @@ _FWDT(FWDTEN_OFF)
 _FICD(ICS_PGD1)
 _FPOR(FPWRT_PWR128)
 
-extern int index2;
+extern int motoron;
+extern int direction; 
 int main(void) {
+
     startup();
     initialize_cn();
     initialize_pwm();
-    initialize_uart();
-    initialize_qei();
+    //initialize_uart();
+    //initialize_qei();
     initialize_timer1();
-    initialize_adc();
+    commutate(0);
+    direction = 1;
+    //initialize_adc();
     while (1){
         if(USER){
-            index2 = 1;
+            motoron = 1;
+            LOWMAG = 1;
         } else {
-            index2 = 0;
+            motoron = 0;
+            LOWMAG = 0;
+            commutate(0);
         }
 
     }

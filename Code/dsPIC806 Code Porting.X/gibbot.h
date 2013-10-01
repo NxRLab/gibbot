@@ -30,9 +30,9 @@
  * User            RB2
  */
 
-#define S1 PORTDbits.RD1
+#define S1 PORTDbits.RD3
 #define S2 PORTDbits.RD2
-#define S3 PORTDbits.RD3
+#define S3 PORTDbits.RD1
 
 #define USER PORTBbits.RB2
 #define TOPMAG PORTDbits.RD10
@@ -42,18 +42,5 @@
 #define LED2 LATDbits.LATD0
 #define LED3 LATCbits.LATC13
 #define LED4 LATCbits.LATC14
-
-void High(int pin);
-void Float(int pin);
-void Low(int pin);
-
-void state1(void);
-void state2(void);
-void state3(void);
-void state4(void);
-void state5(void);
-void state6(void);
-
-
 #endif	/* GIBBOT_H */
 

@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <p33Exxxx.h>
+#include <p33EP512MC806.h>
 #include "gibbot.h"
 
 int direction;
@@ -56,49 +56,52 @@ void Float(int pin){
     }
 }
 
-//Commutation pattern for the Maxon Motor
-void state5() {
-    if(direction){
-    High(1);  Low(2);   Float(3);
-    } else{
-    Low(1);  High(2);   Float(3);
+void commutate(int state){
+    switch(state){
+        case 0:
+            Float(1); Float(2); Float(3);
+            break;
+        case 1:
+            if(direction){
+            High(1);  Float(2); Low(3);
+            } else{
+            Low(1);  Float(2); High(3);
+            }
+            break;
+        case 2:
+            if(direction){
+            Low(1);   High(2);  Float(3);
+            } else {
+            High(1);   Low(2);  Float(3);
+            }
+            break;
+        case 3:
+            if(direction){
+            Float(1); High(2);  Low(3);
+            } else {
+            Float(1); Low(2);  High(3);
+            }
+            break;
+        case 4:
+            if(direction){
+            Float(1); Low(2);   High(3);
+            } else {
+            Float(1); High(2);   Low(3);
+            }
+            break;
+        case 5:
+            if(direction){
+            High(1);  Low(2);   Float(3);
+            } else{
+            Low(1);  High(2);   Float(3);
+            }
+            break;
+        case 6:
+            if(direction){
+            Low(1);   Float(2); High(3);
+            } else {
+            High(1);   Float(2); Low(3);
+            }
+            break;
     }
 }
-void state1() {
-    if(direction){
-    High(1);  Float(2); Low(3);
-    } else{
-    Low(1);  Float(2); High(3);
-    }
-}
-void state3() {
-    if(direction){
-    Float(1); High(2);  Low(3);
-    } else {
-    Float(1); Low(2);  High(3);
-    }
-}
-void state2() {
-    if(direction){
-    Low(1);   High(2);  Float(3);
-    } else {
-    High(1);   Low(2);  Float(3);
-    }
-}
-void state6() {
-    if(direction){
-    Low(1);   Float(2); High(3);
-    } else {
-    High(1);   Float(2); Low(3);
-    }
-}
-void state4() {
-    if(direction){
-    Float(1); Low(2);   High(3);
-    } else {
-    Float(1); High(2);   Low(3);
-    }
-}
-
-//Off State
-void state0() { Float(1); Float(2); Float(3);}

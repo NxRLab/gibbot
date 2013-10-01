@@ -35,6 +35,9 @@ void initialize_pwm(void){
     IOCON2bits.PMOD = 00; //Set PWM to Complementary Mode
     IOCON3bits.PMOD = 00; //Set PWM to Complementary Mode
 
+    DTR1 = DTR2 = DTR3 = 10;
+    ALTDTR1 = ALTDTR2 = ALTDTR3 = 10;
+
     IOCON1bits.PENH = 1;
     IOCON1bits.PENL = 1;
     IOCON2bits.PENH = 1;
@@ -42,11 +45,20 @@ void initialize_pwm(void){
     IOCON3bits.PENH = 1;
     IOCON3bits.PENL = 1;
 
+    IOCON1bits.POLH = 1;
+    IOCON2bits.POLH = 1;
+    IOCON3bits.POLH = 1;
+    IOCON1bits.POLL = 0;
+    IOCON2bits.POLL = 0;
+    IOCON3bits.POLL = 0;
+
     PWMCON1bits.MDCS = 1; //MDC register provides duty cycle information
     PWMCON2bits.MDCS = 1;
     PWMCON3bits.MDCS = 1;
 
-    MDC = 500; // Sets master duty cycle at 50%
+    MDC = 100; // Sets master duty cycle at 10%
+
+    commutate(0);
 
     PTCONbits.PTEN = 1;
 }

@@ -125,7 +125,7 @@ ax[2].set_ylim(0, 1024)
 scope = Scope(ax)
 
 #Draw legend
-fig.legend([scope.line1, scope.line2], ['Data1', 'Data2'])
+fig.legend([scope.line1, scope.line2], ['Encoder', 'Current'])
 
 #Draw buttons
 checkax = plt.axes([0.9, 0.4, 0.1, 0.15])
