@@ -44,12 +44,18 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 # Distribution Directory
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
+# Source Files Quoted if spaced
+SOURCEFILES_QUOTED_IF_SPACED=7366_lib.c NU32v2.c comm.c monkeybot2.c
+
 # Object Files Quoted if spaced
 OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/7366_lib.o ${OBJECTDIR}/NU32v2.o ${OBJECTDIR}/comm.o ${OBJECTDIR}/monkeybot2.o
 POSSIBLE_DEPFILES=${OBJECTDIR}/7366_lib.o.d ${OBJECTDIR}/NU32v2.o.d ${OBJECTDIR}/comm.o.d ${OBJECTDIR}/monkeybot2.o.d
 
 # Object Files
 OBJECTFILES=${OBJECTDIR}/7366_lib.o ${OBJECTDIR}/NU32v2.o ${OBJECTDIR}/comm.o ${OBJECTDIR}/monkeybot2.o
+
+# Source Files
+SOURCEFILES=7366_lib.c NU32v2.c comm.c monkeybot2.c
 
 
 CFLAGS=
@@ -100,42 +106,50 @@ ifeq ($(TYPE_IMAGE), DEBUG_RUN)
 ${OBJECTDIR}/7366_lib.o: 7366_lib.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
 	@${RM} ${OBJECTDIR}/7366_lib.o.d 
+	@${RM} ${OBJECTDIR}/7366_lib.o 
 	@${FIXDEPS} "${OBJECTDIR}/7366_lib.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/7366_lib.o.d" -o ${OBJECTDIR}/7366_lib.o 7366_lib.c  
 	
 ${OBJECTDIR}/NU32v2.o: NU32v2.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
 	@${RM} ${OBJECTDIR}/NU32v2.o.d 
+	@${RM} ${OBJECTDIR}/NU32v2.o 
 	@${FIXDEPS} "${OBJECTDIR}/NU32v2.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/NU32v2.o.d" -o ${OBJECTDIR}/NU32v2.o NU32v2.c  
 	
 ${OBJECTDIR}/comm.o: comm.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
 	@${RM} ${OBJECTDIR}/comm.o.d 
+	@${RM} ${OBJECTDIR}/comm.o 
 	@${FIXDEPS} "${OBJECTDIR}/comm.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/comm.o.d" -o ${OBJECTDIR}/comm.o comm.c  
 	
 ${OBJECTDIR}/monkeybot2.o: monkeybot2.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
 	@${RM} ${OBJECTDIR}/monkeybot2.o.d 
+	@${RM} ${OBJECTDIR}/monkeybot2.o 
 	@${FIXDEPS} "${OBJECTDIR}/monkeybot2.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/monkeybot2.o.d" -o ${OBJECTDIR}/monkeybot2.o monkeybot2.c  
 	
 else
 ${OBJECTDIR}/7366_lib.o: 7366_lib.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
 	@${RM} ${OBJECTDIR}/7366_lib.o.d 
+	@${RM} ${OBJECTDIR}/7366_lib.o 
 	@${FIXDEPS} "${OBJECTDIR}/7366_lib.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/7366_lib.o.d" -o ${OBJECTDIR}/7366_lib.o 7366_lib.c  
 	
 ${OBJECTDIR}/NU32v2.o: NU32v2.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
 	@${RM} ${OBJECTDIR}/NU32v2.o.d 
+	@${RM} ${OBJECTDIR}/NU32v2.o 
 	@${FIXDEPS} "${OBJECTDIR}/NU32v2.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/NU32v2.o.d" -o ${OBJECTDIR}/NU32v2.o NU32v2.c  
 	
 ${OBJECTDIR}/comm.o: comm.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
 	@${RM} ${OBJECTDIR}/comm.o.d 
+	@${RM} ${OBJECTDIR}/comm.o 
 	@${FIXDEPS} "${OBJECTDIR}/comm.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/comm.o.d" -o ${OBJECTDIR}/comm.o comm.c  
 	
 ${OBJECTDIR}/monkeybot2.o: monkeybot2.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
 	@${RM} ${OBJECTDIR}/monkeybot2.o.d 
+	@${RM} ${OBJECTDIR}/monkeybot2.o 
 	@${FIXDEPS} "${OBJECTDIR}/monkeybot2.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/monkeybot2.o.d" -o ${OBJECTDIR}/monkeybot2.o monkeybot2.c  
 	
 endif
@@ -145,11 +159,11 @@ endif
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
 dist/${CND_CONF}/${IMAGE_TYPE}/Gibbot2012v3.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk    
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_CC} $(MP_EXTRA_LD_PRE)    -mprocessor=$(MP_PROCESSOR_OPTION)  -o dist/${CND_CONF}/${IMAGE_TYPE}/Gibbot2012v3.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}       -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1 
+	${MP_CC} $(MP_EXTRA_LD_PRE)    -mprocessor=$(MP_PROCESSOR_OPTION)  -o dist/${CND_CONF}/${IMAGE_TYPE}/Gibbot2012v3.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}       -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1,-Map="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map" 
 else
 dist/${CND_CONF}/${IMAGE_TYPE}/Gibbot2012v3.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_CC} $(MP_EXTRA_LD_PRE)  -mprocessor=$(MP_PROCESSOR_OPTION)  -o dist/${CND_CONF}/${IMAGE_TYPE}/Gibbot2012v3.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}       -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION)
+	${MP_CC} $(MP_EXTRA_LD_PRE)  -mprocessor=$(MP_PROCESSOR_OPTION)  -o dist/${CND_CONF}/${IMAGE_TYPE}/Gibbot2012v3.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}       -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),-Map="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map"
 	${MP_CC_DIR}\\pic32-bin2hex dist/${CND_CONF}/${IMAGE_TYPE}/Gibbot2012v3.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX}  
 endif
 
