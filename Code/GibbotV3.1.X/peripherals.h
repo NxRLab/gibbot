@@ -7,7 +7,9 @@ void initialize_pwm(void);
 void initialize_uart (void);
 void initialize_qei(void);
 void initialize_timer1(void);
+void initialize_i2c(void);
 void initialize_adc(void);
+void lights(void);
 short Read_ADC(void);
 
 #endif	/* PERIPHERALS_H */

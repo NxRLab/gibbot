@@ -6,7 +6,10 @@
 int lastADC = 0; //variable to store last ADC result
 int index1 = 0;
 int index2 = 0;
+int senddata = 0;
+int swing = 0;
 char bufferfull = 0;
+int pause = 0;
 
 struct {
     short encoder, i1, i2, i3;
@@ -44,47 +47,43 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
             index2=1;
             turncount = 42;
         }
-        if (echo == 'z') { //half on direction 1
-            duty(186); //186
+        if (echo =='w'){
+            duty(372);
             kick();
-            direction = 1;
-            turncount = 24;
+            swing = 1;
         }
-        if (echo == 'x') { //half on direction 1
-            duty(372); //186
-            kick();
-            direction = 1;
-            index2=1;
-            turncount = 24;
+        if (echo =='q'){
+            duty(0);
+            swing = 0;
+            index2 = 0;
         }
-        if (echo == 'c') { //half on direction 1
-            duty(558); //186
-            kick();
-            direction = 1;
-            index2=1;
-            turncount = 24;
+        if (echo =='o'){
+            senddata = 1;
         }
-        if (echo == 'v') { //half on direction 1
-            duty(791); //186
-            kick();
-            direction = 1;
-            index2=1;
-            turncount = 24;
-        }
-        if (echo == 'q') {
-            turncount = 0;
-            commutate(0);
-            index1 = 0;
-            index2=0;
+        if (echo =='p'){
+            senddata = 0;
         }
     }
     IFS0bits.U1RXIF = 0;
 }
 
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
-    if (index2 > 0){    //was turncount?
+    static int prevencoder = 0;
+
+
+    if ((POS1CNT > 2700) | (POS1CNT < 900)){
+        swing = 0;
+    } else {
+        if (prevencoder > POS1CNT){
+            direction = 1;
+        } else {
+            direction = 0;
+        }
+    }
+    prevencoder = POS1CNT;
+    if (senddata == 1){    //was turncount?
         Read_ADC();
-        data.encoder = POS1CNT+1700;    //add 1700 to prevent from being negative
+        data.encoder = POS1CNT;
         data.i1 = ADResultAN3;
         data.i2 = ADResultAN4;
         data.i3 = ADResultAN5;
@@ -97,7 +96,6 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
             while (U1STAbits.UTXBF); // wait until tx buffer isn't full
             U1TXREG = s[j];
         }
-        index2 = 0;
     }
         IFS0bits.T1IF = 0;
 }
@@ -115,7 +113,7 @@ void __attribute__((interrupt, no_auto_psv)) _CNInterrupt(void) {
     static char laststate;
     // Is this a CN interrupt?
     if (IFS1bits.CNIF) {
-        if (turncount > 0) {
+        if ((turncount > 0) | (swing == 1)) {
             state = (!S3 << 2) | (!S2 << 1) | !S1;
             commutate(state);
             if (laststate != state) {

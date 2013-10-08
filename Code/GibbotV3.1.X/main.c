@@ -29,8 +29,11 @@ int main(void) {
     initialize_uart();
     initialize_qei();
     initialize_timer1();
+    initialize_i2c();
     initialize_adc();
+    lights();
     while (1){
+        lights();
     }
     return 0;
 }

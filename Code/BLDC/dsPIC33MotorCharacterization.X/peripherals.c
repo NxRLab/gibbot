@@ -111,7 +111,7 @@ void init_qei(void){
     IPC14bits.QEIIP = 5;   //SEt QEI interrupt priority level
     IFS3bits.QEIIF = 0;    //Clear QEI Interrupt flag
     IEC3bits.QEIIE = 1;    //Enable QEI Interrupt
-    
+    POS1CNT = 1800;
     QEI1CONbits.QEIM = 0b101; //QEI x2 mode with reset at MAXxCNT
     MAX1CNT = 0xFFFF; //Set Reset value to maximum
 }

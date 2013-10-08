@@ -5,6 +5,16 @@
 #include "motorcontrol.h"
 #include "peripherals.h"
 
+void lights(void){
+    int i=0;
+    LED1 = 0;
+    while(i<100){
+        i++;
+        LED3 = !LED3;
+    }
+    LED1 = 1;
+}
+
 void initialize_cn(void) {
     //Change Notification
     CNENDbits.CNIED1 = 1; //Turn on CN for RD1
@@ -133,6 +143,10 @@ void initialize_qei(void){
     POS2CNTL = 1700;
     QEI1CONbits.QEIEN = 1; //Turn on QEI 1
     QEI2CONbits.QEIEN = 1; //Turn on QEI 2
+}
+
+void initialize_i2c(void){
+
 }
 
 void initialize_timer1(void){
