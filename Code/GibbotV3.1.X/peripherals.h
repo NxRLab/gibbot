@@ -1,15 +1,15 @@
 #ifndef PERIPHERALS_H
 #define	PERIPHERALS_H
 
-void initialize_cn(void);
-void startup(void);
-void initialize_pwm(void);
-void initialize_uart (void);
-void initialize_qei(void);
-void initialize_timer1(void);
-void initialize_i2c(void);
-void initialize_adc(void);
-void lights(void);
+void Initialize_CN(void);
+void Startup(void);
+void Initialize_PWM(void);
+void Initialize_UART(void);
+void Initialize_QEI(void);
+void Initialize_Timer1(void);
+void Initialize_I2C(void);
+void Initialize_ADC(void);
+void AllOfTheLights(void);
 short Read_ADC(void);
 
 #endif	/* PERIPHERALS_H */

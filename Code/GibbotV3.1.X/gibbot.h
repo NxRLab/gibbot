@@ -43,5 +43,8 @@
 #define LED2 LATDbits.LATD0
 #define LED3 LATCbits.LATC13
 #define LED4 LATCbits.LATC14
+
+extern int error;
+extern int transmit;
 #endif	/* GIBBOT_H */
 

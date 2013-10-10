@@ -8,7 +8,6 @@
 #include "gibbot.h"
 #include "motorcontrol.h"
 #include "peripherals.h"
-
 /* Configuration Bit Settings */
 _FOSCSEL(FNOSC_FRCPLL)
 //Select the internal fast RC oscilator with phase lock loop or as the clock
@@ -23,17 +22,16 @@ _FPOR(FPWRT_PWR128)
 
 int main(void) {
 
-    startup();
-    initialize_cn();
-    initialize_pwm();
-    initialize_uart();
-    initialize_qei();
-    initialize_timer1();
-    initialize_i2c();
-    initialize_adc();
-    lights();
+    Startup();
+    Initialize_CN();
+    Initialize_PWM();
+    Initialize_UART();
+    Initialize_QEI();
+    Initialize_Timer1();
+    Initialize_I2C();
+    Initialize_ADC();
+    AllOfTheLights();
     while (1){
-        lights();
     }
     return 0;
 }

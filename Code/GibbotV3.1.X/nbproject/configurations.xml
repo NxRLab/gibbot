@@ -7,6 +7,7 @@
       <itemPath>peripherals.h</itemPath>
       <itemPath>gibbot.h</itemPath>
       <itemPath>motorcontrol.h</itemPath>
+      <itemPath>interrupts.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -37,7 +38,7 @@
         <platformTool>PICkit3PlatformTool</platformTool>
         <languageToolchain>XC16</languageToolchain>
         <languageToolchainVersion>1.11</languageToolchainVersion>
-        <platform>3</platform>
+        <platform>4</platform>
       </toolsSet>
       <compileType>
         <linkerTool>
@@ -145,6 +146,7 @@
         <property key="save-temps" value="false"/>
       </C30Global>
       <PICkit3PlatformTool>
+        <property key="firmware.download.all" value="false"/>
       </PICkit3PlatformTool>
     </conf>
   </confs>

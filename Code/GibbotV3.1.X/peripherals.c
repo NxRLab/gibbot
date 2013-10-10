@@ -1,21 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <libpic30.h>
 #include <p33EP512MC806.h>
 #include "gibbot.h"
 #include "motorcontrol.h"
 #include "peripherals.h"
+#include "interrupts.h"
 
-void lights(void){
-    int i=0;
-    LED1 = 0;
-    while(i<100){
-        i++;
-        LED3 = !LED3;
-    }
-    LED1 = 1;
-}
-
-void initialize_cn(void) {
+int error = 0;
+void Initialize_CN(void) {
     //Change Notification
     CNENDbits.CNIED1 = 1; //Turn on CN for RD1
     CNENDbits.CNIED2 = 1; //Turn on CN for RD2
@@ -25,7 +18,7 @@ void initialize_cn(void) {
     IEC1bits.CNIE = 1;      //Enable CN interrupts
 }
 
-void startup(void){
+void Startup(void){
     //Set the calibration bits for phase lock loop
     CLKDIVbits.PLLPRE = 0;   // N1 = 2
     PLLFBDbits.PLLDIV = 42;  // M = 44
@@ -39,9 +32,16 @@ void startup(void){
     //Magnet Control
     TRISDbits.TRISD10 = 0;   //Top Magnet
     TRISBbits.TRISB15 = 0;   //Low Magnet
+    TOPMAG = 0;
+    LOWMAG = 0;
+    
+    LED1 = 1;
+    LED2 = 1;
+    LED3 = 1;
+    LED4 = 1;
 }
 
-void initialize_pwm(void){
+void Initialize_PWM(void){
     PTCON2bits.PCLKDIV = 0b010; //PWM input clock prescaled by 1:4
     //Period = 80 MHz / (PTPER * Prescaler)
     //Period = 80 MHz / (20kHz * 4) = 1000
@@ -81,7 +81,7 @@ void initialize_pwm(void){
     PTCONbits.PTEN = 1;
 }
 
-void initialize_adc(void) {        // Initialize analog-digital voltage converter
+void Initialize_ADC(void) {        // Initialize analog-digital voltage converter
     AD1CON1bits.FORM    = 0;  // UnSigned Integer Output
     AD1CON1bits.AD12B   = 1;  // Select 12-bit mode
     AD1CON2bits.ALTS    = 0;  // Disable Alternate Input Selection
@@ -105,7 +105,7 @@ short Read_ADC(void) { //manual sampling and conversion function
     return ADC1BUF0; //Return AN3
 }
 
-void initialize_uart (void){
+void Initialize_UART(void){
     //Setup Peripheral Pin Select
     TRISEbits.TRISE7 = 0;
     ANSELEbits.ANSE7 = 0;
@@ -131,7 +131,7 @@ void initialize_uart (void){
     U1STAbits.UTXEN = 1;
 }
 
-void initialize_qei(void){
+void Initialize_QEI(void){
     //Turn on QEI
     RPINR14bits.QEA1R = 69; //Set RP69 (D5) as QEI1 A
     RPINR14bits.QEB1R = 68; //Set RP68 (D4) as QEI1 B
@@ -145,11 +145,83 @@ void initialize_qei(void){
     QEI2CONbits.QEIEN = 1; //Turn on QEI 2
 }
 
-void initialize_i2c(void){
+void Initialize_I2C(void){
+    //Fcy = 40 MHz
+    I2C2BRG = 99;
+    I2C_CONTROL.cmd = I2C_IDLE;
+    I2C_CONTROL.state = 0;
+    I2C_CONTROL.repeatcount = 0;
+    I2C_CONTROL.slaveaddr = 0b1010101; //7 bit address
+    
+    I2C2CONbits.I2CEN = 1;
 
 }
+//Initiates a start event (master pulls SDA low while SCLK is high)
+void I2C_Start(void){
+    //Check that the last event was a stop event which means the bus is idle
+    if(!I2C2STATbits.S){
+        //initiate start event
+        I2C2CONbits.SEN = 1;
+        //wait until the end of the start event clears the start enable bit
+        while(I2C2CONbits.SEN){
+        }
+        //If bus is not idle trigger error condition
+    } else {
+        error = 1;
+    }
+}
 
-void initialize_timer1(void){
+void I2C_SendOneByte(char value){
+    //check to see that the transmitter buffer is empty
+    if(!I2C2STATbits.TBF){
+       //Load the transmit register with the value to transmit
+       I2C2TRN = value;
+       //Check to ensure there was not a bus collision or a write collision
+       if(I2C2STATbits.BCL | I2C2STATbits.IWCOL){
+           error = 1;
+       }
+       //wait until transmission status is cleared at the end of transmisssion
+       while(I2C2STATbits.TRSTAT){
+       }
+    //report error if transmit buffer was already full
+    } else{
+           error = 1;
+    }
+    //Trigger error if byte not acknowledged. This could indicate that the wrong
+    //byte was sent or the SCLK and SDA lines were not hooked up correctly.
+    if (I2C2STATbits.ACKSTAT){
+       error = 1;
+    }
+}
+
+//This function reads one byte via I2C. It should only be used after a start
+//event and the slave device have already been addressed as per I2C protocol
+void I2Creadonebyte(char * variable){
+    //Enable recieve
+    I2C2CONbits.RCEN = 1;
+    //Report if recieve events overlap.
+    if(I2C2STATbits.I2COV){
+        error=1;
+    }
+    //Wait until recieve register is full.
+    while(!I2C2STATbits.RBF){
+    }
+    //Save recieved data to variable. Automatically clears RCEN and RBF
+       *variable = I2C2RCV;
+    //Send Ack bit
+       I2C2CONbits.ACKDT = 0;
+       I2C2CONbits.ACKEN = 1;
+}
+//Initiates a stop event to end transmission and leave bus idle
+void I2C_Stop(void){
+    //Initiates a stop event, master sets SDA high on a high SCLK
+    I2C2CONbits.PEN = 1;
+    //wait for stop event enable to be cleared by completion of stop event
+    while(I2C2CONbits.PEN){
+    }
+}
+
+void Initialize_Timer1(void){
     //Create an interrupt at 1kHz
     T1CONbits.TON = 0; //Turn off Timer1
     T1CONbits.TCKPS = 0b11; //Set prescaler as 256:1
@@ -161,4 +233,29 @@ void initialize_timer1(void){
     IEC0bits.T1IE = 1; // Enable Timer1 interrupt
 
     T1CONbits.TON = 1; //Turn on Timer1
+}
+
+void AllOfTheLights(void){
+    LED1 = 0;
+    __delay32(8000000);
+    LED1 = 1;
+    LED2 = 0;
+    __delay32(8000000);
+    LED2 = 1;
+    LED3 = 0;
+    __delay32(8000000);
+    LED3 = 1;
+    LED4 = 0;
+    __delay32(8000000);
+    LED4 = 1;
+    __delay32(2500000);
+    LED1 = 0;
+    LED2 = 0;
+    LED3 = 0;
+    LED4 = 0;
+    __delay32(10000000);
+    LED1 = 1;
+    LED2 = 1;
+    LED3 = 1;
+    LED4 = 1;
 }
