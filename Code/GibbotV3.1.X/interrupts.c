@@ -117,6 +117,22 @@ void __attribute__((interrupt, no_auto_psv)) _MI2C2Interrupt(void) {
                     //If address was acknowledged send data
                 } else {
                     I2C_CONTROL.repeatcount = 0;
+                    //If no data remaining
+                    if(I2C_CONTROL.numbytes == 0){
+                        I2C_CONTROL.state = 3;
+                        break;
+                    }
+                    //If transmission buffer is not already full
+                    if(!I2C2STATbits.TBF){
+                        //Transmit slave last data byte
+                        I2C2TRN = I2C_CONTROL.data[I2C_CONTROL.numbytes];
+                        I2C_CONTROL.numbytes--;
+                        error = 0;
+                        //repeat until no data remaining
+                    } else {
+                        //Generate an error and repeat
+                        error = 1;
+                    }
 
                 }
 
