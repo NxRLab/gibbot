@@ -31,20 +31,17 @@
  * User            RB2
  */
 
+//Rotary encoder outputs from the BLDC motor
 #define S1 PORTDbits.RD3
 #define S2 PORTDbits.RD2
 #define S3 PORTDbits.RD1
 
+//Switches and outputs
 #define USER PORTBbits.RB2
 #define TOPMAG PORTDbits.RD10
-#define LOWMAG PORTBbits.RB15
-
 #define LED1 LATDbits.LATD11
 #define LED2 LATDbits.LATD0
 #define LED3 LATCbits.LATC13
 #define LED4 LATCbits.LATC14
-
-extern int error;
-extern int transmit;
 #endif	/* GIBBOT_H */
 

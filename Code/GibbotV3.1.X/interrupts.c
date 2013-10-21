@@ -3,18 +3,16 @@
 #include <p33EP512MC806.h>
 #include "gibbot.h"
 #include "motorcontrol.h"
-#include "interrupts.h"
+#include "peripherals.h"
 
-int lastADC = 0; //variable to store last ADC result
-int index1 = 0;
-int index2 = 0;
-char bufferfull = 0;
 int motoron = 0;
-int qei1;
-int qei2;
-int transmit;
+int senddata = 0;
+int lowmagon = 0;
 
-struct I2C_CONTROL_t I2C_CONTROL; 
+struct {
+    unsigned short topmagenc, motorenc, lowmagenc;
+    char state;
+} data;
 
 //Interrupt vector names are in Table 7-4 p101 of the MPLAB C30 User's Guide
 void __attribute__((interrupt, no_auto_psv)) _CNInterrupt(void) {
@@ -38,59 +36,81 @@ void __attribute__((interrupt, no_auto_psv)) _CNInterrupt(void) {
 
 void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
     while (U1STAbits.URXDA){ // If there is data in the recieve register
-        char echo = U1RXREG;
-        U1TXREG = echo;
+        char data = U1RXREG;
+        if (data == 'o'){
+            senddata = 1;
+        } else if (data == 'p'){
+            senddata = 1;
+        } else if (data == 'w'){
+            lowmagon = 1;
+        } else if (data == 'q'){
+            lowmagon = 0;
+        }
     }
 	IFS0bits.U1RXIF = 0;
 }
 
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
-    static int i;
-    if(i == 500){
-    printf("%d\r", POS2CNTL);
-    i=0;
+    
+    if (senddata == 1){    //was turncount?
+        data.topmagenc = POS1CNTL;
+        data.motorenc = MOTCNT;
+        data.lowmagenc = LOWMAGCNT;
+
+        printf("%5d,%5d,%6d", data.topmagenc, data.motorenc, data.lowmagenc);
+//        data.state = 1; //7;
+        //printf("%d \n",data.encoder);
+
+//        char *s = (char *) &data;
+//        int j;
+//        for (j = 0; j < 7; j++) {
+//            while (U1STAbits.UTXBF); // wait until tx buffer isn't full
+//            if(s[j] == 0){
+//                U1TXREG = 0x01;
+//            } else{
+//            U1TXREG = s[j];
+//            }
+//        }
+        senddata = 0;
+    }
+    if(USER){
+        if(lowmagon){
+            I2C_Write(READ_MOTOR | READ_LOWMAG | MAGNET_ON);
+        } else {
+            I2C_Write(READ_MOTOR | READ_LOWMAG);
+        }
     } else {
-        i++;
+        if(lowmagon){
+            I2C_Read(READ_MOTOR | READ_LOWMAG | MAGNET_ON);
+        } else {
+            I2C_Read(READ_MOTOR | READ_LOWMAG);
+        }
     }
     IFS0bits.T1IF = 0;
 }
 
 void __attribute__((interrupt, no_auto_psv)) _MI2C2Interrupt(void) {
-    /* As laid out in the dsPIC33EP512MC806 User Manual Section 19
-     * Table 19-2 the states of the I2C transmission progress as follows
-     * Modified for no repeat start event
-     * ________________________________________________
-     * State Number | I2C2CON<4:0> | TRSTAT | State
-     *       0      |    00000     |   0    | Bus Idle
-     *       1      |    00001     |  N/A   | Sending Start Event
-     *       2      |    00000     |   1    | Master Transmitting
-     *       3      |    00100     |  N/A   | Sending Stop Event
-     *       4      |    01000     |  N/A   | Master Reception
-     *       5      |    10000     |  N/A   | Master Acknowledgement
-     * 
-     */
-    static int I2C_state = 0;
-    if(transmit==1){
-        switch(I2C_state){
+    int switchexit = 0;
+    while(switchexit < 1){
+        switch(I2C_CONTROL.state){
             case 0:
-                //If a read or write sequence has been initiated
-                if (I2C_CONTROL.cmd == I2C_WRITE || I2C_CONTROL.cmd ==I2C_READ)
                 //Change Transmission state to signify sending start event
                 I2C_CONTROL.state= 1;
                 //Initiate start event
                 I2C2CONbits.SEN = 1;
+                switchexit = 1;
                 break;
             case 1:
                 //If start has completed
                 if(I2C2STATbits.S && !I2C2CONbits.SEN){
                     //If transmission buffer is not already full
                     if(!I2C2STATbits.TBF){
-                        //Change Transmission state to signify transmission
-                        I2C_CONTROL.state = 2;
+                        //Change State depending on reading or writing status;
+                        I2C_CONTROL.state = 2 + I2C_CONTROL.cmd;
                         //Transmit slave address + R/W bit
                         I2C2TRN = ((I2C_CONTROL.slaveaddr)<<1) | I2C_CONTROL.cmd;
+                        switchexit = 1;
                         error = 0;
-                        break;
                     } else {
                         //Generate an error and repeat
                         error = 1;
@@ -102,14 +122,16 @@ void __attribute__((interrupt, no_auto_psv)) _MI2C2Interrupt(void) {
                     I2C_CONTROL.state = 0;
                     error = 1;
                 }
-            case 2:
+                break;
+            case 2: //Writing data
                 //If address not acknowledged try again
-                if(I2C2STATbits.ACKSTAT){
+                if(0){//if(I2C2STATbits.ACKSTAT){
                     //If more than three attempts exit with an error
                     if(I2C_CONTROL.repeatcount >= 3){
                         I2C_CONTROL.state = 0;
                         error = 1;
-                        break;
+                        LED3 = 1;
+                        switchexit = 1;
                     }
                     //Try sending address again
                     I2C_CONTROL.repeatcount++;
@@ -117,37 +139,121 @@ void __attribute__((interrupt, no_auto_psv)) _MI2C2Interrupt(void) {
                     //If address was acknowledged send data
                 } else {
                     I2C_CONTROL.repeatcount = 0;
-                    //If no data remaining
+                    //If no data remaining in a write operation, move to stop condition
                     if(I2C_CONTROL.numbytes == 0){
-                        I2C_CONTROL.state = 3;
-                        break;
-                    }
-                    //If transmission buffer is not already full
-                    if(!I2C2STATbits.TBF){
-                        //Transmit slave last data byte
-                        I2C2TRN = I2C_CONTROL.data[I2C_CONTROL.numbytes];
+                        //Move to stop condition
+                        I2C_CONTROL.state = 4;
+                        switchexit = 1;
+                        //If transmission buffer is not already full
+                    } else if(!I2C2STATbits.TBF){
+                        //Transmit last data byte
                         I2C_CONTROL.numbytes--;
+                        I2C2TRN = I2C_CONTROL.trndata[I2C_CONTROL.numbytes];
+                        LED3 = 0;
                         error = 0;
                         //repeat until no data remaining
                     } else {
                         //Generate an error and repeat
+                        LED3 = 1;
                         error = 1;
                     }
-
                 }
-
-                
-
-
-
+                break;
+            case 3: //Reading Data
+                //If address not acknowledged try again
+                if(I2C2STATbits.ACKSTAT && !I2C2STATbits.D_A){
+                    //If more than three attempts exit with an error
+                    if(I2C_CONTROL.repeatcount >= 3){
+                        I2C_CONTROL.state = 0;
+                        LED3 = 1;
+                        error = 1;
+                        switchexit = 1;
+                    }
+                    //Try sending address again
+                    I2C_CONTROL.repeatcount++;
+                    I2C_CONTROL.state = 1;
+                    //If address was acknowledged send data
+                } else {
+                    I2C_CONTROL.state = 6;
+                    switchexit = 1;
+                    I2C2CONbits.RCEN = 1;
+                    break;
+                }
+            case 4:
+                //If data was not acknowledged exit with an error
+                if(0){//if(I2C2STATbits.ACKSTAT){
+                    I2C_CONTROL.state = 0;
+                    LED3 = 1;
+                    error = 1;
+                    break;
+                }
+                //Stop Condition
+                //Change Transmission state to signify end of message
+                I2C_CONTROL.state= 5;
+                //Initiate stop event
+                I2C2CONbits.PEN = 1;
+                switchexit = 1;
+                break;
+            case 5:
+                //Message sent clear variables
+                I2C_CONTROL.cmd = I2C_IDLE;
+                I2C_CONTROL.repeatcount = 0;
+                I2C_CONTROL.state= 0;
+                switchexit = 1;
+                break;
+            //Reading data
+            case 6:
+                //If the data recive buffer is full read data
+                if(I2C2STATbits.RBF){
+                    //Store recieved data in recieve buffer
+                    I2C_CONTROL.numbytes--;
+                    I2C_CONTROL.rcvdata[I2C_CONTROL.numbytes] = I2C2RCV;
+                    I2C2CONbits.ACKDT = 0;
+                    I2C_CONTROL.state = 3;
+                    if(I2C_CONTROL.numbytes==0){
+                        if((I2C_CONTROL.slaveaddr & 0b0000011) == 3){
+                            MOTCNT = (I2C_CONTROL.rcvdata[5]<<8) + I2C_CONTROL.rcvdata[4];
+                            LOWMAGCNT = (I2C_CONTROL.rcvdata[3]<<8) + (I2C_CONTROL.rcvdata[2]);
+                            LOWMAGCNT = (LOWMAGCNT<<16) + (I2C_CONTROL.rcvdata[1]<<8)
+                                + I2C_CONTROL.rcvdata[0];
+                        } else if(I2C_CONTROL.slaveaddr & 0b0000010){
+                            MOTCNT = (I2C_CONTROL.rcvdata[1]<<8) + I2C_CONTROL.rcvdata[0];
+                        } else if(I2C_CONTROL.slaveaddr & 0b0000001){
+                            LOWMAGCNT = (I2C_CONTROL.rcvdata[3]<<8) + (I2C_CONTROL.rcvdata[2]);
+                            LOWMAGCNT = (LOWMAGCNT<<16) + (I2C_CONTROL.rcvdata[1]<<8) + I2C_CONTROL.rcvdata[0];
+                        }
+                        I2C_CONTROL.state = 7;
+                        //Send Nack to indicate all data has been recieved
+                        I2C2CONbits.ACKDT = 1;
+                    }
+                    switchexit = 1;
+                    //Acknowledge data
+                    I2C2CONbits.ACKEN = 1;
+                    break;
+                //Otherwise no data was sent, set error and exit
+                } else {
+                    switchexit = 1;
+                    I2C_CONTROL.state = 0;
+                    LED3 = 1;
+                    error = 1;
+                    break;
+                }
+            case 7:
+                //Stop Condition
+                //Change Transmission state to signify end of message
+                I2C_CONTROL.state= 8;
+                //Initiate stop event
+                I2C2CONbits.PEN = 1;
+                switchexit = 1;
+                break;
+            case 8:
+                //Message sent clear variables
+                I2C_CONTROL.cmd = I2C_IDLE;
+                I2C_CONTROL.repeatcount = 0;
+                I2C_CONTROL.state= 0;
+                switchexit = 1;
+                break;
         }
-
     }
     IFS3bits.MI2C2IF = 0;
 }
-
-void __attribute__((interrupt, no_auto_psv)) _SI2C2Interrupt(void) {
-
-    IFS3bits.SI2C2IF = 0;
-}
-

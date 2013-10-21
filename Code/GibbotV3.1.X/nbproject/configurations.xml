@@ -7,7 +7,6 @@
       <itemPath>peripherals.h</itemPath>
       <itemPath>gibbot.h</itemPath>
       <itemPath>motorcontrol.h</itemPath>
-      <itemPath>interrupts.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"

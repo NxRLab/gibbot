@@ -23,15 +23,10 @@ _FPOR(FPWRT_PWR128)
 int main(void) {
 
     Startup();
-    Initialize_CN();
-    Initialize_PWM();
-    Initialize_UART();
-    Initialize_QEI();
-    Initialize_Timer1();
-    Initialize_I2C();
-    Initialize_ADC();
-    AllOfTheLights();
+    TOPMAG = 1;
+    I2C_Write(READ_MOTOR | READ_LOWMAG);
     while (1){
+        
     }
     return 0;
 }
