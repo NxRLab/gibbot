@@ -1,5 +1,6 @@
 /* First iteration of code to go with the Gibbot v3 board. This code
- * will be developed into full functionality for the robot.
+ * will be developed to interface with a python controler on the PC that
+ * can drive the motor, control the moagnets and read data from the Gibbot.
  */
 
 #include <stdio.h>
@@ -23,10 +24,7 @@ _FPOR(FPWRT_PWR128)
 int main(void) {
 
     Startup();
-    TOPMAG = 1;
-    I2C_Write(READ_MOTOR | READ_LOWMAG);
-    while (1){
-        
+    while (1){    
     }
     return 0;
 }

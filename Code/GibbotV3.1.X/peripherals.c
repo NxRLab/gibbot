@@ -27,15 +27,15 @@ void Startup(void){
     //Magnet Control
     TRISDbits.TRISD10 = 0;   //Top Magnet
 
-    TOPMAG = 0;
+    TOPMAG = 1;
 
     Initialize_CN();
     Initialize_PWM();
     Initialize_UART();
     Initialize_QEI();
-    Initialize_Timer1();
     Initialize_I2C_Master();
     Initialize_ADC();
+    Initialize_Timer1();
     Lights();
 }
 
@@ -85,12 +85,12 @@ void Initialize_PWM(void){
     IOCON3bits.PENH = 1;
     IOCON3bits.PENL = 1;
     //Set polarity of PWM registers
-    IOCON1bits.POLH = 1;
-    IOCON2bits.POLH = 1;
-    IOCON3bits.POLH = 1;
-    IOCON1bits.POLL = 0;
-    IOCON2bits.POLL = 0;
-    IOCON3bits.POLL = 0;
+    IOCON1bits.POLH = 1; //PWM1H pin is active-low
+    IOCON2bits.POLH = 1; //PWM1H pin is active-low
+    IOCON3bits.POLH = 1; //PWM1H pin is active-low
+    IOCON1bits.POLL = 0; //PWM1L pin is active-high
+    IOCON2bits.POLL = 0; //PWM1L pin is active-high
+    IOCON3bits.POLL = 0; //PWM1L pin is active-high
 
     //Set MDC register to provide duty cycle information
     PWMCON1bits.MDCS = 1;
@@ -129,7 +129,7 @@ void Initialize_ADC(void) {
 short ADC_Read(void) { //manual sampling and conversion function
     AD1CON1bits.SAMP = 1; //Start sampling, sampling is stopped after 1us
     while (!AD1CON1bits.DONE); //wait for sampling and conversion to finish
-    return ADC1BUF0; //Return AN3
+    return ADC1BUF0; //Return AN30
 }
 
 void Initialize_UART(void){

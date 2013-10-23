@@ -38,7 +38,7 @@
 
 //Switches and outputs
 #define USER PORTBbits.RB2
-#define TOPMAG PORTDbits.RD10
+#define TOPMAG LATDbits.LATD10
 #define LED1 LATDbits.LATD11
 #define LED2 LATDbits.LATD0
 #define LED3 LATCbits.LATC13
