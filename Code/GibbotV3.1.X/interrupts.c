@@ -11,7 +11,7 @@ char motoron = 0;
 char state = 0;
 
 struct {
-    unsigned short topmagenc, motorenc, lowmagenc, current;
+    short topmagenc, motorenc, lowmagenc, current;
     char state;
 } data;
 
@@ -58,8 +58,8 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
             } else if (data == 'q'){
                 lowmagon = 0;
             } else if (data == 'm'){
-                motoron = 1;
-                kick();
+              //  motoron = 1;
+              //  kick();
             }
         }
 //        //Execute command from python control
@@ -72,27 +72,19 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
  */
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     static char laststate;
-    motoron=1;
     if (senddata == 1){
         LED2 = 0;
         data.topmagenc = POS1CNTL;
         data.motorenc = MOTCNT;
         data.lowmagenc = LOWMAGCNT;
         data.current = ADC_Read();
-        printf("%5d,%5d,%6d", data.topmagenc, data.motorenc, data.current);
-
-// This code is for sending data over UART one byte at a time. It doesn't work
-// currently because the XBee drops the  null byte (0x00)
-//        char *s = (char *) &data;
-//        int j;
-//        for (j = 0; j < 7; j++) {
-//            while (U1STAbits.UTXBF); // wait until tx buffer isn't full
-//            if(s[j] == 0){
-//                U1TXREG = 0x01;
-//            } else{
-//            U1TXREG = s[j];
-//            }
-//        }
+        data.state = 0x00;
+        char *s = (char *) &data;
+        int j;
+        for (j = 0; j < 9; j++) {
+            while (U1STAbits.UTXBF); // wait until tx buffer isn't full            
+            U1TXREG = s[j];
+        }
         senddata = 0; //Only send data once when the python code asks for it
         LED2 = 1;
     }
