@@ -1,13 +1,10 @@
 /* First iteration of code to go with the Gibbot v3 board. This code
- * will be developed to interface with a python controler on the PC that
- * can drive the motor, control the moagnets and read data from the Gibbot.
+ * will be developed into full functionality for the robot.
  */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <p33EP512MC806.h>
 #include "gibbot.h"
-#include "motorcontrol.h"
 #include "peripherals.h"
 /* Configuration Bit Settings */
 _FOSCSEL(FNOSC_FRCPLL)
@@ -24,7 +21,10 @@ _FPOR(FPWRT_PWR128)
 int main(void) {
 
     Startup();
-    while (1){    
+    Initialize_QEI();
+    Initialize_I2C_Slave();
+    AllOfTheLights();
+    while (1){
     }
     return 0;
 }

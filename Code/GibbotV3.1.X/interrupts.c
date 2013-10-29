@@ -5,23 +5,24 @@
 #include "motorcontrol.h"
 #include "peripherals.h"
 
-int motoron = 0;
 int senddata = 0;
 int lowmagon = 0;
+char motoron = 0;
+char state = 0;
 
 struct {
-    unsigned short topmagenc, motorenc, lowmagenc;
+    short topmagenc, motorenc, lowmagenc, current;
     char state;
 } data;
 
 //Interrupt vector names are in Table 7-4 p101 of the MPLAB C30 User's Guide
+//This interrupt triggers when the motor encoder changes state.
 void __attribute__((interrupt, no_auto_psv)) _CNInterrupt(void) {
-    static char state = 0;
     if (IFS1bits.CNIF) {
-        state = (!S3 << 2) | (!S2 << 1) | !S1;
-        if(motoron == 1){
-            commutate(state);
-
+        state = (!S3 << 2) | (!S2 << 1) | !S1; //Read encoders
+        if(motoron == 1){//If the motor has been turned on
+            commutate(state);//Change outputs based on inputs
+            //Change LEDS
             LED1 = !S1;
             LED2 = !S2;
             LED3 = !S3;
@@ -36,59 +37,104 @@ void __attribute__((interrupt, no_auto_psv)) _CNInterrupt(void) {
 
 void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
     while (U1STAbits.URXDA){ // If there is data in the recieve register
-        char data = U1RXREG;
-        if (data == 'o'){
-            senddata = 1;
-        } else if (data == 'p'){
-            senddata = 1;
-        } else if (data == 'w'){
-            lowmagon = 1;
-        } else if (data == 'q'){
-            lowmagon = 0;
+        unsigned char data = U1RXREG; //save data
+        int torque;
+        if(data & 0b10000000){
+            torque = (int)data-192; // torque [-63, +63]
+            if(torque < 0){
+                direction = 1;
+                torque = -torque;
+            } else {
+                direction = 0;
+            }
+            MDC = torque*7.9;
+        } else {
+            if (data == 'o'){
+                senddata = 1;
+            } else if (data == 'p'){
+                motoron = 0;
+            } else if (data == 'w'){
+                lowmagon = 1;
+            } else if (data == 'q'){
+                lowmagon = 0;
+            } else if (data == 'm'){
+              //  motoron = 1;
+              //  kick();
+            }
         }
+//        //Execute command from python control
+//
     }
 	IFS0bits.U1RXIF = 0;
 }
-
+/* Timer 1 Interrupt - Triggers every 1ms.
+ * The interrupt executes and updates most controls.
+ */
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
-    
-    if (senddata == 1){    //was turncount?
+    static char laststate;
+    if (senddata == 1){
+        LED2 = 0;
         data.topmagenc = POS1CNTL;
         data.motorenc = MOTCNT;
         data.lowmagenc = LOWMAGCNT;
-
-        printf("%5d,%5d,%6d", data.topmagenc, data.motorenc, data.lowmagenc);
-//        data.state = 1; //7;
-        //printf("%d \n",data.encoder);
-
-//        char *s = (char *) &data;
-//        int j;
-//        for (j = 0; j < 7; j++) {
-//            while (U1STAbits.UTXBF); // wait until tx buffer isn't full
-//            if(s[j] == 0){
-//                U1TXREG = 0x01;
-//            } else{
-//            U1TXREG = s[j];
-//            }
-//        }
-        senddata = 0;
+        data.current = ADC_Read();
+        data.state = 0x00;
+        char *s = (char *) &data;
+        int j;
+        for (j = 0; j < 9; j++) {
+            while (U1STAbits.UTXBF); // wait until tx buffer isn't full            
+            U1TXREG = s[j];
+        }
+        senddata = 0; //Only send data once when the python code asks for it
+        LED2 = 1;
     }
+
+    laststate = state;
+    
     if(USER){
-        if(lowmagon){
-            I2C_Write(READ_MOTOR | READ_LOWMAG | MAGNET_ON);
-        } else {
-            I2C_Write(READ_MOTOR | READ_LOWMAG);
+        // When the user button is pressed, clear the upper magnet encoder
+        // and send a message to the other board to clear the motor and lower
+        // magnet encoders. Turn off manget so that the gibbot can be removed
+        // from the board.
+        POS1CNTL = 0;
+        TOPMAG = 0;
+        if(I2C_CONTROL.state == 0){//If the I2C interrupt routine is not sending
+            if(lowmagon){
+                I2C_Write(READ_MOTOR | READ_LOWMAG | MAGNET_ON);
+            } else {
+                I2C_Write(READ_MOTOR | READ_LOWMAG);
+            }
         }
     } else {
-        if(lowmagon){
-            I2C_Read(READ_MOTOR | READ_LOWMAG | MAGNET_ON);
-        } else {
-            I2C_Read(READ_MOTOR | READ_LOWMAG);
+        // If user button is not pressed read motor and magnet values.
+        TOPMAG = 1;
+        if(I2C_CONTROL.state == 0){//If the I2C interrupt routine is not sending
+            if(lowmagon){
+                I2C_Read(READ_MOTOR | READ_LOWMAG | MAGNET_ON);
+            } else {
+                I2C_Read(READ_MOTOR | READ_LOWMAG);
+            }
         }
     }
+
     IFS0bits.T1IF = 0;
 }
 
+/* Master I2C interrupt - controls the sending/receiveing of I2C messages
+ * between the main and secondary boards. The code stesp through a series of
+ * states, relying on the I2C module to call the interrupt after each stage of
+ * the transmission sequence has completed.
+ * State
+ *   0  | Initiate start event
+ *   1  | Check for start event completion, Send address byte
+ *   2  | Check that byte was acknowledged, Write data byte
+ *   3  | Check that byte was acknowledged, Enable recieve
+ *   4  | Check that byte was acknowledged, Initiate Stop event
+ *   5  | Message sent, clear state variables
+ *   6  | Read data byte
+ *   7  | Initiate stop event
+ *   8  | Message sent, clear state variables
+ */
 void __attribute__((interrupt, no_auto_psv)) _MI2C2Interrupt(void) {
     int switchexit = 0;
     while(switchexit < 1){
@@ -143,7 +189,6 @@ void __attribute__((interrupt, no_auto_psv)) _MI2C2Interrupt(void) {
                     if(I2C_CONTROL.numbytes == 0){
                         //Move to stop condition
                         I2C_CONTROL.state = 4;
-                        switchexit = 1;
                         //If transmission buffer is not already full
                     } else if(!I2C2STATbits.TBF){
                         //Transmit last data byte

@@ -3,13 +3,8 @@
 #include <p33EP512MC806.h>
 #include "gibbot.h"
 
-int direction =0;
+int direction;
 
-/* Turns on High state PWM on one the MOSFETs bridges controlling the BLDC
- * motor leads. The motor lead that is set high is determined by the
- * input variable. The MOSFETs are set high by turning off the override
- * setting for the PWM module associated with the chosen pair of outputs.
- */
 void High(int pin){
     if(pin == 1){
         IOCON1bits.OVRENH = 0;  //Turn overide off for high pin
@@ -23,15 +18,6 @@ void High(int pin){
     }
 }
 
-/* Turns on the low side MOSFET driving one of the BLDC motor leads low.
- * The motor lead that is set low is determined by the input variable.
- * The MOSFET bridge is pulled low by turning on the override setting for the
- * PWM module associated with the chosen pair of outputs, turning the high
- * side MOSFET off and turning the low side MOSFET on.
- *
- * Note: The high side control is active low and the low side control is active
- * high as set in the Initialize_PWM function.
- */
 void Low(int pin){
     if(pin == 1){
         IOCON1bits.OVRDAT1 = 0; // PWM High Pin override output is off
@@ -51,15 +37,6 @@ void Low(int pin){
     }
 }
 
-/* Turns off both MOSFETs leaving one of the BLDC motor leads floating.
- * The motor lead that is floating is determined by the input variable.
- * The MOSFET bridge is set to float by turning on the override setting for the
- * PWM module associated with the chosen pair of outputs, turning the high
- * side MOSFET off and turning the low side MOSFET off.
- *
- * Note: The high side control is active low and the low side control is active
- * high as set in the Initialize_PWM function.
- */
 void Float(int pin){
     if(pin == 1){
         IOCON1bits.OVRDAT1 = 0; // PWM High Pin override output is off
@@ -79,24 +56,6 @@ void Float(int pin){
     }
 }
 
-/* Utilizes the High, Low and Float functions to set to commutate the motor by
- * changing the output levels based on the input state as well as the global
- * variable direction. The commutation pattern is based on the commutation
- * diagram found on p32 of Maxon's E-Paper Catalog. The commutation pattern is:
- *
- * This commutation pattern is not currently the one being implemented in the
- * code below
- *  Switches | 101 | 100 | 110 | 010 | 011 | 001 |
- *   State   |  5  |  4  |  6  |  2  |  3  |  1  |
- * --------- |-----|-----|-----|-----|-----|-----|
- * 1 - White |  +  |  +  |  0  |  -  |  -  |  0  |
- * 2 - Black |  -  |  0  |  +  |  +  |  0  |  -  |
- * 3 -  Red  |  0  |  -  |  -  |  0  |  +  |  +  |
- *
- * SW1 = D1
- * SW2 = D2
- * SW3 = D3
- */
 void commutate(int state){
     switch(state){
         case 0:
@@ -145,17 +104,4 @@ void commutate(int state){
             }
             break;
     }
-}
-
-/* If the motor is not rotating the change notification interrupt will not
- * trigger and the commutate function will not be called. To get the motor
- * to spin initially the kick function needs to be called to change the
- * motor encoder inputs. 
- */
-void kick(void){
-    char kick;
-    char state;
-    state = (!S3 << 2) | (!S2 << 1) | !S1;
-    kick = ~state & 0b111;
-    commutate(kick);
 }
