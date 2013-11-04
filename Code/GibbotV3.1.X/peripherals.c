@@ -223,60 +223,121 @@ void Initialize_I2C_Master(void){
     //Fcy = 40 MHz
     //F SCL = 400kHz
     I2C2BRG = 95;
-    IFS3bits.MI2C2IF = 0;      //Clear interrupt flag
-    IPC12bits.MI2C2IP = 0b110;  //Set priority to 6
-    IEC3bits.MI2C2IE = 1;      //Enable I2C 2 Master interrupts
+//    IFS3bits.MI2C2IF = 0;      //Clear interrupt flag
+//    IPC12bits.MI2C2IP = 0b110;  //Set priority to 6
+//    IEC3bits.MI2C2IE = 1;      //Enable I2C 2 Master interrupts
 
     I2C_CONTROL.state = 0;
     I2C2CONbits.I2CEN = 1;
-
 }
+//
+//void I2C_Write(char command){
+//    /* I2C module will read to detect the address 1101XXXX being sent by the
+//     * master. The first four bits are a header that must be recognized. The
+//     * next three bits are masked and so are ignored by the module. They are
+//     * used as command bits. The final bit is the Read/Write bit which is
+//     * interpreted by the module.
+//     *   1101ABCR
+//     * A: 1 turns the magnet on, 0 turns the magnet off
+//     * B: If 1 the slave will send two bytes with the motor encoder position
+//     * C: If 1 the slave will send two bytes with the magnet encoder position
+//     * R: Indicates a read or a write
+//     * The R/W bit is appended to the address by the interrupt transmit function
+//     */
+//    I2C_CONTROL.cmd = I2C_WRITE;
+//    I2C_CONTROL.numbytes = 0;
+//    I2C_CONTROL.slaveaddr = 0b1101000 | command;
+//    //Trigger interupt
+//    IFS3bits.MI2C2IF = 1;
+//}
+//
+//void I2C_Read(char command){
+//    /* I2C module will read to detect the address 1101XXXX being sent by the
+//     * master. The first four bits are a header that must be recognized. The
+//     * next three bits are masked and so are ignored by the module. They are
+//     * used as command bits. The final bit is the Read/Write bit which is
+//     * interpreted by the module.
+//     *   1101ABCR
+//     * A: 1 turns the magnet on, 0 turns the magnet off
+//     * B: If 1 the slave will send two bytes with the motor encoder position
+//     * C: If 1 the slave will send four bytes with the magnet encoder position
+//     * R: Indicates a read or a write
+//     * The R/W bit is appended to the address by the interrupt transmit function
+//     */
+//    I2C_CONTROL.cmd = I2C_READ;
+//    if((command & 0b0000011) == 3){
+//        I2C_CONTROL.numbytes = 6;
+//    } else if(command & 0b0000010){
+//        I2C_CONTROL.numbytes = 2;
+//    } else if(command & 0b0000001){
+//        I2C_CONTROL.numbytes = 4;
+//    } else {
+//        I2C_CONTROL.numbytes = 0;
+//    }
+//
+//    I2C_CONTROL.slaveaddr = 0b1101000 | command;
+//    //Trigger interupt
+//    IFS3bits.MI2C2IF = 1;
+//}
 
-void I2C_Write(char command){
-    /* I2C module will read to detect the address 1101XXXX being sent by the
-     * master. The first four bits are a header that must be recognized. The
-     * next three bits are masked and so are ignored by the module. They are
-     * used as command bits. The final bit is the Read/Write bit which is
-     * interpreted by the module.
-     *   1101ABCR
-     * A: 1 turns the magnet on, 0 turns the magnet off
-     * B: If 1 the slave will send two bytes with the motor encoder position
-     * C: If 1 the slave will send two bytes with the magnet encoder position
-     * R: Indicates a read or a write
-     * The R/W bit is appended to the address by the interrupt transmit function
-     */
-    I2C_CONTROL.cmd = I2C_WRITE;
-    I2C_CONTROL.numbytes = 0;
-    I2C_CONTROL.slaveaddr = 0b1101000 | command;
-    //Trigger interupt
-    IFS3bits.MI2C2IF = 1;
-}
 
 void I2C_Read(char command){
-    /* I2C module will read to detect the address 1101XXXX being sent by the
-     * master. The first four bits are a header that must be recognized. The
-     * next three bits are masked and so are ignored by the module. They are
-     * used as command bits. The final bit is the Read/Write bit which is
-     * interpreted by the module.
-     *   1101ABCR
-     * A: 1 turns the magnet on, 0 turns the magnet off
-     * B: If 1 the slave will send two bytes with the motor encoder position
-     * C: If 1 the slave will send four bytes with the magnet encoder position
-     * R: Indicates a read or a write
-     * The R/W bit is appended to the address by the interrupt transmit function
-     */
-    I2C_CONTROL.cmd = I2C_READ;
-    if((command & 0b0000011) == 3){
-        I2C_CONTROL.numbytes = 6;
-    } else if(command & 0b0000010){
-        I2C_CONTROL.numbytes = 2;
-    } else if(command & 0b0000001){
-        I2C_CONTROL.numbytes = 4;
-    } else {
-        I2C_CONTROL.numbytes = 0;
+    unsigned char data[8] = {};
+    int j=0;
+    if(!I2C2STATbits.S){
+        //initiate start event
+        I2C2CONbits.SEN = 1;
+        //check for bus collisions
+        if (I2C2STATbits.BCL){
+            I2C2CONbits.PEN = 1;
+            printf("1");
+        }
+        //wait until the end of the start event clears the start enable bit
+        while(I2C2CONbits.SEN){
+        }
     }
+    else{
+       I2C2CONbits.PEN = 1;
+       printf("2");
+    }
+    if(!I2C2STATbits.TBF){
+        //Transmit slave address +
+        I2C2TRN = 0b11010111;
+        while(I2C2STATbits.TRSTAT){
+        }
+        if(I2C2STATbits.ACKSTAT){
+            printf("4");
+        }
+    } else {
+        I2C2CONbits.PEN = 1;
+        printf("3");
+    }
+    if(I2C2CON & 0b11111){
+        printf("6");
+    }
+    for(j = 0; j <= 5; j++){
 
-    I2C_CONTROL.slaveaddr = 0b1101000 | command;
-    //Trigger interupt
-    IFS3bits.MI2C2IF = 1;
+        //Enable recieve
+        I2C2CONbits.RCEN = 1;
+        //Wait until recieve register is full.
+        while(!I2C2STATbits.RBF){
+        }
+        //Save recieved data to variable. Automatically clears RCEN and RBF
+        data[j] = I2C2RCV;
+        I2C2CONbits.ACKDT = 0;
+        if(j==5){
+            I2C2CONbits.ACKDT = 1;
+        }
+        I2C2CONbits.ACKEN = 1;
+        while(I2C2CONbits.ACKEN){
+        }
+    }
+    I2C2CONbits.PEN = 1;
+    MOTCNT = (data[0]<<8) + data[1];
+    LOWMAGCNT = (data[2]<<8) + (data[3]);
+    LOWMAGCNT = (LOWMAGCNT<<16) + (data[4]<<8)
+        + data[5];
+
+    while(I2C2CONbits.PEN){
+    }
 }

@@ -17,20 +17,20 @@ struct {
 
 //Interrupt vector names are in Table 7-4 p101 of the MPLAB C30 User's Guide
 //This interrupt triggers when the motor encoder changes state.
-void __attribute__((interrupt, no_auto_psv)) _CNInterrupt(void) {
-    if (IFS1bits.CNIF) {
-        state = (!S3 << 2) | (!S2 << 1) | !S1; //Read encoders
-        if(motoron == 1){//If the motor has been turned on
-            commutate(state);//Change outputs based on inputs
-            //Change LEDS
-            LED1 = !S1;
-            LED2 = !S2;
-            LED3 = !S3;
-        }
-        LED4 = !LED4;
-        // clear mismatch condition
-        PORTD;
+void __attribute__((interrupt, no_auto_psv)) _CNInterrupt(void) {   
+    state = (S3 << 2) | (S2 << 1) | S1; //Read encoders
+    if(motoron == 1){//If the motor has been turned on
+        commutate(state);//Change outputs based on inputs
+        //Change LEDS
+        LED1 = !S1;
+        LED2 = !S2;
+        LED3 = !S3;
+    } else {
+        commutate(0);
     }
+    LED4 = !LED4;
+    // clear mismatch condition
+    PORTD;
     IFS1bits.CNIF = 0; //Clear int flag
     return;
 }
@@ -58,8 +58,10 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
             } else if (data == 'q'){
                 lowmagon = 0;
             } else if (data == 'm'){
-              //  motoron = 1;
-              //  kick();
+                motoron = 1;
+                kick();
+            } else if (data == 'a'){
+                printf("a\r");
             }
         }
 //        //Execute command from python control
@@ -98,23 +100,24 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
         // from the board.
         POS1CNTL = 0;
         TOPMAG = 0;
-        if(I2C_CONTROL.state == 0){//If the I2C interrupt routine is not sending
-            if(lowmagon){
-                I2C_Write(READ_MOTOR | READ_LOWMAG | MAGNET_ON);
-            } else {
-                I2C_Write(READ_MOTOR | READ_LOWMAG);
-            }
-        }
+//        if(I2C_CONTROL.state == 0){//If the I2C interrupt routine is not sending
+//            if(lowmagon){
+//                I2C_Write(READ_MOTOR | READ_LOWMAG | MAGNET_ON);
+//            } else {
+//                I2C_Write(READ_MOTOR | READ_LOWMAG);
+//            }
+//        }
     } else {
         // If user button is not pressed read motor and magnet values.
         TOPMAG = 1;
-        if(I2C_CONTROL.state == 0){//If the I2C interrupt routine is not sending
-            if(lowmagon){
-                I2C_Read(READ_MOTOR | READ_LOWMAG | MAGNET_ON);
-            } else {
-                I2C_Read(READ_MOTOR | READ_LOWMAG);
-            }
-        }
+        I2C_Read(READ_MOTOR | READ_LOWMAG | MAGNET_ON);
+//        if(I2C_CONTROL.state == 0){//If the I2C interrupt routine is not sending
+//            if(lowmagon){
+//                I2C_Read(READ_MOTOR | READ_LOWMAG | MAGNET_ON);
+//            } else {
+//                I2C_Read(READ_MOTOR | READ_LOWMAG);
+//            }
+//        }
     }
 
     IFS0bits.T1IF = 0;

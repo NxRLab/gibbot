@@ -81,22 +81,35 @@ void Float(int pin){
 
 /* Utilizes the High, Low and Float functions to set to commutate the motor by
  * changing the output levels based on the input state as well as the global
- * variable direction. The commutation pattern is based on the commutation
+ * variable direction. The commutation pattern is derived from the commutation
  * diagram found on p32 of Maxon's E-Paper Catalog. The commutation pattern is:
  *
- * This commutation pattern is not currently the one being implemented in the
- * code below
  *  Switches | 101 | 100 | 110 | 010 | 011 | 001 |
  *   State   |  5  |  4  |  6  |  2  |  3  |  1  |
  * --------- |-----|-----|-----|-----|-----|-----|
- * 1 - White |  +  |  +  |  0  |  -  |  -  |  0  |
+ * 1 -  Red  |  +  |  +  |  0  |  -  |  -  |  0  |
  * 2 - Black |  -  |  0  |  +  |  +  |  0  |  -  |
- * 3 -  Red  |  0  |  -  |  -  |  0  |  +  |  +  |
+ * 3 - White |  0  |  -  |  -  |  0  |  +  |  +  |
  *
- * SW1 = D1
+ * On the current board the wires are arranged incorrectly. For this
+ * configuration the pattern is:
+ *
+ *  Switches | 101 | 100 | 110 | 010 | 011 | 001 |
+ *   State   |  5  |  4  |  6  |  2  |  3  |  1  |
+ * --------- |-----|-----|-----|-----|-----|-----|
+ * 1 - White |  0  |  -  |  -  |  0  |  +  |  +  |
+ * 2 - Black |  -  |  0  |  +  |  +  |  0  |  -  |
+ * 3 -  Red  |  +  |  +  |  0  |  -  |  -  |  0  |
+ *
+ * The hall effect sensor inputs are also incorrect. The correct arrangement
+ * is:
+ * SW1 = D3
  * SW2 = D2
- * SW3 = D3
+ * SW3 = D1
+ * The connections should be reconfigured for the next board iteration.
+ *
  */
+
 void commutate(int state){
     switch(state){
         case 0:
@@ -104,45 +117,48 @@ void commutate(int state){
             break;
         case 1:
             if(direction){
-            High(1);  Float(2); Low(3);
+                High(1); Low(2); Float(3);
             } else{
-            Low(1);  Float(2); High(3);
+                Low(1); High(2); Float(3);
             }
             break;
         case 2:
             if(direction){
-            Low(1);   High(2);  Float(3);
+                Float(1); High(2); Low(3);
             } else {
-            High(1);   Low(2);  Float(3);
+                Float(1); Low(2); High(3);
             }
             break;
         case 3:
             if(direction){
-            Float(1); High(2);  Low(3);
+                High(1); Float(2); Low(3);
             } else {
-            Float(1); Low(2);  High(3);
+                Low(1); Float(2); High(3);
             }
             break;
         case 4:
             if(direction){
-            Float(1); Low(2);   High(3);
+                Low(1); Float(2); High(3);
             } else {
-            Float(1); High(2);   Low(3);
+                High(1); Float(2); Low(3);
             }
             break;
         case 5:
             if(direction){
-            High(1);  Low(2);   Float(3);
+                Float(1); Low(2); High(3);
             } else{
-            Low(1);  High(2);   Float(3);
+                Float(1); High(2); Low(3);
             }
             break;
         case 6:
             if(direction){
-            Low(1);   Float(2); High(3);
+                Low(1); High(2); Float(3);
             } else {
-            High(1);   Float(2); Low(3);
+                High(1); Low(2); Float(3);
             }
+            break;
+        default:
+            Float(1); Float(2); Float(3);
             break;
     }
 }
