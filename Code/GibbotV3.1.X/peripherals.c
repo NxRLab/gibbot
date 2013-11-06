@@ -306,7 +306,6 @@ void I2C_Read(char command){
         while(I2C2STATbits.TRSTAT){
         }
         if(I2C2STATbits.ACKSTAT){
-            printf("4");
         }
     } else {
         I2C2CONbits.PEN = 1;

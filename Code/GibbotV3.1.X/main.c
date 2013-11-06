@@ -24,7 +24,7 @@ _FPOR(FPWRT_PWR128)
 int main(void) {
 
     Startup();
-    while (1){    
+    while (1){
     }
     return 0;
 }
