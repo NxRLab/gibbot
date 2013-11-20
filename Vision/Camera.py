@@ -4,7 +4,7 @@ import numpy as np
 import traceback
 import math
 
-BOARD_SIZE = (1828.8, 1219.2) # 8' x 6' in millimeters
+BOARD_SIZE = (2394.0, 1231.9) # in millimeters
 MAX_CLUSTER_DIST = 60 # in millimeters
 CAMERA_OVERLAP = 50 # in millimeters
 SCALE = .5
@@ -106,8 +106,11 @@ class Camera:
             for b in self.blobs:
                 padded = np.array((b[0], b[1], 1))
                 T = self.transform
-                x = (T[0]*b[0] + T[1]*b[1] + T[2])/(T[6]*b[0] + T[7]*b[1] + 1)
-                y = (T[3]*b[0] + T[4]*b[1] + T[5])/(T[6]*b[0] + T[7]*b[1] + 1)
+                denom = T[6]*b[0] + T[7]*b[1] + 1
+                if denom == 0:
+                    continue # skip blobs with bad precision
+                x = (T[0]*b[0] + T[1]*b[1] + T[2]) / denom
+                y = (T[3]*b[0] + T[4]*b[1] + T[5]) / denom
                 
                 # omit corner blobs from tBlobs
                 isCorner = False
