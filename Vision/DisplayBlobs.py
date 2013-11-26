@@ -39,13 +39,11 @@ class BlobFrame(Frame):
         L = self.leftCamera
         R = self.rightCamera
 
-        # raw
-        """
-        self.drawBlobs(self.leftCamera.blobs, '#833')
-        rightBlobs = [(b[0] + BOARD_SIZE[0]/2, b[1]) \
-                      for b in self.rightCamera.blobs]
-        self.drawBlobs(rightBlobs, '#383')
-        """
+        # raw (units of pixels)
+        self.drawBlobs(L.blobs, '#833') # dark red
+        rightBlobs = [(b[0] + BOARD_SIZE[0]/2, b[1]) for b in R.blobs]
+        self.drawBlobs(rightBlobs, '#383') # dark green
+        
 
         # transformed
         L.transformBlobs()
@@ -55,8 +53,8 @@ class BlobFrame(Frame):
         self.drawBlobs(rightBlobs, 'green')
 
         # clustered
-        self.leftCamera.clusterNodes()
-        self.rightCamera.clusterNodes()
+        L.clusterNodes()
+        R.clusterNodes()
         
         def getNode(n):
             if n in L.nodes:

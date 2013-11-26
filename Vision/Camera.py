@@ -104,7 +104,6 @@ class Camera:
         self.tBlobs = []
         if self.transform is not None:
             for b in self.blobs:
-                padded = np.array((b[0], b[1], 1))
                 T = self.transform
                 denom = T[6]*b[0] + T[7]*b[1] + 1
                 if denom == 0:
@@ -122,6 +121,9 @@ class Camera:
                     self.tBlobs += [(x, y)]
     
     def clusterNodes(self):
+        ''' Sets self.nodes as a dictionary where the key is the number of blobs in the cluster (1-3)
+         and the value is the average position of the blobs as a tuple (x,y) '''
+
         clusters = [[b] for b in self.tBlobs]
 
         def averageOfCluster(cluster):
