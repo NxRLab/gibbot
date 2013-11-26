@@ -7,10 +7,10 @@ from Tkinter import *
 import numpy as np
 import traceback
 import math
-from TakeVisionCoordinates import *
+from Camera import *
 import serial
 
-BOARD_SIZE = (1828.8, 1219.2) # 8' x 6' in millimeters
+BOARD_SIZE = (2394.0, 1231.9) # 8' x 6' in millimeters
 MAX_CLUSTER_DIST = 60 # in millimeters
 CAMERA_OVERLAP = 50 # in millimeters
 SCALE = .5
