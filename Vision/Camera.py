@@ -60,65 +60,69 @@ class Camera:
         
         self.cameraCorners = np.array([[0,0],
                                        [0, self.dimensions[1]],
-                                       [self.dimensions[0], 0],
-                                       self.dimensions],
+                                       self.dimensions,
+                                       [self.dimensions[0], 0]],
                                       np.float32)
         self.worldCorners = np.array([[0,0],
                                       [0, BOARD_SIZE[1]],
-                                      [BOARD_SIZE[0]/2, 0],
-                                      [BOARD_SIZE[0]/2, BOARD_SIZE[1]]],
+                                      [BOARD_SIZE[0]/2, BOARD_SIZE[1]],
+                                      [BOARD_SIZE[0]/2, 0]],
                                      np.float32)
 
     def gotBlobs(self, camera, blobs):
         try:
             # rotate coordinates 90 degrees and save
-            self.blobs = [(b[1], self.dimensions[0]-b[0]) for b in blobs]
+            self.blobs = [(b[1], self.dimensions[1]-b[0]) for b in blobs]
         except Exception as e:
             traceback.print_exc(e)
 
     def transformBlobs(self):
-        cornerBlobs = None
-        if len(self.blobs) >= 4:
-            # calculate a new transform matrix
+        blobs = self.blobs
+        if len(blobs) < 4:
+            self.transform = None
+            self.tBlobs = []
+            return
 
-            for corner in self.cameraCorners:
-                bestDist = float('inf')
-                bestBlob = None
-                for blob in self.blobs:
-                    dist = np.linalg.norm(corner - blob)
-                    if dist < bestDist:
-                        bestDist = dist
-                        bestBlob = blob
-                if cornerBlobs == None:
-                    cornerBlobs = np.array(bestBlob, np.float32)
-                else:
-                    cornerBlobs = np.vstack((cornerBlobs, bestBlob))
+        # find corner blobs
+        cornerBlobs = []
+        for corner in self.cameraCorners:
+            bestDistSq = float('inf')
+            bestBlob = None
+            for blob in blobs:
+                distSq = (corner[0]-blob[0])**2 + (corner[1]-blob[1])**2
+                if distSq < bestDistSq:
+                    bestDistSq = distSq
+                    bestBlob = blob
+            cornerBlobs += [bestBlob]
 
-            pts8 = np.vstack((cornerBlobs, self.worldCorners))
-            try:
-                self.transform = get_transform_data(pts8, False)
-            except np.linalg.LinAlgError:
-                pass
+        # calculate a new transform matrix
+        arrs = [np.array(corner, np.float32) for corner in cornerBlobs]
+        pts8 = np.vstack((arrs[0], arrs[1], arrs[2], arrs[3], self.worldCorners))
+        try:
+            self.transform = get_transform_data(pts8, False)
+        except np.linalg.LinAlgError:
+            pass
 
         # populate tBlobs by applying transform blobs
         self.tBlobs = []
         if self.transform is not None:
-            for b in self.blobs:
-                T = self.transform
-                denom = T[6]*b[0] + T[7]*b[1] + 1
-                if denom == 0:
-                    continue # skip blobs with bad precision
-                x = (T[0]*b[0] + T[1]*b[1] + T[2]) / denom
-                y = (T[3]*b[0] + T[4]*b[1] + T[5]) / denom
-                
-                # omit corner blobs from tBlobs
-                isCorner = False
-                for corner in self.worldCorners:
-                    if (x - corner[0])**2 + (y - corner[1])**2 < 10**2:
-                        isCorner = True
-                        break
-                if not isCorner:
-                    self.tBlobs += [(x, y)]
+            for b in blobs:
+                if b not in cornerBlobs:
+                    tb = self.fromCameraToBoard(b)
+                    if tb:
+                        self.tBlobs += [tb]
+
+    def fromCameraToBoard(self, coord):
+        T = self.transform
+        if T is None:
+            return None
+        b = coord
+        denom = T[6]*b[0] + T[7]*b[1] + 1
+        if denom == 0:
+            return None # Bad precision
+        x = (T[0]*b[0] + T[1]*b[1] + T[2]) / denom
+        y = (T[3]*b[0] + T[4]*b[1] + T[5]) / denom
+        return (x, y)
     
     def clusterNodes(self):
         ''' Sets self.nodes as a dictionary where the key is the number of blobs in the cluster (1-3)
