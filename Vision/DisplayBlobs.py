@@ -5,16 +5,13 @@ import traceback
 import math
 from Camera import *
 
-BOARD_SIZE = (2394.0, 1231.9) # in millimeters
-MAX_CLUSTER_DIST = 60 # in millimeters
-CAMERA_OVERLAP = 50 # in millimeters
-
 
 class CameraFrame(Frame):
-    def __init__(self, master, title, dimensions, padding=0):
+    def __init__(self, master, title, dimensions, padding=0, unitScaleFactor=1):
         Frame.__init__(self, master) 
         self.dimensions = dimensions
         self.padding = padding
+        self.unitScaleFactor = unitScaleFactor
 
         Label(self, text=title).pack()
 
@@ -60,7 +57,7 @@ class CameraFrame(Frame):
         # draw points and labels
         (mx, my) = self.mouseCoords
         xLabel = mx+14
-        yLabel = my+5
+        yLabel = my
         for colorAndPointList in colorsAndPointLists:
             color, pointList = colorAndPointList
             for p in pointList:
@@ -71,7 +68,9 @@ class CameraFrame(Frame):
 
                 # draw coordinate label if mouse inside
                 if (x-mx)**2 + (y-my)**2 < R**2:
-                    txt = '{0:.2f}, {0:.2f}'.format(*p)
+                    xScaled = p[0] * self.unitScaleFactor
+                    yScaled = p[1] * self.unitScaleFactor
+                    txt = '{:.2f}, {:.2f}'.format(xScaled, yScaled)
                     c.create_text(xLabel, yLabel, anchor=NW, text=txt, fill=color)
                     yLabel += 16
 
@@ -92,13 +91,14 @@ class CameraDebugWindow(Tk):
         self.rowconfigure(0, weight=1)
         self.rowconfigure(1, weight=1)
 
-        self.leftFrame = CameraFrame(self, 'Raw left (px)', leftCamera.dimensions)
+        self.leftFrame = CameraFrame(self, 'Raw left (units of px)', leftCamera.dimensions)
         self.leftFrame.grid(row=0, column=0)
 
-        self.rightFrame = CameraFrame(self, 'Raw right (px)', rightCamera.dimensions)
+        self.rightFrame = CameraFrame(self, 'Raw right (units of px)', rightCamera.dimensions)
         self.rightFrame.grid(row=0, column=1)
 
-        self.bottomFrame = CameraFrame(self, 'Transformed and combined (mm)', (2394, 1232), padding=500)
+        unitScaleFactor = 0.03937 # inches per mm
+        self.bottomFrame = CameraFrame(self, 'Transformed and combined (units of inches)', (2394, 1232), padding=500, unitScaleFactor=unitScaleFactor)
         self.bottomFrame.grid(row=1, column=0, columnspan=2)
 
         self.animate()
@@ -166,8 +166,8 @@ def main():
     print 'Running...'
     cameraIDs = pyoptitrack.getCameraList()
 
-    leftCamera = Camera(cameraIDs[0], 0)
-    rightCamera = Camera(cameraIDs[1], 1)
+    leftCamera = Camera(cameraIDs[0], 0, True)
+    rightCamera = Camera(cameraIDs[1], 1, False)
     
     root = CameraDebugWindow(leftCamera, rightCamera)
     root.geometry("800x800+100+100") # WIDTHxHEIGHT+X+Y

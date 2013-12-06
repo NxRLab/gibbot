@@ -48,16 +48,18 @@ def get_transform_data(pts8, backward=True ):
     return np.linalg.solve(A,B)
 
 class Camera:
-    def __init__(self, UID, numericLabel):
+    def __init__(self, UID, numericLabel, isLeftCamera):
         self.UID = UID
+        self.isLeftCamera = isLeftCamera
         self.blobs = []
         self.tBlobs = []
         self.transform = None
         pyoptitrack.startCamera(UID, numericLabel, self.gotBlobs)
         pyoptitrack.setIntensityForCamera(UID, 0)
         dims = pyoptitrack.getDimensionsForCamera(UID)
-        self.dimensions = (dims[1], dims[0])
+        self.dimensions = (dims[1], dims[0]) # rotate 90 degrees
         
+        # [NW, SW, SE, NE]
         self.cameraCorners = np.array([[0,0],
                                        [0, self.dimensions[1]],
                                        self.dimensions,
@@ -83,9 +85,22 @@ class Camera:
             self.tBlobs = []
             return
 
-        # find corner blobs
-        cornerBlobs = []
-        for corner in self.cameraCorners:
+        # prepare to search for corner blobs
+        cornerBlobs = [None]*4 # [NW, SW, SE, NE]
+        if self.isLeftCamera:
+            cornerIndexForNDistance = 0
+            cornerIndexForSDistance = 1
+            cornerIndexForNAngle = 3
+            cornerIndexForSAngle = 2
+        else:
+            cornerIndexForNDistance = 3
+            cornerIndexForSDistance = 2
+            cornerIndexForNAngle = 0
+            cornerIndexForSAngle = 1
+
+        # find first 2 corner blobs by shortest distance to frame corner
+        for cornerIdx in [cornerIndexForNDistance, cornerIndexForSDistance]:
+            corner = self.cameraCorners[cornerIdx]
             bestDistSq = float('inf')
             bestBlob = None
             for blob in blobs:
@@ -93,7 +108,35 @@ class Camera:
                 if distSq < bestDistSq:
                     bestDistSq = distSq
                     bestBlob = blob
-            cornerBlobs += [bestBlob]
+            cornerBlobs[cornerIdx] = bestBlob
+
+        # find other 2 corner blobs by angle from first 2 corner blobs
+        bestNAngle = +math.pi
+        bestNBlob = None
+        bestSAngle = -math.pi
+        bestSBlob = None
+        NCornerBlob = cornerBlobs[cornerIndexForNDistance]
+        SCornerBlob = cornerBlobs[cornerIndexForSDistance]
+        if self.isLeftCamera:
+            xScale = 1
+        else:
+            xScale = -1
+        potentialAngleBlobs = set(blobs) - set([NCornerBlob, SCornerBlob])
+        for blob in potentialAngleBlobs:
+            hx = (blob[0] - NCornerBlob[0]) * xScale
+            hy = blob[1] - NCornerBlob[1]
+            NAngle = math.atan2(hy, hx)
+            if NAngle < bestNAngle:
+                bestNAngle = NAngle
+                bestNBlob = blob
+            lx = (blob[0] - SCornerBlob[0]) * xScale
+            ly = blob[1] - SCornerBlob[1]
+            SAngle = math.atan2(ly, lx)
+            if SAngle > bestSAngle:
+                bestSAngle = SAngle
+                bestSBlob = blob
+        cornerBlobs[cornerIndexForNAngle] = bestNBlob
+        cornerBlobs[cornerIndexForSAngle] = bestSBlob
 
         # calculate a new transform matrix
         arrs = [np.array(corner, np.float32) for corner in cornerBlobs]
