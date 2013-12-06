@@ -4,14 +4,15 @@ import numpy as np
 import traceback
 import math
 from Camera import *
+import time
 
 
 class CameraFrame(Frame):
-    def __init__(self, master, title, dimensions, padding=0, unitScaleFactor=1):
+    def __init__(self, master, title, dimensions, padding=0, unitDisplayScaleFactor=1):
         Frame.__init__(self, master) 
         self.dimensions = dimensions
         self.padding = padding
-        self.unitScaleFactor = unitScaleFactor
+        self.unitDisplayScaleFactor = unitDisplayScaleFactor
 
         Label(self, text=title).pack()
 
@@ -68,8 +69,8 @@ class CameraFrame(Frame):
 
                 # draw coordinate label if mouse inside
                 if (x-mx)**2 + (y-my)**2 < R**2:
-                    xScaled = p[0] * self.unitScaleFactor
-                    yScaled = p[1] * self.unitScaleFactor
+                    xScaled = p[0] * self.unitDisplayScaleFactor
+                    yScaled = p[1] * self.unitDisplayScaleFactor
                     txt = '{:.2f}, {:.2f}'.format(xScaled, yScaled)
                     c.create_text(xLabel, yLabel, anchor=NW, text=txt, fill=color)
                     yLabel += 16
@@ -97,8 +98,9 @@ class CameraDebugWindow(Tk):
         self.rightFrame = CameraFrame(self, 'Raw right (units of px)', rightCamera.dimensions)
         self.rightFrame.grid(row=0, column=1)
 
-        unitScaleFactor = 0.03937 # inches per mm
-        self.bottomFrame = CameraFrame(self, 'Transformed and combined (units of inches)', (2394, 1232), padding=500, unitScaleFactor=unitScaleFactor)
+        padding = 500
+        unitScale = 0.03937 # inches per mm
+        self.bottomFrame = CameraFrame(self, 'Transformed and combined (units of inches)', (2394, 1232), padding, unitScale)
         self.bottomFrame.grid(row=1, column=0, columnspan=2)
 
         self.animate()
@@ -168,6 +170,44 @@ def main():
 
     leftCamera = Camera(cameraIDs[0], 0, True)
     rightCamera = Camera(cameraIDs[1], 1, False)
+
+    '''
+    # Just for timing!
+    blobs = []
+    times = []
+    while True:
+        L = leftCamera
+        R = rightCamera
+        bs = L.blobs
+        if blobs != bs:
+            blobs = bs
+            times += [time.time()]
+            if len(times) == 100:
+                print times
+                times = []
+
+        L.transformBlobs()
+        R.transformBlobs()
+
+        # cluster non-corners into nodes
+        L.clusterNodes()
+        R.clusterNodes()
+        
+        def f(n): # returns location of the cluster with n blobs, combining left and right data
+            if n in L.nodes:
+                if n in R.nodes:
+                    return ((L.nodes[n][0] + R.nodes[n][0] + BOARD_SIZE[0]/2)/2,
+                            (L.nodes[n][1] + R.nodes[n][1])/2)
+                else:
+                    return L.nodes[n]
+            else:
+                if n in R.nodes:
+                    return (R.nodes[n][0] + BOARD_SIZE[0]/2, R.nodes[n][1])
+                else:
+                    return None
+        nodes = [x for x in [f(1), f(2), f(3)] if x is not None]
+    '''
+
     
     root = CameraDebugWindow(leftCamera, rightCamera)
     root.geometry("800x800+100+100") # WIDTHxHEIGHT+X+Y

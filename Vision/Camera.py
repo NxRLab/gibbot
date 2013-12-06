@@ -3,6 +3,7 @@ from Tkinter import *
 import numpy as np
 import traceback
 import math
+import time
 
 BOARD_SIZE = (2394.0, 1231.9) # in millimeters
 MAX_CLUSTER_DIST = 60 # in millimeters
@@ -70,11 +71,21 @@ class Camera:
                                       [BOARD_SIZE[0]/2, BOARD_SIZE[1]],
                                       [BOARD_SIZE[0]/2, 0]],
                                      np.float32)
+        # self.times = []
 
     def gotBlobs(self, camera, blobs):
         try:
             # rotate coordinates 90 degrees and save
             self.blobs = [(b[1], self.dimensions[1]-b[0]) for b in blobs]
+
+            '''
+            # test latency
+            if self.isLeftCamera:
+                self.times += [time.time()]
+                if len(self.times) == 100:
+                    print self.times
+                    self.times = []
+            '''
         except Exception as e:
             traceback.print_exc(e)
 
