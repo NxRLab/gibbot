@@ -22,7 +22,6 @@ _FPOR(FPWRT_PWR128)
 //Wait 128ms after power on to initialize
 
 int main(void) {
-
     Startup();
     while (1){
     }

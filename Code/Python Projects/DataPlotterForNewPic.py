@@ -118,7 +118,7 @@ def func(label):
 plt.close('all')                    #Close existing plots
 fig = plt.figure()                  #Create figure
 mng = plt.get_current_fig_manager() #Resize to fullscreen
-mng.resize(*mng.window.maxsize())
+#mng.resize(*mng.window.maxsize())
 
 #Create axes
 ax = [0]*3  #define array that contains the names of each axes
@@ -185,7 +185,7 @@ comm4 = Button(comm4ax, 'Bottom Magnet Off')
 comm4.on_clicked(scope.comm4)
 
 #Open serial port
-ser = serial.Serial(2) #COM 3       7 -> COM 8
+ser = serial.Serial('/dev/tty.usbserial-FTDQ2TWP') #COM 3       7 -> COM 8
 ser.baudrate = 115200  #set the baud rate
 ser.timeout = 1        #1s timeout
 

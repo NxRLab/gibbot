@@ -230,7 +230,7 @@ void Initialize_I2C_Master(void){
     I2C_CONTROL.state = 0;
     I2C2CONbits.I2CEN = 1;
 }
-//
+
 //void I2C_Write(char command){
 //    /* I2C module will read to detect the address 1101XXXX being sent by the
 //     * master. The first four bits are a header that must be recognized. The
@@ -250,7 +250,7 @@ void Initialize_I2C_Master(void){
 //    //Trigger interupt
 //    IFS3bits.MI2C2IF = 1;
 //}
-//
+
 //void I2C_Read(char command){
 //    /* I2C module will read to detect the address 1101XXXX being sent by the
 //     * master. The first four bits are a header that must be recognized. The
@@ -290,7 +290,6 @@ void I2C_Read(char command){
         //check for bus collisions
         if (I2C2STATbits.BCL){
             I2C2CONbits.PEN = 1;
-            printf("1");
         }
         //wait until the end of the start event clears the start enable bit
         while(I2C2CONbits.SEN){
@@ -298,7 +297,6 @@ void I2C_Read(char command){
     }
     else{
        I2C2CONbits.PEN = 1;
-       printf("2");
     }
     if(!I2C2STATbits.TBF){
         //Transmit slave address +
@@ -309,10 +307,8 @@ void I2C_Read(char command){
         }
     } else {
         I2C2CONbits.PEN = 1;
-        printf("3");
     }
     if(I2C2CON & 0b11111){
-        printf("6");
     }
     for(j = 0; j <= 5; j++){
 
