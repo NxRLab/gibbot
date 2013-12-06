@@ -21,6 +21,8 @@ class CameraFrame(Frame):
         c = Canvas(self, width=10000, height=10000)
         c.pack(fill=BOTH, expand=1)
         self.canvas = c
+        c.bind("<Motion>", self.mouseMoved)
+        self.mouseCoords = (0, 0)
 
     def update(self, colorsAndPointLists, polygons=[]):
         c = self.canvas
@@ -55,19 +57,27 @@ class CameraFrame(Frame):
                 tPolyCoords += [x, y]
             c.create_polygon(tPolyCoords, outline='black', fill='', width=1)
 
-        # draw points
+        # draw points and labels
+        (mx, my) = self.mouseCoords
+        xLabel = mx+14
+        yLabel = my+5
         for colorAndPointList in colorsAndPointLists:
             color, pointList = colorAndPointList
             for p in pointList:
                 x = off[0] + p[0]*scale
                 y = off[1] + p[1]*scale
                 R = 4
-                o = c.create_oval(x-R, y-R, x+R, y+R, fill=color, outline="black", width=1)
-                def makeClickHandler(point):
-                    def clicked(event):
-                        print point
-                    return clicked
-                c.tag_bind(o, '<Button-1>', makeClickHandler(p))
+                o = c.create_oval(x-R, y-R, x+R, y+R, fill=color, outline='black', width=1)
+
+                # draw coordinate label if mouse inside
+                if (x-mx)**2 + (y-my)**2 < R**2:
+                    txt = '{0:.2f}, {0:.2f}'.format(*p)
+                    c.create_text(xLabel, yLabel, anchor=NW, text=txt, fill=color)
+                    yLabel += 16
+
+    def mouseMoved(self, event):
+        w = event.widget
+        self.mouseCoords = (w.canvasx(event.x), w.canvasy(event.y))
 
 
 class CameraDebugWindow(Tk):
@@ -88,7 +98,7 @@ class CameraDebugWindow(Tk):
         self.rightFrame = CameraFrame(self, 'Raw right (px)', rightCamera.dimensions)
         self.rightFrame.grid(row=0, column=1)
 
-        self.bottomFrame = CameraFrame(self, 'Transformed and combined (mm)', (2394, 1232), padding=400)
+        self.bottomFrame = CameraFrame(self, 'Transformed and combined (mm)', (2394, 1232), padding=500)
         self.bottomFrame.grid(row=1, column=0, columnspan=2)
 
         self.animate()
