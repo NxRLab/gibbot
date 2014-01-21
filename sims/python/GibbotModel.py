@@ -30,17 +30,20 @@ class GibbotModel:
 
         # Currently our gibbot guesstimated parameters
         # Link Masses (Kg)
-        self.m1 = 1.0 
-        self.m2 = 1.0
+        poundToKg = 0.453
+        self.m1 = 4.875 * poundToKg
+        self.m2 = 4.125 * poundToKg
         # Link Lengths (m)
-        self.l1 = 0.305
-        self.l2 = 0.305
+        inchToMeter = 0.0254
+        self.l1 = 13.0625 * inchToMeter
+        self.l2 = 13.0625 * inchToMeter
         # Length to Link's Center of Mass (m)
-        self.r1 = .14
-        self.r2 = .156
-        # Moments of Inertia (Kg*m^2 - assume thin rectangular plate about its end)
-        self.I1 = self.m1 * (self.l1**2 / 3 + 0.077**2 / 12)
-        self.I2 = self.m2 * (self.l2**2 / 3 + 0.077**2 / 12)
+        self.r1 = 5.469 * inchToMeter # measured from (x1,y1)
+        self.r2 = 8.969 * inchToMeter # measured from (x2,y2)
+        # Link Moment of Inertia (Kg*m^2 - assume thin rectangular plate about its end)
+        width = 4.0 * inchToMeter
+        self.I1 = self.m1 * (self.l1**2 / 3 + width**2 / 12)
+        self.I2 = self.m2 * (self.l2**2 / 3 + width**2 / 12)
         # Gravity
         self.g = 9.81
         # Torque

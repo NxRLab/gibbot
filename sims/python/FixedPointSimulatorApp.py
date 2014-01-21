@@ -17,7 +17,6 @@ defaultBot = GibbotModel(0, 0, 0, 0, 0, 0)
 
 DT = .01
 TIME_SCALE = 1
-FPS = 40
 
 
 class FixedPointSimulatorApp(Tk):
@@ -28,7 +27,7 @@ class FixedPointSimulatorApp(Tk):
         self.controller = controllerTypes[0]()
         self.bot = defaultBot
         self.timeScale = 1
-        self.t = 0
+        self.t = 0 # elapsed simulation time
 
         self.inputFrame = FixedPointInputFrame(self, controllerTypes, TIME_SCALE, defaultBot, self.restart)
         self.inputFrame.grid(row=0, column=0, sticky=N+W)
@@ -38,31 +37,27 @@ class FixedPointSimulatorApp(Tk):
         self.rowconfigure(0, weight=1)
         self.columnconfigure(1, weight=1)
 
-
+        self.startTime = time.time()
         self.animate()
 
     def animate(self):
         frameStartTime = time.time()
-        frameInterval = 1.0/FPS
 
         # update UI
         self.inputFrame.update(self.bot, self.t)
         self.gibbotFrame.update(self.bot)
 
         # advance physics
-        simulationInterval = frameInterval * self.timeScale
-        simulationTicks = int(simulationInterval / DT)
-        for i in xrange(0, simulationTicks):
+        i = 0
+        while self.t / self.timeScale < frameStartTime - self.startTime:
+            i += 1
             controlTorque = self.controller.control(self.bot)
             self.bot.advanceState(controlTorque, DT)
-        self.t += simulationInterval
+            self.t += DT
+        print i
 
         # schedule next frame
-        waitTime = frameStartTime + frameInterval - time.time()
-        millis = int(waitTime * 1000)
-        if millis < 1:
-            millis = 1
-        self.after(millis, self.animate)
+        self.after(1, self.animate)
 
     def restart(self, controllerType, timeScale, bot):
         print '** RESTART **'
@@ -70,6 +65,7 @@ class FixedPointSimulatorApp(Tk):
         self.timeScale = timeScale
         self.bot = bot
         self.t = 0
+        self.startTime = time.time()
 
 
 
