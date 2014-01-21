@@ -46,8 +46,8 @@ class GibbotModel:
         self.I2 = self.m2 * (self.l2**2 / 3 + width**2 / 12)
         # Gravity
         self.g = 9.81
-        # Torque
-        self.maxTorque = 5
+        # Torque (Newton*meter)
+        self.maxTorque = 2.0
 
     @property
     def x2(self):

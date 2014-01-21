@@ -7,16 +7,16 @@ from Controller import *
 
 
 controllerTypes = [
+    SpongSwingUpController,
     ThrashSwingController,
     Controller,
-    SpongSwingUpController,
     SpongBalanceController
 ]
 
-defaultBot = GibbotModel(0, 0, 0, 0, 0, 0)
+defaultBot = GibbotModel(0, 0, 0.5, 0, 0, 0)
 
 DT = .01
-TIME_SCALE = 1
+TIME_SCALE = 10
 
 
 class FixedPointSimulatorApp(Tk):
@@ -26,7 +26,7 @@ class FixedPointSimulatorApp(Tk):
 
         self.controller = controllerTypes[0]()
         self.bot = defaultBot
-        self.timeScale = 1
+        self.timeScale = TIME_SCALE
         self.t = 0 # elapsed simulation time
 
         self.inputFrame = FixedPointInputFrame(self, controllerTypes, TIME_SCALE, defaultBot, self.restart)
@@ -43,18 +43,20 @@ class FixedPointSimulatorApp(Tk):
     def animate(self):
         frameStartTime = time.time()
 
+
         # update UI
         self.inputFrame.update(self.bot, self.t)
         self.gibbotFrame.update(self.bot)
 
         # advance physics
-        i = 0
         while self.t / self.timeScale < frameStartTime - self.startTime:
-            i += 1
             controlTorque = self.controller.control(self.bot)
+            beforeQ1 = self.bot.q1
             self.bot.advanceState(controlTorque, DT)
+            if abs(beforeQ1 - self.bot.q1) > 4:
+                print '*** flipped at time', self.t, '***'
+                return
             self.t += DT
-        print i
 
         # schedule next frame
         self.after(1, self.animate)
