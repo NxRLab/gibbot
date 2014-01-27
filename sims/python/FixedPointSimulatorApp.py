@@ -16,7 +16,7 @@ controllerTypes = [
 defaultBot = GibbotModel(0, 0, 0.5, 0, 0, 0)
 
 DT = .01
-TIME_SCALE = 10
+TIME_SCALE = 5
 
 
 class FixedPointSimulatorApp(Tk):

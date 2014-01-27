@@ -13,9 +13,9 @@ class SpongSwingUpController(Controller):
     name = 'Spong Swing Up'
     def __init__(self):
         # Carefully tuned gains (will change if robot parameters change)
-        self.kp = 470.       # Spring force based on position
-        self.kd = 100.       # Spring force based on velocities (high limits velocities)
-        self.alpha = pi/5   # q2 should stay within +/-alpha
+        self.kp = 12000.       # Spring force based on position
+        self.kd = 7150.       # Spring force based on velocities (high limits velocities)
+        self.alpha = pi/4   # q2 should stay within +/-alpha
 
     def control(self, bot):
         # gains

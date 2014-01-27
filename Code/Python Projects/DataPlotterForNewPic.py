@@ -101,7 +101,7 @@ def emitter():
     output = [0,0,0,0]
     ser.write("o")              #instruct the gibbot to start sending
     time.sleep(0.05)
-    if ser.inWaiting() >= 9:
+    if ser.inWaiting() == 9:
         received = ser.read(ser.inWaiting())
         output=struct.unpack( "hhhhx", received )
     else :
@@ -185,7 +185,7 @@ comm4 = Button(comm4ax, 'Bottom Magnet Off')
 comm4.on_clicked(scope.comm4)
 
 #Open serial port
-ser = serial.Serial('/dev/tty.usbserial-FTDQ2TWP') #COM 3       7 -> COM 8
+ser = serial.Serial(2) #COM 3       7 -> COM 8
 ser.baudrate = 115200  #set the baud rate
 ser.timeout = 1        #1s timeout
 
