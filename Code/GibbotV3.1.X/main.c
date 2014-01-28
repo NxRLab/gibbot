@@ -23,6 +23,7 @@ _FPOR(FPWRT_PWR128)
 
 int main(void) {
     Startup();
+    U1TXREG = 12;
     while (1){
     }
     return 0;

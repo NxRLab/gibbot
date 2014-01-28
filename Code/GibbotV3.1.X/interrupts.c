@@ -25,9 +25,7 @@ void __attribute__((interrupt, no_auto_psv)) _CNInterrupt(void) {
     if(motoron == 1){//If the motor has been turned on
         commutate(state);//Change outputs based on inputs
         //Change LEDS
-        LED1 = !S1;
-        LED2 = !S2;
-        LED3 = !S3;
+        LED1 = 0;
     } else {
         commutate(0);
     }
@@ -82,9 +80,9 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
  * The interrupt executes and updates most controls.
  */
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
-//    int j = 0;
-//    static int slowlastCNT = 0;
-//    static int lastCNT = 0;
+    int j = 0;
+    static int slowlastCNT = 0;
+    static int lastCNT = 0;
     if (senddata == 1){
         LED2 = 0;
         data.topmagenc = POS1CNTL;
@@ -107,7 +105,6 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
 //        direction = 1;
 //    }
 //    lastCNT = POS1CNTL;
-//    test = POS1CNTL-lastCNT;
 //    if(j >= 20){
 //        if ((slowlastCNT-POS1CNTL < 5) || (slowlastCNT-POS1CNTL > -5)){
 //            commutate(0);
