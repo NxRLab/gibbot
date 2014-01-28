@@ -41,8 +41,8 @@ class FixedPointSimulatorApp(Tk):
         self.animate()
 
     def animate(self):
+        self.animating = True
         frameStartTime = time.time()
-
 
         # update UI
         self.inputFrame.update(self.bot, self.t)
@@ -55,6 +55,7 @@ class FixedPointSimulatorApp(Tk):
             self.bot.advanceState(controlTorque, DT)
             if abs(beforeQ1 - self.bot.q1) > 4:
                 print '*** flipped at time', self.t, '***'
+                self.animating = False
                 return
             self.t += DT
 
@@ -68,6 +69,8 @@ class FixedPointSimulatorApp(Tk):
         self.bot = bot
         self.t = 0
         self.startTime = time.time()
+        if not self.animating:
+            self.animate()
 
 
 
