@@ -5,28 +5,9 @@ from scipy import linalg
 
 
 def getKMatrix():
+    '''Computes the 1x4 gain matrix for the Spong balance controller'''
 
-
-    '''Initialize Parameters'''
-
-
-    # Link Masses
-    # m1 = self.m1
-    # m2 = self.m2
-    # # Link Lengths
-    # l1 = self.l1
-    # l2 = self.l2
-    # # Length to Link's Center of Mass
-    # r1 = self.r1
-    # r2 = self.r2
-    # # Moments of Inertia
-    # I1 = self.I1
-    # I2 = self.I2
-    # # Gravity
-    # g = self.g
-
-    #OLD GIBBOT PARAMETERS
-
+    # Gibbot physical params
     g = 9.81
 
     q1 = pi
