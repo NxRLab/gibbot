@@ -1,7 +1,9 @@
 from math import *
 import numpy as np
 
-'''
+"""
+The GibbotModel is a single object to represent the state of a Gibbot.
+
 The state variables are:
 (x1,y1) - fixed pivot point
 q1 - angle of first link (0 is down)
@@ -16,7 +18,7 @@ Other points on the robot:
 
 Variables ending in 'd' are derivatives with respect to time.
 For example, m1xd, is the derivative of m1x with respect to time.
-'''
+"""
 
 class GibbotModel:
     def __init__(self, x1, y1, q1, q2, q1d=0., q2d=0.):

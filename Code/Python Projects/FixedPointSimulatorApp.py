@@ -6,6 +6,14 @@ from FixedPointGibbotFrame import *
 from Controller import *
 
 
+"""
+The Fixed-Point Simulator presents a window to visualize swing controller behavior.
+
+Set initial conditions and press Restart to apply.
+
+The simulation uses the Euler method, advancing with step size DT.
+"""
+
 controllerTypes = [
     SpongSwingUpController,
     ThrashSwingController,
@@ -13,10 +21,10 @@ controllerTypes = [
     SpongBalanceController
 ]
 
-defaultBot = GibbotModel(0, 0, 0.5, 0, 0, 0)
+defaultBot = GibbotModel(x1=0, y1=0, q1=0.5, q2=0, q1d=0, q2d=0)
 
-DT = .01
-TIME_SCALE = 1
+DT = .01  # seconds
+TIME_SCALE = 1 # unitless multiplier
 
 
 class FixedPointSimulatorApp(Tk):

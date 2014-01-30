@@ -1,6 +1,10 @@
 from Tkinter import *
 from GibbotModel import *
 
+"""
+The Fixed-Point Input Frame shows text boxes and buttons for choosing initial conditions.
+"""
+
 class FixedPointInputFrame(Frame):
 
     def __init__(self, parent, controllerTypes, timeScale, defaultBot, restartCallback):

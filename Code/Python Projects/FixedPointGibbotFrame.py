@@ -2,6 +2,13 @@ import math
 from Tkinter import *
 from GibbotModel import *
 
+"""
+The Fixed-Point Gibbot Frame displays the basic pieces of the Gibbot.
+
+Three red dots represent the nodes (1 motor joint and 2 magnet joints).
+Two black lines represent the links, scaled relative to l1 and l2.
+Two blue dots represent the link centers of mass, positioned and scaled relative to r1, r2, m1, and m2.
+"""
 
 class FixedPointGibbotFrame(Frame):
 

@@ -7,6 +7,15 @@ import copy
 from GibbotModel import *
 from Controller import *
 
+"""
+UserApp presents a window that shows the board, the Gibbot, and the goal (a banana).
+
+The user can click on the board to update the goal.
+The Gibbot will swing until it is close to the goal.
+
+All behavior is simulated, but this interface could be used with real hardware.
+"""
+
 
 BOARD_SIZE = (2.4384, 1.8288) # 8' x 6' in meters
 

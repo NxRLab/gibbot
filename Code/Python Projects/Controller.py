@@ -2,8 +2,15 @@ from math import *
 import numpy as np
 from GibbotModel import *
 
-# All controllers should return an accelleration scalar (q2dd).
-# Controllers shoud NOT modify the bot directly.
+"""
+Controller classes below.
+
+A Controller has a 'control' method that accepts a GibbotModel as its only argument
+and returns an accelleration scalar (q2dd).  Eventually, they will also return magnet commands.
+
+Controllers may store an internal state.  Controllers shoud NOT modify the GibbotModel argument.
+"""
+
 class Controller:
     name = 'Null'
     def control(self, bot):
