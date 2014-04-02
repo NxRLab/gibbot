@@ -168,3 +168,13 @@ pip-log.txt
 #############
 ## MPLAB X
 #############
+
+#############
+## Eagle
+#############
+
+# Schematic, Library and Board Backups
+*.s#*
+*.b#*
+*.l#*
+
