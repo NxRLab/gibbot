@@ -1,0 +1,707 @@
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  8 APR 2014 15:55
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**v4.tex
+(./v4.tex
+LaTeX2e <2011/06/27>
+Babel <3.9f> and hyphenation patterns for 78 languages loaded.
+(/usr/local/texlive/2013/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
+(/usr/local/texlive/2013/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2010/09/12 v5.6 Page Geometry
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+)
+(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/ifvtex.sty
+Package: ifvtex 2010/03/01 v1.5 Detect VTeX and its facilities (HO)
+Package ifvtex Info: VTeX not detected.
+)
+(/usr/local/texlive/2013/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+)
+\Gm@cnth=\count87
+\Gm@cntv=\count88
+\c@Gm@tempcnt=\count89
+\Gm@bindingoffset=\dimen103
+\Gm@wd@mp=\dimen104
+\Gm@odd@mp=\dimen105
+\Gm@even@mp=\dimen106
+\Gm@layoutwidth=\dimen107
+\Gm@layoutheight=\dimen108
+\Gm@layouthoffset=\dimen109
+\Gm@layoutvoffset=\dimen110
+\Gm@dimlist=\toks15
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2012/11/06 v6.83m Hypertext links for LaTeX
+
+(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
+Package: hobsub-hyperref 2012/05/28 v1.13 Bundle oberdiek, subset hyperref (HO)
+
+
+(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty
+Package: hobsub-generic 2012/05/28 v1.13 Bundle oberdiek, subset generic (HO)
+Package: hobsub 2012/05/28 v1.13 Construct package bundles (HO)
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+Package hobsub Info: Skipping package `ifvtex' (already loaded).
+Package: intcalc 2007/09/27 v1.1 Expandable calculations with integers (HO)
+Package hobsub Info: Skipping package `ifpdf' (already loaded).
+Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
+Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
+Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+Package: pdfescape 2011/11/25 v1.13 Implements pdfTeX's escape features (HO)
+Package: bigintcalc 2012/04/08 v1.3 Expandable calculations on big integers (HO
+)
+Package: bitset 2011/01/30 v1.1 Handle bit-vector datatype (HO)
+Package: uniquecounter 2011/01/30 v1.2 Provide unlimited unique counter (HO)
+)
+Package hobsub Info: Skipping package `hobsub' (already loaded).
+Package: letltxmacro 2010/09/02 v1.4 Let assignment for LaTeX macros (HO)
+Package: hopatch 2012/05/28 v1.2 Wrapper for package hooks (HO)
+Package: xcolor-patch 2011/01/30 xcolor patch
+Package: atveryend 2011/06/30 v1.8 Hooks at the very end of document (HO)
+Package atveryend Info: \enddocument detected (standard20110627).
+Package: atbegshi 2011/10/05 v1.16 At begin shipout hook (HO)
+Package: refcount 2011/10/16 v3.4 Data extraction from label references (HO)
+Package: hycolor 2011/01/30 v1.7 Color options for hyperref/bookmark (HO)
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/auxhook.sty
+Package: auxhook 2011/03/04 v1.3 Hooks for auxiliary files (HO)
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
+)
+\@linkdim=\dimen111
+\Hy@linkcounter=\count90
+\Hy@pagecounter=\count91
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2012/11/06 v6.83m Hyperref: PDFDocEncoding definition (HO)
+)
+\Hy@SavedSpaceFactor=\count92
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/latexconfig/hyperref.cfg
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+Package hyperref Info: Hyper figures OFF on input line 4443.
+Package hyperref Info: Link nesting OFF on input line 4448.
+Package hyperref Info: Hyper index ON on input line 4451.
+Package hyperref Info: Plain pages OFF on input line 4458.
+Package hyperref Info: Backreferencing OFF on input line 4463.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4688.
+\c@Hy@tempcnt=\count93
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip10
+Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 5041.
+\XeTeXLinkMargin=\dimen112
+\Fld@menulength=\count94
+\Field@Width=\dimen113
+\Fld@charsize=\dimen114
+Package hyperref Info: Hyper figures OFF on input line 6295.
+Package hyperref Info: Link nesting OFF on input line 6300.
+Package hyperref Info: Hyper index ON on input line 6303.
+Package hyperref Info: backreferencing OFF on input line 6310.
+Package hyperref Info: Link coloring OFF on input line 6315.
+Package hyperref Info: Link coloring with OCG OFF on input line 6320.
+Package hyperref Info: PDF/A mode OFF on input line 6325.
+LaTeX Info: Redefining \ref on input line 6365.
+LaTeX Info: Redefining \pageref on input line 6369.
+\Hy@abspage=\count95
+\c@Item=\count96
+\c@Hfootnote=\count97
+)
+
+Package hyperref Message: Driver (autodetected): hpdftex.
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2012/11/06 v6.83m Hyperref driver for pdfTeX
+\Fld@listcount=\count98
+\c@bookmark@seq@number=\count99
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
+Package: rerunfilecheck 2011/04/15 v1.7 Rerun checks for auxiliary files (HO)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+82.
+)
+\Hy@SectionHShift=\skip43
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+\Gread@gobject=\count100
+))
+\Gin@req@height=\dimen115
+\Gin@req@width=\dimen116
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/wrapfig/wrapfig.sty
+\wrapoverhang=\dimen117
+\WF@size=\dimen118
+\c@WF@wrappedlines=\count101
+\WF@box=\box26
+\WF@everypar=\toks16
+Package: wrapfig 2003/01/31  v 3.6
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2013/02/03 v1.1-62 Sub-captions (AR)
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2013/05/02 v3.3-89 Customizing captions (AR)
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2013/05/02 v1.6-88 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 57.
+\captionmargin=\dimen119
+\captionmargin@=\dimen120
+\captionwidth=\dimen121
+\caption@tempdima=\dimen122
+\caption@indent=\dimen123
+\caption@parindent=\dimen124
+\caption@hangindent=\dimen125
+)
+\c@ContinuedFloat=\count102
+Package caption Info: hyperref package is loaded.
+Package caption Info: wrapfig package is loaded.
+)
+\c@subfigure=\count103
+\c@subtable=\count104
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/comment/comment.sty
+\CommentStream=\write3
+
+Excluding comment 'comment')
+(/usr/local/texlive/2013/texmf-dist/tex/latex/tools/array.sty
+Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
+\col@sep=\dimen126
+\extrarowheight=\dimen127
+\NC@list=\toks17
+\extratabsurround=\skip44
+\backup@length=\skip45
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/tools/longtable.sty
+Package: longtable 2004/02/01 v4.11 Multi-page Table package (DPC)
+\LTleft=\skip46
+\LTright=\skip47
+\LTpre=\skip48
+\LTpost=\skip49
+\LTchunksize=\count105
+\LTcapwidth=\dimen128
+\LT@head=\box27
+\LT@firsthead=\box28
+\LT@foot=\box29
+\LT@lastfoot=\box30
+\LT@cols=\count106
+\LT@rows=\count107
+\c@LT@tables=\count108
+\c@LT@chunks=\count109
+\LT@p@ftn=\toks18
+) (./v4.aux)
+\openout1 = `v4.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(72.26999pt, 452.9679pt, 72.26999pt)
+* v-part:(T,H,B)=(72.26999pt, 700.50687pt, 72.26999pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=452.9679pt
+* \textheight=700.50687pt
+* \oddsidemargin=0.0pt
+* \evensidemargin=0.0pt
+* \topmargin=-37.0pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=65.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+\AtBeginShipoutBox=\box31
+Package hyperref Info: Link coloring OFF on input line 12.
+(/usr/local/texlive/2013/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
+
+(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
+Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
+)
+\c@section@level=\count110
+)
+LaTeX Info: Redefining \ref on input line 12.
+LaTeX Info: Redefining \pageref on input line 12.
+LaTeX Info: Redefining \nameref on input line 12.
+
+(./v4.out) (./v4.out)
+\@outlinefile=\write4
+\openout4 = `v4.out'.
+
+
+(/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count111
+\scratchdimen=\dimen129
+\scratchbox=\box32
+\nofMPsegments=\count112
+\nofMParguments=\count113
+\everyMPshowfont=\toks19
+\MPscratchCnt=\count114
+\MPscratchDim=\dimen130
+\MPnumerator=\count115
+\makeMPintoPDFobject=\count116
+\everyMPtoPDFconversion=\toks20
+) (/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
+)
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 452.
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: longtable package is loaded.
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/caption/ltcaption.sty
+Package: ltcaption 2013/02/03 v1.3-62 longtable captions (AR)
+)
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 16.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 16.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 16.
+
+<breakout.pdf, id=4, page=1, 433.62pt x 433.62pt>
+File: breakout.pdf Graphic file (type pdf)
+ <use breakout.pdf, page 1>
+Package pdftex.def Info: breakout.pdf, page1 used on input line 19.
+(pdftex.def)             Requested size: 362.37569pt x 362.39232pt.
+
+<breakout.pdf, id=5, page=2, 433.62pt x 433.62pt>
+File: breakout.pdf Graphic file (type pdf)
+ <use breakout.pdf, page 2>
+Package pdftex.def Info: breakout.pdf, page2 used on input line 25.
+(pdftex.def)             Requested size: 362.37569pt x 362.39232pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 39.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 39.
+
+Underfull \vbox (badness 10000) detected at line 46
+ []
+
+[1
+
+{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./break
+out.pdf>]
+
+LaTeX Warning: Reference `mpu9150' on page 2 undefined on input line 50.
+
+<./images/mpu9150.pdf, id=60, 238.72487pt x 255.95625pt>
+File: ./images/mpu9150.pdf Graphic file (type pdf)
+
+<use ./images/mpu9150.pdf>
+Package pdftex.def Info: ./images/mpu9150.pdf used on input line 55.
+(pdftex.def)             Requested size: 181.18439pt x 194.26318pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: Reference `fig:commutation' on page 2 undefined on input line 69
+.
+
+
+LaTeX Warning: Reference `fig:commutation' on page 2 undefined on input line 69
+.
+
+<./images/commutation.pdf, id=61, 173.88463pt x 176.67104pt>
+File: ./images/commutation.pdf Graphic file (type pdf)
+
+<use ./images/commutation.pdf>
+Package pdftex.def Info: ./images/commutation.pdf used on input line 73.
+(pdftex.def)             Requested size: 181.18439pt x 184.09746pt.
+
+<./images/commutation2.pdf, id=62, 173.88463pt x 176.67104pt>
+File: ./images/commutation2.pdf Graphic file (type pdf)
+
+<use ./images/commutation2.pdf>
+Package pdftex.def Info: ./images/commutation2.pdf used on input line 78.
+(pdftex.def)             Requested size: 181.18439pt x 184.09746pt.
+
+
+LaTeX Warning: Reference `fig:commutation' on page 2 undefined on input line 84
+.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: Reference `fig:hbridge' on page 2 undefined on input line 86.
+
+<./images/hbridge.pdf, id=65, 174.15062pt x 190.21063pt>
+File: ./images/hbridge.pdf Graphic file (type pdf)
+
+<use ./images/hbridge.pdf>
+Package pdftex.def Info: ./images/hbridge.pdf used on input line 89.
+(pdftex.def)             Requested size: 135.89174pt x 148.43044pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: Reference `sec:bootstrap' on page 2 undefined on input line 95.
+
+[2] [3 <./breakout.pdf> <./images/mpu9150.pdf>]
+
+LaTeX Warning: Reference `fig:qg' on page 4 undefined on input line 104.
+
+<./images/qg.pdf, id=117, 231.36438pt x 215.97388pt>
+File: ./images/qg.pdf Graphic file (type pdf)
+ <use ./images/qg.pdf>
+Package pdftex.def Info: ./images/qg.pdf used on input line 107.
+(pdftex.def)             Requested size: 181.18439pt x 169.1345pt.
+
+<./images/qg2.pdf, id=118, 300.20558pt x 268.75406pt>
+File: ./images/qg2.pdf Graphic file (type pdf)
+ <use ./images/qg2.pdf>
+Package pdftex.def Info: ./images/qg2.pdf used on input line 111.
+(pdftex.def)             Requested size: 181.18439pt x 162.20097pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[4 <./images/commutation.pdf> <./images/commutation2.pdf> <./images/hbridge.pdf
+>] <./images/clamp1.pdf, id=160, 366.04755pt x 235.80095pt>
+File: ./images/clamp1.pdf Graphic file (type pdf)
+
+<use ./images/clamp1.pdf>
+Package pdftex.def Info: ./images/clamp1.pdf used on input line 127.
+(pdftex.def)             Requested size: 226.48395pt x 145.90002pt.
+
+<./images/clamp2.pdf, id=161, 249.39174pt x 231.80603pt>
+File: ./images/clamp2.pdf Graphic file (type pdf)
+
+<use ./images/clamp2.pdf>
+Package pdftex.def Info: ./images/clamp2.pdf used on input line 132.
+(pdftex.def)             Requested size: 158.54152pt x 147.36142pt.
+
+Overfull \hbox (23.93204pt too wide) in paragraph at lines 138--138
+\OT1/cmr/m/n/8 Demo Board User Guide, Ap-pli-ca-tion Note 1829 pg 7 http://www.
+intersil.com/content/dam/Intersil/documents/an18/an1829.pdf| 
+ []
+
+[5 <./images/qg.pdf> <./images/qg2.pdf> <./images/clamp1.pdf> <./images/clamp2.
+pdf>]
+
+LaTeX Warning: Reference `fig:deadtime' on page 6 undefined on input line 204.
+
+<./images/deadtime.pdf, id=211, 240.9pt x 174.15062pt>
+File: ./images/deadtime.pdf Graphic file (type pdf)
+
+<use ./images/deadtime.pdf>
+Package pdftex.def Info: ./images/deadtime.pdf used on input line 207.
+(pdftex.def)             Requested size: 226.48395pt x 163.73349pt.
+ [6 <./images/deadtime.pdf>]
+
+LaTeX Warning: Reference `fig:filter' on page 7 undefined on input line 247.
+
+<acs716filter.pdf, id=238, 402.00188pt x 202.25563pt>
+File: acs716filter.pdf Graphic file (type pdf)
+ <use acs716filter.pdf>
+Package pdftex.def Info: acs716filter.pdf used on input line 250.
+(pdftex.def)             Requested size: 226.48395pt x 113.9475pt.
+
+[7 <./acs716filter.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 289--304
+
+ []
+
+[8]
+
+Package hyperref Warning: Suppressing link with empty target on input line 319.
+
+
+
+Package hyperref Warning: Suppressing link with empty target on input line 320.
+
+
+
+Package hyperref Warning: Suppressing link with empty target on input line 321.
+
+
+
+Package hyperref Warning: Suppressing link with empty target on input line 322.
+
+
+
+Package hyperref Warning: Suppressing link with empty target on input line 323.
+
+
+
+Package hyperref Warning: Suppressing link with empty target on input line 324.
+
+
+
+Package hyperref Warning: Suppressing link with empty target on input line 325.
+
+
+
+Package hyperref Warning: Suppressing link with empty target on input line 326.
+
+
+
+Package hyperref Warning: Suppressing link with empty target on input line 327.
+
+
+
+Package hyperref Warning: Suppressing link with empty target on input line 328.
+
+
+
+Package hyperref Warning: Suppressing link with empty target on input line 329.
+
+
+
+Underfull \vbox (badness 10000) detected at line 331
+ []
+
+
+Package hyperref Warning: Suppressing link with empty target on input line 332.
+
+
+
+Package hyperref Warning: Suppressing link with empty target on input line 333.
+
+
+
+Package hyperref Warning: Suppressing link with empty target on input line 334.
+
+
+
+Package hyperref Warning: Suppressing link with empty target on input line 335.
+
+
+
+Package hyperref Warning: Suppressing link with empty target on input line 336.
+
+
+
+Package hyperref Warning: Suppressing link with empty target on input line 337.
+
+
+
+Package hyperref Warning: Suppressing link with empty target on input line 338.
+
+
+
+Package hyperref Warning: Suppressing link with empty target on input line 339.
+
+
+
+Package hyperref Warning: Suppressing link with empty target on input line 340.
+
+
+
+Package hyperref Warning: Suppressing link with empty target on input line 341.
+
+
+
+Package hyperref Warning: Suppressing link with empty target on input line 342.
+
+
+
+Package hyperref Warning: Suppressing link with empty target on input line 343.
+
+
+
+Package hyperref Warning: Suppressing link with empty target on input line 344.
+
+
+
+Package hyperref Warning: Suppressing link with empty target on input line 345.
+
+
+
+Package hyperref Warning: Suppressing link with empty target on input line 346.
+
+
+
+Package hyperref Warning: Suppressing link with empty target on input line 347.
+
+
+
+Package hyperref Warning: Suppressing link with empty target on input line 348.
+
+
+
+Overfull \hbox (7.19159pt too wide) in alignment at lines 379--405
+ [] [] [] 
+ []
+
+[9]
+Overfull \hbox (7.19159pt too wide) in alignment at lines 405--414
+ [] [] [] 
+ []
+
+
+Package longtable Warning: Column widths have changed
+(longtable)                in table 2 on input line 414.
+
+
+Package longtable Warning: Table widths have changed. Rerun LaTeX.
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 417.
+[10]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 417.
+ (./v4.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 417.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 417.
+
+
+Package rerunfilecheck Warning: File `v4.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `v4.out':
+(rerunfilecheck)             Before: D41D8CD98F00B204E9800998ECF8427E;0
+(rerunfilecheck)             After:  FFA76982DE439E8741CA051A1D740E6D;1499.
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 417.
+ ) 
+Here is how much of TeX's memory you used:
+ 6947 strings out of 493315
+ 106834 string characters out of 6137904
+ 223657 words of memory out of 5000000
+ 10282 multiletter control sequences out of 15000+600000
+ 8813 words of font info for 31 fonts, out of 8000000 for 9000
+ 957 hyphenation exceptions out of 8191
+ 42i,11n,40p,791b,510s stack positions out of 5000i,500n,10000p,200000b,80000s
+pdfTeX warning (dest): name{Hfootnote.3} has been referenced but does not exi
+st, replaced by a fixed one
+
+pdfTeX warning (dest): name{Hfootnote.2} has been referenced but does not exist
+, replaced by a fixed one
+
+pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exist
+, replaced by a fixed one
+
+</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><
+/usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></
+usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></us
+r/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/
+local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/l
+ocal/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/lo
+cal/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/loca
+l/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/
+texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/te
+xlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texl
+ive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texliv
+e/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2
+013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2013
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2013/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2013/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+Output written on v4.pdf (10 pages, 953514 bytes).
+PDF statistics:
+ 391 PDF objects out of 1000 (max. 8388607)
+ 287 compressed objects within 3 object streams
+ 59 named destinations out of 1000 (max. 500000)
+ 61 words of extra memory for PDF output out of 10000 (max. 10000000)
+

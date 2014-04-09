@@ -5,11 +5,11 @@
 \BOOKMARK [2][-]{subsection.2.2}{ROFB1 = 298k \046 RBFB1=288k}{section.2}% 5
 \BOOKMARK [2][-]{subsection.2.3}{RIL=1k \046 RCL=1k}{section.2}% 6
 \BOOKMARK [2][-]{subsection.2.4}{CTMR=8nF \046 RCX=2k}{section.2}% 7
-\BOOKMARK [2][-]{subsection.2.5}{FLT \046 CHRG Shorterd}{section.2}% 8
-\BOOKMARK [2][-]{subsection.2.6}{RVM1}{section.2}% 9
+\BOOKMARK [2][-]{subsection.2.5}{FLT \046 CHRG Shorted}{section.2}% 8
+\BOOKMARK [2][-]{subsection.2.6}{RVM1=487k}{section.2}% 9
 \BOOKMARK [2][-]{subsection.2.7}{NTC}{section.2}% 10
-\BOOKMARK [2][-]{subsection.2.8}{LT1074 FB1}{section.2}% 11
-\BOOKMARK [2][-]{subsection.2.9}{LT1074 FDBK RC \046 CC}{section.2}% 12
+\BOOKMARK [2][-]{subsection.2.8}{LT1074 FB1 = 1.79k}{section.2}% 11
+\BOOKMARK [2][-]{subsection.2.9}{LT1074 FDBK RC=10k \046 CC=1uF}{section.2}% 12
 \BOOKMARK [1][-]{section.3}{PCB Components}{}% 13
 \BOOKMARK [2][-]{subsection.3.1}{MOSFETs}{section.3}% 14
 \BOOKMARK [3][-]{subsubsection.3.1.1}{Input Power Control}{subsection.3.1}% 15
