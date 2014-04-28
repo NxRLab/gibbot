@@ -2,23 +2,23 @@
 \BOOKMARK [1][-]{section.2}{Power Regulation}{}% 2
 \BOOKMARK [2][-]{subsection.2.1}{Digital Isolation}{section.2}% 3
 \BOOKMARK [1][-]{section.3}{Inertial Measurement Unit - MPU9150}{}% 4
-\BOOKMARK [1][-]{section.4}{XBee}{}% 5
-\BOOKMARK [1][-]{section.5}{Magnet Control}{}% 6
-\BOOKMARK [1][-]{section.6}{BLDC Motor Driver}{}% 7
-\BOOKMARK [2][-]{subsection.6.1}{BLDC Motor Background}{section.6}% 8
-\BOOKMARK [2][-]{subsection.6.2}{HIP4086 Driver}{section.6}% 9
-\BOOKMARK [2][-]{subsection.6.3}{MOSFET Selection}{section.6}% 10
-\BOOKMARK [2][-]{subsection.6.4}{Clamping Circuit}{section.6}% 11
-\BOOKMARK [2][-]{subsection.6.5}{Calculate Required Deadtime}{section.6}% 12
-\BOOKMARK [2][-]{subsection.6.6}{Bootstrap Capacitor, Diode and Resistor Selection}{section.6}% 13
-\BOOKMARK [2][-]{subsection.6.7}{Set Dead Time on HIP4086}{section.6}% 14
-\BOOKMARK [1][-]{section.7}{IR LEDs}{}% 15
-\BOOKMARK [2][-]{subsection.7.1}{IR LED Resistor Values}{section.7}% 16
-\BOOKMARK [1][-]{section.8}{Current Sensor}{}% 17
-\BOOKMARK [2][-]{subsection.8.1}{dsPIC ADC Inductor}{section.8}% 18
-\BOOKMARK [2][-]{subsection.8.2}{ACS716 Filter Capacitor}{section.8}% 19
-\BOOKMARK [2][-]{subsection.8.3}{Overcurrent Threshold}{section.8}% 20
-\BOOKMARK [1][-]{section.9}{Wire Gages}{}% 21
-\BOOKMARK [2][-]{subsection.9.1}{Wire Sources}{section.9}% 22
-\BOOKMARK [2][-]{subsection.9.2}{Wire Requirements}{section.9}% 23
-\BOOKMARK [1][-]{section.10}{PCB Bill of Materials}{}% 24
+\BOOKMARK [1][-]{section.4}{BLDC Motor Driver}{}% 5
+\BOOKMARK [2][-]{subsection.4.1}{BLDC Motor Background}{section.4}% 6
+\BOOKMARK [2][-]{subsection.4.2}{HIP4086 Driver}{section.4}% 7
+\BOOKMARK [2][-]{subsection.4.3}{MOSFET Selection}{section.4}% 8
+\BOOKMARK [2][-]{subsection.4.4}{Clamping Circuit}{section.4}% 9
+\BOOKMARK [2][-]{subsection.4.5}{Bootstrap Capacitor, Diode and Resistor Selection}{section.4}% 10
+\BOOKMARK [2][-]{subsection.4.6}{Set Dead Time on HIP4086}{section.4}% 11
+\BOOKMARK [1][-]{section.5}{XBee}{}% 12
+\BOOKMARK [1][-]{section.6}{Magnet Control}{}% 13
+\BOOKMARK [1][-]{section.7}{IR LEDs}{}% 14
+\BOOKMARK [2][-]{subsection.7.1}{IR LED Resistor Values}{section.7}% 15
+\BOOKMARK [1][-]{section.8}{Current Sensor}{}% 16
+\BOOKMARK [2][-]{subsection.8.1}{dsPIC ADC Inductor}{section.8}% 17
+\BOOKMARK [2][-]{subsection.8.2}{ACS716 Filter Capacitor}{section.8}% 18
+\BOOKMARK [2][-]{subsection.8.3}{Overcurrent Threshold}{section.8}% 19
+\BOOKMARK [1][-]{section.9}{Wire Gages}{}% 20
+\BOOKMARK [2][-]{subsection.9.1}{Wire Sources}{section.9}% 21
+\BOOKMARK [2][-]{subsection.9.2}{Wire Requirements}{section.9}% 22
+\BOOKMARK [1][-]{section.10}{PCB Bill of Materials}{}% 23
+\BOOKMARK [1][-]{section.11}{Board Issues}{}% 24
