@@ -16,6 +16,13 @@ void initialize_CN(void);
 void commutate(int state);
 void kick(void);
 
+extern char motoron;
+extern char state;
+extern int direction;
+
+#define CW 0
+#define CCW 1
+
 //Rotary encoder outputs from the BLDC motor
 #define S3 PORTDbits.RD5
 #define S2 PORTDbits.RD4

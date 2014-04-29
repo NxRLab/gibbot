@@ -19,12 +19,6 @@ int main(void) {
     initialize();
     BOTMAG = 0;
     while (1){
-        if(USER){
-            BOTMAG = 1;
-            LED4 = 0;
-            long i;
-            for(i = 0; i < 100000; i++);
-        }
     }
     return 0;
 }

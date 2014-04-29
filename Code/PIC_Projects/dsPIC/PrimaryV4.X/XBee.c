@@ -1,15 +1,93 @@
 /* Configure the UART1 module to facilitate wireless communication with the PC
  * through the XBee. Received data from the PC initiates an RX interrupt. */
+#include <stdlib.h>
+#include <stdio.h>
 #include <libpic30.h>
 #include <p33EP512MC806.h>
 #include "XBee.h"
+#include "test.h"
+#include "I2CMaster.h"
+#include "motor.h"
+
+#define N 256
+
+struct linked_list_t {
+    unsigned char c;            //Variable stored in linked list
+    struct linked_list_t *next; //Pointer to next element in linked list
+};
+
+typedef struct linked_list_t LinkedList; //Shorten declaration of a new struct
+                                         //to the syntax LinkedList name
+
+volatile struct { //Create uart_buffer
+    LinkedList *first; //Pointer to first element in buffer
+    LinkedList *last;  //Pointer to last element in buffer
+    int len;           //Tally of elements in buffer
+} uart_buffer;
+
+/* Clear every element in the uart_buffer and release the memory */
+void clear_queue(void) {
+    LinkedList *l;                      //Create temporary pointer
+
+    while (uart_buffer.first != NULL) { //While elements remain in the buffer
+        l = uart_buffer.first;          //Point temp ptr to first element
+        uart_buffer.first = l->next;    //Change pointer to first element to
+                                        //point to the second element
+        free(l);                        //Clear the first element
+    }
+    uart_buffer.last = NULL;            //Clear pointer to last element
+    uart_buffer.len = 0;                //Clear tally
+}
+
+/* Read value from the first element in the uart_buffer and remove that element
+ */
+char dequeue(void){
+    short c = EOF;
+    LinkedList *l;                   //Create temporary pointer
+
+    if (uart_buffer.first != NULL) { //If elements remain in the buffer
+        l = uart_buffer.first;       //Point temp ptr to first element
+        uart_buffer.first = l->next; //Change pointer to first element to
+                                     //point to the second element
+        c = l->c;                    //Store value from first element
+        free(l);                     //Clear the first element
+        uart_buffer.len--;           //Decrement tally
+    }
+
+    return c;                        //If no elements remain return EOF,
+                                     //otherwise return value in element
+}
+
+/* Add a new element to the uart_buffer */
+void enqueue(unsigned char c) {
+    LinkedList *l; //Create temporary pointer
+
+    l = (LinkedList *) malloc(sizeof (LinkedList)); //Point to allocated memory
+    if (l == NULL) { //If pointer is empty there is remaining memory
+        //GENERATE ERROR
+        return;
+    }
+
+    // add data
+    l->c = c;       //Write data to variable in element
+
+    // link
+    l->next = NULL; //clear pointer
+    if (uart_buffer.last == NULL) { //If no elements in uart_buffer
+        uart_buffer.first = l;      //First and last both point to the only
+        uart_buffer.last = l;       //  element
+    } else {
+        uart_buffer.last->next = l; //Set next ptr of last element to new element
+        uart_buffer.last = l;       //Set last ptr to new element
+    }
+    uart_buffer.len++;              //Increment tally
+}
 
 void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
-    while (U1STAbits.URXDA){ // If there is data in the recieve register
-        unsigned char data = U1RXREG; //save data
-        U1TXREG = data; //echo data
+    while (U1STAbits.URXDA){ //If there is data in the recieve register
+        enqueue(U1RXREG);    //Add data to uart_buffer
     }
-	IFS0bits.U1RXIF = 0;
+	IFS0bits.U1RXIF = 0; //Clear interrupt flag
 }
 
 void initialize_UART(void){

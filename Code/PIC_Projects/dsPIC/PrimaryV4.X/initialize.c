@@ -18,6 +18,7 @@ _FICD(ICS_PGD1)
 //Wait 128ms after power-on to initialize
 _FPOR(FPWRT_PWR128)
 
+char resetBuff[13];
 
 void initialize(void){
     /* Configure Phase Lock Loop for  the system clock reference */
@@ -40,16 +41,55 @@ void initialize(void){
     //Magnet Control
     TRISFbits.TRISF0 = 0;   //Top Magnet
 
+    resetTest();
     initialize_PWM();
     initialize_CN();
     initialize_UART();
     initialize_ADC();
-    Initialize_I2C_Master();
-    resetTest();
+    Initialize_I2C_Master(); 
     lights();
 }
 
 void resetTest(void){
+    if(RCONbits.POR){
+        resetBuff[0] = 1;
+    }
+    if(RCONbits.BOR){
+        resetBuff[1] = 1;
+    }
+    if(RCONbits.IDLE){
+        resetBuff[2] = 1;
+    }
+    if(RCONbits.SLEEP){
+        resetBuff[3] = 1;
+    }
+    if(RCONbits.WDTO){
+        resetBuff[4] = 1;
+    }
+    if(RCONbits.SWDTEN){
+        resetBuff[5] = 1;
+    }
+    if(RCONbits.SWR){
+        resetBuff[6] = 1;
+    }
+    if(RCONbits.EXTR){
+        resetBuff[7] = 1;
+    }
+    if(RCONbits.VREGS){
+        resetBuff[8] = 1;
+    }
+    if(RCONbits.CM){
+        resetBuff[9] = 1;
+    }
+    if(RCONbits.VREGSF){
+        resetBuff[10] = 1;
+    }
+    if(RCONbits.IOPUWR){
+        resetBuff[11] = 1;
+    }
+    if(RCONbits.TRAPR){
+        resetBuff[12] = 1;
+    }
     RCON = 0;
 }
 
@@ -71,10 +111,10 @@ void lights(void){
     __delay32(8000000);
     LED4 = 1;
     __delay32(2500000);
-    LED1 = 0;
-    LED2 = 0;
-    LED3 = 0;
-    LED4 = 0;
+    LED1 = !resetBuff[0];
+    LED2 = !resetBuff[1];
+    LED3 = !resetBuff[7];
+    LED4 = !resetBuff[9];
     __delay32(10000000);
     LED1 = 1;
     LED2 = 1;

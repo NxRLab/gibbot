@@ -35,6 +35,7 @@
 void initialize(void);
 void lights(void);
 void resetTest(void);
+extern char resetBuff[13];
 
 #endif	/* INITIALIZE_H */
 

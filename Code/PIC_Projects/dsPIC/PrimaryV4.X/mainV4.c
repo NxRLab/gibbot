@@ -25,20 +25,13 @@ int main(void) {
 //    int i2;
 //    char sendstr[7];
 //    int n;
-    unsigned char data[256];
-    unsigned char *dataddress;
-    dataddress = &data[0];
-    long i;
-    int j;
-    for(j=0;j<256;j++){
-        data[j] = j;
-    }
+    
     while (1){
-
-        if(USER){
-            I2C_Read(dataddress, 12, 5);
-        }
-        for(i=0; i < 1000000; i++);
+//
+//        if(USER){
+//            I2C_Read(dataddress, 12, 5);
+//        }
+//        for(i=0; i < 1000000; i++);
 //        for(i = 0; i<10; i++){
 //            data[i] = ADC_Read();
 //            ave = 0;
