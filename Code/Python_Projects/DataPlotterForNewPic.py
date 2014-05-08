@@ -187,7 +187,7 @@ comm4.on_clicked(scope.comm4)
 #Open serial port
 ser = serial.Serial(2) #COM 3       7 -> COM 8
 ser.baudrate = 115200  #set the baud rate
-ser.timeout = 1        #1s timeout
+ser.timeout = 10        #1s timeout
 
 # pass a generator in "emitter" to produce data for the update func
 ani = animation.FuncAnimation(fig, scope.update, emitter, scope.init, interval=10,
