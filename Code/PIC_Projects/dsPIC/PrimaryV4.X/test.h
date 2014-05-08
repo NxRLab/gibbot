@@ -8,9 +8,14 @@
 #ifndef TEST_H
 #define	TEST_H
 
-void test_passthrough(unsigned char *data);
-void test_passthroughburst(unsigned char *testdata);
-void test_motor(unsigned char command);
-
+void test_passthrough(void);
+void test_passthroughburst(void);
+void test_motor(void);
+void test_plotter(void);
+void test_PWMPlotter(void);
+void test_HeartBeat(void);
+void test_UART(void);
+void test_encoder(void);
+void test_MayDay(void);
 #endif	/* TEST_H */
 

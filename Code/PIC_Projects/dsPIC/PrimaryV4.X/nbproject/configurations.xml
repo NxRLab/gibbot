@@ -6,10 +6,11 @@
                    projectFiles="true">
       <itemPath>initialize.h</itemPath>
       <itemPath>motor.h</itemPath>
-      <itemPath>XBee.h</itemPath>
-      <itemPath>currentsensor.h</itemPath>
       <itemPath>I2CMaster.h</itemPath>
       <itemPath>test.h</itemPath>
+      <itemPath>UART.h</itemPath>
+      <itemPath>ADC.h</itemPath>
+      <itemPath>encoder.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -21,10 +22,11 @@
       <itemPath>mainV4.c</itemPath>
       <itemPath>initialize.c</itemPath>
       <itemPath>motor.c</itemPath>
-      <itemPath>XBee.c</itemPath>
-      <itemPath>currentsensor.c</itemPath>
       <itemPath>I2CMaster.c</itemPath>
       <itemPath>test.c</itemPath>
+      <itemPath>UART.c</itemPath>
+      <itemPath>ADC.c</itemPath>
+      <itemPath>encoder.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -225,6 +227,7 @@
         <property key="UART 2" value="true"/>
         <property key="UART 3" value="true"/>
         <property key="UART 4" value="true"/>
+        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="true"/>

@@ -9,26 +9,21 @@
 #include <p33EP512MC806.h>
 #include "I2CMaster.h"
 #include "initialize.h"
-
-#define SLAVEADDR 0b11011010
-#define R 1
-#define W 0
-
 /* I2C_Write is used for a single write or a burst write. 
  *    *data points to a buffer with the data to be written
  *    reg is the address of the register on the slave that is being written to
  *    numbytes is the number of bytes to be written, 1 for a single write
  */
-void I2C_Write(unsigned char *data, unsigned char reg, int numbytes){
+void write_I2C(unsigned char *data, unsigned char reg, int numbytes){
     int i;
-    I2C_Start();                   //begin communication sequence
-    I2C_SendOneByte(SLAVEADDR | W);//Send slave address and a write command
-    I2C_SendOneByte(reg);          //send register to be written to, this is the
+    start_I2C();                   //begin communication sequence
+    sendOneByte_I2C(SLAVEADDR | W);//Send slave address and a write command
+    sendOneByte_I2C(reg);          //send register to be written to, this is the
                                    //first register written to in a burst write
     for(i=0;i<numbytes;i++){       //send bytes from data buffer
-        I2C_SendOneByte(data[i]);
+        sendOneByte_I2C(data[i]);
     }
-    I2C_Stop();                    //end communication sequence
+    stop_I2C();                    //end communication sequence
 }
 
 /* I2C_Read is used for a single read or a burst read.
@@ -36,23 +31,23 @@ void I2C_Write(unsigned char *data, unsigned char reg, int numbytes){
  *    reg is the address of the register on the slave that is being read from
  *    numbytes is the number of bytes to be read, 1 for a single read
  */
-void I2C_Read(unsigned char *data, unsigned char reg, int numbytes){
+void read_I2C(unsigned char *data, unsigned char reg, int numbytes){
     int i;
-    I2C_Start();                    //begin communication sequence
-    I2C_SendOneByte(SLAVEADDR | W); //Send slave address and a write command
-    I2C_SendOneByte(reg);           //send register to be read from, this is the
+    start_I2C();                    //begin communication sequence
+    sendOneByte_I2C(SLAVEADDR | W); //Send slave address and a write command
+    sendOneByte_I2C(reg);           //send register to be read from, this is the
                                     //first register read from in a burst write
-    I2C_RepeatStart();              //restart communication sequence
-    I2C_SendOneByte(SLAVEADDR | R); //Send slave address with a read command
+    repeatStart_I2C();              //restart communication sequence
+    sendOneByte_I2C(SLAVEADDR | R); //Send slave address with a read command
     for(i=0;i<(numbytes-1);i++){    //Read bytes from slave and place in data
-        I2C_ReceiveOneByte(&data[i],0); //response with ACK
+        receiveOneByte_I2C(&data[i],0); //respond with ACK
     }
-    I2C_ReceiveOneByte(&data[i],1); //Read final byte from slave, place in data
+    receiveOneByte_I2C(&data[i],1); //Read final byte from slave, place in data
                                     //respond with NACK
-    I2C_Stop();                     //end communication sequence
+    stop_I2C();                     //end communication sequence
 }
 
-void Initialize_I2C_Master(void){
+void initialize_I2C_Master(void){
     //Configure I2C Master baud rate
     //Fcy is set to 40 MHz
     //FSCL should be 400kHz
@@ -62,7 +57,7 @@ void Initialize_I2C_Master(void){
     I2C2CONbits.I2CEN = 1; //Enable I2C2 Module
 }
 
-void I2C_Start(void){
+void start_I2C(void){
     if(I2C2STATbits.S){          //If bus state is not idle
        I2C2CONbits.PEN = 1;      //Initiate stop event
        //GENERATE ERROR
@@ -76,12 +71,12 @@ void I2C_Start(void){
     }
 }
 
-void I2C_RepeatStart(void){ 
+void repeatStart_I2C(void){
     I2C2CONbits.RSEN = 1;        //Initiate repeat start event
     while(I2C2CONbits.RSEN);     //Wait until the end of the repeat start event
 }
 
-void I2C_Stop(void){
+void stop_I2C(void){
     I2C2CONbits.PEN = 1;        //Initiate stop event
     while(I2C2CONbits.PEN);     //Wait for the end of the stop event
 }
@@ -89,7 +84,7 @@ void I2C_Stop(void){
 /* Sends a single byte. Returns the slave's acknowledge response where 1 is NACK
  * (not-acknowledge).
  *    data is the byte to be sent  */
-char I2C_SendOneByte(unsigned char data){    
+char sendOneByte_I2C(unsigned char data){
     if(!I2C2STATbits.TBF){           //Check that transmit buffer is not full
         I2C2TRN = data;              //Load transmit buffer with data
         while(I2C2STATbits.TRSTAT);  //Wait for transmit to complete
@@ -102,7 +97,7 @@ char I2C_SendOneByte(unsigned char data){
 
 /* Reads one byte and stores it in the variable location pointed to by data.
    Also sends the Ack response where 1 is NACK (not-acknowledge). */
-void I2C_ReceiveOneByte(unsigned char *data, char Ack){
+void receiveOneByte_I2C(unsigned char *data, char Ack){
     
     I2C2CONbits.RCEN = 1;    //Enable recieve
 

@@ -30,6 +30,7 @@
 #define LED3 LATDbits.LATD11
 #define LED4 LATDbits.LATD0
 #define USER PORTDbits.RD8
+#define TOPMAG LATFbits.LATF0
 
 void initialize(void);
 void lights(void);

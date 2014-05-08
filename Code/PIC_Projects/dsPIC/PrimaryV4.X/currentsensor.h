@@ -2,7 +2,7 @@
 #define	CURRENTSENSOR_H
 
 void initialize_ADC(void);
-int ADC_Read(void);
+unsigned short ADC_Read(void);
 
 #endif	/* CURRENTSENSOR_H */
 

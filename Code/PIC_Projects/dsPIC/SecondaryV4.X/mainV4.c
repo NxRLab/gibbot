@@ -8,16 +8,10 @@
 #include <libpic30.h>
 #include <p33EP512MC806.h>
 #include "initialize.h"
-int send;
+#include "encoder.h"
 
 int main(void) {
-    //Set the calibration bits for phase lock loop
-    //Clock frequency is set at 80MHz
-    CLKDIVbits.PLLPRE = 0;   // N1 = 2
-    PLLFBDbits.PLLDIV = 42;  // M = 44
-    CLKDIVbits.PLLPOST = 0;  // N2 = 2
     initialize();
-    BOTMAG = 0;
     while (1){
     }
     return 0;

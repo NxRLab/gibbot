@@ -1,19 +1,13 @@
 /*
- * QEI Magnet      RP99
- * QEI Magnet      RP98
- * XBee RX         RP71
- * XBee TX         RP70
- * XBee CTS        RP65
- * XBee RTS        RP66
+ * LOWMAG QEIA     AN10/RPI42
+ * LOWMAG QEIB     AN9/RPI41
+ * MOT QEIA        RP98
+ * MOT QEIB        RP99
  * IMU SCL         SCL1/RG2
  * IMU SDA         SDA1/RG3
  * IMU Interrupt   RF6
  * dsPIC SCL       SCL2/RF5
  * dsPIC SDA       SDA2/RF4
- * Current Sense   AN8
- * Hall 1          RD3
- * Hall 2          RD4          
- * Hall 3          RD5
  * LED 1           RD9
  * LED 2           RD10
  * LED 3           RD11

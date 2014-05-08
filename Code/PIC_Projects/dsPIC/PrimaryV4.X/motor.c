@@ -43,7 +43,6 @@ void __attribute__((interrupt, no_auto_psv)) _CNInterrupt(void) {
     }    
     PORTD;                //Clear mismatch condition
     IFS1bits.CNIF = 0;    //Clear interrupt flag
-    return;
 }
 
 /* The pulse width modulation module controls the motor torque by changing the

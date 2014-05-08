@@ -7,14 +7,15 @@
 #include "encoder.h"
 
 /* Configuration Bit Settings */
-//Select the internal fast RC oscilator with phase lock loop as the clock
-_FOSCSEL(FNOSC_FRCPLL)
+//To avoid setting the PLL bits while PLL is being used the oscillator is
+//initially configured to use the FRC oscillator without phase lock loop
+_FOSCSEL(FNOSC_FRC & IESO_OFF)
 //OSC2 (pin 40) is clock output
-_FOSC(OSCIOFNC_OFF)
+_FOSC(FCKSM_CSECMD & OSCIOFNC_OFF)
 //Watchdog timer not automatically enabled
 _FWDT(FWDTEN_OFF)
 //Communicate on PGEC1 (pin 17) and PGED1 (pin 18)
-_FICD(ICS_PGD1)
+_FICD(ICS_PGD1 & JTAGEN_OFF)
 //Wait 128ms after power-on to initialize
 _FPOR(FPWRT_PWR128)
 
@@ -37,6 +38,13 @@ void initialize(void){
     CLKDIVbits.PLLPOST = 0;  // N2 = 2
     // FPLLO = FVCO/N2 = 81.07 MHz
     // FOSC ~= 80MHz, FCY ~= 40MHz
+    /* Initiate Clock Switch */
+    //The __builtin macro handles unlocking the OSCCON register
+    __builtin_write_OSCCONH(1); //New oscillator is FRC with PLL
+    __builtin_write_OSCCONL(OSCCON | 0x01); //Enable clock switch
+
+    while (OSCCONbits.COSC!= 1); //Wait for FRC with PLL to be clock source
+    while (OSCCONbits.LOCK!= 1); //Wait for PLL to lock
 
     /* Configure digital I/O */
     TRISDbits.TRISD8 = 1;    //USER input
@@ -52,7 +60,7 @@ void initialize(void){
 
     resetTest();
     initialize_I2C_Slave();
-    initialize_encoders();
+    initialize_QEI();
     lights();
 }
 

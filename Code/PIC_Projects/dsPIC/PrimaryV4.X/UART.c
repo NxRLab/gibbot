@@ -1,29 +1,21 @@
 /* Configure the UART1 module to facilitate wireless communication with the PC
- * through the XBee. Received data from the PC initiates an RX interrupt. */
+ * through the XBee. Received data from the PC is stored in the linked list 
+ * "uart_buffer". 
+ * 
+ * uart_buffer can be accessed with the clear_queue, enqueue and dequeue
+ * functions.
+ */
 #include <stdlib.h>
 #include <stdio.h>
 #include <libpic30.h>
 #include <p33EP512MC806.h>
-#include "XBee.h"
+#include "UART.h"
 #include "test.h"
 #include "I2CMaster.h"
 #include "motor.h"
+#include "initialize.h"
 
-#define N 256
-
-struct linked_list_t {
-    unsigned char c;            //Variable stored in linked list
-    struct linked_list_t *next; //Pointer to next element in linked list
-};
-
-typedef struct linked_list_t LinkedList; //Shorten declaration of a new struct
-                                         //to the syntax LinkedList name
-
-volatile struct { //Create uart_buffer
-    LinkedList *first; //Pointer to first element in buffer
-    LinkedList *last;  //Pointer to last element in buffer
-    int len;           //Tally of elements in buffer
-} uart_buffer;
+volatile struct uart_buffer_t uart_buffer;
 
 /* Clear every element in the uart_buffer and release the memory */
 void clear_queue(void) {
@@ -39,10 +31,13 @@ void clear_queue(void) {
     uart_buffer.len = 0;                //Clear tally
 }
 
+unsigned char read_UART(void){
+    return dequeue();
+}
 /* Read value from the first element in the uart_buffer and remove that element
  */
-char dequeue(void){
-    short c = EOF;
+unsigned char dequeue(void){
+    unsigned char c = EOF;
     LinkedList *l;                   //Create temporary pointer
 
     if (uart_buffer.first != NULL) { //If elements remain in the buffer
@@ -73,7 +68,7 @@ void enqueue(unsigned char c) {
 
     // link
     l->next = NULL; //clear pointer
-    if (uart_buffer.last == NULL) { //If no elements in uart_buffer
+    if (uart_buffer.first == NULL) { //If no elements in uart_buffer
         uart_buffer.first = l;      //First and last both point to the only
         uart_buffer.last = l;       //  element
     } else {
@@ -83,11 +78,11 @@ void enqueue(unsigned char c) {
     uart_buffer.len++;              //Increment tally
 }
 
-void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
+void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void){
     while (U1STAbits.URXDA){ //If there is data in the recieve register
         enqueue(U1RXREG);    //Add data to uart_buffer
     }
-	IFS0bits.U1RXIF = 0; //Clear interrupt flag
+    IFS0bits.U1RXIF = 0; //Clear interrupt flag
 }
 
 void initialize_UART(void){
@@ -105,6 +100,7 @@ void initialize_UART(void){
     //Set RP registers for UART1 RX and TX to connect UART module to those pins
     RPINR18bits.U1RXR = 71; //UART1 RX Tied to RP71 (RD7)
     RPOR3bits.RP70R = 1;     //RP70 (RD6) tied to UART1 TX
+
     ////Set RP registers for UART1 CTS and RTS
     //RPINR18bits.U1CTSR = 65; //UART1 CTS tied to RP65 (RD1)
     //RPOR1bits.RP66R = 2;     //RP66 tied to UART1 RTS (RD2)
@@ -113,20 +109,19 @@ void initialize_UART(void){
      * at the standard 115200 baud rate because of limitations with its internal
      * clock (Source: Footnote on table in "BD (Interface Data Rate) Command"
      * section of Product Manual v1.xEx - 802.15.4 Protocol).  */
-    U1MODEbits.BRGH = 0; //Turn High Baud Rate Mode off
-    // U1BRG = (Fcy/(16*Baud Rate)) - 1
-    // U1BRG = (40MHz/(16*111,111)) - 1
-    U1BRG = 22; //Baud Rate 108695 2.1% error
-    //U1BRG = 21; Baud rate 113636 -2.3% error
+    U1MODEbits.BRGH = 1; //Turn High Baud Rate Mode on
+    // U1BRG = (Fcy/(4*16*Baud Rate)) - 1
+    // U1BRG = (40MHz/(16*111,111)) - 1 = 89
+    U1BRG = 89; //Baud Rate =112044 0.8% error
 
     //UxTX and UxRX pins are enabled and used
     //UxCTS and UxRTS pins are controlled by port latches
     //To use U1CTS and U1RTS pins with module: U1MODEbits.UEN = 0b10;
     U1MODEbits.UEN = 0b00;
 
-    IPC2bits.U1RXIP = 5;     // Set RX interrupt priority to 5
-    IFS0bits.U1RXIF = 0;     // Clear the Recieve Interrupt Flag
-    IEC0bits.U1RXIE = 1;     // Enable Recieve Interrupts
+//    IPC2bits.U1RXIP = 7;     // Set RX interrupt priority to 5
+//    IFS0bits.U1RXIF = 0;     // Clear the Recieve Interrupt Flag
+//    IEC0bits.U1RXIE = 0;     // Enable Recieve Interrupts
 
     U1MODEbits.UARTEN = 1;   //enable the UART
     U1STAbits.UTXEN = 1;     //Enable transmitting
