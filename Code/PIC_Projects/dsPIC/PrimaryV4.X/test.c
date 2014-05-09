@@ -18,15 +18,16 @@ void test_encoder(void){
     unsigned char command;
     unsigned long temp;
     if(uart_buffer.len >0){
+        LED1 = !LED1;
         command = read_UART();
         if(command=='a'){
             clear_LOWMAGENC();
         } else if(command=='b'){
             temp = read_LOWMAGENC();
-            U1TXREG = temp;
-            U1TXREG = temp>>8;
-            U1TXREG = temp>>16;
-            U1TXREG = temp>>24;
+            U2TXREG = temp;
+            U2TXREG = temp>>8;
+            U2TXREG = temp>>16;
+            U2TXREG = temp>>24;
         }
     }
 }

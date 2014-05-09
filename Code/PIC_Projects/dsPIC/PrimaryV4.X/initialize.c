@@ -58,11 +58,12 @@ void initialize(void){
 
     /* Initialize peripherals*/
     resetTest();
-    initialize_PWM();
+    //initialize_PWM();
     initialize_CN();
     initialize_ADC();
-    initialize_I2C_Master();
+    //initialize_I2C_Master();
     initialize_QEI();
+    
     lights();
     initialize_UART();
 }

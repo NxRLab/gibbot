@@ -86,6 +86,7 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void){
 }
 
 void initialize_UART(void){
+    
     // The UART module allows wireless communication with the computer via XBee
     /* XBee connections to the dsPIC are as follows:
      * RX   RP71/RD7
@@ -93,13 +94,22 @@ void initialize_UART(void){
      * CTS  RP65/RD1
      * RTS  RP66/RD2
      */
-    // Unless issues with XBee communication prove that hardware flow
-    // control is necessary, RTS and CTS will not be initialized.
-    // Set TX pin as an output
-    TRISDbits.TRISD6 = 0;
+    TRISEbits.TRISE1 = 1;
+    TRISEbits.TRISE0 = 0;
+    ANSELEbits.ANSE0 = 0;
+    ANSELEbits.ANSE1 = 0;
     //Set RP registers for UART1 RX and TX to connect UART module to those pins
-    RPINR18bits.U1RXR = 71; //UART1 RX Tied to RP71 (RD7)
-    RPOR3bits.RP70R = 1;     //RP70 (RD6) tied to UART1 TX
+    RPINR18bits.U1RXR = 81;
+    RPOR4bits.RP80R = 1;
+
+//    // Unless issues with XBee communication prove that hardware flow
+//    // control is necessary, RTS and CTS will not be initialized.
+//    // Set TX pin as an output
+//    TRISDbits.TRISD6 = 0;
+//    TRISDbits.TRISD7 = 1;
+//    //Set RP registers for UART1 RX and TX to connect UART module to those pins
+//    RPINR18bits.U1RXR = 71; //UART1 RX Tied to RP71 (RD7)
+//    RPOR3bits.RP70R = 1;     //RP70 (RD6) tied to UART1 TX
 
     ////Set RP registers for UART1 CTS and RTS
     //RPINR18bits.U1CTSR = 65; //UART1 CTS tied to RP65 (RD1)
@@ -119,9 +129,9 @@ void initialize_UART(void){
     //To use U1CTS and U1RTS pins with module: U1MODEbits.UEN = 0b10;
     U1MODEbits.UEN = 0b00;
 
-//    IPC2bits.U1RXIP = 7;     // Set RX interrupt priority to 5
-//    IFS0bits.U1RXIF = 0;     // Clear the Recieve Interrupt Flag
-//    IEC0bits.U1RXIE = 0;     // Enable Recieve Interrupts
+    IPC2bits.U1RXIP = 7;     // Set RX interrupt priority to 5
+    IFS0bits.U1RXIF = 0;     // Clear the Recieve Interrupt Flag
+    IEC0bits.U1RXIE = 1;     // Enable Recieve Interrupts
 
     U1MODEbits.UARTEN = 1;   //enable the UART
     U1STAbits.UTXEN = 1;     //Enable transmitting

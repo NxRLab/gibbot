@@ -16,9 +16,11 @@
 int main(void) {
     initialize();
     while (1){
-        if(U1STAbits.URXDA == 1){
-            U1TXREG = U1RXREG;
+        while(uart_buffer.len >0){
+            LED2=!LED2;
+            U1TXREG = read_UART();
         }
+        //test_encoder();
     }
     return 0;
 }
