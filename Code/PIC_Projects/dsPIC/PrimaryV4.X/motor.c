@@ -106,7 +106,7 @@ void initialize_CN(void) {
     CNENDbits.CNIED4 = 1; //Turn on CN for RD4
     CNENDbits.CNIED5 = 1; //Turn on CN for RD5
     IFS1bits.CNIF = 0;     //Clear interrupt flag
-    IPC4bits.CNIP = 0b111; //Set priority to 7
+    IPC4bits.CNIP = 0b100; //Set priority to 4
     IEC1bits.CNIE = 1;     //Enable CN interrupt
 }
 

@@ -24,7 +24,7 @@
 #define LED3 LATDbits.LATD11
 #define LED4 LATDbits.LATD0
 #define USER PORTDbits.RD8
-#define BOTMAG LATDbits.LATD1
+#define LOWMAG LATDbits.LATD1
 
 void initialize(void);
 void lights(void);

@@ -17,6 +17,22 @@
 
 volatile struct uart_buffer_t uart_buffer;
 
+unsigned char read_UART(void){
+    return dequeue();
+}
+
+void write_UART(unsigned char data){
+    long i=0;
+    while(U1STAbits.UTXBF && (i<100000)){
+        i++;
+    }
+    if(i>=100000){
+        LED4 = 0;
+        //GENERATE ERROR
+    }
+    U1TXREG = data;
+}
+
 /* Clear every element in the uart_buffer and release the memory */
 void clear_queue(void) {
     LinkedList *l;                      //Create temporary pointer
@@ -31,9 +47,6 @@ void clear_queue(void) {
     uart_buffer.len = 0;                //Clear tally
 }
 
-unsigned char read_UART(void){
-    return dequeue();
-}
 /* Read value from the first element in the uart_buffer and remove that element
  */
 unsigned char dequeue(void){
@@ -94,22 +107,15 @@ void initialize_UART(void){
      * CTS  RP65/RD1
      * RTS  RP66/RD2
      */
-    TRISEbits.TRISE1 = 1;
-    TRISEbits.TRISE0 = 0;
-    ANSELEbits.ANSE0 = 0;
-    ANSELEbits.ANSE1 = 0;
-    //Set RP registers for UART1 RX and TX to connect UART module to those pins
-    RPINR18bits.U1RXR = 81;
-    RPOR4bits.RP80R = 1;
 
-//    // Unless issues with XBee communication prove that hardware flow
-//    // control is necessary, RTS and CTS will not be initialized.
-//    // Set TX pin as an output
-//    TRISDbits.TRISD6 = 0;
-//    TRISDbits.TRISD7 = 1;
-//    //Set RP registers for UART1 RX and TX to connect UART module to those pins
-//    RPINR18bits.U1RXR = 71; //UART1 RX Tied to RP71 (RD7)
-//    RPOR3bits.RP70R = 1;     //RP70 (RD6) tied to UART1 TX
+    // Unless issues with XBee communication prove that hardware flow
+    // control is necessary, RTS and CTS will not be initialized.
+    // Set TX pin as an output
+    TRISDbits.TRISD6 = 0;
+    TRISDbits.TRISD7 = 1;
+    //Set RP registers for UART1 RX and TX to connect UART module to those pins
+    RPINR18bits.U1RXR = 71; //UART1 RX Tied to RP71 (RD7)
+    RPOR3bits.RP70R = 1;     //RP70 (RD6) tied to UART1 TX
 
     ////Set RP registers for UART1 CTS and RTS
     //RPINR18bits.U1CTSR = 65; //UART1 CTS tied to RP65 (RD1)

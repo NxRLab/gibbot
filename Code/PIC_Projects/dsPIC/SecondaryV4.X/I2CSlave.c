@@ -22,7 +22,6 @@ void initialize_I2C_Slave(void){
     IFS3bits.SI2C2IF = 0;   //Clear interrupt flag
     IPC12bits.SI2C2IP = 7;  //Set priority to 6
     IEC3bits.SI2C2IE = 1;   //Enable I2C 2 Slave interrupt
-
     I2C2CONbits.I2CEN = 1;  //Enable I2C 2
 
 }
@@ -41,7 +40,7 @@ void __attribute__((interrupt, no_auto_psv)) _SI2C2Interrupt(void) {
      * Burst Write: 123333...
      * Burst Read: 1214444...
      */
-    int i;
+    long i=0;
     unsigned char tempvar = 0;
     if(!I2C2STATbits.R_W){      //If Master device is sending a write command
         if(!I2C2STATbits.D_A){ //If byte received was device address
@@ -64,7 +63,12 @@ void __attribute__((interrupt, no_auto_psv)) _SI2C2Interrupt(void) {
                                       //address this byte is data to be written
                 /***3** Write Data */
                 *RegPtr = (unsigned char)I2C2RCV; //write data to register
-                if(RegPtr==&RegBuffer[MOTENC+1]){
+                
+                if(RegPtr==&RegBuffer[MOTENC+3]){
+                    //Load data into hold register
+                    POS2HLD = (RegBuffer[MOTENC+3]<<8) | RegBuffer[MOTENC+2];
+                    //load data into CNTL register and transfer data from hold
+                    //register to CNTH register
                     POS2CNTL = (RegBuffer[MOTENC+1]<<8) | RegBuffer[MOTENC];
                 } else if(RegPtr==&RegBuffer[LOWMAGENC+3]){
                     //Load data into hold register
@@ -72,6 +76,14 @@ void __attribute__((interrupt, no_auto_psv)) _SI2C2Interrupt(void) {
                     //load data into CNTL register and transfer data from hold
                     //register to CNTH register
                     POS1CNTL = (RegBuffer[LOWMAGENC+1]<<8) | RegBuffer[LOWMAGENC];
+                } else if(RegPtr==&RegBuffer[LOWMAGCON]){
+                    if(*RegPtr==0){
+                        LOWMAG = 0;
+                    } else if(*RegPtr==1){
+                        LOWMAG = 1;
+                    } else if(*RegPtr==2){
+                        LOWMAG = !LOWMAG;
+                    }
                 }
                 RegPtr = RegPtr + 1;  //Increment pointer by 1 for burst write
                 LED3 = !LED3;
@@ -86,13 +98,13 @@ void __attribute__((interrupt, no_auto_psv)) _SI2C2Interrupt(void) {
                        //minimum number of delay cycles for delay32 is 12.
         I2C2CONbits.SCLREL = 1;//Release the clock stretch
         //Wait for the transmit buffer to clear or for a timeout.
-        while(I2C2STATbits.TBF && (i < 4000000)){
+        while(I2C2STATbits.TBF && (i < 100000)){
             i++;
         }
         if(i >= 4000000){ //If timeout indicate with LED and restart I2C module
            LED4 = 0;
-           I2C2CONbits.I2CEN = 0;
-           I2C2CONbits.I2CEN = 1;
+           //I2C2CONbits.I2CEN = 0;
+           //I2C2CONbits.I2CEN = 1;
         }
         RegPtr = RegPtr + 1;  //Increment pointer by 1 for burst read
     }

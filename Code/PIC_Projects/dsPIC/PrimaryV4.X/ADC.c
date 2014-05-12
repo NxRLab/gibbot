@@ -1,9 +1,9 @@
 /* The Analog-to-digital converter module reads the analog voltage from the
- * current sensors and converts it to a 12-bit word.
- * The ADC is initialized to continuously read using automatically triggered
- * sampling and conversion. The ADC writes the data from each reading to a
- * buffer in the DPSRAM memory space using the direct memory access module.
- * The ADC_Read() function returns the average of the values in this buffer.
+ * current sensors and converts it to a 12-bit word. The ADC is initialized to
+ * continuously read using automatically triggered sampling and conversion. The
+ * direct memory access modules writes the data from each reading to a
+ * buffer in the DPSRAM memory space. The ADC_Read() function returns the
+ * average of the values in this buffer.
  */
 #include <libpic30.h>
 #include <p33Exxxx.h>
@@ -11,8 +11,8 @@
 #include "ADC.h"
 #define ADC_BUFF_LEN 128 //Length of the DMA Buffer, should be a power of 2
 
-//Create DMA buffer for ADC, the macro is used because the buffer is outside the
-//normal memory space
+//Create DMA buffer for ADC, the macro is required because the buffer is
+//outside of the normal memory space
 __eds__ unsigned int BufferA[ADC_BUFF_LEN] __attribute__((eds,space(dma)));
 
 /* ADC interrupt is disabled
@@ -36,21 +36,21 @@ void initialize_ADC(void){
     //AD1CON2bits.VCFG    = 0;//AVDD and AVSS used as Vref+ and Vref-
     //AD1CON2bits.SMPI = 0; //Increment DMA address after every conversion
     //AD1CON3bits.ADRC = 0; //Use system clock for ADC clock source
-    AD1CON1bits.ASAM = 1; //Automatically sample at the end of each conversion    
-    AD1CON1bits.AD12B = 1; //ADC is in 12 bit, 1 channel mode
-    AD1CON1bits.ADDMABM = 1; //DMA buffers are written in order of conversion
+    AD1CON1bits.ASAM = 1;   //Automatically sample at the end of each conversion
+    AD1CON1bits.AD12B = 1;  //ADC is in 12 bit, 1 channel mode
+    AD1CON1bits.ADDMABM = 1;//DMA buffers are written in order of conversion
     AD1CON1bits.SSRC    = 0b111; // Use an automatic trigger
-    AD1CON1bits.SSRCG    = 0; // Use an automatic trigger    
+    AD1CON1bits.SSRCG    = 0;    // Use an automatic trigger
     AD1CON3bits.SAMC = 15; //Set the automatic sampling time to 15*Tad
                            //Datasheet says minimum sample time is 3*Tad
-    AD1CON3bits.ADCS = 9;     // Tad = (ADCS + 1)*Tcy
-                              // Tcy = 1 / 40MHz = 25 ns
-                              // Tad = 10*25ns = 250ns
-                              // Datasheet sets Tad minimum at 117.6ns
+    AD1CON3bits.ADCS = 9;  // Tad = (ADCS + 1)*Tcy
+                           // Tcy = 1 / 40MHz = 25 ns
+                           // Tad = 10*25ns = 250ns
+                           // Datasheet sets Tad minimum at 117.6ns
     AD1CON4bits.ADDMAEN = 1; //Use DMA module to automatically write data
-    AD1CHS0bits.CH0SA = 8; //Current sensor connected to AN8
+    AD1CHS0bits.CH0SA = 8;   //Current sensor connected to AN8
 
-    //Uncomment the next to lines to enable the ADC interrupt
+    //Uncomment the next two lines to enable the ADC interrupt
     //IFS0bits.AD1IF = 0; //Clear ADC interrupt flag
     //IEC0bits.AD1IE = 1; //Turn on ADC interrupt
 
@@ -72,10 +72,10 @@ void initialize_ADC(void){
 
     //Ensure the DMA interrupt is off
     IFS0bits.DMA0IF = 0; //Clear DMA interrupt flag
-    IEC0bits.DMA0IE = 0; //Enable DMA interrupt
+    IEC0bits.DMA0IE = 0; //Disable DMA interrupt
 
     DMA0CONbits.CHEN = 1; //Turn on the DMA Channel
-    AD1CON1bits.SAMP = 0; // Ensure sampling is turned off
+    AD1CON1bits.SAMP = 0; //Ensure ADC sampling is turned off
     AD1CON1bits.ADON = 1; //Turn on the ADC module
 }
 

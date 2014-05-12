@@ -23,7 +23,13 @@ void read_encoder(void){
     unsigned short temp1L;
     unsigned short temp1H;
     unsigned short temp2L;
+    unsigned short temp2H;
+    //store CNTL register, automatically stores CNTH register in HLD
     temp2L = POS2CNTL;
+    //store HLD register which is the same as CNTH when CNTL was read
+    temp2H = POS2HLD;
+    RegBuffer[MOTENC+3] = temp2H>>8;
+    RegBuffer[MOTENC+2] = temp2H;
     RegBuffer[MOTENC+1] = temp2L>>8;
     RegBuffer[MOTENC] = temp2L;
     //store CNTL register, automatically stores CNTH register in HLD

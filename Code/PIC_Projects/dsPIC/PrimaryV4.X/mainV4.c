@@ -16,11 +16,7 @@
 int main(void) {
     initialize();
     while (1){
-        while(uart_buffer.len >0){
-            LED2=!LED2;
-            U1TXREG = read_UART();
-        }
-        //test_encoder();
+        test_MayDay();
     }
     return 0;
 }

@@ -35,10 +35,12 @@ void test_encoder(void){
 void test_MayDay(void){
     unsigned char command;
     unsigned short data;
-    unsigned char testdata;
+    unsigned char datachar;
+    unsigned char testdata=0;
     unsigned char testecho[256];
     static long i=0;
-    int ij=0;
+    int i2=0;
+    long i3=0;
     long temp;
     int incr=0;
     if(i>8000){
@@ -54,52 +56,72 @@ void test_MayDay(void){
     if(uart_buffer.len>0){
         command = read_UART();
         LED1 = !LED1;
-        if(command =='z'){
-            LED2 = 0;
+        if(command =='z'){ //Return ADC value
             data = read_ADC();
-            U1TXREG = data;
-            U1TXREG = data>>8;
-            LED2 = 1;
-        }
-        if(command == 'a'){
+            write_UART(data);
+            write_UART(data>>8);
+        } else if(command=='Q'){
+            clear_LOWMAGENC();
+            clear_MOTENC();
+            clear_TOPMAGENC();
+        } else if(command=='W'){
+            temp = read_LOWMAGENC();
+            write_UART(temp);
+            write_UART(temp>>8);
+            write_UART(temp>>16);
+            write_UART(temp>>24);
+            temp = read_MOTENC();
+            write_UART(temp);
+            write_UART(temp>>8);
+            write_UART(temp>>16);
+            write_UART(temp>>24);
+            temp = read_TOPMAGENC();
+            write_UART(temp);
+            write_UART(temp>>8);
+            write_UART(temp>>16);
+            write_UART(temp>>24);
+        } else if(command == 'a'){ //Reverse Motor Direction
             direction = !direction;
-            LED2 = !LED2;
-        } else if(command =='b'){
+        } else if(command =='b'){ //Toggle Motor on/off
             motoron = !motoron;
             kick();
-            LED3 = !LED3;
-        } else if(command =='q'){
+        } else if(command =='q'){ //Increase duty cycle
             if(duty<950){
                 duty = duty+50;
             } else{
                 LED4 = !LED4;
             }
-        } else if(command =='w'){
+        } else if(command =='w'){ //Decrease duty cycle
             if(duty>50){
                 duty=duty-50;
             } else {
                 LED4 = !LED4;
             }
-        } else if(command =='1'){
+        } else if(command =='1'){ //Set to maximum duty cycle
             duty=300;
             kick();
             LED3 = !LED3;
-        } else if(command =='2'){
+        } else if(command =='2'){ //Set to minimum duty cycle
             duty=50;
             LED3 = !LED3;
-        } else if(command=='h'){
-            while(ij<256){
+        } else if(command=='h'){ //Pass through test, 256 single reads
+            LED4 = 0;
+            while((i2<256) && (i3<1000000)){
                 if(uart_buffer.len > 0){
                     testdata = read_UART();
                     unsigned char testecho;
                     write_I2C(&testdata, 3, 1);
                     read_I2C(&testecho, 3, 1);
                     U1TXREG = testecho; //echo data
-                    ij++;
+                    i2++;
+                    i3=0;
                 }
+                i3++;
             }
-        } else if(command=='k'){
-            while(incr<256){
+            LED4=1;
+        } else if(command=='k'){ //Pass through test, burst read
+            LED4 = 0;
+            while(incr<256 && (i3<1000000)){
                 if(uart_buffer.len > 0){
                     if(incr<255){
                         testdata = read_UART();
@@ -116,9 +138,12 @@ void test_MayDay(void){
                         }
                         incr++;
                     }
+                    i=0;
                 }
+                i3++;
             }
-        } else if(command=='u'){
+            LED4 = 1;
+        } else if(command=='u'){ //
             clear_LOWMAGENC();
         } else if(command=='i'){
             temp = read_LOWMAGENC();
@@ -128,6 +153,19 @@ void test_MayDay(void){
             U1TXREG = temp>>24;
         } else if(command=='m'){
             TOPMAG = !TOPMAG;
+        } else if(command=='n'){
+            TOPMAG = 1;
+        } else if(command=='o'){
+            TOPMAG = 0;
+        } else if(command=='M'){
+            datachar = 2;
+            write_I2C(&datachar, LOWMAGCON, 1);
+        } else if(command=='N'){
+            datachar = 1;
+            write_I2C(&datachar, LOWMAGCON, 1);
+        } else if(command=='O'){
+            datachar = 0;
+            write_I2C(&datachar, LOWMAGCON, 1);
         }
     }
 }

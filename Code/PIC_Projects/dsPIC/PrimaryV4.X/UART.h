@@ -1,13 +1,15 @@
 #ifndef UART_H
 #define	UART_H
 
+#define N 256
+
 void initialize_UART(void);
 void clear_queue(void);
 unsigned char dequeue(void);
 void enqueue(unsigned char c);
 unsigned char read_UART(void);
+void write_UART(unsigned char data);
 
-#define N 256
 
 struct linked_list_t {
     unsigned char c;            //Variable stored in linked list
