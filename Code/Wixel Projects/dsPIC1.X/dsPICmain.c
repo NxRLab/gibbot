@@ -96,7 +96,7 @@ int main() {
 
   short read = 0;
 
-  short pos;
+  unsigned int  pos = 0;
 
   while (1) {
 
@@ -104,41 +104,42 @@ int main() {
     //while (!U1STAbits.TRMT); // wait for the data to be sent out
 
     // if the RX buffer is full
-    if(U1STAbits.URXDA == 1 & U1STAbits.TRMT==1) {
-      read = U1RXREG;
+    if(U1STAbits.URXDA == 1 && U1STAbits.TRMT == 1) {
+       if (U1STAbits.OERR == 1) {
+          U1RXREG=0;
+      }
+       read = U1RXREG;
       if (read == 1) {
-          pos=1;
-        //pos = QEI_read(1);
-        U1TXREG = pos;
+          //pos=1;
+        pos = QEI_read(1);
+        U1TXREG = (unsigned char) pos;
         while (!U1STAbits.TRMT); // wait for the data to be sent out
       }
 
-      if (read == 2) {
-          pos=2;
-        U1TXREG = pos;
-                //pos>>8;
+      else if (read == 2) {
+          //pos=2;
+        U1TXREG = (unsigned char) (pos >> 8);
         while (!U1STAbits.TRMT); // wait for the data to be sent out
       }
 
-      if (read == 3) {
-          pos=3;
-        //pos = QEI_read(2);
-        U1TXREG = pos;
+      else if (read == 3) {
+          //pos=3;
+        pos = QEI_read(2);
+        U1TXREG = (unsigned char) pos;
         while (!U1STAbits.TRMT); // wait for the data to be sent out
      }
 
-      if (read == 4) {
-          pos=4;
-        U1TXREG = pos;
-                //pos>>8;
+       else if (read == 4) {
+          //pos=4;
+        U1TXREG = (unsigned char) (pos >> 8);
         while (!U1STAbits.TRMT); // wait for the data to be sent out
       }
 
-      if (read == 5) {
+       else if (read == 5) {
 
         QEI_reset(1);
       }
-      if (read == 6) {
+       else if (read == 6) {
 
         QEI_reset(2);
       }
