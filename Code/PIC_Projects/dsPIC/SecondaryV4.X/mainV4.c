@@ -13,6 +13,9 @@
 int main(void) {
     initialize();
     while (1){
+        if(USER){
+            LOWMAG = 1;
+        }
     }
     return 0;
 }

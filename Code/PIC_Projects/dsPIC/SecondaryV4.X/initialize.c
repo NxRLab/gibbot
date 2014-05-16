@@ -39,7 +39,7 @@ void initialize(void){
     // FPLLO = FVCO/N2 = 81.07 MHz
     // FOSC ~= 80MHz, FCY ~= 40MHz
     /* Initiate Clock Switch */
-    //The __builtin macro handles unlocking the OSCCON register
+    //The __builtin_write macro handles unlocking the OSCCON register
     __builtin_write_OSCCONH(1); //New oscillator is FRC with PLL
     __builtin_write_OSCCONL(OSCCON | 0x01); //Enable clock switch
 

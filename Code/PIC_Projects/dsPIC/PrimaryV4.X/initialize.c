@@ -47,25 +47,24 @@ void initialize(void){
     while (OSCCONbits.LOCK!= 1); //Wait for PLL to lock
 
     /* Configure IO*/
-    TRISDbits.TRISD8 = 1;    //USER input
+    TRISDbits.TRISD8 = 1;   //USER input
     //LED outputs
     TRISDbits.TRISD9 = 0;   //LED1
-    TRISDbits.TRISD10 = 0;    //LED2
-    TRISDbits.TRISD11 = 0;   //LED3
+    TRISDbits.TRISD10 = 0;  //LED2
+    TRISDbits.TRISD11 = 0;  //LED3
     TRISDbits.TRISD0 = 0;   //LED4
     //Magnet Control
     TRISFbits.TRISF0 = 0;   //Top Magnet
 
     /* Initialize peripherals*/
     resetTest();
-    //initialize_PWM();
+    initialize_PWM();
     initialize_CN();
     initialize_ADC();
-    //initialize_I2C_Master();
+    initialize_I2C_Master();
     initialize_QEI();
-    
-    lights();
     initialize_UART();
+    lights();   
 }
 
 void resetTest(void){

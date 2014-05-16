@@ -1,5 +1,5 @@
 /* The I2C2 module is used to communicate between the dsPICs on the PCB in each
- * of the links. The function Initialize_I2C_Master configures the dsPIC to be
+ * of the links. The function initialize_I2C_Master configures the dsPIC to be
  * function as the master at 400kHz.
  *
  * The I2C_Write and I2C_Read functions are used to communicated on the channel.
@@ -10,9 +10,9 @@
 #include "I2CMaster.h"
 #include "initialize.h"
 /* I2C_Write is used for a single write or a burst write. 
- *    *data points to a buffer with the data to be written
- *    reg is the address of the register on the slave that is being written to
- *    numbytes is the number of bytes to be written, 1 for a single write
+ *   -data points to a buffer with the data to be written
+ *   -reg is the address of the register on the slave that is being written to
+ *   -numbytes is the number of bytes to be written, 1 for a single write
  */
 void write_I2C(unsigned char *data, unsigned char reg, int numbytes){
     int i;
@@ -21,15 +21,15 @@ void write_I2C(unsigned char *data, unsigned char reg, int numbytes){
     sendOneByte_I2C(reg);          //send register to be written to, this is the
                                    //first register written to in a burst write
     for(i=0;i<numbytes;i++){       //send bytes from data buffer
-        sendOneByte_I2C(data[i]);
+        sendOneByte_I2C(data[i]);  //send data for burst write
     }
     stop_I2C();                    //end communication sequence
 }
 
 /* I2C_Read is used for a single read or a burst read.
- *    *data points to an empty buffer large enough to hold the entire packet
- *    reg is the address of the register on the slave that is being read from
- *    numbytes is the number of bytes to be read, 1 for a single read
+ *   -data points to an empty buffer large enough to hold the entire packet
+ *   -reg is the address of the register on the slave that is being read from
+ *   -numbytes is the number of bytes to be read, 1 for a single read
  */
 void read_I2C(unsigned char *data, unsigned char reg, int numbytes){
     int i;
@@ -95,16 +95,12 @@ char sendOneByte_I2C(unsigned char data){
     }
 }    
 
-/* Reads one byte and stores it in the variable location pointed to by data.
-   Also sends the Ack response where 1 is NACK (not-acknowledge). */
-void receiveOneByte_I2C(unsigned char *data, char Ack){
-    
+/* Reads one byte and stores it in the location pointed to by data.
+   Also, sends the Ack response where 1 is NACK (not-acknowledge). */
+void receiveOneByte_I2C(unsigned char *data, char Ack){    
     I2C2CONbits.RCEN = 1;    //Enable recieve
-
-    while(!I2C2STATbits.RBF);//Wait until recieve register is full
-    
+    while(!I2C2STATbits.RBF);//Wait until recieve register is full   
     *data = I2C2RCV;         //Save recieved byte to data. Clears RCEN and RBF
-
     I2C2CONbits.ACKDT = Ack; //Load ACK or NACK
     I2C2CONbits.ACKEN = 1;   //Send ACK or NACK
     while(I2C2CONbits.ACKEN);//Wait for the end of acknowledge
