@@ -50,50 +50,43 @@
 #include <radio_link.h>
 #include "encoder.h"
 #include "gibbot_current.h"
+#include "gibbot_motion.h"
 
 //static uint8 i=0;
 //static uint8 j=255;
-static int e=0,eint=0,u=0,kp=0,ki=0,Ampsref=0;
-static uint16 i=0;
+//static int e=0,eint=0,u=0,kp=0,ki=0,Ampsref=0;
  
 ISR(T4,0)
  {
 	 uint8 horl;
-	 horl=isPinHigh(15);
+	 uint16 prevwallenc, wallenc;
+	 int16 direction;
+	 horl = isPinHigh(15);
 	 setDigitalOutput(15,!horl);	
 	 
-	 T3CC0=0;
-	 T3CC1=150;
-	 if (i>8192)
+	 wallenc = wall_encoder_read();
+	 direction = wallenc - prevwallenc;
+	 prevwallenc = wallenc;
+	 if (direction < 0)
 	 {
 		 setDigitalOutput(17,1);
-		 if (i==16384)
-		 {
-			 i=0;
-		 }
-		 
-		 else if (i>8192 & i<16384)
-		 {
-			 T3CC1=75;
-		 }
-		 else
-		 {
-			 T3CC1=150;
-		 }
+		 T3CC0 = 0;
+		 T3CC1 = 150;
+	 }
+	 
+	 else if (direction > 0)
+	 {
+		 setDigitalOutput(17,0);
+		 T3CC0 = 0;
+		 T3CC1 = 150;
 	 }
 	 else
 	 {
-		 setDigitalOutput(17,0);
-		 if (i<8192)
-		 {
-			 T3CC1=75;
-		 }
-		 else
-		 {
-			 T3CC1=150;
-		 }
+		 T3CC0 = 255;
+		 T3CC1 = 0;
 	 }
-	 /*uint32 ampvalue;
+	 
+	 	 /*uint32 ampvalue;
 	 uint16 ucycle;
 	 ampvalue=current_amps_get();
 	 ucycle=0;
@@ -115,7 +108,6 @@ ISR(T4,0)
 	 }*/
 	 
 	 T4IF = 0;
-	 i++;
  }
 
 
@@ -145,42 +137,42 @@ void timer3Init()
     // to T3CC0 and T3CC1.  A value of 255 results in a 100% duty cycle, and a
     // value of N < 255 results in a duty cycle of N/256.
 	
-	P1DIR|=1<<7;
+	P1DIR |= 1<<7;
 }
 
 void timer4Init()
 {
-	T4CTL=0b10111010;
-	T4CC0=0x95;
-	T4CCTL0=0b01000000;
-	T4IF=0;
-	T4IE=1;
-	P1SEL|=0<<5;
-	P1DIR|=1<<5;
+	T4CTL = 0b10111010;
+	T4CC0 = 0x95;
+	T4CCTL0 = 0b01000000;
+	T4IF = 0;
+	T4IE = 1;
+	P1SEL |= 0<<5;
+	P1DIR |= 1<<5;
 }
 
 uint16 current_amps_get()
 {
 	uint16 adcvalue;
-	uint16 mAvalue,mVvalue;
-	adcvalue=adcRead(0);
-	mVvalue=((float)(adcvalue/2047))*3300;
-	mAvalue=((float)(mVvalue/440))*1000;
+	uint16 mAvalue, mVvalue;
+	adcvalue = adcRead(0);
+	mVvalue = ((float) adcvalue * 3300) / 2047;
+	mAvalue = ((float) mVvalue * 1000) / 525;
 	return mAvalue;
 }
 
-void shutdown()
+void shutdown_movement()
 {
-	T3CC0=255;
-	T3CC1=0;
-	T1IE=0;
-	T4IE=0;
+	T3CC0 = 255;
+	T3CC1 = 0;
+	T1IE = 0;
+	T4IE = 0;
 }
 
-void start_up()
+void start_up_movement()
 {
-	T1IE=1;
-	T4IE=1;
+	T1IE = 1;
+	T4IE = 1;
 }
 /*void current_gains_sprintf(char * buffer)
 {

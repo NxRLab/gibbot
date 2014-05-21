@@ -18,13 +18,14 @@
 #include <radio_link.h>
 #include "encoder.h"
 
+
 ISR(T1,0);
 
 void motion_init();
 
-uint16 motor_angle();
+int16 motor_angle();
 
-uint16 wall_angle();
+int16 wall_angle();
 
 void motion_gains_sprintf(char * buffer);
 

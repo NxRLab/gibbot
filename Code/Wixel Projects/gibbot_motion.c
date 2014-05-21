@@ -18,32 +18,29 @@
 #include "gibbot_motion.h"
 #include "gibbot_current.h"
 
-
-static int kp=0, ki=0, kd=0, e=0, eint = 0, edot = 0, u = 0, eprev=0;
+//static int kp=0, ki=0, kd=0, e=0, eint = 0, edot = 0, u = 0, eprev=0;
 
 ISR(T1,0)
 {
 	uint8 horl;
-	horl=isPinHigh(16);
+	horl = isPinHigh(16);
 	setDigitalOutput(16,!horl);	
-	T1IF=0;
+	T1IF = 0;
 
 }
 
 void motion_init()
 {
-	P1SEL|=0<<6;
-	P1DIR|=1<<6;
-	PERCFG=1<<6;
-	T1IF=0;
-	T1IE=1;
-	T1CTL=0b00000110;
-	T1CC0=0x3A97;
-	TIMIF|=0b01000000;
+	P1SEL |= 0 << 6;
+	P1DIR |= 1 << 6;
+	PERCFG = 1 << 6;
+	T1IF = 0;
+	T1IE = 1;
+	T1CTL = 0b00000110;
+	T1CC0 = 0x3A97;
+	TIMIF |= 0b01000000;
 	
-	
-	//setDigitalOutput(17,1);	
-	
+		
 	motor_encoder_reset();
 	wall_encoder_reset();
 	
@@ -52,16 +49,16 @@ void motion_init()
 	core_register_int(&kd);*/
 }
 
-uint16 motor_angle()
+int16 motor_angle()
 {
-	uint16 angle;
+	int16 angle;
 	angle=((((float)motor_encoder_read()-32768)*360)/39000);
 	return angle; 
 }
 
-uint16 wall_angle()
+int16 wall_angle()
 {
-	uint16 angle;
+	int16 angle;
 	angle=((((float)wall_encoder_read()-32768)*360)/8194);
 	return angle; 
 }

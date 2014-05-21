@@ -26,9 +26,9 @@ void timer4Init();
 
 uint16 current_amps_get();
 
-void shutdown();
+void shutdown_movement();
 
-void start_up();
+void start_up_movement();
 
 void current_gains_sprintf(char * buffer);
 
