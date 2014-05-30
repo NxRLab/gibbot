@@ -12,8 +12,11 @@
 #include <usb_com.h>
 #include <uart0.h>
 #include <stdio.h>
-#include <radio_com.h>
 #include <radio_link.h>
+#include <radio_com.h>
+#include <radio_registers.h>
+#include <radio_queue.h>
+#include <radio_mac.h>
 #include "encoder.h"
 #include "gibbot_current.h"
 #include "gibbot_motion.h"
@@ -34,13 +37,13 @@ void main()
 	receive = radioLinkRxCurrentPacket();
 	send = radioLinkTxCurrentPacket();
 	
-	/*while (radioLinkRxCurrentPayloadType()!=10)
+	while (radioLinkRxCurrentPayloadType() != 10)
 	{
 		boardService();
 		usbShowStatusWithGreenLed();
 		usbComService();
 		radioLinkRxDoneWithPacket();
-	}*/
+	}
 	
 	timer4Init();
 	timer3Init();
@@ -68,7 +71,7 @@ void main()
 				if (send != 0)
 				{
 					uint16 currentsend;
-					currentsend=current_amps_get();
+					currentsend = current_amps_get();
 					send[0] = 2;
 					send[1] = (currentsend >> 8);
 					send[2] = (currentsend & 0xFF);
@@ -106,9 +109,9 @@ void main()
 				if (send != 0)
 				{
 					int16 wallangle;
-					uint16 wallanglesend;
-					wallangle = wall_angle();
-					send[0] = 3;
+					//wallangle = wall_angle();
+					wallangle = 90;
+					send[0] = 2;
 					/*if (wallangle < 0)
 					{
 						send[3] = 1;
@@ -119,29 +122,28 @@ void main()
 						send[3] = 0;
 						wallanglesend = wallangle;
 					}*/
-					send[3] = 0;
-					send[1] = 0;
-					//(uint8) (wallanglesend >> 8);
-					send[2] = 0x5A;
-					//(uint8) wallanglesend;
+					send[1] = (uint8) (wallangle >> 8);
+					send[2] = (uint8) wallangle;
 					radioLinkTxSendPacket(13);
 				}		
 				radioLinkRxDoneWithPacket();
 			}
-			
-		}
-		else if (radioLinkRxCurrentPayloadType() == 2)
-		{
-			motor_encoder_reset();
-		}
-		else if (radioLinkRxCurrentPayloadType() == 3)
-		{
-			wall_encoder_reset();
-		}
-		else if (radioLinkRxCurrentPayloadType() == 4)
-		{
-			motor_encoder_reset();
-			wall_encoder_reset();
+			else if (radioLinkRxCurrentPayloadType() == 2)
+			{
+				motor_encoder_reset();
+				radioLinkRxDoneWithPacket();
+			}
+			else if (radioLinkRxCurrentPayloadType() == 3)
+			{
+				wall_encoder_reset();
+				radioLinkRxDoneWithPacket();
+			}
+			else if (radioLinkRxCurrentPayloadType() == 4)
+			{
+				motor_encoder_reset();
+				wall_encoder_reset();
+				radioLinkRxDoneWithPacket();
+			}
 		}
 	}
 }

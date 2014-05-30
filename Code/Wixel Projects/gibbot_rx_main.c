@@ -32,7 +32,7 @@ void main()
 {
 	uint8 XDATA* send;
 	uint8 XDATA* receive;
-	uint8 XDATA usbbuffer[32];
+	uint8 XDATA usbbuffer[100];
 	uint8 length;
 	uint8 usbreceive = 0;
 	
@@ -67,20 +67,20 @@ void main()
 			usbComTxAvailable();
 			usbComTxSend(usbbuffer,length);
 			
-			if (send!=0)
+			if (send != 0)
 			{
-				send[0]=1;
-				send[1]=1;
+				send[0] = 1;
+				send[1] = 1;
 				radioLinkTxSendPacket(10);
 			}
 		}
 		
 		else if (usbreceive == CURRENT) //keyboard 2
 		{
-			if (send!=0)
+			if (send != 0)
 			{
-				send[0]=1;
-				send[1]=1;
+				send[0] = 1;
+				send[1] = 1;
 				radioLinkTxSendPacket(11);
 			}
 			while (receive[0] == 0)
@@ -111,19 +111,19 @@ void main()
 			length=sprintf(usbbuffer," a: MOTOR ANGLE\r\n b: WALL ANGLE\r\n c: RESET MOTOR ANGLE\r\n d: RESET WALL ANGLE\r\n e: RESET ALL\r\n");
 			usbComTxAvailable();
 			usbComTxSend(usbbuffer,length);
-			while (usbComRxAvailable()==0)
+			while (usbComRxAvailable() == 0)
 			{
 				usbComService();
 			}
-			if (usbComRxAvailable()!=0)
+			if (usbComRxAvailable() != 0)
 			{
-				usbreceive=usbComRxReceiveByte();
+				usbreceive = usbComRxReceiveByte();
 				if (usbreceive == MOTOR_ANGLE) //keyboard a
 				{
-					if (send!=0)
+					if (send != 0)
 					{
-						send[0]=1;
-						send[1]=1;
+						send[0] = 1;
+						send[1] = 1;
 						radioLinkTxSendPacket(12);
 					}
 					while (receive[0] == 0)
@@ -143,7 +143,7 @@ void main()
 						{
 							value = -1 * value;
 						}
-						length=sprintf(usbbuffer,"%c MOTOR ANGLE = %i DEGREES\r\n",'a',value);
+						length = sprintf(usbbuffer,"%c MOTOR ANGLE = %i DEGREES\r\n",'a',value);
 						usbComTxAvailable();
 						usbComTxSend(usbbuffer,length);						
 						radioLinkRxDoneWithPacket();
@@ -151,13 +151,13 @@ void main()
 				}
 				else if (usbreceive == WALL_ANGLE) //keyboard b
 				{
-					if (send!=0)
+					if (send != 0)
 					{
-						send[0]=1;
-						send[1]=1;
+						send[0] = 1;
+						send[1] = 1;
 						radioLinkTxSendPacket(13);
 					}
-					while (receive[0] == 0)
+					while (radioLinkRxCurrentPayloadType() != 13)
 					{
 						usbComService();
 						if (usbComRxReceiveByte() == 32)
@@ -167,43 +167,39 @@ void main()
 					}
 					if (receive[0] != 0)
 					{
-						int16 value;
+						int16 value = 0;
 						value = receive[1] << 8;
 						value |= receive[2];
-						if (receive[3] == 1)
-						{
-							value = -1 * value;
-						}						
-					length=sprintf(usbbuffer,"%c WALL ANGLE = %i DEGREES\r\n",'b',value);
-					usbComTxAvailable();
-					usbComTxSend(usbbuffer,length);
-					radioLinkRxDoneWithPacket();
+						length = sprintf(usbbuffer,"%c WALL ANGLE = %i DEGREES\r\n",'b',value);
+						usbComTxAvailable();
+						usbComTxSend(usbbuffer,length);
+						radioLinkRxDoneWithPacket();
 					}
 				}
 				else if (usbreceive ==  MOTOR_ANGLE_RESET) //keyboard c
 				{
-					if (send!=0)
+					if (send != 0)
 					{
-						send[0]=1;
-						send[1]=1;
+						send[0] = 1;
+						send[1] = 1;
 						radioLinkTxSendPacket(2);
 					}
 				}
 				else if (usbreceive ==  WALL_ANGLE_RESET) //keyboard d
 				{
-					if (send!=0)
+					if (send != 0)
 					{
-						send[0]=1;
-						send[1]=1;
+						send[0] = 1;
+						send[1] = 1;
 						radioLinkTxSendPacket(3);
 					}
 				}
 				else if (usbreceive == RESET_ALL) //keyboard e
 				{
-					if (send!=0)
+					if (send != 0)
 					{
-						send[0]=1;
-						send[1]=1;
+						send[0] = 1;
+						send[1] = 1;
 						radioLinkTxSendPacket(4);
 					}
 				}
@@ -212,22 +208,29 @@ void main()
 		
 		else if (usbreceive == GAINS) //keyboard 4
 		{
+			length=sprintf(usbbuffer,"%u GAINS\r\n",4);
+			usbComTxAvailable();
+			usbComTxSend(usbbuffer,length);
+			length=sprintf(usbbuffer," f: CURRENT GAINS\r\n g: MOTION GAINS\r\n");
+			usbComTxAvailable();
+			usbComTxSend(usbbuffer,length);
+			
 		}
 			
 		else if (usbreceive == STOP) //keyboard 5
 		{
-			length=sprintf(usbbuffer,"%u STOP\r\n",5);
+			length = sprintf(usbbuffer,"%u STOP\r\n",5);
 			usbComTxAvailable();
 			usbComTxSend(usbbuffer,length);
 			
 			if (send!=0)
 			{
-				send[0]=1;
-				send[1]=1;
+				send[0] = 1;
+				send[1] = 1;
 				radioLinkTxSendPacket(15);
 			}
 			
 		}		
-			usbreceive=0;
+			usbreceive = 0;
 	}
 }

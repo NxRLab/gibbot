@@ -52,7 +52,7 @@
 #include "gibbot_current.h"
 #include "gibbot_motion.h"
 
-//static uint8 i=0;
+static uint16 i = 0;
 //static uint8 j=255;
 //static int e=0,eint=0,u=0,kp=0,ki=0,Ampsref=0;
  
@@ -64,21 +64,42 @@ ISR(T4,0)
 	 horl = isPinHigh(15);
 	 setDigitalOutput(15,!horl);	
 	 
-	 wallenc = wall_encoder_read();
-	 direction = wallenc - prevwallenc;
-	 prevwallenc = wallenc;
-	 if (direction < 0)
+	 //wallenc = wall_angle();
+	 //direction = wallenc - prevwallenc;
+	 //prevwallenc = wallenc;
+	 
+	 if (i < 16384)
 	 {
-		 setDigitalOutput(17,1);
+		 setDigitalOutput(17,0);
 		 T3CC0 = 0;
-		 T3CC1 = 150;
+		 T3CC1 = 125;
+		 i++;
+	 }
+	 else
+	 {
+		setDigitalOutput(17,1);
+		if (32768 == i)
+		 {
+			 i = 0;
+		 }
+		 else 
+		 {
+			 i++;
+		 }
+	 }
+		 
+	/* if (direction < 0)
+	 {
+		 setDigitalOutput(17,0);
+		 //T3CC0 = 0;
+		 //T3CC1 = 150;
 	 }
 	 
 	 else if (direction > 0)
 	 {
-		 setDigitalOutput(17,0);
-		 T3CC0 = 0;
-		 T3CC1 = 150;
+		 setDigitalOutput(17,1);
+		// T3CC0 = 0;
+		 //T3CC1 = 150;
 	 }
 	 else
 	 {
@@ -86,7 +107,17 @@ ISR(T4,0)
 		 T3CC1 = 0;
 	 }
 	 
-	 	 /*uint32 ampvalue;
+	 if (-45 <= wall_angle() <= 45)
+	 {
+		 T3CC0 = 0;
+		 T3CC1 = 150;
+	 }
+	 else 
+	 {
+		 T3CC0 = 0;
+		 T3CC1 = 255;
+	 }*/
+	 /*uint32 ampvalue;
 	 uint16 ucycle;
 	 ampvalue=current_amps_get();
 	 ucycle=0;
