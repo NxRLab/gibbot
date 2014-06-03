@@ -12,26 +12,23 @@ void initialize_QEI(void){
     QEI1CONbits.QEIEN = 1; //Turn on QEI 1
 }
 
-void clear_MOTENC(void){
-    unsigned char temp[4] = {0,0,0,0};
-    write_I2C(&temp[0],MOTENC,4);
+void write_MOTENC(long val){
+    write_I2C((unsigned char*) &val,MOTENC,4);
 }
 
-void clear_LOWMAGENC(void){
-    unsigned char temp[4] = {8,7,0,0};
-    write_I2C(&temp[0],LOWMAGENC,4);
+void write_LOWMAGENC(long val){
+    write_I2C((unsigned char*) &val,LOWMAGENC,4);
 }
 
-void clear_TOPMAGENC(void){
-    POS1CNTL = 0;
-    POS1CNTL = 0;
+void write_TOPMAGENC(long val){
+    POS1HLD = val>>16;
+    POS1CNTL = val & 0xFFFF;
 }
-
 
 long read_MOTENC(void){
     unsigned char temp[4]= {0,0,0,0};
     long test;
-    read_I2C(&temp[0],MOTENC,4);
+    read_I2C(temp,MOTENC,4);
     test = *((long *)temp);
     return test;
 }
@@ -39,15 +36,17 @@ long read_MOTENC(void){
 long read_LOWMAGENC(void){
     unsigned char temp[4]= {0,0,0,0};
     long test;
-    read_I2C(&temp[0],LOWMAGENC,4);
+    read_I2C(temp,LOWMAGENC,4);
     test = *((long *)temp);
     return test;
 }
 
 long read_TOPMAGENC(void){
     long temp1;
+    long temp2;
     long test;
-    temp1 = POS1CNTH;
-    test = temp1<<16 | POS1CNTL;
+    temp1 = POS1CNTL;
+    temp2 = POS1HLD;
+    test = temp2<<16 | temp1;
     return test;
 }

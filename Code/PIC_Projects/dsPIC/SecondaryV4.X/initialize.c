@@ -19,8 +19,7 @@ _FICD(ICS_PGD1 & JTAGEN_OFF)
 //Wait 128ms after power-on to initialize
 _FPOR(FPWRT_PWR128)
 
-char resetBuff[13];
-
+unsigned short resetStat;
 
 /* The initialize function configures the PLL to set the internal clock
  * frequency. It also configures the digital IO and calls the initialization
@@ -56,55 +55,15 @@ void initialize(void){
     //Magnet Control
     TRISDbits.TRISD1 = 0;   //Bottom Magnet
 
+    //Store bits indicating reason for reset
+    resetStat = RCON;
+    //Clear reset buffer so next reset reading is correct
+    RCON = 0;
+    
     /* Initialization Functions */
-
-    resetTest();
     initialize_I2C_Slave();
     initialize_QEI();
     lights();
-}
-
-void resetTest(void){
-    if(RCONbits.POR){
-        resetBuff[0] = 1;
-    }
-    if(RCONbits.BOR){
-        resetBuff[1] = 1;
-    }
-    if(RCONbits.IDLE){
-        resetBuff[2] = 1;
-    }
-    if(RCONbits.SLEEP){
-        resetBuff[3] = 1;
-    }
-    if(RCONbits.WDTO){
-        resetBuff[4] = 1;
-    }
-    if(RCONbits.SWDTEN){
-        resetBuff[5] = 1;
-    }
-    if(RCONbits.SWR){
-        resetBuff[6] = 1;
-    }
-    if(RCONbits.EXTR){
-        resetBuff[7] = 1;
-    }
-    if(RCONbits.VREGS){
-        resetBuff[8] = 1;
-    }
-    if(RCONbits.CM){
-        resetBuff[9] = 1;
-    }
-    if(RCONbits.VREGSF){
-        resetBuff[10] = 1;
-    }
-    if(RCONbits.IOPUWR){
-        resetBuff[11] = 1;
-    }
-    if(RCONbits.TRAPR){
-        resetBuff[12] = 1;
-    }
-    RCON = 0;
 }
 
 void lights(void){
@@ -125,10 +84,10 @@ void lights(void){
     __delay32(8000000);
     LED4 = 1;
     __delay32(2500000);
-    LED1 = !resetBuff[0];
-    LED2 = !resetBuff[1];
-    LED3 = !resetBuff[7];
-    LED4 = !resetBuff[9];
+    LED1 = !(resetStat & RST_POR);
+    LED2 = !(resetStat & RST_BOR);
+    LED3 = !(resetStat & RST_EXTR);
+    LED4 = !(resetStat & RST_CM);
     __delay32(10000000);
     LED1 = 1;
     LED2 = 1;

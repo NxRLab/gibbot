@@ -5,31 +5,20 @@
  * uart_buffer can be accessed with the clear_queue, enqueue and dequeue
  * functions.
  */
-#include <stdlib.h>
 #include <stdio.h>
-#include <libpic30.h>
 #include <p33EP512MC806.h>
 #include "UART.h"
-#include "test.h"
-#include "I2CMaster.h"
-#include "motor.h"
 #include "initialize.h"
+#include "debug.h"
 
-volatile struct uart_buffer_t uart_buffer;
+volatile struct buffer_t uart_buffer;
 
 unsigned char read_UART(void){
     return dequeue();
 }
 
 void write_UART(unsigned char data){
-    long i=0;
-    while(U1STAbits.UTXBF && (i<100000)){
-        i++;
-    }
-    if(i>=100000){
-        LED4 = 0;
-        //GENERATE ERROR
-    }
+    while(U1STAbits.UTXBF);
     U1TXREG = data;
 }
 
@@ -70,10 +59,12 @@ unsigned char dequeue(void){
 void enqueue(unsigned char c) {
     LinkedList *l; //Create temporary pointer
 
-    l = (LinkedList *) malloc(sizeof (LinkedList)); //Point to allocated memory
-    if (l == NULL) { //If pointer is empty there is remaining memory
-        //GENERATE ERROR
-        return;
+    l = (LinkedList *) malloc(sizeof (LinkedList)); //Try to allocate memory
+    if (l == NULL) { //If pointer is empty there is no remaining memory
+        read_error(); //Remove two entries from error buffer
+        read_error();
+        log_error(ERR_BUFF_FULL); //Add buffer full entry
+        l = (LinkedList *) malloc(sizeof (LinkedList)); //Allocate memory
     }
 
     // add data

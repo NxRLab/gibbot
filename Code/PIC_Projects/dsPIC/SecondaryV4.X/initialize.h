@@ -26,10 +26,24 @@
 #define USER PORTDbits.RD8
 #define LOWMAG LATDbits.LATD1
 
+#define RST_POR    (1<<0)
+#define RST_BOR    (1<<1)
+#define RST_IDLE   (1<<2)
+#define RST_SLEEP  (1<<3)
+#define RST_WDTO   (1<<4)
+#define RST_SWDTEN (1<<5)
+#define RST_SWR    (1<<6)
+#define RST_EXTR   (1<<7)
+#define RST_VREGS  (1<<8)
+#define RST_CM     (1<<9)
+#define RST_VREGSF (1<<11)
+#define RST_SBOREN (1<<13)
+#define RST_IOPUWR (1<<14)
+#define RST_TRAPR  (1<<15)
+
 void initialize(void);
 void lights(void);
-void resetTest(void);
-extern char resetBuff[13];
+extern unsigned short resetStat;
 
 #endif	/* INITIALIZE_H */
 

@@ -9,21 +9,71 @@
 #include <p33EP512MC806.h>
 #include "I2CMaster.h"
 #include "initialize.h"
+#include "debug.h"
+
 /* I2C_Write is used for a single write or a burst write. 
  *   -data points to a buffer with the data to be written
  *   -reg is the address of the register on the slave that is being written to
  *   -numbytes is the number of bytes to be written, 1 for a single write
  */
-void write_I2C(unsigned char *data, unsigned char reg, int numbytes){
-    int i;
-    start_I2C();                   //begin communication sequence
-    sendOneByte_I2C(SLAVEADDR | W);//Send slave address and a write command
-    sendOneByte_I2C(reg);          //send register to be written to, this is the
-                                   //first register written to in a burst write
-    for(i=0;i<numbytes;i++){       //send bytes from data buffer
-        sendOneByte_I2C(data[i]);  //send data for burst write
+char write_I2C(unsigned char *data, unsigned char reg, int numbytes){
+    int i=0;
+    char nack;
+    int state = 1;
+    while(state != I2C_IDLE){
+        switch (state){
+            case I2C_DEVADDR:
+                start_I2C();
+                nack = sendOneByte_I2C(SLAVEADDR | W);//Send slave address and a write command
+                if(nack){ //If slave did not reply with an ACK
+                    log_error(ERR_I2C_ADDNACK1); //If NACK, log error
+                    stop_I2C();                  //Restart I2C comm sequence
+                    start_I2C();
+                    nack = 0;
+                    nack = sendOneByte_I2C(SLAVEADDR | W); //Attempt a second try
+                }
+                state = I2C_REGADDR;
+                break;
+            case I2C_REGADDR:
+                nack = sendOneByte_I2C(reg);
+                state = I2C_DATA;
+                break;
+            case I2C_DATA:
+                while((i<numbytes) && !nack){//while no nack, send bytes from data buffer
+                    nack = sendOneByte_I2C(data[i]);  //send data for burst write
+                    i++;
+                }
+                if(!nack){
+                    stop_I2C();
+                }
+                state = I2C_IDLE;
+                break;
+        }
+        if(nack){
+            switch (state){
+                case I2C_REGADDR:
+                    log_error(ERR_I2C_ADDNACK2);
+                    break;
+                case I2C_DATA:
+                    log_error(ERR_I2C_DATANACK);
+                    break;
+                case I2C_IDLE:
+                    log_error(ERR_I2C_DATANACK);
+                    break;
+            }
+            stop_I2C();
+            break;
+        }
     }
-    stop_I2C();                    //end communication sequence
+    if(I2C2STATbits.IWCOL){ //Check for write collision error
+        log_error(ERR_I2C_IWCOL); //log error
+        I2C2STATbits.IWCOL=0;     //Clear flag status bit
+    }
+    if(I2C2STATbits.I2COV){ //Check for receive buffer overflow error
+        log_error(ERR_I2C_I2COV); //log error
+        I2C2STATbits.I2COV=0;     //Clear flag status bit
+    }
+    return !nack;
 }
 
 /* I2C_Read is used for a single read or a burst read.
@@ -31,20 +81,74 @@ void write_I2C(unsigned char *data, unsigned char reg, int numbytes){
  *   -reg is the address of the register on the slave that is being read from
  *   -numbytes is the number of bytes to be read, 1 for a single read
  */
-void read_I2C(unsigned char *data, unsigned char reg, int numbytes){
-    int i;
-    start_I2C();                    //begin communication sequence
-    sendOneByte_I2C(SLAVEADDR | W); //Send slave address and a write command
-    sendOneByte_I2C(reg);           //send register to be read from, this is the
-                                    //first register read from in a burst write
-    repeatStart_I2C();              //restart communication sequence
-    sendOneByte_I2C(SLAVEADDR | R); //Send slave address with a read command
-    for(i=0;i<(numbytes-1);i++){    //Read bytes from slave and place in data
-        receiveOneByte_I2C(&data[i],0); //respond with ACK
+char read_I2C(unsigned char *data, unsigned char reg, int numbytes){
+    int i=0;
+    char nack;
+    int state = 1;
+    while(state > 0){
+        switch (state){
+            case I2C_DEVADDR:
+                start_I2C();
+                nack = sendOneByte_I2C(SLAVEADDR | W);//Send slave address and a write command
+                if(nack){ //If slave did not reply with an ACK
+                    log_error(ERR_I2C_ADDNACK1); //If NACK, log error
+                    stop_I2C();                  //Restart I2C comm sequence
+                    start_I2C();
+                    nack = 0;
+                    nack = sendOneByte_I2C(SLAVEADDR | W); //Attempt a second try
+                }
+                state = I2C_REGADDR;
+                break;
+            case I2C_REGADDR:
+                nack = sendOneByte_I2C(reg);
+                state = I2C_RESTART;
+                break;
+            case I2C_RESTART:
+                repeatStart_I2C();
+                nack = sendOneByte_I2C(SLAVEADDR | R); //Send slave address with a read command
+                state = I2C_DATA;
+                break;
+            case I2C_DATA:
+                while((i<(numbytes-1)) && !nack){    //Read bytes from slave, place in data
+                    nack = receiveOneByte_I2C(data+i,0); //respond with ACK
+                    i++;
+                }
+                if(!nack){
+                    nack = receiveOneByte_I2C(data+i,1); //Read final byte from slave, place in data
+                                                //respond with NACK
+                    stop_I2C();
+                }
+                state = I2C_IDLE;
+                break;
+        }
+        if(nack){
+            switch (state){
+                case I2C_REGADDR:
+                    log_error(ERR_I2C_ADDNACK2);
+                    break;
+                case I2C_RESTART:
+                    log_error(ERR_I2C_DATANACK);
+                    break;
+                case I2C_DATA:
+                    log_error(ERR_I2C_RADDNACK);
+                    break;
+                case I2C_IDLE:
+                    log_error(ERR_I2C_DATANACK);
+                    break;
+            }
+            stop_I2C();
+            break;
+        }
     }
-    receiveOneByte_I2C(&data[i],1); //Read final byte from slave, place in data
-                                    //respond with NACK
-    stop_I2C();                     //end communication sequence
+    if(I2C2STATbits.IWCOL){ //Check for write collision error
+        log_error(ERR_I2C_IWCOL); //log error
+        I2C2STATbits.IWCOL=0;     //Clear flag status bit
+    }
+    if(I2C2STATbits.I2COV){ //Check for receive buffer overflow error
+        log_error(ERR_I2C_I2COV); //log error
+        I2C2STATbits.I2COV=0;     //Clear flag status bit
+    }
+    return nack;
 }
 
 void initialize_I2C_Master(void){
@@ -52,31 +156,33 @@ void initialize_I2C_Master(void){
     //Fcy is set to 40 MHz
     //FSCL should be 400kHz
     //I2C1BRG = (((1/FSCL)-120ns)*FCY)-2 = 94
-    //BRG was recalibrated to 95 based on tests.
-    I2C2BRG = 95;
+    I2C2BRG = 94;
     I2C2CONbits.I2CEN = 1; //Enable I2C2 Module
 }
 
 void start_I2C(void){
+    //log_error(ERR_I2C_START);
     if(I2C2STATbits.S){          //If bus state is not idle
        I2C2CONbits.PEN = 1;      //Initiate stop event
-       //GENERATE ERROR
+       log_error(ERR_I2C_BUSY1);
     }
-    if(!I2C2STATbits.S){         //Ensure bus state is now idle
+    if(!I2C2STATbits.S){         //If bus is idle
         I2C2CONbits.SEN = 1;     //Initiate start event
         while(I2C2CONbits.SEN);  //Wait until the end of the start event
     }
     else{                        //If bus is still not idle
-       //GENERATE ERROR
+       log_error(ERR_I2C_BUSY2);
     }
 }
 
 void repeatStart_I2C(void){
+    //log_error(ERR_I2C_RESTART);
     I2C2CONbits.RSEN = 1;        //Initiate repeat start event
     while(I2C2CONbits.RSEN);     //Wait until the end of the repeat start event
 }
 
 void stop_I2C(void){
+    //log_error(ERR_I2C_STOP);
     I2C2CONbits.PEN = 1;        //Initiate stop event
     while(I2C2CONbits.PEN);     //Wait for the end of the stop event
 }
@@ -85,24 +191,47 @@ void stop_I2C(void){
  * (not-acknowledge).
  *    data is the byte to be sent  */
 char sendOneByte_I2C(unsigned char data){
+    long i=0;
+    //log_error(ERR_I2C_WRITE);
     if(!I2C2STATbits.TBF){           //Check that transmit buffer is not full
         I2C2TRN = data;              //Load transmit buffer with data
-        while(I2C2STATbits.TRSTAT);  //Wait for transmit to complete
+        while(I2C2STATbits.TRSTAT && (i<I2C_TIMEOUT)){  //Wait for transmit to complete
+            i++;
+        }
+        if(i==I2C_TIMEOUT){          //If the transmit times out
+            log_error(ERR_I2C_TRNTMOUT); //log error
+            return 1;
+        }
         return I2C2STATbits.ACKSTAT; //Return slave's acknowledge response
     } else {                         //If the transmit buffer is full
-        //GENERATE ERROR
+        log_error(ERR_I2C_TBF);      //log error
         return 1;
     }
 }    
 
 /* Reads one byte and stores it in the location pointed to by data.
-   Also, sends the Ack response where 1 is NACK (not-acknowledge). */
-void receiveOneByte_I2C(unsigned char *data, char Ack){    
+   Also, sends the Ack response where 1 is NACK (not-acknowledge).
+   Returns a char that is zero if the data was received properly and
+   1 if data was not received and the function timed out. */
+char receiveOneByte_I2C(unsigned char *data, char Ack){
+    long i=0;
+    char error;
+    //log_error(ERR_I2C_READ);
     I2C2CONbits.RCEN = 1;    //Enable recieve
-    while(!I2C2STATbits.RBF);//Wait until recieve register is full   
-    *data = I2C2RCV;         //Save recieved byte to data. Clears RCEN and RBF
-    I2C2CONbits.ACKDT = Ack; //Load ACK or NACK
-    I2C2CONbits.ACKEN = 1;   //Send ACK or NACK
-    while(I2C2CONbits.ACKEN);//Wait for the end of acknowledge
+    while(!I2C2STATbits.RBF && (i<I2C_TIMEOUT)){//Wait until rcv register is full
+        i++;                                    // or timeout
+    }
+    if(i==I2C_TIMEOUT){
+        log_error(ERR_I2C_RCVTMOUT);
+        *data = 0;
+        error = 1;
+    } else {
+        *data = I2C2RCV;         //Save recieved byte to data. Clears RCEN and RBF
+        I2C2CONbits.ACKDT = Ack; //Load ACK or NACK
+        I2C2CONbits.ACKEN = 1;   //Send ACK or NACK
+        while(I2C2CONbits.ACKEN);//Wait for the end of acknowledge
+        error = 0;
+    }
+    return error;
 }
 

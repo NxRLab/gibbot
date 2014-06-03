@@ -6,6 +6,8 @@
 #define LOWMAGENC 0x0D //BOTMAG is a long filling 0x0D - 0x10
 #define LOWMAGCON 0x11 //BOTMAG is a char
 
+#define I2C_TIMEOUT 100000 //number of while loop iterations before I2C times out
+
 extern unsigned char RegBuffer[256];
 
 void initialize_I2C_Slave(void);

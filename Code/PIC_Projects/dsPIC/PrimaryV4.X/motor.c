@@ -22,7 +22,7 @@
 #include <p33EP512MC806.h>
 #include "initialize.h"
 #include "motor.h"
-
+#include "stdio.h"
 char motoron = 0;
 char state = 0;
 int direction = CW;
@@ -40,9 +40,26 @@ void __attribute__((interrupt, no_auto_psv)) _CNInterrupt(void) {
         commutate(state); //Change outputs based on hall effect sensor state
     } else {              //If the motor is off
         commutate(0);     //Set all motor outputs to float
-    }    
+    }
+    printf("%d",state);
     PORTD;                //Clear mismatch condition
     IFS1bits.CNIF = 0;    //Clear interrupt flag
+}
+
+/* read_duty() returns the current duty cycle value in MDC */
+int read_duty(void){
+    return MDC;
+}
+
+/* write_duty() assigns a proper input value into MDC */
+void write_duty(int value){
+    if(value>1000){
+        MDC=1000;
+    } else if (value<0){
+        MDC=0;
+    } else{
+        MDC=value;
+    }
 }
 
 /* The pulse width modulation module controls the motor torque by changing the
@@ -262,9 +279,16 @@ void commutate(int state){
  * drives the motor to change the hall effect sensor inputs.
  */
 void kick(void){
-    char kick;
-    char state;
-    state = (!S3 << 2) | (!S2 << 1) | !S1;
-    kick = ~state & 0b111;
+    int kick;
+    int state;
+    int CWtable[6] = {3,3,1,6,6,2}; //{5,3,1,6,4,2};
+    int CCWtable[6] = {6,6,5,5,1,4};//{3,6,2,5,1,4};
+    state = (S3 << 2) | (S2 << 1) | S1;
+    if(direction==CW){
+        kick = CWtable[state-1];
+    } else{ //direction == CCW
+        kick = CCWtable[state-1];
+    }
+    printf("%d",kick);
     commutate(kick);
 }

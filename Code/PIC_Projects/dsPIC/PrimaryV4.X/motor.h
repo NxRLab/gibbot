@@ -8,6 +8,8 @@
 #ifndef MOTOR_H
 #define	MOTOR_H
 
+void write_duty(int value);
+int read_duty(void);
 void High(int pin);
 void Low(int pin);
 void Float(int pin);

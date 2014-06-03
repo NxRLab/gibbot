@@ -1,4 +1,3 @@
-#include <libpic30.h>
 #include <p33EP512MC806.h>
 #include "encoder.h"
 #include "I2CSlave.h"
