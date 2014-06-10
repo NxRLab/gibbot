@@ -2,14 +2,14 @@
 \BOOKMARK [1][-]{section.2}{Power Regulation}{}% 2
 \BOOKMARK [2][-]{subsection.2.1}{Primary Board}{section.2}% 3
 \BOOKMARK [2][-]{subsection.2.2}{Digital Isolation}{section.2}% 4
-\BOOKMARK [1][-]{section.3}{Inertial Measurement Unit - MPU9150}{}% 5
-\BOOKMARK [1][-]{section.4}{BLDC Motor Driver}{}% 6
-\BOOKMARK [2][-]{subsection.4.1}{BLDC Motor Background}{section.4}% 7
-\BOOKMARK [2][-]{subsection.4.2}{HIP4086 Driver}{section.4}% 8
-\BOOKMARK [2][-]{subsection.4.3}{MOSFET Selection}{section.4}% 9
-\BOOKMARK [2][-]{subsection.4.4}{Clamping Circuit}{section.4}% 10
-\BOOKMARK [2][-]{subsection.4.5}{Bootstrap Capacitor, Diode and Resistor Selection}{section.4}% 11
-\BOOKMARK [2][-]{subsection.4.6}{Set Dead Time on the HIP4086}{section.4}% 12
+\BOOKMARK [1][-]{section.3}{BLDC Motor Driver}{}% 5
+\BOOKMARK [2][-]{subsection.3.1}{BLDC Motor Background}{section.3}% 6
+\BOOKMARK [2][-]{subsection.3.2}{HIP4086 Driver}{section.3}% 7
+\BOOKMARK [2][-]{subsection.3.3}{MOSFET Selection}{section.3}% 8
+\BOOKMARK [2][-]{subsection.3.4}{Clamping Circuit}{section.3}% 9
+\BOOKMARK [2][-]{subsection.3.5}{Bootstrap Capacitor, Diode and Resistor Selection}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.6}{Set Dead Time on the HIP4086}{section.3}% 11
+\BOOKMARK [1][-]{section.4}{Inertial Measurement Unit - MPU9150}{}% 12
 \BOOKMARK [1][-]{section.5}{XBee}{}% 13
 \BOOKMARK [1][-]{section.6}{Magnet Control}{}% 14
 \BOOKMARK [1][-]{section.7}{IR LEDs}{}% 15

@@ -10,6 +10,7 @@
 #include "UART.h"
 #include "initialize.h"
 #include "debug.h"
+#include "linkedlist.h"
 
 volatile struct buffer_t uart_buffer;
 
@@ -57,7 +58,7 @@ unsigned char dequeue(void){
 
 /* Add a new element to the uart_buffer */
 void enqueue(unsigned char c) {
-    LinkedList *l; //Create temporary pointer
+    LinkedList *l; //Create temporary pointer to a linked list
 
     l = (LinkedList *) malloc(sizeof (LinkedList)); //Try to allocate memory
     if (l == NULL) { //If pointer is empty there is no remaining memory
@@ -102,10 +103,10 @@ void initialize_UART(void){
     // Unless issues with XBee communication prove that hardware flow
     // control is necessary, RTS and CTS will not be initialized.
     // Set TX pin as an output
-    TRISDbits.TRISD6 = 0;
-    TRISDbits.TRISD7 = 1;
+    TRISDbits.TRISD6 = 0; //TX is output
+    TRISDbits.TRISD7 = 1; //RX is input
     //Set RP registers for UART1 RX and TX to connect UART module to those pins
-    RPINR18bits.U1RXR = 71; //UART1 RX Tied to RP71 (RD7)
+    RPINR18bits.U1RXR = 71;  //UART1 RX Tied to RP71 (RD7)
     RPOR3bits.RP70R = 1;     //RP70 (RD6) tied to UART1 TX
 
     ////Set RP registers for UART1 CTS and RTS

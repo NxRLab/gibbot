@@ -29,7 +29,6 @@
       <itemPath>UART.c</itemPath>
       <itemPath>encoder.c</itemPath>
       <itemPath>debug.c</itemPath>
-      <itemPath>linkedlist.c</itemPath>
       <itemPath>ADC.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"

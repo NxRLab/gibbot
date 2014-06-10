@@ -15,7 +15,8 @@ _FOSCSEL(FNOSC_FRC)
 _FOSC(FCKSM_CSECMD & OSCIOFNC_OFF & POSCMD_NONE)
 //Watchdog timer not automatically enabled
 _FWDT(FWDTEN_OFF)
-//Communicate on PGEC1 (pin 17) and PGED1 (pin 18)
+//Programming on PGEC1 (pin 17) and PGED1 (pin 18)
+//If programming pn PGEC2 and PGED2 change to ISC_PGD2
 _FICD(ICS_PGD1)
 //Wait 1ms after power-on to initialize
 _FPOR(FPWRT_PWR128)
@@ -73,10 +74,10 @@ void initialize(void){
 }
 
 void lights(void){
+    LED1 = 0;
     LED2 = 1;
     LED3 = 1;
     LED4 = 1;
-    LED1 = 0;
     __delay32(8000000);
     LED1 = 1;
     LED2 = 0;

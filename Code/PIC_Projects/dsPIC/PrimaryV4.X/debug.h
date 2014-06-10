@@ -7,6 +7,7 @@
 #include "linkedlist.h"
 
 //#define DEBUG
+
 #ifdef DEBUG
 #define DEBUG_PRINT(msg) printf("%s %d %s\r",__FILE__, __LINE__, msg)
 #else

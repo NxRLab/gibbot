@@ -1,18 +1,21 @@
 /* Configure modules to control the BLDC motor. Motor control utilizes the
  * change notification module to initiate commutation based on changes in
  * the state of the hall effect sensors. Pulse width modulation is used to
- * control the motor drive current.
+ * control the motor speed/torque.
  *
  * To change the motor direction write to the global variable "direction" with CW
- * or CCW. CW will cause the motor to spend Clock-wise when viewed from
+ * or CCW. CW will cause the motor to spin Clock-wise when viewed from
  * the spinning back cover. Example:
  *     direction = CCW; //motor will spin counter-clockwise
  *
- * To change the motor speed/torque write to the MDC register. A value of
- * 1000 in MDC corresponds to 100% duty cycle. A value of 0 corresponds to 0%.
- * Do not set MDC above 1000 or below 0.
+ * To change the motor speed/torque use the write_duty() function. A value of
+ * 1000 corresponds to 100% duty cycle. A value of 0 corresponds to 0%.
  * Example:
- *     MDC = 200; //Motor runs at 20% duty cycle
+ *     write_duty(200); //Motor runs at 20% duty cycle
+ *
+ * To read the duty cycle use the read_duty() function.
+ * Example:
+ *     duty = read_duty(); //returns an int duty cycle * 10
  *
  * To turn the motor on set the global variable "motoron". To turn the motor off
  * clear "motoron". Example:
@@ -281,8 +284,8 @@ void commutate(int state){
 void kick(void){
     int kick;
     int state;
-    int CWtable[6] = {3,3,1,6,6,2}; //{5,3,1,6,4,2};
-    int CCWtable[6] = {6,6,5,5,1,4};//{3,6,2,5,1,4};
+    int CWtable[6] = {5,3,1,6,4,2};
+    int CCWtable[6] = {3,6,2,5,1,4};
     state = (S3 << 2) | (S2 << 1) | S1;
     if(direction==CW){
         kick = CWtable[state-1];
