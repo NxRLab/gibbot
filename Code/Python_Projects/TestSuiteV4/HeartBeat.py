@@ -1,75 +1,81 @@
 import serial
 import time
 import struct
+import msvcrt
+import sys
+
 ser = serial.Serial(2) #COM 3       7 -> COM 8
 ser.baudrate = 115200  #set the baud rate
 ser.timeout = 1        #1s timeout
 y=0
 #clear encoder
-ser.write('wwub')
+ser.write('94Q1') #Turn on motor at minimum duty cycle
+time.sleep(.1)
+ser.write('j') #kick motor
 while y <1:
     ##Ramp up
-    ser.write('1')
-    time.sleep(2)
+    ser.write('8')
+    time.sleep(1)
+    if msvcrt.kbhit():
+        break
+    ##Read ADC
+    ser.write('0')
+    while (ser.inWaiting()<2):
+       if msvcrt.kbhit():
+           fail = True
+           break
+    if (ser.inWaiting()>2):
+        print ser.read(ser.inWaiting)
+    else:
+        received = ser.read(2)
+        results = struct.unpack('H', received)
+        output = round(float(results[0]-2048)*33/4096,4)
+        print 'High Current: ' + str(output) + 'A'
+    time.sleep(1)           
+    if msvcrt.kbhit():
+        break
     ##Ramp down
-    ser.write('2')
+    ser.write('9')
     time.sleep(2)
+    if msvcrt.kbhit():
+        break
+
+    ##Read ADC
+    ser.write('0')
+    while (ser.inWaiting()<2):
+       if msvcrt.kbhit():
+           fail = True
+           break
+    if (ser.inWaiting()>2):
+        print ser.read(ser.inWaiting)
+    else:
+        received = ser.read(2)
+        results = struct.unpack('H', received)
+        output = round(float(results[0]-2048)*33/4096,4)
+        print 'Low Current:  ' + str(output) + 'A'
+
+        
     ##read encoder
-    ser.write('i')
-    while (ser.inWaiting() < 4):
-        pass
-    received = ser.read(ser.inWaiting());
-    print 'Encoder= ' + str(list(struct.unpack( "l", received)))
+    ser.write('2')
+    while (ser.inWaiting()<12):
+       if msvcrt.kbhit():
+           fail = True
+           break
+    if (ser.inWaiting()>12):
+        print ser.read(ser.inWaiting)
+    else:
+        received = ser.read(12)
+        results = struct.unpack('iii', received)
+        print 'Top: ' + str(results[2]) + ' Mot: ' + str(results[1]) + ' Bot: ' + str(results[0])
 
     ##toggle Magnet
-    ser.write('m')
+    ser.write('cf')
+    if msvcrt.kbhit():
+        break
+
     time.sleep(1)
+    if msvcrt.kbhit():
+        break
     
-    
-
-##    ####Single Read/Write
-##    ser.write('h')
-##    x=0
-##    while x < 256:
-##        senddata = chr(255-x)
-##        ser.write(senddata) 
-##        received = ser.read(1)
-##        if senddata == received:
-##            pass
-##            #print "yes", hex(ord(received))
-##        else:
-##            print "fail"
-##            break
-##        x = x+1
-##    print 'Read Pass'
-##    x=0
-##    ser.write('k') 
-##    ##Burst Read/Write
-##    numbbytes = 256
-##    while x < numbbytes:
-##        senddata = chr(x)
-##        ser.write(senddata)
-##        x = x+1;
-##    x = 0
-##    time.sleep(1)
-##    print ser.inWaiting() 
-##    received = ser.read(numbbytes)
-##    while x < numbbytes:
-##        if received[x] == chr(x):
-##            pass
-##            #print "burst", hex(x)
-##        else:
-##            print 'fail', hex(ord(received[x]))
-##        x = x+1
-##    print 'Burst Read Pass'
-
-    ##read ADC
-    ser.write('z')
-    while (ser.inWaiting <2):
-        pass
-    received = ser.read(2);
-    print 'ADC = ' + str(struct.unpack("H", received))
-    print ser.read(ser.inWaiting())
-    ser.write('a')
-
+ser.write('95')  
 ser.close()

@@ -15,9 +15,9 @@ avebin = 10
 runave = []
 runave2 = []
 
-ser.write("a") #tell gibbot to read ADC for 3 seconds
+ser.write("l") #tell gibbot to read ADC for 1 second
 for i in range(64):
-    ser.write("b") #ask for 16 data points (32 bytes)
+    ser.write("m") #ask for 16 data points (32 bytes)
     while (ser.inWaiting() != 32):
         pass
     received = ser.read(ser.inWaiting());
@@ -31,14 +31,15 @@ plt.figure(1)
 plt.subplot(121)
 plt.plot(output2,'|')
 plt.xlim(0, 1024)
+plt.xlabel('')
 plt.ylabel('Amps')
 plt.subplots_adjust(bottom=0.2)
-plt.xlabel('Max = ' + str(round(max(output2),3)) + 'A, Min = ' + str(round(min(output2),3)) +'A')
+plt.xlabel('Time (ms) \n \n Max = ' + str(round(max(output2),3)) + 'A, Min = ' + str(round(min(output2),3)) +'A')
 plt.ticklabel_format(useOffset=False)
 
 plt.subplot(122)
-n, bins, patches = plt.hist(output,1+max(output)-min(output), alpha=0.75)
-plt.xlabel('ADC Counts, '+s + ', ' + m)
+n, bins, patches = plt.hist(output2,1+max(output)-min(output), alpha=0.75)
+plt.xlabel('Amps, '+s + ', ' + m)
 plt.ticklabel_format(useOffset=False)
 
 plt.show()      #show the plot
