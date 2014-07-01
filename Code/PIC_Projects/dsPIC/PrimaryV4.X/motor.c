@@ -1,18 +1,21 @@
 /* Configure modules to control the BLDC motor. Motor control utilizes the
  * change notification module to initiate commutation based on changes in
  * the state of the hall effect sensors. Pulse width modulation is used to
- * control the motor drive current.
+ * control the motor speed/torque.
  *
  * To change the motor direction write to the global variable "direction" with CW
- * or CCW. CW will cause the motor to spend Clock-wise when viewed from
+ * or CCW. CW will cause the motor to spin Clock-wise when viewed from
  * the spinning back cover. Example:
  *     direction = CCW; //motor will spin counter-clockwise
  *
- * To change the motor speed/torque write to the MDC register. A value of
- * 1000 in MDC corresponds to 100% duty cycle. A value of 0 corresponds to 0%.
- * Do not set MDC above 1000 or below 0.
+ * To change the motor speed/torque use the write_duty() function. A value of
+ * 1000 corresponds to 100% duty cycle. A value of 0 corresponds to 0%.
  * Example:
- *     MDC = 200; //Motor runs at 20% duty cycle
+ *     write_duty(200); //Motor runs at 20% duty cycle
+ *
+ * To read the duty cycle use the read_duty() function.
+ * Example:
+ *     duty = read_duty(); //returns an int duty cycle * 10
  *
  * To turn the motor on set the global variable "motoron". To turn the motor off
  * clear "motoron". Example:
@@ -22,7 +25,7 @@
 #include <p33EP512MC806.h>
 #include "initialize.h"
 #include "motor.h"
-
+#include "stdio.h"
 char motoron = 0;
 char state = 0;
 int direction = CW;
@@ -40,9 +43,26 @@ void __attribute__((interrupt, no_auto_psv)) _CNInterrupt(void) {
         commutate(state); //Change outputs based on hall effect sensor state
     } else {              //If the motor is off
         commutate(0);     //Set all motor outputs to float
-    }    
+    }
+    printf("%d",state);
     PORTD;                //Clear mismatch condition
     IFS1bits.CNIF = 0;    //Clear interrupt flag
+}
+
+/* read_duty() returns the current duty cycle value in MDC */
+int read_duty(void){
+    return MDC;
+}
+
+/* write_duty() assigns a proper input value into MDC */
+void write_duty(int value){
+    if(value>1000){
+        MDC=1000;
+    } else if (value<0){
+        MDC=0;
+    } else{
+        MDC=value;
+    }
 }
 
 /* The pulse width modulation module controls the motor torque by changing the
@@ -262,9 +282,16 @@ void commutate(int state){
  * drives the motor to change the hall effect sensor inputs.
  */
 void kick(void){
-    char kick;
-    char state;
-    state = (!S3 << 2) | (!S2 << 1) | !S1;
-    kick = ~state & 0b111;
+    int kick;
+    int state;
+    int CWtable[6] = {5,3,1,6,4,2};
+    int CCWtable[6] = {3,6,2,5,1,4};
+    state = (S3 << 2) | (S2 << 1) | S1;
+    if(direction==CW){
+        kick = CWtable[state-1];
+    } else{ //direction == CCW
+        kick = CCWtable[state-1];
+    }
+    printf("%d",kick);
     commutate(kick);
 }

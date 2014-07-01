@@ -29,7 +29,7 @@ void initialize_ADC(void) {
     AD1CON1bits.ADON        = 1; //Turn on the ADC converter
 }
 
-unsigned short ADC_Read(void) { //manual sampling and conversion function
+unsigned short read_ADC(void) { //manual sampling and conversion function
     AD1CON1bits.SAMP = 1; //Start sampling, sampling is stopped after 1us
     while (!AD1CON1bits.DONE); //wait for sampling and conversion to finish
     return (unsigned short) ADC1BUF0;

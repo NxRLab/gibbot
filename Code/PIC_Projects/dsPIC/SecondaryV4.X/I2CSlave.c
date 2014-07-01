@@ -11,8 +11,6 @@
 #include "encoder.h"
 
 unsigned char RegBuffer[256];
-char nextByteData=0;
-char nextByteAddr=0;
 unsigned char *RegPtr;
 
 /* Initialize the I2C2 module at 400kHz for communicating with the primary
@@ -20,7 +18,7 @@ unsigned char *RegPtr;
 void initialize_I2C_Slave(void){
     I2C2ADD = SLAVEADDR>>1;    //Sets the 7 bit slave address
     IFS3bits.SI2C2IF = 0;   //Clear interrupt flag
-    IPC12bits.SI2C2IP = 7;  //Set priority to 6
+    IPC12bits.SI2C2IP = 5;  //Set priority to 5
     IEC3bits.SI2C2IE = 1;   //Enable I2C 2 Slave interrupt
     I2C2CONbits.I2CEN = 1;  //Enable I2C 2
 
@@ -31,16 +29,28 @@ void __attribute__((interrupt, no_auto_psv)) _SI2C2Interrupt(void) {
      * master. The final bit of the address is the Read/Write
      * bit which is interpreted by the module.
      *   1101101R
-     * Each time the interrupt triggers it will run one of the numbered sections
-     * of code below depending on the status registers and a pair of flags to
-     * indicate whether the next byte is data or an address. The sequence for
-     * each I2C command is as follows:
-     * Single Write: 123
-     * Single Read: 1214
-     * Burst Write: 123333...
-     * Burst Read: 1214444...
+     * Each time the interrupt triggers it will run one of the blocks
+     * of code below depending on the status registers and a pair of flags.
+     *    nextByteAddr is set when the device address is read indicating that
+     *       if the master device is writing the next time the interrupt
+     *       triggers the RCV register will contain the register address.
+     *    nextByteData is set after the register address is received indicating
+     *       that if the master device is writing the next time the interrupt
+     *       triggers the RCV register will contain data.
+     * The code blocks are numbered as follows:
+     *    1. Device Address
+     *    2. Register Address 
+     *    3. Write Data
+     *    4. Read Data
+     * The sequence for each I2C command is as follows:
+     *    Single Write: 123
+     *    Single Read: 1214
+     *    Burst Write: 123333...
+     *    Burst Read: 1214444...
      */
     long i=0;
+    static char nextByteData=0;
+    static char nextByteAddr=0;
     unsigned char tempvar = 0;
     if(!I2C2STATbits.R_W){      //If Master device is sending a write command
         if(!I2C2STATbits.D_A){ //If byte received was device address
@@ -51,6 +61,7 @@ void __attribute__((interrupt, no_auto_psv)) _SI2C2Interrupt(void) {
             //Update encoder readings at the beginning of each data transmit
             read_encoder();
             LED1 = !LED1;
+
         } else {               //If byte received was data
             if(nextByteAddr){  //If last byte recieved was device address this
                                //byte is the address of the register to be read.
@@ -98,13 +109,13 @@ void __attribute__((interrupt, no_auto_psv)) _SI2C2Interrupt(void) {
                        //minimum number of delay cycles for delay32 is 12.
         I2C2CONbits.SCLREL = 1;//Release the clock stretch
         //Wait for the transmit buffer to clear or for a timeout.
-        while(I2C2STATbits.TBF && (i < 100000)){
+        while(I2C2STATbits.TBF && (i < I2C_TIMEOUT)){
             i++;
         }
-        if(i >= 4000000){ //If timeout indicate with LED and restart I2C module
-           LED4 = 0;
-           //I2C2CONbits.I2CEN = 0;
-           //I2C2CONbits.I2CEN = 1;
+        if(i == I2C_TIMEOUT){ //If transmit times out
+            I2C2CONbits.I2CEN = 0; //Restart I2C module to clear TBF and
+            I2C2CONbits.I2CEN = 1; //  TRN buffer
+            LED4=0;
         }
         RegPtr = RegPtr + 1;  //Increment pointer by 1 for burst read
     }

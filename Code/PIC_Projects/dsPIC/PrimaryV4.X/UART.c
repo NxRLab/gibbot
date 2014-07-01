@@ -5,31 +5,21 @@
  * uart_buffer can be accessed with the clear_queue, enqueue and dequeue
  * functions.
  */
-#include <stdlib.h>
 #include <stdio.h>
-#include <libpic30.h>
 #include <p33EP512MC806.h>
 #include "UART.h"
-#include "test.h"
-#include "I2CMaster.h"
-#include "motor.h"
 #include "initialize.h"
+#include "debug.h"
+#include "linkedlist.h"
 
-volatile struct uart_buffer_t uart_buffer;
+volatile struct buffer_t uart_buffer;
 
 unsigned char read_UART(void){
     return dequeue();
 }
 
 void write_UART(unsigned char data){
-    long i=0;
-    while(U1STAbits.UTXBF && (i<100000)){
-        i++;
-    }
-    if(i>=100000){
-        LED4 = 0;
-        //GENERATE ERROR
-    }
+    while(U1STAbits.UTXBF);
     U1TXREG = data;
 }
 
@@ -68,12 +58,14 @@ unsigned char dequeue(void){
 
 /* Add a new element to the uart_buffer */
 void enqueue(unsigned char c) {
-    LinkedList *l; //Create temporary pointer
+    LinkedList *l; //Create temporary pointer to a linked list
 
-    l = (LinkedList *) malloc(sizeof (LinkedList)); //Point to allocated memory
-    if (l == NULL) { //If pointer is empty there is remaining memory
-        //GENERATE ERROR
-        return;
+    l = (LinkedList *) malloc(sizeof (LinkedList)); //Try to allocate memory
+    if (l == NULL) { //If pointer is empty there is no remaining memory
+        read_error(); //Remove two entries from error buffer
+        read_error();
+        log_error(ERR_BUFF_FULL); //Add buffer full entry
+        l = (LinkedList *) malloc(sizeof (LinkedList)); //Allocate memory
     }
 
     // add data
@@ -111,10 +103,10 @@ void initialize_UART(void){
     // Unless issues with XBee communication prove that hardware flow
     // control is necessary, RTS and CTS will not be initialized.
     // Set TX pin as an output
-    TRISDbits.TRISD6 = 0;
-    TRISDbits.TRISD7 = 1;
+    TRISDbits.TRISD6 = 0; //TX is output
+    TRISDbits.TRISD7 = 1; //RX is input
     //Set RP registers for UART1 RX and TX to connect UART module to those pins
-    RPINR18bits.U1RXR = 71; //UART1 RX Tied to RP71 (RD7)
+    RPINR18bits.U1RXR = 71;  //UART1 RX Tied to RP71 (RD7)
     RPOR3bits.RP70R = 1;     //RP70 (RD6) tied to UART1 TX
 
     ////Set RP registers for UART1 CTS and RTS

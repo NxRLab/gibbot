@@ -3,9 +3,9 @@
 #include "initialize.h"
 #include "motor.h"
 #include "UART.h"
-#include "currentsensor.h"
 #include "I2CMaster.h"
 #include "encoder.h"
+#include "ADC.h"
 
 /* Configuration Bit Settings */
 //To avoid setting the PLL bits while PLL is being used the oscillator is
@@ -15,12 +15,13 @@ _FOSCSEL(FNOSC_FRC)
 _FOSC(FCKSM_CSECMD & OSCIOFNC_OFF & POSCMD_NONE)
 //Watchdog timer not automatically enabled
 _FWDT(FWDTEN_OFF)
-//Communicate on PGEC1 (pin 17) and PGED1 (pin 18)
+//Programming on PGEC1 (pin 17) and PGED1 (pin 18)
+//If programming pn PGEC2 and PGED2 change to ISC_PGD2
 _FICD(ICS_PGD1)
 //Wait 1ms after power-on to initialize
 _FPOR(FPWRT_PWR128)
 
-char resetBuff[13];
+unsigned short resetStat;
 
 /* The initialize function configures the PLL to set the internal clock
  * frequency. It also configures the digital IO and calls the initialization
@@ -28,16 +29,17 @@ char resetBuff[13];
  * initialization.
  */
 void initialize(void){
-    /* Configure Phase Lock Loop for  the system clock reference */
+    /* Configure Phase Lock Loop for  the system clock reference at 40MHz */
     // Fosc (Clock frequency) is set at 80MHz
     // Fin is 7.37 MHz from internal FRC oscillator
-    CLKDIVbits.PLLPRE = 0;   // N1 = 2
     // FPLLI = Fin/N1 = 3.685 MHz
-    PLLFBDbits.PLLDIV = 42;  // M = 44
+    CLKDIVbits.PLLPRE = 0;   // N1 = 2
     // FVCO = FPLLI*M1 = 162.14MHz
-    CLKDIVbits.PLLPOST = 0;  // N2 = 2
+    PLLFBDbits.PLLDIV = 42;  // M = 44
     // FPLLO = FVCO/N2 = 81.07 MHz
     // FOSC ~= 80MHz, FCY ~= 40MHz
+    CLKDIVbits.PLLPOST = 0;  // N2 = 2
+    
     /* Initiate Clock Switch */
     //The __builtin macro handles unlocking the OSCCON register
     __builtin_write_OSCCONH(1); //New oscillator is FRC with PLL
@@ -56,8 +58,12 @@ void initialize(void){
     //Magnet Control
     TRISFbits.TRISF0 = 0;   //Top Magnet
 
+    //Store bits indicating reason for reset
+    resetStat = RCON;
+    //Clear reset buffer so next reset reading is correct
+    RCON = 0;
+    
     /* Initialize peripherals*/
-    resetTest();
     initialize_PWM();
     initialize_CN();
     initialize_ADC();
@@ -67,55 +73,11 @@ void initialize(void){
     lights();   
 }
 
-void resetTest(void){
-    if(RCONbits.POR){
-        resetBuff[0] = 1;
-    }
-    if(RCONbits.BOR){
-        resetBuff[1] = 1;
-    }
-    if(RCONbits.IDLE){
-        resetBuff[2] = 1;
-    }
-    if(RCONbits.SLEEP){
-        resetBuff[3] = 1;
-    }
-    if(RCONbits.WDTO){
-        resetBuff[4] = 1;
-    }
-    if(RCONbits.SWDTEN){
-        resetBuff[5] = 1;
-    }
-    if(RCONbits.SWR){
-        resetBuff[6] = 1;
-    }
-    if(RCONbits.EXTR){
-        resetBuff[7] = 1;
-    }
-    if(RCONbits.VREGS){
-        resetBuff[8] = 1;
-    }
-    if(RCONbits.CM){
-        resetBuff[9] = 1;
-    }
-    if(RCONbits.VREGSF){
-        resetBuff[10] = 1;
-    }
-    if(RCONbits.IOPUWR){
-        resetBuff[11] = 1;
-    }
-    if(RCONbits.TRAPR){
-        resetBuff[12] = 1;
-    }
-    RCON = 0;
-}
-
 void lights(void){
-    LED1 = 1;
+    LED1 = 0;
     LED2 = 1;
     LED3 = 1;
     LED4 = 1;
-    LED1 = 0;
     __delay32(8000000);
     LED1 = 1;
     LED2 = 0;
@@ -128,10 +90,10 @@ void lights(void){
     __delay32(8000000);
     LED4 = 1;
     __delay32(2500000);
-    LED1 = !resetBuff[0];
-    LED2 = !resetBuff[1];
-    LED3 = !resetBuff[7];
-    LED4 = !resetBuff[9];
+    LED1 = !(resetStat & RST_POR);
+    LED2 = !(resetStat & RST_BOR);
+    LED3 = !(resetStat & RST_EXTR);
+    LED4 = !(resetStat & RST_CM);
     __delay32(10000000);
     LED1 = 1;
     LED2 = 1;

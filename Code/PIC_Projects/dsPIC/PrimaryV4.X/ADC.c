@@ -4,9 +4,11 @@
  * direct memory access modules writes the data from each reading to a
  * buffer in the DPSRAM memory space. The ADC_Read() function returns the
  * average of the values in this buffer.
+ *
+ * This file also contains functions for reading the ACD using single reads,
+ * which resulted in significant noise in early tests.
  */
-#include <libpic30.h>
-#include <p33Exxxx.h>
+#include <p33EP512MC806.h>
 #include "initialize.h"
 #include "ADC.h"
 #define ADC_BUFF_LEN 128 //Length of the DMA Buffer, should be a power of 2
@@ -87,4 +89,41 @@ unsigned short read_ADC(void){
     }
     temp = temp/ADC_BUFF_LEN; //take the average
     return temp;
+}
+
+/* The following code is to use the ADC in a single read mode that does not
+ * use DMA. The ADC will return the results of a single sample instead of the
+ * average of multiple samples.
+ *
+ * To use this code replace the initialize_ADC function with
+ * initialize_ADC_Single from below and replace all instances of read_ADC with
+ * read_ADC_Single.*/
+
+void initialize_ADC_Single(void) {
+    /* The analog-digital voltage converter reads the voltage output
+     * from the current sensor which is proportional to the motor drive current.
+     */
+    AD1CON1bits.FORM    = 0;  // Unsigned integer output
+    AD1CON1bits.AD12B   = 1;  // 12-bit data output
+    AD1CON2bits.ALTS    = 0;  // Disable alternate input selection
+    AD1CON1bits.ASAM    = 0;  // Use manual sampling
+    AD1CON1bits.SSRC    = 0b111; // Use an automatic trigger
+    AD1CON1bits.SSRCG    = 0; // Use an automatic trigger
+    AD1CON2bits.VCFG    = 0;  // Ensure AVDD and AVSS are used as Vref+ and Vref-
+    AD1CON3bits.SAMC    = 15; //
+    AD1CON3bits.ADCS = 9;     // Tad = (ADCS + 1)*Tcy
+                              // Tcy = 1 / 40MHz = 25 ns
+                              // Tad = 10*25ns = 250ns
+                              // Datasheet sets Tad minimum at 117.6ns
+
+    // Initialize MUXA Input Selection
+    AD1CHS0bits.CH0SA = 8;
+    AD1CON1bits.SAMP        = 0; // Ensure sampling is turned off
+    AD1CON1bits.ADON        = 1; //Turn on the ADC converter
+}
+
+unsigned short ADC_Read_Single(void) { //manual sampling and conversion function
+    AD1CON1bits.SAMP = 1; //Start sampling, sampling is stopped after 1us
+    while (!AD1CON1bits.DONE); //wait for sampling and conversion to finish
+    return (unsigned short) ADC1BUF0;
 }

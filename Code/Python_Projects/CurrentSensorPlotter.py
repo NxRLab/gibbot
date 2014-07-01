@@ -25,40 +25,24 @@ for i in range(64):
     output= output + list(outputtup[0:16])
 output2[:] = [float(x-2048)*33/4096 for x in output] #ADC counts * 3.3V/(4096counts * 0.1V/A )
 s = 'StDev = ' +str(round(np.std(np.array(output2)),4))
-m = 'Mean = ' + str(round(np.mean(np.array(output2)),4))
-
-for i in range(len(output)-avebin):
-    runave.append(float(sum(output[i:i+avebin]))/avebin)
-print runave
-runave2[:] = [float(x-2048)*33/4096 for x in runave]
-
-s2 = 'StDev = ' +str(round(np.std(np.array(runave2)),4))
-m2 = 'Mean = ' + str(round(np.mean(np.array(runave2)),4))
+m =  'Mean = ' + str(round(np.mean(np.array(output2)),4))
 
 plt.figure(1)
-plt.subplot(221)
-plt.plot(output2)
+plt.subplot(121)
+plt.plot(output2,'|')
 plt.xlim(0, 1024)
+plt.ylim(0.878173828125,1.1279296875)
+plt.xlabel('')
 plt.ylabel('Amps')
 plt.subplots_adjust(bottom=0.2)
-plt.xlabel('Max = ' + str(round(max(output2),3)) + 'A, Min = ' + str(round(min(output2),3)) +'A')
+plt.xlabel('Time (ms) \n \n Max = ' + str(round(max(output2),3)) + 'A, Min = ' + str(round(min(output2),3)) +'A')
 plt.ticklabel_format(useOffset=False)
 
-plt.subplot(222)
-n, bins, patches = plt.hist(output2, max(output)+1-min(output), alpha=0.75)
-plt.xlabel('ADC Counts, '+s + ', ' + m)
+plt.subplot(122)
+n, bins, patches = plt.hist(output2,32,range=(0.878173828125,1.1279296875), alpha=0.75)
+plt.xlim(0.878173828125,1.1279296875)
+plt.xlabel('Amps, '+s + ', ' + m)
 plt.ticklabel_format(useOffset=False)
-
-plt.subplot(223)
-plt.plot(runave2)
-plt.xlim(0, 1024-avebin)
-plt.xlabel('Max = ' + str(round(max(runave),3)) + 'A, Min = ' + str(round(min(runave),3)) +'A')
-plt.ticklabel_format(useOffset=False)
-
-plt.subplot(224)
-n, bins, patches = plt.hist(runave2, max(output)+1-min(output), alpha=0.75)
-plt.xlabel('Amps, '+ s2 + ', ' + m2)
-plt.ticklabel_format(useOffset=False)
-
+print 1+max(output)-min(output), max(output2), min(output2)
 plt.show()      #show the plot
 ser.close()     #close the COM port

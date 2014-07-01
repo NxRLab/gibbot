@@ -9,8 +9,10 @@
       <itemPath>I2CMaster.h</itemPath>
       <itemPath>test.h</itemPath>
       <itemPath>UART.h</itemPath>
-      <itemPath>ADC.h</itemPath>
       <itemPath>encoder.h</itemPath>
+      <itemPath>debug.h</itemPath>
+      <itemPath>linkedlist.h</itemPath>
+      <itemPath>ADC.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -25,8 +27,9 @@
       <itemPath>I2CMaster.c</itemPath>
       <itemPath>test.c</itemPath>
       <itemPath>UART.c</itemPath>
-      <itemPath>ADC.c</itemPath>
       <itemPath>encoder.c</itemPath>
+      <itemPath>debug.c</itemPath>
+      <itemPath>ADC.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
