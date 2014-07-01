@@ -18,15 +18,39 @@ unsigned char read_UART(void){
     return dequeue();
 }
 
+/*
+ * this is stylistic, but use underscores since read string is two words.
+ *
+ * the point of this function is to read from the UART until either a newline
+ * or n characters are read, whichever comes first.  The inputs are the
+ * destination character array and the maximum number of bytes to read.  The
+ * user when calling this function MUST ensure that the destination array is
+ * large enough to hold n characters/bytes.  Furthermore, if the number of bytes
+ * copied is less than or equal to n, then the string returned includes all
+ * characters up to and including the newline character.
+ *
+ * ex:
+ * assume "Hello World\n" is transmitted to the UART
+ * char dest[25];
+ * read_string(dest, 5); returns "Hello"
+ * read_string(dest, 25); returns "Hello World\n"
+ * read_string(dest, 75); user error, results undefined
+ * read_string(dest, sizeof(dest)); this is how it should be called.  what is
+ * returned in this case?
+ */
 unsigned char * readstring_UART(int n){
-     unsigned char data[n];
+     unsigned char data[n]; // this isn't valid ansi C syntax
     int i = 0;
     while(i <= n){
         data[i] = read_UART();
         i++;
     }
+    // what about stopping when \n is encountered?
     return *data;
 }
+
+/* where is write_string_UART(..., ...)?
+ */
 
 void write_UART(unsigned char data){
     while(U1STAbits.UTXBF);
