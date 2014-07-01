@@ -7,6 +7,9 @@
       <itemPath>initializeV5.h</itemPath>
       <itemPath>encoder.h</itemPath>
       <itemPath>I2CSlave.h</itemPath>
+      <itemPath>linkedlist.h</itemPath>
+      <itemPath>debug.h</itemPath>
+      <itemPath>UART.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -19,6 +22,8 @@
       <itemPath>mainV5.c</itemPath>
       <itemPath>encoder.c</itemPath>
       <itemPath>I2CSlave.c</itemPath>
+      <itemPath>UART.c</itemPath>
+      <itemPath>debug.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -114,7 +119,7 @@
         <property key="general-code-protect" value="no_code_protect"/>
         <property key="general-write-protect" value="no_write_protect"/>
         <property key="generate-cross-reference-file" value="false"/>
-        <property key="heap-size" value=""/>
+        <property key="heap-size" value="1028"/>
         <property key="input-libraries" value=""/>
         <property key="linker-symbols" value=""/>
         <property key="map-file" value="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map"/>

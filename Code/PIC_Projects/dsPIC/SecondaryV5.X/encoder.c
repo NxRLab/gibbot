@@ -40,3 +40,19 @@ void read_encoder(void){
     RegBuffer[LOWMAGENC+1] = temp1L>>8;
     RegBuffer[LOWMAGENC] = temp1L;
 }
+
+long read_LOWMAGENC(void){
+    long temp1, temp2, test;
+    temp1 = POS1CNTL;
+    temp2 = POS1HLD;
+    test = temp2<<16 | temp1;
+    return test;
+}
+
+long read_MOTENC(void){
+     long temp1, temp2, test;
+    temp1 = POS2CNTL;
+    temp2 = POS2HLD;
+    test = temp2<<16 | temp1;
+    return test;
+}

@@ -1,25 +1,23 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include <libpic30.h>
 #include <p33EP512MC806.h>
 #include "initializeV5.h"
-#include "motor.h"
+#include "I2CSlave.h"
 #include "UART.h"
-#include "I2CMaster.h"
 #include "encoder.h"
-#include "ADC.h"
-
 
 /* Configuration Bit Settings */
 //To avoid setting the PLL bits while PLL is being used the oscillator is
 //initially configured to use the FRC oscillator without phase lock loop
-_FOSCSEL(FNOSC_FRC)
+_FOSCSEL(FNOSC_FRC & IESO_OFF)
 //OSC2 (pin 40) is clock output
-_FOSC(FCKSM_CSECMD & OSCIOFNC_OFF & POSCMD_NONE)
+_FOSC(FCKSM_CSECMD & OSCIOFNC_OFF)
 //Watchdog timer not automatically enabled
 _FWDT(FWDTEN_OFF)
-//Programming on PGEC1 (pin 17) and PGED1 (pin 18)
-//If programming pn PGEC2 and PGED2 change to ISC_PGD2
-_FICD(ICS_PGD2 & JTAGEN_OFF)
-//Wait 1ms after power-on to initialize
+//Communicate on PGEC1 (pin 17) and PGED1 (pin 18)
+_FICD(ICS_PGD1 & JTAGEN_OFF)
+//Wait 128ms after power-on to initialize
 _FPOR(FPWRT_PWR128)
 
 unsigned short resetStat;
@@ -30,57 +28,52 @@ unsigned short resetStat;
  * initialization.
  */
 void initialize(void){
-    /* Configure Phase Lock Loop for  the system clock reference at 40MHz */
+    /* Configure Phase Lock Loop for  the system clock reference */
     // Fosc (Clock frequency) is set at 80MHz
     // Fin is 7.37 MHz from internal FRC oscillator
-    // FPLLI = Fin/N1 = 3.685 MHz
     CLKDIVbits.PLLPRE = 0;   // N1 = 2
-    // FVCO = FPLLI*M1 = 162.14MHz
+    // FPLLI = Fin/N1 = 3.685 MHz
     PLLFBDbits.PLLDIV = 42;  // M = 44
+    // FVCO = FPLLI*M1 = 162.14MHz
+    CLKDIVbits.PLLPOST = 0;  // N2 = 2
     // FPLLO = FVCO/N2 = 81.07 MHz
     // FOSC ~= 80MHz, FCY ~= 40MHz
-    CLKDIVbits.PLLPOST = 0;  // N2 = 2
-
     /* Initiate Clock Switch */
-    //The __builtin macro handles unlocking the OSCCON register
+    //The __builtin_write macro handles unlocking the OSCCON register
     __builtin_write_OSCCONH(1); //New oscillator is FRC with PLL
     __builtin_write_OSCCONL(OSCCON | 0x01); //Enable clock switch
 
     while (OSCCONbits.COSC!= 1); //Wait for FRC with PLL to be clock source
     while (OSCCONbits.LOCK!= 1); //Wait for PLL to lock
 
-    /* Configure IO*/
-    TRISDbits.TRISD10 = 1;   //USER input
+    /* Configure digital I/O */
+    TRISDbits.TRISD8 = 1;    //USER input
     //LED outputs
-    ANSELBbits.ANSB13 = 0;  //Disable Analog on B13
-    TRISBbits.TRISB13 = 0;  //LED1
-    ANSELBbits.ANSB12 = 0;  //Disable Analog on B12
-    TRISBbits.TRISB12 = 0;  //LED2
-    TRISDbits.TRISD11 = 0;  //LED3
+    TRISDbits.TRISD9 = 0;   //LED1
+    TRISDbits.TRISD10 = 0;    //LED2
+    TRISDbits.TRISD11 = 0;   //LED3
     TRISDbits.TRISD0 = 0;   //LED4
     //Magnet Control
-    TRISBbits.TRISB14 = 0;   //Top Magnet
+    TRISBbits.TRISB15 = 0;   //Bottom Magnet
 
     //Store bits indicating reason for reset
     resetStat = RCON;
     //Clear reset buffer so next reset reading is correct
     RCON = 0;
-
-    /* Initialize peripherals*/
-    initialize_PWM();
-    initialize_CN();
-    initialize_ADC();
-    initialize_I2C_Master();
+    
+    /* Initialization Functions */
+    //initialize_I2C_Slave();
+    initialize_UART2();
     initialize_QEI();
-    initialize_UART();
     lights();
 }
 
 void lights(void){
-    LED1 = 0;
+    LED1 = 1;
     LED2 = 1;
     LED3 = 1;
     LED4 = 1;
+    LED1 = 0;
     __delay32(8000000);
     LED1 = 1;
     LED2 = 0;
