@@ -157,6 +157,7 @@ void main()
     uart0SetStopBits(STOP_BITS_1);
 
     // wait for a wireless pairing
+    // blink yellow LED while connection is being established
     while(!radioLinkConnected()) {
         yellowLedOn ^= 1;
         updateLeds();
