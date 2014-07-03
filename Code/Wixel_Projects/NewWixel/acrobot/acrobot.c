@@ -179,11 +179,8 @@ void main()
     uart0SetStopBits(STOP_BITS_1);
 
     // wait for a wireless pairing
-<<<<<<< HEAD:Code/Wixel Projects/NewWixel/acrobot/acrobot.c
-    // blink yellow LED while connection is being established
-=======
     // between two wixels
->>>>>>> ac827355e562d52302b11205dab9012206595c45:Code/Wixel_Projects/NewWixel/acrobot/acrobot.c
+    // blink yellow LED while connection is being established
     while(!radioLinkConnected()) {
         yellowLedOn ^= 1;
         updateLeds();
