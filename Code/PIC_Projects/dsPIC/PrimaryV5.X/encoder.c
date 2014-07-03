@@ -1,7 +1,11 @@
 #include <libpic30.h>
+#include <stdio.h>
 #include <p33EP512MC806.h>
 #include "encoder.h"
 #include "I2CMaster.h"
+#include "UART.h"
+#include "initializeV5.h"
+#include "linkedlist.h"
 
 void initialize_QEI(void){
     //Turn on QEI
@@ -13,11 +17,23 @@ void initialize_QEI(void){
 }
 
 void write_MOTENC(long val){
-    write_I2C((unsigned char*) &val,MOTENC,4);
+    //write_I2C((unsigned char*) &val,MOTENC,4);
+    write_UART2('7');
+    write_string_UART2((unsigned char *) &val,4);
+    //write_UART2(val>>24);
+    //write_UART2(val>>16);
+    //write_UART2(val>>8);
+    //write_UART2(val);
 }
 
 void write_LOWMAGENC(long val){
-    write_I2C((unsigned char*) &val,LOWMAGENC,4);
+    //write_I2C((unsigned char*) &val,LOWMAGENC,4);
+    write_UART2('6');
+    write_string_UART2((unsigned char *) &val,4);
+    //write_UART2(val>>24);
+    //write_UART2(val>>16);
+    //write_UART2(val>>8);
+    //write_UART2(val);
 }
 
 void write_TOPMAGENC(long val){
@@ -26,9 +42,17 @@ void write_TOPMAGENC(long val){
 }
 
 long read_MOTENC(void){
-    unsigned char temp[4]= {0,0,0,0};
+    unsigned char temp[4] = {0,0,0,0};
     long test;
-    read_I2C(temp,MOTENC,4);
+    //read_I2C(temp,MOTENC,4);
+    LED4 = !LED4;
+    write_UART2('5');
+    while(!(uart_buffer.len>3));
+    temp[0] = read_UART();
+    temp[1] = read_UART();
+    temp[2] = read_UART();
+    temp[3] = read_UART();
+    //read_string_UART(temp,4);
     test = *((long *)temp);
     return test;
 }
@@ -36,7 +60,14 @@ long read_MOTENC(void){
 long read_LOWMAGENC(void){
     unsigned char temp[4]= {0,0,0,0};
     long test;
-    read_I2C(temp,LOWMAGENC,4);
+    //read_I2C(temp,LOWMAGENC,4);
+    write_UART2('4');
+    while(!(uart_buffer.len>3));
+    temp[0] = read_UART();
+    temp[1] = read_UART();
+    temp[2] = read_UART();
+    temp[3] = read_UART();
+    //read_string_UART(temp,4);
     test = *((long *)temp);
     return test;
 }

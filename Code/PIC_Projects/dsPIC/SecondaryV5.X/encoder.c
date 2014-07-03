@@ -50,9 +50,19 @@ long read_LOWMAGENC(void){
 }
 
 long read_MOTENC(void){
-     long temp1, temp2, test;
+    long temp1, temp2, test;
     temp1 = POS2CNTL;
     temp2 = POS2HLD;
     test = temp2<<16 | temp1;
     return test;
+}
+
+void write_LOWMAGENC(long val){
+    POS1HLD = val >> 16;
+    POS1CNTL = val & 0xFFFF;
+}
+
+void write_MOTENC(long val){
+    POS2HLD = val >> 16;
+    POS2CNTL = val & 0xFFFF;
 }

@@ -16,6 +16,7 @@ int main(void) {
             LED2 = !LED2;
             LED3 = !LED3;
             LED4 = !LED4;
+            //commutate(7);
         }
        test_MayDay();
     }

@@ -4,14 +4,15 @@
 #include "initializeV5.h"
 #include "debug.h"
 #include "linkedlist.h"
+#include "encoder.h"
 
-#define LOWMAG_ON 1
-#define LOWMAG_OFF 2
+#define LOWMAG_ON '1'
+#define LOWMAG_OFF '2'
 #define LOWMAG_TOGGLE '3'
-#define LOWMAGENC_READ 4
-#define MOTENC_READ 5
-#define LOWMAGENC_RESET 6
-#define MOTENC_RESET 7
+#define LOWMAGENC_READ '4'
+#define MOTENC_READ '5'
+#define LOWMAGENC_SET '6'
+#define MOTENC_SET '7'
 
 
 volatile struct buffer_t uart_buffer;
@@ -20,14 +21,19 @@ unsigned char read_UART(void){
     return dequeue();
 }
 
-unsigned char * readstring_UART(int n){
-    char data[n];
-    int i = 0;
-    while(i < n){
-        data[i] = read_UART();
+void read_string_UART(unsigned char *data, int n){
+    int i = 0,j = 0;
+    while(i < n && j != 1){
+       data[i] = read_UART();
+       if(data[i] == '\n'){
+           j = 1;
+       }
+       else{
+           j = 0;
+       }
         i++;
     }
-    return *data;
+    data[i] = '\n';
 }
 
 void write_UART2(unsigned char data){
@@ -35,13 +41,13 @@ void write_UART2(unsigned char data){
     U2TXREG = data;
 }
 
-void writestring_UART2(char *data, int n){
+void write_string_UART2(unsigned char *data, int n){
     int i = 0;
-    while(data[i] != '\n' || i < n){
+    while(data[i] != '\n' && i < n){
         write_UART2(data[i]);
         i++;
     }
-    write_UART2('\n');
+    //write_UART2('\n');
 }
 
 /* Clear every element in the uart_buffer and release the memory */
@@ -110,7 +116,6 @@ void __attribute__((interrupt, no_auto_psv)) _U2RXInterrupt(void){
     }
     LED3 = !LED3;
     LED4 = !LED4;
-    UART_task();
     IFS1bits.U2RXIF = 0; //Clear interrupt flag
 }
 
@@ -133,7 +138,7 @@ void initialize_UART2(void){
     U2STAbits.UTXEN = 1;
 }
 
-void UART_task(void){
+void UART2_task(void){
     unsigned char task;
      if(uart_buffer.len>0){
         task = read_UART();
@@ -146,32 +151,49 @@ void UART_task(void){
          }
          else if(task == LOWMAG_TOGGLE){
              LOWMAG = !LOWMAG;
+             write_UART2('w');
          }
          else if(task == LOWMAGENC_READ){
              long value;
+             unsigned char temp[4];
              value = read_LOWMAGENC();
-             write_UART2(value>>24);
-             write_UART2(value>>16);
-             write_UART2(value>>8);
-             write_UART2(value);
+             temp[0] = value;
+             temp[1] = value>>8;
+             temp[2] = value>>16;
+             temp[3] = value>>24;
+             write_string_UART2(temp,4);
          }
          else if(task == MOTENC_READ){
              long value;
+             unsigned char temp[4];
              value = read_MOTENC();
-             write_UART2(value>>24);
-             write_UART2(value>>16);
-             write_UART2(value>>8);
-             write_UART2(value);
+             temp[0] = value;
+             temp[1] = value>>8;
+             temp[2] = value>>16;
+             temp[3] = value>>24;
+             write_string_UART2(temp,4);
          }
-         else if(task == LOWMAGENC_RESET){
-
+         else if(task == LOWMAGENC_SET){
+             unsigned char temp[4];
+             long val;
+             while(!(uart_buffer.len>3));
+             read_string_UART(temp,4);
+             val = *((long *)temp);
+             write_LOWMAGENC(val);
+             LED4 = !LED4;
          }
-         else if(task == MOTENC_RESET){
-
+         else if(task == MOTENC_SET){
+             unsigned char temp[4];
+             long val;
+             while(!(uart_buffer.len>3));
+             read_string_UART(temp,4);
+             val = *((long *)temp);
+             write_MOTENC(val);
+             LED4 = !LED4;
          }
          else if(task == '8'){
-             unsigned char data[5] = {'1','2','3','4','5'};
-             writestring_UART2(data, 5);
+             unsigned char data[5] = {'a','b','c','d','e'};
+             write_string_UART2(data, 5);
          }
      }
 

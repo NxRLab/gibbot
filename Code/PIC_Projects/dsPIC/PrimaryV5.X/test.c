@@ -43,39 +43,28 @@ void test_MayDay(void){
         LED1 = !LED1;
         if(command =='0'){ //Return ADC value
             data = read_ADC();
-            write_UART(data>>8);
             write_UART(data);
-            //write_UART(data>>8);
+            write_UART(data>>8);
         } else if(command=='1'){ //Set Encoder Values
             write_LOWMAGENC(1600);
             write_MOTENC(1700);
             write_TOPMAGENC(1800);
         } else if(command=='2'){ // Read Encoder Values
             temp = read_LOWMAGENC();
-            write_UART(temp>>24);           
-            write_UART(temp>>16);            
-            write_UART(temp>>8);
             write_UART(temp);
-            //write_UART(temp>>8);
-            //write_UART(temp>>16);
-            //write_UART(temp>>24);
+            write_UART(temp>>8);
+            write_UART(temp>>16);
+            write_UART(temp>>24);
             temp = read_MOTENC();
-            write_UART(temp>>24);
-            write_UART(temp>>16);
-            write_UART(temp>>8);
             write_UART(temp);
-            //write_UART(temp>>8);
-            //write_UART(temp>>16);
-            //write_UART(temp>>24);
+            write_UART(temp>>8);
+            write_UART(temp>>16);
+            write_UART(temp>>24);
             temp = read_TOPMAGENC();
-            write_UART(temp>>24);
-            write_UART(temp>>16);
-            write_UART(temp>>8);
             write_UART(temp);
-            //write_UART(temp);
-            //write_UART(temp>>8);
-            //write_UART(temp>>16);
-            //write_UART(temp>>24);
+            write_UART(temp>>8);
+            write_UART(temp>>16);
+            write_UART(temp>>24);
         } else if(command == '3'){ //Reverse Motor Direction
             direction = !direction;
         } else if(command =='4'){ //Turn motor on
@@ -148,15 +137,21 @@ void test_MayDay(void){
         } else if(command=='e'){ //Turn off Top Magnet
             TOPMAG = 0;
         } else if(command=='f'){ //Toggle Bottom Magnet
+            unsigned char as;
             write_UART2('3');
+            while(!(uart_buffer.len>0));
+            as = read_UART();
+            write_UART(as);
             //datachar = 2;
             //write_I2C(&datachar, LOWMAGCON, 1);
         } else if(command=='g'){ //Turn on Bottom Magnet
-            datachar = 1;
-            write_I2C(&datachar, LOWMAGCON, 1);
+            write_UART2('1');
+            //datachar = 1;
+            //write_I2C(&datachar, LOWMAGCON, 1);
         } else if(command=='h'){ //Turn off Bottom Magnet
-            datachar = 0;
-            write_I2C(&datachar, LOWMAGCON, 1);
+            write_UART2('2');
+            //datachar = 0;
+            //write_I2C(&datachar, LOWMAGCON, 1);
         } else if(command=='i'){ //Return Errors
             print_error();
         } else if(command=='j'){ //kick
@@ -188,8 +183,8 @@ void test_MayDay(void){
       } else if(command == 'n'){
           unsigned char d1[5];
           write_UART2('8');
-          while(!(uart_buffer.len>0));
-          *d1 = readstring_UART(5);
+          while(!(uart_buffer.len>4));
+          read_string_UART(d1,5);
           printf("%s\n",d1);
       }
     }

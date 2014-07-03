@@ -18,14 +18,19 @@ unsigned char read_UART(void){
     return dequeue();
 }
 
-unsigned char * readstring_UART(int n){
-     unsigned char data[n];
-    int i = 0;
-    while(i <= n){
-        data[i] = read_UART();
+void read_string_UART(unsigned char *data, int n){
+    int i = 0,j = 0;
+    while(i < n && j != 1){
+       data[i] = read_UART();
+       if(data[i] == '\n'){
+           j = 1;
+       }
+       else{
+           j = 0;
+       }
         i++;
     }
-    return *data;
+    data[i] = '\n';
 }
 
 void write_UART(unsigned char data){
@@ -36,6 +41,24 @@ void write_UART(unsigned char data){
 void write_UART2(unsigned char data){
     while(U2STAbits.UTXBF);
     U2TXREG = data;
+}
+
+void write_string_UART(unsigned char *data, int n){
+    int i = 0;
+    while(data[i] != '\n' && i < n){
+        write_UART(data[i]);
+        i++;
+    }
+    write_UART('\n');
+}
+
+void write_string_UART2(unsigned char *data, int n){
+    int i = 0;
+    while(data[i] != '\n' && i < n){
+        write_UART2(data[i]);
+        i++;
+    }
+    write_UART2('\n');
 }
 
 /* Clear every element in the uart_buffer and release the memory */
