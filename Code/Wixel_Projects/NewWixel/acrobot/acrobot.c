@@ -1,6 +1,6 @@
 /** acrobot:
 
-This app implements the acrobot swing-up controller.
+This app implements how to read and write bytes over UART, radio, and USB.
 */
 
 #include <wixel.h>
@@ -12,6 +12,7 @@ This app implements the acrobot swing-up controller.
 
 #define DELAY_MS 750
 
+// these are commands that the wixel responds to
 #define COMMAND_TOGGLE_YELLOW_LED 'y'
 #define COMMAND_PRINT_HI 'h'
 #define COMMAND_GET_TIME 't'
@@ -38,7 +39,7 @@ void updateLeds()
     LED_YELLOW(yellowLedOn);
 }
 
-/** Processes a new byte received from the USB virtual COM port.
+/** Processes a new byte received from a serial connection
  * */
 void processByte(uint8 c)
 {
@@ -47,6 +48,9 @@ void processByte(uint8 c)
     uint8 XDATA *tmt;
 
     switch(c) {
+    // these cases handle encoder readings; a better
+    // implementation would use sscanf in the processBytesUart0
+    // function
     case '-':
     case '0':
     case '1':
@@ -63,11 +67,16 @@ void processByte(uint8 c)
         usbComTxSendByte(c);
         break;
 
+    // just in case we can't print anything to screen
+    // this command allows for a visual that we are
+    // at least getting serial commands
     case COMMAND_TOGGLE_YELLOW_LED:
         yellowLedOn ^= 1;
         break;
         
+    // send this packet to another wixel over wireless comm
     case COMMAND_SEND_OVER_RADIO:
+        // print to USB first to help debug
         responseLength = sprintf(response, "radio 1...\r\n");
         usbComTxSend(response, responseLength);
 
@@ -79,7 +88,9 @@ void processByte(uint8 c)
         }
         break;
 
+    // response after receiving a byte over radio
     case COMMAND_RADIO_RESPONSE:
+        // print to USB first to help debug
         responseLength = sprintf(response, "radio 2...\r\n");
         usbComTxSend(response, responseLength);
 
@@ -91,16 +102,20 @@ void processByte(uint8 c)
         }
         break;
 
+    // respond to a byte sent over UART, requires
+    // dsPIC or RX/TX lines being tied together on
+    // wixel.
     case COMMAND_SEND_OVER_UART:
+        // print to USB first to help debug
         responseLength = sprintf(response, "uart0...\r\n");
         usbComTxSend(response, responseLength);
+
         uart0TxSendByte(COMMAND_GET_TIME);
         break;
 
+    // send packet over USB
     case COMMAND_GET_TIME:
         time = getMs();
-        // SDCC's default sprintf doesn't seem to support 32-bit ints, so we will
-        // split getMs into two parts and print it in hex.
         responseLength = sprintf(response, "time=0x%04x\r\n", (uint16)time);
         usbComTxSend(response, responseLength);
         break;
@@ -119,6 +134,8 @@ void processBytesFromUsb()
     }
 }
 
+/** Checks for new bytes available from the wireless radio
+ * and processes all that are available. */
 void processBytesFromRadio()
 {
     uint8 i, n;
@@ -134,8 +151,11 @@ void processBytesFromRadio()
     }
 }
 
+/** Checks for new bytes available on UART0
+ * and processes all that are available. */
 void processBytesFromUart0()
 {
+    // this code should be modified to use sscanf.
     uint8 bytesLeft = uart0RxAvailable();
     while(bytesLeft && uart0TxAvailable() >= sizeof(response))
     {
@@ -146,6 +166,8 @@ void processBytesFromUart0()
 
 void main()
 {
+    // required by wixel api:
+    // http://pololu.github.io/wixel-sdk/group__libraries.html
     systemInit();
     usbInit();
     radioLinkInit();
@@ -157,7 +179,11 @@ void main()
     uart0SetStopBits(STOP_BITS_1);
 
     // wait for a wireless pairing
+<<<<<<< HEAD:Code/Wixel Projects/NewWixel/acrobot/acrobot.c
     // blink yellow LED while connection is being established
+=======
+    // between two wixels
+>>>>>>> ac827355e562d52302b11205dab9012206595c45:Code/Wixel_Projects/NewWixel/acrobot/acrobot.c
     while(!radioLinkConnected()) {
         yellowLedOn ^= 1;
         updateLeds();
@@ -167,6 +193,7 @@ void main()
     // turn off LED
     yellowLedOn = 0;
 
+    // process bytes
     while(1)
     {
         boardService();

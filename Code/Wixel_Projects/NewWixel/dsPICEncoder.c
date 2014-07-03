@@ -40,9 +40,15 @@ int main() {
         while (!U1STAbits.URXDA);
         c = U1RXREG;
 
+        // add switch statement to perform
+        // read, reset, enable, or disable
+        // actions based on received input.
+
+        // here is an example of how data
+        // can be transmitted back to the
+        // wixel using printf
+
         // transmit data
-        //while (U1STAbits.UTXBF);
-        //U1TXREG = c;
         printf("%u\r\n", QEI_read(1));
     }
 }
