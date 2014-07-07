@@ -1,0 +1,67 @@
+function Map = mmap(S, U, DT, DX0, DU)
+% variables
+T = S.T;
+X0 = S.X0;
+U = @(t, X) U(t, X, S);
+p = S.p;
+odeoptions = S.options;
+
+% map
+tspan = [0, T(end)];
+F = @(t, X) mbeom(t, X, U, p);
+flow = ode45(F, tspan, X0, odeoptions);
+
+X = deval(flow, T);
+H = mbimp(X, p);
+
+% map struct
+Map.H = H;
+Map.flow = flow;
+
+if nargin == 2
+    return;
+end
+
+% derivative of map w.r.t to initial condition, X0
+if ~isempty(DX0)
+    dUdX0 = @(t, X) zeros(numel(X0), 1);
+    dflow = DX(flow, DX0, U, dUdX0, p, odeoptions);
+
+    dX = deval(dflow, T);
+    dHdX0 = DH(X, dX, p);
+    
+    % map struct
+    Map.dflow = dflow;
+    Map.dHdX0 = dHdX0;
+end
+
+% derivative of map w.r.t to controls, u
+if ~isempty(DU)
+    DU = @(t, X) DU(t, X, S);
+
+    dX0 = zeros(2*numel(X0), 1);
+    dctls = DX(flow, dX0, U, DU, p, odeoptions);
+    dX = deval(dctls, T);
+    
+    % apply Leibniz rule?
+    if ~isempty(DT)
+        FdT = FDT(F(T, X), DT);
+        FdT = reshape(FdT, size(dX));
+        dX = FdT + dX;
+        
+        % need to find better solution, how does deval work? do the
+        % interpolation values get screwed up if I modify the y values?
+        
+        Xtmp = deval(flow, dctls.x));
+        FdT = FDT(F(dctls.x, , DT);
+        FdT = reshape(FdT, size(dctls.y));
+        dctls.y = FdT + dctls.y;
+    end
+    
+    dHdu = DH(X, dX, p);
+    
+    % map struct
+    Map.dctls = dctls;
+    Map.dHdu = dHdu;
+end
+end

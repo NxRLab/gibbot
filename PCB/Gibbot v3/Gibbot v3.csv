@@ -1,0 +1,78 @@
+Partlist exported from /Users/ajgriesemer/gibbot/PCB/BLDC/Gibbot v3/Gibbot v3.sch at 8/27/13 9:06 AM
+
+Qty Value               Device               Parts                                                                                                                                        
+9                       LED0603              LED1, LED2, LED3, LED4, LED5, LED6, LED7, LED8, LED9                                                                                         
+18                      M02JST-SH            DATA1, DATA1_2, DATA2, GND, IRLED1, IRLED2, IRLED3, IRLED4, IRLED5, IRLED6, IRLED7, IRLED8, IRLED9, LOWMAG, LOWMAG1, POWER2, POWER2_2, TOPMAG
+2                       M02MINI-FIT-JR       POWER1, POWER4                                                                                                                               
+1                       M03MOLEX-MINI-FIT-JR MOT                                                                                                                                          
+2                       M04JST-SH            POWER1_2, POWER3                                                                                                                             
+6                       M05JST-SH            BMAGENC, HALL, MAGENC1, MOTENC, MOTENC1, TMAGENC                                                                                             
+2                       M05PTH               PROG, PROG_2                                                                                                                                 
+1   .01uF               CAP0603-CAP          C53                                                                                                                                          
+14  .1uF                CAP0603-CAP          C5, C11, C12, C13, C16, C17, C18, C20, C24, C26, C27, C30, C31, C33                                                                          
+3   .03uF               CAP0603-CAP          C2, C3, C4                                                                                                                                   
+5   0.1uF               CAP0603-CAP          C7, C8, C40, C41, C42                                                                                                                        
+2   0.22uF              CAP0603-CAP          C48, C49                                                                                                                                     
+3   0ohm                R-US_R0603           R8, R9, R10                                                                                                                                  
+2   1M                  R-US_R0603           R30, R34                                                                                                                                     
+12  1k                  R-US_R0603           R11, R12, R13, R15, R20, R21, R22, R23, R35, R36, R37, R38                                                                                   
+3   1nF                 CAP0603-CAP          C21, C35, C43                                                                                                                                
+6   2.2k                R-US_R0603           R14, R16, R42, R43, R51, R52                                                                                                                 
+2   2.2nF               CAP0603-CAP          C28, C32                                                                                                                                     
+1   2.7k                R-US_R0603           R64                                                                                                                                          
+1   2.21k               R-US_R0603           R62                                                                                                                                          
+2   4.7uF               CAP0603-CAP          C37, C50                                                                                                                                     
+2   6.8uH               INDUCTORSRN6045      L4, L5                                                                                                                                       
+1   9.79k               R-US_R0603           R61                                                                                                                                          
+2   10.7k               R-US_R0603           R49, R59                                                                                                                                     
+1   10k                 R-US_R0603           R1                                                                                                                                           
+2   10nF                CAP0603-CAP          C25, C29                                                                                                                                     
+6   10ohm               R-US_R0603           R2, R3, R4, R5, R6, R7                                                                                                                       
+4   10uF                C-USC0603            C9, C10, C15, C34                                                                                                                            
+2   10uF                CAP0603-CAP          C39, C47                                                                                                                                     
+2   10uF                CAPPTH2              C14, C19                                                                                                                                     
+1   10uF                CAP_                 C6                                                                                                                                           
+1   10uH                INDUCTORSRN6045      L6                                                                                                                                           
+1   11.5k               R-US_R0603           R56                                                                                                                                          
+1   11k                 R-US_R0603           R46                                                                                                                                          
+3   20k                 R-US_R0603           R31, R32, R33                                                                                                                                
+1   22uF                CAP0603-CAP          C45                                                                                                                                          
+1   33.2k               R-US_R0603           R44                                                                                                                                          
+1   35.7k               R-US_R0603           R57                                                                                                                                          
+1   39k                 R-US_R0603           R50                                                                                                                                          
+2   43k                 R-US_R0603           R45, R60                                                                                                                                     
+1   51k                 R-US_R0603           R55                                                                                                                                          
+1   52.3k               R-US_R0603           R54                                                                                                                                          
+2   56.2k               R-US_R0603           R48, R58                                                                                                                                     
+1   56uH                INDUCTOR2100LL-181   L3                                                                                                                                           
+2   100k                R-US_R0603           R53, R63                                                                                                                                     
+1   100pF               CAP0603-CAP          C36                                                                                                                                          
+2   100pf               CAP0603-CAP          C38, C46                                                                                                                                     
+1   150pF               CAP0603-CAP          C44                                                                                                                                          
+1   154k                R-US_R0603           R47                                                                                                                                          
+1   180uH               INDUCTOR2100LL-181   L7                                                                                                                                           
+9   330                 R-US_R0603           R24, R25, R26, R27, R28, R29, R39, R40, R41                                                                                                  
+1   330k                R-US_R0603           R19                                                                                                                                          
+1   ACS716              ACS716               U$23                                                                                                                                         
+5   B260                DIODE-SCHOTTKYSMB    D1, D2, D3, D4, D5                                                                                                                           
+2   DNI                 CAP0603-CAP          C1, C22                                                                                                                                      
+2   DNI                 INDUCTOR0603         L1, L2                                                                                                                                       
+2   DSPIC33EP512MC806   DSPIC33EP512MC806    U$1, U$22                                                                                                                                    
+2   ES1B                DIODEHV              D20, D21                                                                                                                                     
+14  ES1B                DIODESMA             D6, D7, D8, D9, D10, D11, D12, D13, D14, D15, D16, D17, D18, D19                                                                             
+1   FAULT               CAP0603-CAP          C23                                                                                                                                          
+1   HIP4086             HIP4086              U$2                                                                                                                                          
+6   IRLR024             IRLR024              U$12, U$13, U$14, U$15, U$16, U$17                                                                                                           
+2   L100uF              CAPEEH-ZA1           C51, C52                                                                                                                                     
+1   LT1074HV            LT1074HV             U$50                                                                                                                                         
+2   LT3508              LT3508               U$35, U$39                                                                                                                                   
+8   MOUNT-PAD-ROUND3.0  MOUNT-PAD-ROUND3.0   H1, H2, H3, H4, H5, H6, H7, H8                                                                                                               
+2   MPU-9150            MPU-9150             U$30, U$31                                                                                                                                   
+1   REG1117             REG1117              5-3.3                                                                                                                                        
+2   RESONATORSMD        RESONATORSMD         Y1, Y2                                                                                                                                       
+1   SLIDE_SWTHROUGHHOLE SLIDE_SWTHROUGHHOLE  U$38                                                                                                                                         
+3   SSM3K329R           SSM3K329R            U$26, U$28, U$36                                                                                                                             
+4   TACTILE_SWITCH      TACTILE_SWITCH       MAINRESET, MAINUSER, SECRESET, SECUSER                                                                                                       
+1   VOC1                R-US_R0603           R17                                                                                                                                          
+1   VOC2                R-US_R0603           R18                                                                                                                                          
+1   XBEE-1B2            XBEE-1B2             U$20                                                                                                                                         

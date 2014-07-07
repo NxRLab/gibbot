@@ -1,0 +1,28 @@
+#include <plib.h>
+#include "NU32_2012.h"
+
+#define DIRECTION LATDbits.LATD1
+#define CLOCKWISE 1
+#define COUNTERCLOCKWISE 0
+#define DUTYCYCLE OC1RS
+
+void main(void) {
+    NU32_Startup();
+    DIRECTION = CLOCKWISE;
+    TRISD = 0;
+
+    T2CONbits.ON = 0x0;
+    TMR2 = 0;
+    PR2 = 999;
+
+    OC1CONbits.ON = 0;
+ //   OC1R = 500;
+    DUTYCYCLE = 500; //duty cycle 0.5
+    OC1CON = 0x6; //pwm with fault pin off
+
+
+    T2CONbits.ON = 1;
+    OC1CONbits.ON = 1;
+
+    while (1);
+}

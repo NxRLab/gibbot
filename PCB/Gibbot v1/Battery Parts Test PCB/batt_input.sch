@@ -1,0 +1,492 @@
+EESchema Schematic File Version 2  date 5/24/2013 4:40:19 PM
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:special
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:schematic_lib
+LIBS:Misc
+LIBS:Connectors
+LIBS:batt_test_parts-cache
+EELAYER 25  0
+EELAYER END
+$Descr A4 11700 8267
+encoding utf-8
+Sheet 5 9
+Title ""
+Date "24 may 2013"
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L GND #PWR010
+U 1 1 5178A22D
+P 3650 7250
+F 0 "#PWR010" H 3650 7250 30  0001 C CNN
+F 1 "GND" H 3650 7180 30  0001 C CNN
+	1    3650 7250
+	1    0    0    -1  
+$EndComp
+Wire Notes Line
+	5750 7150 1050 7150
+Wire Notes Line
+	5750 7150 5750 2600
+Wire Notes Line
+	5750 2600 1050 2600
+Connection ~ 3650 1600
+Wire Wire Line
+	3650 6300 4150 6300
+Connection ~ 3250 1400
+Wire Wire Line
+	4150 3750 3250 3750
+Wire Wire Line
+	3250 3750 3250 1400
+Connection ~ 7350 1000
+Connection ~ 7900 1100
+Wire Wire Line
+	7900 1100 7900 600 
+Wire Wire Line
+	7350 1000 7350 600 
+Wire Wire Line
+	7750 1100 7750 600 
+Wire Wire Line
+	8300 1200 8300 600 
+Connection ~ 8400 1200
+Wire Wire Line
+	8400 1200 8400 1800
+Connection ~ 7850 1300
+Wire Wire Line
+	7850 1300 7850 1800
+Connection ~ 7350 1400
+Wire Wire Line
+	7350 1400 7350 1800
+Connection ~ 6800 1500
+Wire Wire Line
+	6800 1800 6800 1500
+Wire Wire Line
+	4450 4600 4900 4600
+Wire Wire Line
+	1500 6300 1500 6950
+Wire Wire Line
+	1500 5100 1300 5100
+Wire Wire Line
+	1500 4450 1500 4550
+Wire Wire Line
+	1500 3950 1500 3600
+Wire Wire Line
+	1500 3000 1500 3200
+Wire Wire Line
+	5650 750  5250 750 
+Wire Wire Line
+	4150 6300 4150 6000
+Wire Wire Line
+	4150 5100 4150 4800
+Connection ~ 1400 1100
+Connection ~ 1500 1000
+Wire Wire Line
+	1500 5600 1500 5900
+Wire Wire Line
+	1250 1600 5650 1600
+Wire Wire Line
+	1250 1500 5650 1500
+Wire Wire Line
+	1250 1400 5650 1400
+Wire Wire Line
+	1250 1300 5650 1300
+Wire Wire Line
+	1250 1200 5650 1200
+Wire Wire Line
+	1250 1100 5650 1100
+Wire Wire Line
+	6150 1600 8750 1600
+Wire Wire Line
+	6150 1500 8750 1500
+Wire Wire Line
+	6150 1400 8750 1400
+Wire Wire Line
+	6150 1300 8750 1300
+Wire Wire Line
+	6150 1200 8750 1200
+Wire Wire Line
+	6150 1100 8750 1100
+Wire Wire Line
+	6150 1000 8750 1000
+Wire Wire Line
+	5650 1000 1250 1000
+Wire Wire Line
+	1500 5100 1500 4950
+Connection ~ 1300 1200
+Wire Wire Line
+	4150 3600 4150 3900
+Wire Notes Line
+	1050 2600 1050 7150
+Wire Wire Line
+	5250 750  5250 1000
+Connection ~ 5250 1000
+Wire Wire Line
+	6150 750  8750 750 
+Wire Wire Line
+	1500 2500 1500 1000
+Wire Wire Line
+	1400 1100 1400 3750
+Wire Wire Line
+	1400 3750 1500 3750
+Connection ~ 1500 3750
+Wire Wire Line
+	1300 5100 1300 1200
+Wire Wire Line
+	1800 3400 2250 3400
+Wire Wire Line
+	1800 4750 2250 4750
+Wire Wire Line
+	1800 6100 2250 6100
+Wire Wire Line
+	4450 3400 4850 3400
+Connection ~ 4150 3750
+Connection ~ 4150 4950
+Wire Wire Line
+	4450 5800 4850 5800
+Wire Wire Line
+	1500 6950 3050 6950
+Wire Wire Line
+	3050 6950 3050 1300
+Connection ~ 3050 1300
+Wire Wire Line
+	6400 1600 6400 1800
+Connection ~ 6400 1600
+Wire Wire Line
+	6950 1500 6950 1800
+Connection ~ 6950 1500
+Wire Wire Line
+	7450 1400 7450 1800
+Connection ~ 7450 1400
+Wire Wire Line
+	8000 1300 8000 1800
+Connection ~ 8000 1300
+Connection ~ 8300 1200
+Connection ~ 7750 1100
+Wire Wire Line
+	4150 2700 4150 2200
+Wire Wire Line
+	4150 2200 3050 2200
+Connection ~ 3050 2200
+Wire Wire Line
+	3450 1500 3450 4950
+Wire Wire Line
+	3450 4950 4150 4950
+Connection ~ 3450 1500
+Connection ~ 3650 6300
+Wire Wire Line
+	3650 7250 3650 1600
+Wire Wire Line
+	3050 1000 3050 750 
+Wire Wire Line
+	3050 750  3500 750 
+Connection ~ 3050 1000
+Text HLabel 3500 750  2    60   Output ~ 0
+BAT_TOP
+$Comp
+L C C10
+U 1 1 5176E042
+P 8100 600
+F 0 "C10" V 8150 700 50  0000 L CNN
+F 1 "100nF" V 8150 300 50  0000 L CNN
+	1    8100 600 
+	0    1    -1   0   
+$EndComp
+$Comp
+L C C8
+U 1 1 5176E041
+P 7550 600
+F 0 "C8" V 7600 700 50  0000 L CNN
+F 1 "100nF" V 7650 300 50  0000 L CNN
+	1    7550 600 
+	0    1    -1   0   
+$EndComp
+$Comp
+L C C9
+U 1 1 5176E018
+P 7650 1800
+F 0 "C9" V 7700 1900 50  0000 L CNN
+F 1 "100nF" V 7800 1700 50  0000 L CNN
+	1    7650 1800
+	0    1    1    0   
+$EndComp
+$Comp
+L C C11
+U 1 1 5176E017
+P 8200 1800
+F 0 "C11" V 8250 1900 50  0000 L CNN
+F 1 "100nF" V 8350 1700 50  0000 L CNN
+	1    8200 1800
+	0    1    1    0   
+$EndComp
+$Comp
+L C C7
+U 1 1 5176E003
+P 7150 1800
+F 0 "C7" V 7200 1900 50  0000 L CNN
+F 1 "100nF" V 7300 1700 50  0000 L CNN
+	1    7150 1800
+	0    1    1    0   
+$EndComp
+$Comp
+L CONN_7 P3
+U 1 1 5176DEEE
+P 900 1300
+F 0 "P3" V 870 1300 60  0000 C CNN
+F 1 "CONN_7" V 970 1300 60  0000 C CNN
+	1    900  1300
+	-1   0    0    -1  
+$EndComp
+$Comp
+L R R10
+U 1 1 5176DDA8
+P 4150 5350
+F 0 "R10" V 4230 5350 50  0000 C CNN
+F 1 "500" V 4150 5350 50  0000 C CNN
+	1    4150 5350
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R9
+U 1 1 5176DD86
+P 4150 4150
+F 0 "R9" V 4230 4150 50  0000 C CNN
+F 1 "500" V 4150 4150 50  0000 C CNN
+	1    4150 4150
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R8
+U 1 1 5176DD74
+P 4150 2950
+F 0 "R8" V 4230 2950 50  0000 C CNN
+F 1 "500" V 4150 2950 50  0000 C CNN
+	1    4150 2950
+	1    0    0    -1  
+$EndComp
+$Comp
+L MOSFET_N Q3
+U 1 1 5176DCB7
+P 1600 6100
+F 0 "Q3" H 1850 6100 60  0000 R CNN
+F 1 "MOSFET_N/NDS7002A" H 1500 6350 60  0000 R CNN
+	1    1600 6100
+	-1   0    0    -1  
+$EndComp
+$Comp
+L R R7
+U 1 1 5176DCAF
+P 1500 5350
+F 0 "R7" V 1580 5350 50  0000 C CNN
+F 1 "500" V 1500 5350 50  0000 C CNN
+	1    1500 5350
+	1    0    0    -1  
+$EndComp
+$Comp
+L MOSFET_N Q2
+U 1 1 5176DC97
+P 1600 4750
+F 0 "Q2" H 1850 4750 60  0000 R CNN
+F 1 "MOSFET_N/NDS7002A" H 1500 5000 60  0000 R CNN
+	1    1600 4750
+	-1   0    0    -1  
+$EndComp
+$Comp
+L MOSFET_N Q1
+U 1 1 5176DB85
+P 1600 3400
+F 0 "Q1" H 1850 3400 60  0000 R CNN
+F 1 "MOSFET_N/NDS7002A" H 1500 3650 60  0000 R CNN
+	1    1600 3400
+	-1   0    0    -1  
+$EndComp
+$Comp
+L R R6
+U 1 1 5176DB38
+P 1500 4200
+F 0 "R6" V 1580 4200 50  0000 C CNN
+F 1 "500" V 1500 4200 50  0000 C CNN
+	1    1500 4200
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R11
+U 1 1 51759A6D
+P 5900 750
+F 0 "R11" V 5980 750 50  0000 C CNN
+F 1 "10" V 5900 750 50  0000 C CNN
+	1    5900 750 
+	0    -1   -1   0   
+$EndComp
+Text HLabel 8750 750  2    60   Output ~ 0
+VDDHV
+Text Notes 1800 2550 0    100  ~ 0
+Cell Balance FETs
+Text Notes 500  900  0    100  ~ 0
+Battery Connection
+Text HLabel 2250 3400 2    60   Output ~ 0
+DISCH6
+Text HLabel 2250 4750 2    60   Output ~ 0
+DISCH5
+Text HLabel 2250 6100 2    60   Output ~ 0
+DISCH4
+Text HLabel 4850 3400 2    60   Output ~ 0
+DISCH3
+Text HLabel 4900 4600 2    60   Output ~ 0
+DISCH2
+Text HLabel 4850 5800 2    60   Output ~ 0
+DISCH1
+$Comp
+L MOSFET_N Q6
+U 1 1 51603681
+P 4250 5800
+F 0 "Q6" H 4500 5800 60  0000 R CNN
+F 1 "MOSFET_N/NDS7002A" H 4150 6050 60  0000 R CNN
+	1    4250 5800
+	-1   0    0    -1  
+$EndComp
+$Comp
+L MOSFET_N Q5
+U 1 1 5160367A
+P 4250 4600
+F 0 "Q5" H 4500 4600 60  0000 R CNN
+F 1 "MOSFET_N/NDS7002A" H 4150 4850 60  0000 R CNN
+	1    4250 4600
+	-1   0    0    -1  
+$EndComp
+$Comp
+L MOSFET_N Q4
+U 1 1 51603408
+P 4250 3400
+F 0 "Q4" H 4500 3400 60  0000 R CNN
+F 1 "MOSFET_N/NDS7002A" H 4150 3650 60  0000 R CNN
+	1    4250 3400
+	-1   0    0    -1  
+$EndComp
+$Comp
+L R R5
+U 1 1 515F402E
+P 1500 2750
+F 0 "R5" V 1580 2750 50  0000 C CNN
+F 1 "500" V 1500 2750 50  0000 C CNN
+	1    1500 2750
+	1    0    0    -1  
+$EndComp
+Text HLabel 8750 1000 2    60   Output ~ 0
+MBAT7
+Text HLabel 8750 1100 2    60   Output ~ 0
+MBAT6
+Text HLabel 8750 1200 2    60   Output ~ 0
+MBAT5
+Text HLabel 8750 1300 2    60   Output ~ 0
+MBAT4
+Text HLabel 8750 1400 2    60   Output ~ 0
+MBAT3
+Text HLabel 8750 1500 2    60   Output ~ 0
+MBAT2
+Text HLabel 8750 1600 2    60   Output ~ 0
+MBAT1
+$Comp
+L R R12
+U 1 1 515F2F45
+P 5900 1000
+F 0 "R12" V 5950 800 50  0000 C CNN
+F 1 "1K" V 5900 1000 50  0000 C CNN
+	1    5900 1000
+	0    -1   -1   0   
+$EndComp
+$Comp
+L C C6
+U 1 1 515F2F3D
+P 6600 1800
+F 0 "C6" V 6650 1900 50  0000 L CNN
+F 1 "100nF" V 6750 1700 50  0000 L CNN
+	1    6600 1800
+	0    1    1    0   
+$EndComp
+$Comp
+L R R13
+U 1 1 515F2F34
+P 5900 1100
+F 0 "R13" V 5950 900 50  0000 C CNN
+F 1 "1K" V 5900 1100 50  0000 C CNN
+	1    5900 1100
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R15
+U 1 1 515F2F33
+P 5900 1300
+F 0 "R15" V 5950 1100 50  0000 C CNN
+F 1 "1K" V 5900 1300 50  0000 C CNN
+	1    5900 1300
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R14
+U 1 1 515F2F32
+P 5900 1200
+F 0 "R14" V 5950 1000 50  0000 C CNN
+F 1 "1K" V 5900 1200 50  0000 C CNN
+	1    5900 1200
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R18
+U 1 1 515F2F31
+P 5900 1600
+F 0 "R18" V 5950 1400 50  0000 C CNN
+F 1 "1K" V 5900 1600 50  0000 C CNN
+	1    5900 1600
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R17
+U 1 1 515F2F2F
+P 5900 1500
+F 0 "R17" V 5950 1300 50  0000 C CNN
+F 1 "1K" V 5900 1500 50  0000 C CNN
+	1    5900 1500
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R16
+U 1 1 515F2F2E
+P 5900 1400
+F 0 "R16" V 5950 1200 50  0000 C CNN
+F 1 "1K" V 5900 1400 50  0000 C CNN
+	1    5900 1400
+	0    -1   -1   0   
+$EndComp
+$EndSCHEMATC

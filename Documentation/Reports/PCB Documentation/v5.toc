@@ -1,0 +1,25 @@
+\contentsline {section}{\numberline {1}dsPIC Pinout}{2}{section.1}
+\contentsline {section}{\numberline {2}Power Regulation}{2}{section.2}
+\contentsline {subsection}{\numberline {2.1}Primary Board}{2}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Digital Isolation}{3}{subsection.2.2}
+\contentsline {section}{\numberline {3}BLDC Motor Driver}{4}{section.3}
+\contentsline {subsection}{\numberline {3.1}BLDC Motor Background}{4}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}HIP4086 Driver}{5}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}MOSFET Selection}{5}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.4}Clamping Circuit}{6}{subsection.3.4}
+\contentsline {subsection}{\numberline {3.5}Bootstrap Capacitor, Diode and Resistor Selection}{7}{subsection.3.5}
+\contentsline {subsection}{\numberline {3.6}Set Dead Time on the HIP4086}{7}{subsection.3.6}
+\contentsline {section}{\numberline {4}Inertial Measurement Unit - MPU9150}{8}{section.4}
+\contentsline {section}{\numberline {5}XBee}{8}{section.5}
+\contentsline {section}{\numberline {6}Magnet Control}{8}{section.6}
+\contentsline {section}{\numberline {7}IR LEDs}{9}{section.7}
+\contentsline {subsection}{\numberline {7.1}IR LED Resistor Values}{9}{subsection.7.1}
+\contentsline {section}{\numberline {8}Current Sensor}{9}{section.8}
+\contentsline {subsection}{\numberline {8.1}dsPIC ADC Inductor}{9}{subsection.8.1}
+\contentsline {subsection}{\numberline {8.2}ACS716 Filter Capacitor}{10}{subsection.8.2}
+\contentsline {subsection}{\numberline {8.3}Overcurrent Threshold}{10}{subsection.8.3}
+\contentsline {section}{\numberline {9}Wire Gages}{10}{section.9}
+\contentsline {subsection}{\numberline {9.1}Wire Sources}{10}{subsection.9.1}
+\contentsline {subsection}{\numberline {9.2}Wire Requirements}{11}{subsection.9.2}
+\contentsline {section}{\numberline {10}PCB Bill of Materials}{12}{section.10}
+\contentsline {section}{\numberline {11}Board Issues}{13}{section.11}

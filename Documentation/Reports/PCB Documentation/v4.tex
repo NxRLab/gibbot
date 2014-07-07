@@ -1,0 +1,350 @@
+\documentclass{article}
+\usepackage[a4paper,left=1in, right=1in, top=1in, bottom=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{subcaption}
+\usepackage{comment}
+\usepackage{array}
+\usepackage{longtable}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+\graphicspath{ {./images/} }
+
+\begin{document}
+\title{Gibbot v4 PCB}
+\author{Andrew Griesemer}
+\maketitle
+\section{dsPIC Pinout}
+\begin{figure}[h!]
+	\centering
+	\begin{subfigure}{0.4\textwidth}
+		\includegraphics[width=\textwidth, page=1]{breakout}
+		\caption{Pin Assignments for Primary board}
+		\label{pinout1}
+	\end{subfigure}
+	\begin{subfigure}{0.4\textwidth}
+		\includegraphics[width=\textwidth, page=2]{breakout}
+		\caption{Pin Assignments for secondary board}
+		\label{pinout2}
+	\end{subfigure}
+\end{figure}
+
+\section{Power Regulation}
+The board is powered by a 24V power cable. 
+\subsection{Primary Board}
+\subsubsection*{24V}
+\begin{longtable}{|c | c | c |  >{\centering\arraybackslash}p{0.4\textwidth} |} \hline
+Component & Current per unit & Total Component & Source of Current Value\\ \hline
+EM237-24-212 Magnets & 230mA x 2 & 460mA & Current at rated voltage \footnote{APW Catalog http://catalog.apwcompany.com/Asset/6489.pdf}\\ \hline
+EC 60 Flat Motor & & $<10$A & Control specification\\ \hline
+\end{longtable}
+\subsubsection*{15V}
+\begin{longtable}{|c | c | c |  >{\centering\arraybackslash}p{0.4\textwidth} |} \hline
+Component & Current per unit & Total Component & Source of Current Value\\ \hline
+2 Encoders & 78mA x 2 & 156mA & 62mA maximum no load current + 8mA x 2 maximum output current\footnote{E3 1800 CPR product page http://www.usdigital.com/products/e3}\\ \hline
+\end{longtable}
+\subsubsection*{5V}
+\begin{longtable}{|c | c | c |  >{\centering\arraybackslash}p{0.4\textwidth} |} \hline
+Component & Current per unit & Total Component & Source of Current Value\\ \hline
+E3 Encoders & 78mA x 2 & 156mA & 62mA maximum no load current + 8mA x 2 maximum output current\footnote{E3 1800 CPR product page http://www.usdigital.com/products/e3}\\ \hline
+\end{longtable}
+\subsubsection*{3.3V}
+\begin{longtable}{|c | c | c |  >{\centering\arraybackslash}p{0.4\textwidth} |} \hline
+dsPIC && 320mA & Absolute maximum rating current from VSS\footnote{dsPIC33EP512MC806 datasheet http://ww1.microchip.com/downloads/en/DeviceDoc/70616g.pdf}\\ \hline
+Status LEDs & 3.3mA x 6& 20mA & Assuming 3.3V and 1k resistor\\ \hline
+IMU && 10mA & 3.9mA gyro + 6mA magnetometer\footnote{MPU-9150 datasheet http://dlnmh9ip6v2uc.cloudfront.net/datasheets/Sensors/IMU/PS-MPU-9150A.pdf} \\ \hline
+IR LEDs &10mA x 6 & 60 mA & 3.3V  and 330 ohm resistor\\ \hline
+\textbf{Total} && \textbf{0.410 A} &\\ \hline
+\end{longtable}
+\subsection{Digital Isolation}
+
+\section{Inertial Measurement Unit - MPU9150}
+The MPU9150 is a 9 axis sensor that draws data from a 3-axis gyroscope, a 3-axis accelerometer and a 3-axis magnetometer. One sensor is attached to each board. Neither sensor has been configured. The supporting circuitry follows is shown in Figure \ref{mpu9150} below \footnote{MPU9150 
+Product Specification p21 http://www.invensense.com/mems/gyro/documents/PS-MPU-9150A-00v4\_3.pdf}.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.4\textwidth]{mpu9150}
+	\caption{MPU9150 Typical Operating Circuit}
+	\label{mpu9150}
+\end{figure}
+
+\textbf{This iteration of the board does not have pull-up resistors on the I\textsuperscript{2}C communication lines that would be required for communication between the MPU9150 and the dsPIC.}
+
+
+\section{BLDC Motor Driver}
+\subsection{BLDC Motor Background}
+A Brushless DC Motor is different from a brushed DC motor because it lacks the internal brushes that allow a typical DC motor to reverse the direction of current flow as the rotor coil rotates within the magnetic stator. In order to drive a BLDC motor the direction of current flow must be actuated by external control circuitry. The benefits of BLDC motors over brushed motors is lighter weight for the same amount of torque and increased longevity.
+
+A typical BLDC motor has two or more coils and a sensor that can determine the angular position of the rotor. A microcontroller reads the state of the sensor and changes the direction of current across the coils in order to maximize torque. The BLDC motor on the Gibbot is the Maxon EC 60 Flat which has 3 coils and 3 Hall Effect sensors that detect the angular position of the rotor. The commutation pattern from the Maxon E-Paper Catalog is shown in Figure \ref{fig:commutation}a and modified for clarity in Figure \ref{fig:commutation}b. 
+\begin{figure}[h!]
+	\centering
+	\begin{subfigure}{0.4\textwidth}
+		\includegraphics[width=\textwidth]{commutation}
+		\caption{}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}{0.4\textwidth}
+		\includegraphics[width=\textwidth]{commutation2}
+		\caption{}
+	\end{subfigure}
+	\caption{The commutation pattern for the Maxon EC 60 Flat Motor.\protect\footnotemark}
+	\label{fig:commutation}
+\end{figure}
+\footnotetext{\raggedright Figure \ref{fig:commutation} is taken from pg 32 of the Maxon E-Paper Catalog http://epaper.maxonmotor.ch/en/}
+
+The pin connections for the Maxon EC 60 Flat motor hall effect sensor ribbon cable  are given in Table \ref{motpin1}a. Note: The pin numbering from the EC 60 Flat catalog page is for a connector that has been removed and replaced. The motor pole connections are given in Table \ref{motpin1}b.
+
+\begin{table}[h!]
+	\centering
+	\label{motpin1}
+	\caption{Motor Connections}
+	\begin{subtable}[t]{0.4\textwidth}	
+		\centering
+		\subcaption{Hall Effect Cable Pin Connections}
+		\begin{tabular}{| c | c | c |}
+			\hline
+			\textbf{Color} & \textbf{Pin Number} & \textbf{Connection} \\ \hline
+			Blue & 1 & 5V \\ \hline
+			Gray & 2 & GND \\ \hline
+			Gray & 3 & 1 \\ \hline
+			Gray & 4 & 2 \\ \hline
+			Gray & 5 & 3 \\ \hline
+		\end{tabular}
+	\end{subtable}
+	\begin{subtable}[t]{0.4\textwidth}
+		\centering
+		\subcaption{Motor Pin Connections}
+		\begin{tabular}{| c | c |}
+			\hline
+			\textbf{Color} & \textbf{Pin Connection} \\ \hline
+			Red & 1  \\ \hline
+			Black & 2 \\ \hline
+			White & 3 \\ \hline
+		\end{tabular}
+	\end{subtable}
+\end{table}
+
+For a lower power application the control of each coil of the motor could be accomplished by a typical H-bridge. Because the Gibbot requires up to 10A at 24V the commutation circuitry requires higher power H-bridges using MOSFETs.  Figure~\ref{fig:hbridge} shows the schematic of an H-bridge connection for a single coil. 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.3\textwidth]{hbridge}
+	\caption{A single H-bridge for the BLDC motor}
+	\label{fig:hbridge}
+\end{figure}
+
+\subsection{HIP4086 Driver}
+The driver circuit uses Intersil's HIP4086 3-Phase MOSFET driver\footnote{Datasheet http://www.intersil.com/content/dam/Intersil/documents/hip4/hip4086-a.pdf}. This chip solves two issues with driving the MOSFETs from a dsPIC, (1) stepping up the control voltage for the low side MOSFET from the microcontroller's logic level 3.3V to the 15V required to fully turn on the MOSFET. (2) stepping up the gate voltage for the high side MOSFET to 15V plus the motor drive voltage. This voltage level is required because the high side MOSFET's source is connected to the motor coil so the gate-to-source voltage on the high side MOSFET is referenced to the motor voltage. The HIP4086 accomplishes this with Bootstrap capacitors (more info in Section \ref{sec:bootstrap}). The chip also has added functionality such as programmable deadtime and a bootstrap capacitor refresh pulse. 
+
+\subsection{MOSFET Selection}
+The bridge MOSFETs are the most critical components in the BLDC driver. 
+\begin{description}
+\item[Max Continuous Current]
+The required continuous current for the motor to achieve the desired torque is 10A. 
+\item[Max Drain to Source Voltage ($V_{DS}$)] The required drain-to-source voltage is the same as the Motor Supply Voltage, which was 48V, but is now 24V. To keep the design flexible to the higher voltage range $V_{DS}$ is set a value above 48V. 
+\item[Max Gate-to-Source Voltage ($V_{GS}$)] The required gate-to-source voltage is determined by the gate drive voltage of the HIP4086 driver. This gate drive voltage is the same as the supply voltage for the HIP4086. The recommended maximum operating supply voltage on the HIP4086 datasheet\footnote{\raggedright HIP4086 Datasheet pg 5 http://www.intersil.com/content/dam/Intersil/documents/hip4/hip4086-a.pdf} is 15V. To keep the design flexible to supply voltages for the HIP4086 the max gate-to-source voltage should be at least $\pm15V$. 
+\item[Gate Charge ($Q_G$)] Because the turn on speed of the MOSFET is partially determined by the gate charge, gate charge should be minimized. The gate charge listed on a datasheet is typically the gate charge at a $V_{GS}= 5V$ . If the HIP4086 has a supply voltage of 15V then $V_{GS}$ will be 15V . Figure \ref{fig:qg} shows a plot of $Q_G$ vs $V_{GS}$ for the MOSFET on the V4 board. From the plot $Q_G$ = 33nC at $V_{GS}$=15V
+\begin{figure}[h]
+	\begin{subfigure}{0.4\textwidth}
+		\includegraphics[width=\textwidth]{qg}
+		\caption{}
+	\end{subfigure}
+	\begin{subfigure}{0.4\textwidth}
+		\includegraphics[width=\textwidth]{qg2}
+		\caption{}
+	\end{subfigure}
+	\caption{Typical Gate Charge vs. Gate-to-Source Voltage (a) from the IRFR3806 datasheet \protect\footnotemark~(b) linearly extrapolated to $V_{GS}=15V$.}
+	\label{fig:qg} 
+\end{figure}
+\footnotetext{\raggedright IRFR3806PbF datasheet pg 3 http://www.irf.com/product-info/datasheets/data/irfr3806pbf.pdf}
+
+\item[On State Drain-to-Source Resistance ($R_{DS(ON)}$)] The on state resistance effects the efficiency of the drive circuitry and partially determines the temperature rise during operation. $R_{DS(ON)}$ should also be minimized.
+
+ \item[Maximum Power Dissipation ($P_D$)] This value is not considered in MOSFET selection. While the ability of the MOSFET to dissipate heat from conducting is important, the way in which $P_{D,MAX}$ is defined varies widely between manufacturers. Moreover, the ability of a MOSFET to dissipate heat should not vary significantly between different devices in the same physical package. Determining a specification for power dissipation would also be difficult because it involves a combination of the power dissipated during turn-on and turn-off periods when $R_{DS}$ is high and the power dissipated during the fully on state at the much lower $R_{DS(ON)}$.
+\end{description}
+
+\subsection{Clamping Circuit}
+The HIP4086 Datasheet and the HIP4086 Demo Board User Guide provide two different methods of clamping the HS pin to prevent negative transients. The two methods are shown in Figure \ref{fig:clamping}. The purpose of the clamping circuit is to limit the negative transient voltage that is induced when the high side MOSFET is turned off to the -6V voltage limit specified for the HIP4086. The two methods accomplish this while limiting the current that is able to flow through the path during the deadtime when both MOSFETs are off. The method used in the HIP4086 Datasheet (Figure \ref{fig:clamping}a) uses two diodes in series.  The method used in the HIP4086 Demo Board User Guide (Figure \ref{fig:clamping}b) uses a single diode with a resistor in series. Because values are not established for the resistor in the Demo Board User Guide method we used the simpler method from the Datasheet (Figure \ref{fig:clamping}a).
+\begin{figure}[h]
+	\caption{Alternate clamping circuitry from the HIP4086 documentation\protect\footnotemark.}
+	\label{fig:clamping}
+	\centering
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=\textwidth]{clamp1}
+		\caption{HIP4086 Datasheet}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}{0.35\textwidth}
+		\includegraphics[width=\textwidth]{clamp2}
+		\caption{HIP4086 Demo Board User guide}
+	\end{subfigure}	
+\end{figure}
+
+\footnotetext{HIP4086 datasheet pg 12 http://www.intersil.com/content/dam/Intersil/documents/hip4/hip4086-a.pdf and HIP4086 Demo Board User Guide, Application Note 1829 pg 7 http://www.intersil.com/content/dam/Intersil/documents/an18/an1829.pdf}
+
+\subsection{Bootstrap Capacitor, Diode and Resistor Selection}
+\label{sec:bootstrap}
+The boot capacitor value is chosen so that the capacitor can provide the gate charge of the driven FET without causing the capacitor voltage to sag excessively. 
+
+The formula for calculating bootstrap capacitance from the HIP4086 datasheet is:
+
+\[Q_C = Q_{GATE} + Period \cdot \left ( I_{HB} + \frac{V_{HO}}{R_{GS}} + I_{GATELEAK} \right )\]
+
+Because there is no gate-to-source resistor for the high side MOSFETs, the $\frac{V_{HO}}{R_{GS}}$ term can be eliminated. The other values are calculated as follows:\\
+
+$Q_{GATE}$ = 32nC, gate Charge of the MOSFET at $V_{GS}=15V$ and $V_{DS} \approx 30V$ from Figure \ref{fig:qg}.
+
+$Period$ = 50$\mu$s, maximum on time of the high side MOSFET at 100\% Duty Cycle.
+
+$I_{HB}$ = 100$\mu$A, worst case high side current through the xHB pin of the HIP4086.
+
+$I_{GateLeak}$ = 100nA, leakage current of the MOSFET gate.
+
+\[Q_C = 32nC + \frac{1}{20,000Hz}*(100uA + 100 nA) = 37nC\]
+
+\[C_{BOOT} = \frac{Q_C}{Ripple \cdot V_{DD}} \]
+\[C_{BOOT} = \frac{37nC}{5\% \cdot 15V} = 49nF \approx 0.047uF\]
+
+
+\subsection{Set Dead Time on the HIP4086}
+Because the gate capacitance of the MOSFET keeps the MOSFET on for a period of time after the control signal has gone low, there must be a delay between the turn-off event of one PWM
+output in a complementary pair and the turn-on event of the other. Otherwise shoot through might occur when both MOSFETs are conducting causing the power to short to ground. The time between transitions of the control PWM signal is called dead time. In the current configurations of the Gibbot dead time is redudantly programmed into both the dsPIC PWM control as well as the HIP4086. 
+
+Dead time on the HIP4086 is set using a resistor between ground and the pin $R_{DEL}$ on the HIP4086. Figure \ref{fig:deadtime} from the HIP4086 datasheet can be used to set $R_{DEL}$ approximately.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{deadtime}
+	\caption{ $R_{DEL}$ vs. Dead Time\protect\footnotemark}
+	\label{fig:deadtime}
+\end{figure}
+\footnotetext{\raggedright From HIP4086 3-Phase Bridge Driver Configurations
+and Applications pg 4 \href{http://www.intersil.com/content/dam/Intersil/documents/an96/an9642.pdf}{http://www.intersil.com/content/dam/Intersil/documents/an96/an9642.pdf}}
+
+\section{XBee}
+Besides connections to the dsPIC for RX, TX, CTS and RTS, multiple LEDs are connected to outputs from the XBee to provide a visual indicator of its status. The schematic for these connections are shown in Figure \ref{xbee}.
+\begin{figure}
+	\caption{XBee Connections}
+	\centering
+	\label{xbee}
+	\includegraphics{XbeeDatasheet}
+\end{figure}
+\begin{description}
+\item[RSSI] Recieved Signal Strength Indicator - A high speed PWM output ranging from 24\% to 100\% duty cycle depending on the strength in decibels above the sensitivity threshold of the last recieved RF packet.
+\item[Associated] Blinks when the XBee is associated with a coordinator.
+\end{description}
+
+\section{Magnet Control}
+Logic level MOSFETs control the electromagnets. To maintain isolation between the noisy 24V line and the 5V digital line the magnet MOSFET control signal is transmitted through a digital isolator.
+
+\section{IR LEDs}
+The Gibbot is mounted with six \href{http://www.naturalpoint.com/optitrack/static/documents/850\%20nm\%20IR\%20LED\%20Data\%20Sheet.pdf}{Optitrack IR LEDs}.
+The LEDs are mounted on the face plate in three clusters (2 above the top magnet, 1 above the motor, 3 above the bottom magnet) so that the Optitrack cameras can detect the position of each magnet and the motor joint. 
+\subsection{IR LED Resistor Values}
+In this iteration all of the LEDs are powered on 5V lines. The minimum resistor values were calculated as follows:
+\begin{description}
+\item{1 LED}
+\[\frac{5V-(1*V_{F,MAX})}{I_{F,MAX}}=\frac{5V-1.6V}{100mA} = 34\Omega\]
+\item{2 LED}
+\[\frac{5V-(2*V_{F,MAX})}{I_{F,MAX}}=\frac{5V-3.2V}{100mA} = 18\Omega\]
+\item{3 LED}
+\[\frac{5V-(3*V_{F,MAX})}{I_{F,MAX}}=\frac{5V-4.8V}{100mA} = 2\Omega\]
+\end{description}
+Where:
+
+$V_{F,MAX} =1.6V$
+
+$I_{F,MAX} =100mA$\\
+To avoid the risk of running maximum current through the resistors these value should be increased by about 50\%.
+
+\section{Current Sensor}
+The current sensor used on the board is the
+ \href{file:///Users/ajgriesemer/Downloads/ACS716-Datasheet%20(1).pdf}{ACS716KLATR-12CB-T}
+which has an optimized accuracy range of +/- 12.5A and a linear sensing range of +/- 37.5A. The sensor outputs an analog voltage proportional to the current through its sensing path, centered at 1.65V for zero current with a slope of 37mV/A.
+\subsection{dsPIC ADC Inductor}
+The dsPIC33EP512MC806 datasheet\footnote{\raggedright dsPIC33EPXXX(GP/MC/MU)806/810/814 datasheet pg 32 http://ww1.microchip.com/downloads/en/DeviceDoc/70616g.pdf} 
+recommends an inductor between the $V_{DD}$ and $A_{VDD}$ to improve ADC noise rejection. The inductance of this inductor is calculated as follows: 
+\[ L = \left(\frac{1}{2\cdot\pi\cdot\frac{F_{CNV}}{2}\cdot\sqrt{C}} \right)^2 \]
+Where: 
+
+$F_{CNV}$ = ADC Conversion Rate
+
+When the ADC is configured to read a single input using manual read triggering and automatic sampling triggering with $T_{AD} = 250ns$ the maximum $F_{CONV}$ = 115kHz.
+\[L= \left(\frac{1}{2\cdot\pi\cdot\frac{115kHz}{2}\cdot\sqrt{.1uF}} \right)^2 = 76 \mu H\]
+
+The datasheet also specifies that the inductor should have a maximum impedance of 1$\Omega$ and a current rating of at least 10mA. The \href{http://www.digikey.com/product-detail/en/LBC3225T470KR/587-2430-1-ND/2230296}{largest inductance value available on Digikey} that was still in a relatively small package was 47$\mu$H. From this value, the maximum $F_{CNV}$ should be:
+
+\[F_{CNV,MAX} =\frac{1}{\pi \cdot \sqrt{L\cdot C}} = \frac{1}{\pi * \sqrt{47\mu H \cdot0.1 \mu F}}= 147kHz\]
+
+\subsection{ACS716 Filter Capacitor}
+The ACS716 allows for a filter capacitor to limit noise in the sensor. The capacitance is determined from the plot below. Since the motor is driven with a PWM frequency at 20kHz an appropriate bandwidth is between 10 and 20kHz. The corresponding capacitance from Figure \ref{fig:filter} is between 5 and 9nF.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{acs716filter}
+	\caption{ACS716 Bandwidth versus External Capacitor Value, $C_F$\protect\footnotemark}
+	\label{fig:filter}
+\end{figure}
+\footnotetext{From ACS716 Datasheet pg 10 http://www.allegromicro.com/\textasciitilde/media/Files/Datasheets/ACS716-Datasheet.ashx} 
+\subsection{Overcurrent Threshold}
+The overcurrent threshold voltage allows us to detect if the current level is above a user-set limit, likely because of a short. The overcurrent limit is set using a voltage divider composed of $R_H$ and $R_L$ to set a reference voltage on pin $V_{OC}$. When the current through the current path is detected to be higher than 
+\[C_{OC} = I_{OC}*37mV/A\] 
+the ACS716 drives the output of the FAULT pin high. We chose to set the current threshold at 30A. 
+\[C_{OC} = 30A*37mV/A=1.1V\] 
+Resistors values of $R_H=2k$ and $R_L=1k$ set $V_{OC}$ at 
+\[V_{OC} = 3.3V*\frac{1k}{1k+2k}=1.1V\]
+To prevent the fault detection from triggering because of noise a capacitor is connected between fault and ground. The maximum recomended value of 22nF is used.
+In previous iterations this features was configured, but the FAULT pin was not connected to the PIC. The pin is now connected to pin B0 on the PIC.
+
+\section{Wire Gages}
+\subsection{Wire Sources}
+The standard wire gages on purchased connectors are:
+\begin{description}
+\item[Orbex Slip Ring 2A:]
+AWG26 or AWG28
+\item[Sparkfun JST PH Jumper Wire:]
+24 AWG
+\item[Sparkfun JST SH Jumper Wire:]
+28 AWG
+\item[Mechatronics Lab Red \& Black]
+22 AWG
+\item[Nick's stores Red, Blue \& Green]
+30 AWG
+\item[NxR]
+30 AWG Black\\
+22 AWG Green\\
+16-19 AWG Lime Green\\
+22 AWG Black, Blue, Red White, Green, Orange in Grey case\\
+16 AWG Blue, Brown Green\\
+Unknown AWG Red, Black, White shielded clear\\
+22 AWG Striped
+\end{description}
+\subsection{Wire Requirements}
+\textbf{24V Power}\\
+\textbf{Current Sensor}\\
+\textbf{Main Board 5V Power} 22 AWG Red \& Black\\
+\textbf{Secondary Board 5V Power} 22 AWG Red \& Black\\
+\textbf{1 LED Power} 30 AWG Red \& Black\\
+\textbf{2 LED Power} 30 AWG Red \& Black\\
+\textbf{3 LED Power} 30 AWG Red \& Black\\
+\textbf{Top Magnet Control} 30 AWG Red, Green, Blue \& Red\\
+\textbf{Bottom Magnet Power} 22 AWG Red \& Black\\
+\textbf{Top Magnet (Slip Ring)} 28 AWG Red, Yellow \& Black\\
+\textbf{Bottom Magnet (Slip Ring)} 28 AWG Red, Yellow \& Black\\
+\textbf{Top Magnet Encoder} 30 AWG Black, Red, Green \& Blue\\
+\textbf{Bottom Magnet Encoder} 30 AWG Black, Red, Green \& Blue\\
+\textbf{Motor Encoder} 30 AWG Black, Red, Green \& Blue\\
+\textbf{I2C} 30 AWG Green \& Blue\\
+
+\input{billofmaterials}
+\section{Board Issues}
+Triangles on programming pins
+DC-DC Converter
+	RC Pin shorted to 24V, should be shorted to GND.
+	Pads for standoffs misaligned.
+Motor Board Current Sense and Input Voltage mislabeled
+On 8 pin connector between PIC board and motor board 3.3V and GND are reversed in order
+Motor hall effect sensors connection pins are labeled in reverse order
+RDEL is not connected to 15V. 
+Encoder inputs are in different order on different boards
+Magnet MOSFET - "SOT23F" label is the footprint, part number is actually SSM3K329R
+SCL and SDA on secondary board labeled incorrectly
+\end{document}
