@@ -11,7 +11,9 @@ public class CurrentSwipeTab extends SampleSwipeTab implements ContentSwipeTab {
 		super(widthOfContainer, heightOfContainer);		
 	}
 	
-	public void updateForDrawing(){}
+	public void updateForDrawing(){
+		
+		}
 	
 	public void draw(Graphics g){}
 	

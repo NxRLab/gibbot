@@ -2,7 +2,7 @@
  * @(#)SampleSwipeTab.java
  *
  *
- * @author 
+ * @author Katie
  * @version 1.00 2014/7/1
  */
 

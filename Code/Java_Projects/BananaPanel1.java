@@ -28,8 +28,8 @@ public class BananaPanel1 extends JPanel implements MouseListener, ActionListene
 	private double timerCount=0;
 	
     public BananaPanel1(int widthOfContainer, int heightOfContainer) {
-    	width=widthOfContainer-60;
-    	height=(int)(heightOfContainer*2/3)-30;
+    	width=widthOfContainer-30;
+    	height=(int)(heightOfContainer*2/3)-70;
     	setPreferredSize(new Dimension(width, height));
     	this.setBackground(Color.WHITE);
     	this.addMouseListener(this);

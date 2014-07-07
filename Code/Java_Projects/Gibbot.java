@@ -150,7 +150,6 @@ public class Gibbot {
     	legY = pivotY;
     	armX = pivotX-LEGW;
     	armY = pivotY;
-    	System.out.println("reset");
 	}   
     
 }
