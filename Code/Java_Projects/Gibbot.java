@@ -2,7 +2,7 @@
  * @(#)Gibbot.java
  *
  *
- * @author 
+ * @author Katie
  * @version 1.00 2014/6/30
  */
 import java.lang.Math;
@@ -64,14 +64,6 @@ public class Gibbot {
     public double getTheta(){
     	return Math.atan(Math.abs(armX-pivotX)/Math.abs(armY-pivotY))+Math.atan(Math.abs(legX-pivotX)/Math.abs(legY-pivotY));
     }
-    
-    public void simpleMotionUpdate(int dx, double slope){ //Just for demonstration
-    	pivotX += dx;
-    	/*pivotY += dx*slope;
-    	armX += dx;
-    	armY += dx*slope;
-    	legX += dx;
-    	legY += dx*slope;*/
     	
     }
     /***This will update the animation based on real input from the robot***

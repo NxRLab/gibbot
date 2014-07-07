@@ -52,10 +52,12 @@ public class BananaPanel1 extends JPanel implements MouseListener, ActionListene
     		g2d.setFont(f);
     		g2d.drawString("Click to place the bait!", 0, 25);
     		bob.draw(g);
+    		//swipe tab draw methods
     	}
     	else{															//If the user has clicked, this is where we draw call for animation images
         g2d.drawImage(banana.getImage(), banana.getX(), banana.getY(), 60, 60, this);
-        bob.draw(g);        
+        bob.draw(g);
+        //swipe tab draw methods        
     	}        
     	
     }
@@ -70,6 +72,8 @@ public class BananaPanel1 extends JPanel implements MouseListener, ActionListene
     		
     		banana.setX(evt.getX());
     		banana.setY(evt.getY());
+    		
+    		//SERIAL: send goal coordinates to robot
     	
     		repaint();
     		timer.start();
@@ -82,6 +86,9 @@ public class BananaPanel1 extends JPanel implements MouseListener, ActionListene
 											
    		if((int)bob.getPivotX()<= banana.getX()){        //If the robot is not to the bananas yet	
    			bob.arcMotionUpdate(timerCount);
+   			//SERIAL: above method will be replaced by getting coordinates of the three "clusters" from python code, sending it to updateRealCoors method
+   			
+   			//SERIAL: above method will be replaced getting info on each swipe tab, sending it to updateForDrawing method
    			repaint();
    			timerCount++;
    		}
@@ -101,7 +108,5 @@ public class BananaPanel1 extends JPanel implements MouseListener, ActionListene
    public void mouseReleased(MouseEvent evt){}
    public void mouseEntered(MouseEvent evt){}
    public void mouseExited(MouseEvent evt){}
-   
-    
     
 }

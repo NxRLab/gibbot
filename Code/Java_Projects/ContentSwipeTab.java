@@ -9,7 +9,7 @@ import java.awt.*;
 
 public interface ContentSwipeTab {
 	
-	public void updateForDrawing();
+	public void updateForDrawing(double t);
 		/*update data from i/o with robot to apply to relevent presentation form*/
 	
 	public void draw(Graphics g);

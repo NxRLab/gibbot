@@ -62,7 +62,8 @@ public class LayoutContainerPanel extends JPanel {
     	c2.anchor=GridBagConstraints.PAGE_START;
     	add(swipe, c2);
     	
-    	swipe = new SampleSwipeTab(width, height, "Calculations");
+    	//swipe = new SampleSwipeTab(width, height, "Calculations");
+    	CurrentSwipeTab current = new CurrentSwipeTab(width, height, "Current");
     	c2.gridx=3;
     	c2.gridy=0;
     	c2.weightx=.25;

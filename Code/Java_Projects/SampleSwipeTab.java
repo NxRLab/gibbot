@@ -135,6 +135,17 @@ public class SampleSwipeTab extends JPanel implements MouseListener, MouseMotion
     public void mouseExited(MouseEvent evt) {}
     public void mouseMoved(MouseEvent evt) {}
     
+    public int getWidth(){
+    	return width;
+    }
+    
+    public int getHeight(){
+    	return height;
+    }
+    
+    public boolean getPulled(){
+    	return pulled;
+    }
 }
     
     
