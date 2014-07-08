@@ -69,7 +69,7 @@ public class LayoutContainerPanel extends JPanel {
     	c2.weightx=.25;
     	c2.weighty=.33;
     	c2.anchor=GridBagConstraints.PAGE_START;
-    	add(swipe, c2);
+    	add(current, c2);
     }
     
     

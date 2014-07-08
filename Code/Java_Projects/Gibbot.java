@@ -65,7 +65,7 @@ public class Gibbot {
     	return Math.atan(Math.abs(armX-pivotX)/Math.abs(armY-pivotY))+Math.atan(Math.abs(legX-pivotX)/Math.abs(legY-pivotY));
     }
     	
-    }
+    
     /***This will update the animation based on real input from the robot***
      *	public void updateRealCoors(double x1, double y1, double x2, double y2, double x3, double y3){
     /*	
@@ -89,9 +89,10 @@ public class Gibbot {
      			legY=Math.sqrt(4*Math.pow(ARMW,2)-Math.pow((legX-armX),2))+armY;
      			pivotX+=4;
      			pivotY=Math.sqrt(Math.pow(ARMW,2)-Math.pow((pivotX-armX),2))+armY;
-     		}	
+     		}
+     }	
      			
-     }
+     
 	
 	public void draw(Graphics g){ //Handles its own redrawing so the panel class doesn't have to deal with all the variables
 	
@@ -142,6 +143,6 @@ public class Gibbot {
     	legY = pivotY;
     	armX = pivotX-LEGW;
     	armY = pivotY;
+	}
 	}   
     
-}

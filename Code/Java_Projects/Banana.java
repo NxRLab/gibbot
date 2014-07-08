@@ -1,43 +1,53 @@
 /**
- * @(#)NxRBananaPanel1.java
+ * @(#)Banana.java
  *
- * NxRBananaPanel1 application
+ * Banana application
  *
  * @author 
  * @version 1.00 2014/6/30
  */
  
-import javax.swing.*;
 import java.awt.*;
-
-/*Sets up external window to display content*/
-
 import java.awt.event.*;
- 
-public class NxRBananaPanel1 extends JFrame {
-    
-    public static void main(String[] args) {
-    	
-    	final JFrame window = new JFrame();
-    	LayoutContainerPanel content = new LayoutContainerPanel(1300, 800);
-    	window.setLayout(null);
-    	window.setBackground(Color.WHITE);
-    	/*window.addKeyListener(new KeyAdapter(){
-    		public void keyTyped(KeyEvent evt) {	
-    			if(evt.getKeyCode()==KeyEvent.VK_ESCAPE)
-    				window.dispose();}
-    	});*/
-    	//BananaPanel1 content = new BananaPanel1();
-    	window.setContentPane(content);
-    	window.setExtendedState(Frame.MAXIMIZED_BOTH);
-    	window.setSize(1300,800);
-    	window.setUndecorated(false);
-      	window.setLocation(50,50);
-      	window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      	//window.setResizable(false);
-      	window.setVisible(true);
-      	
-    	
-    }
-}
+import java.awt.image.*;
+import java.io.*;
+import javax.imageio.*;
+import javax.swing.*;
 
+/*Contains the data on where the robot is assigned to move and image data for the user interface*/
+public class Banana {
+
+	private int x;
+	private int y;
+	BufferedImage img;
+
+	public Banana() {
+		
+		try {
+			img = ImageIO.read(new File("C:\\Users\\K\\Downloads\\bananas_clip_art_edit.png"));
+		}
+		catch(IOException e){System.out.println("not found");}
+        x = 0;
+        y = 0;
+	}
+	
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
+	}
+	
+	public void setX(int cor){
+		x=cor;
+	}
+	
+	public void setY(int cor){
+		y=cor;
+	}
+	
+	public Image getImage() {
+		return img;
+	}
+}

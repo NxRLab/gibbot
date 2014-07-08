@@ -1,20 +1,18 @@
 /**
- * @(#)NxRBananaPanel1.java
+ * @(#)GibbotGUI.java
  *
- * NxRBananaPanel1 application
  *
  * @author 
- * @version 1.00 2014/6/30
+ * @version 1.00 2014/7/8
  */
- 
-import javax.swing.*;
+
 import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 /*Sets up external window to display content*/
-
-import java.awt.event.*;
  
-public class NxRBananaPanel1 extends JFrame {
+public class GibbotGUI extends JFrame {
     
     public static void main(String[] args) {
     	
@@ -40,4 +38,3 @@ public class NxRBananaPanel1 extends JFrame {
     	
     }
 }
-

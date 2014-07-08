@@ -25,6 +25,7 @@ public class SampleSwipeTab extends JPanel implements MouseListener, MouseMotion
 	private int totalNumberOfTabs=4;
 	private int latchPoint;
 	private int mouseAt;
+	private Font font = new Font("Serif", Font.BOLD, initialHeight);
 
     public SampleSwipeTab(int widthOfContainer, int heightOfContainer, String s) {
     	waitingForPull=true;
@@ -145,6 +146,10 @@ public class SampleSwipeTab extends JPanel implements MouseListener, MouseMotion
     
     public boolean getPulled(){
     	return pulled;
+    }
+    
+    public Font getFont(){
+    	return font;
     }
 }
     

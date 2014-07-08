@@ -10,7 +10,7 @@ public class CurrentSwipeTab extends SampleSwipeTab implements ContentSwipeTab, 
 	private double w;
 	private double h;
 	private Timer timer = new Timer(40, this);
-	private double timerCount = 0;
+	private double timerCount;
 	private boolean timing = false;
 
 	
@@ -18,7 +18,7 @@ public class CurrentSwipeTab extends SampleSwipeTab implements ContentSwipeTab, 
 		super(widthOfContainer, heightOfContainer, s);
 		w = (double)getWidth();
 		h = (double)getHeight();
-		setFont(new Font("Serif", Font.PLAIN, 15));
+		setFont(getFont());
 	}
 	
 	public CurrentSwipeTab(int widthOfContainer, int heightOfContainer){
@@ -32,6 +32,7 @@ public class CurrentSwipeTab extends SampleSwipeTab implements ContentSwipeTab, 
 		super.paintComponent(g);
 		if(getPulled()){
 			if(!timing){
+				timerCount = 0;
 				timing = true;
 				timer.start();
 			}
@@ -54,7 +55,7 @@ public class CurrentSwipeTab extends SampleSwipeTab implements ContentSwipeTab, 
 		
 		time = timerCount/25;
 		
-		amps = (h/4)*Math.sin(8*Math.PI/(w-40)*time-(w-40)/16)+h/2;
+		amps = (h/4)*Math.sin(70*Math.PI/(w-40)*time-(w-40)/16)+h/2;
 		
 		}
 	
@@ -70,12 +71,14 @@ public class CurrentSwipeTab extends SampleSwipeTab implements ContentSwipeTab, 
 		g2.drawLine(20, (int)h-20, (int)w-20, (int)h-20);
 		
 		g2.setColor(Color.MAGENTA);
-		g2.fillRect((int)w/2, (int)amps-20, (int)(w-40)/2, (int)amps);
+		g2.fillRect((int)w/4, (int)(h-amps-20), (int)(w-40)/2, (int)amps);
 		
 		}
 		
 	public void actionPerformed(ActionEvent evt){
+		updateForDrawing(timerCount);
 		timerCount++;
+		repaint();
 	}
 	
 }
