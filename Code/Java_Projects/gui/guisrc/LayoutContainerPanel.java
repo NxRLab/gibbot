@@ -16,10 +16,10 @@ public class LayoutContainerPanel extends JPanel {
 
     public LayoutContainerPanel(int widthOfContainer, int heightOfContainer) {
     	setBackground(Color.WHITE);
-    	setOpaque(false);
+    	setOpaque(true);
     	setLayout(new GridBagLayout());
-    	height=heightOfContainer-70;
-    	width=widthOfContainer-35;
+    	height=heightOfContainer-80;
+    	width=widthOfContainer-45;
     	setPreferredSize(new Dimension(width, height));
     }
     

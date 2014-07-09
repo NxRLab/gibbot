@@ -42,12 +42,14 @@ public class PortPane extends JPanel {
     	public void actionPerformed(ActionEvent evt){
     		
     		buttonClicked = true;
+    		System.out.println("clicked");
     	}
     
     }
     
     public String getDesiredMessage(){
     	
+    	System.out.println("message passed");
     	return (String)combo.getSelectedItem();
     }
     

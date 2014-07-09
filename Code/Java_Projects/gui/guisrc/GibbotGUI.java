@@ -19,15 +19,9 @@ public class GibbotGUI extends JFrame {
     	final JFrame window = new JFrame();
     	LayoutContainerPanel content = new LayoutContainerPanel(1300, 800);
     	window.setLayout(null);
-    	window.setBackground(Color.WHITE);
-    	/*window.addKeyListener(new KeyAdapter(){
-    		public void keyTyped(KeyEvent evt) {	
-    			if(evt.getKeyCode()==KeyEvent.VK_ESCAPE)
-    				window.dispose();}
-    	});*/
-    	//BananaPanel1 content = new BananaPanel1();
+    	//window.setBackground(Color.BLACK);
     	window.setContentPane(content);
-    	window.setExtendedState(Frame.MAXIMIZED_BOTH);
+    	//window.setExtendedState(Frame.MAXIMIZED_BOTH);
     	window.setSize(1300,800);
     	window.setUndecorated(false);
       	window.setLocation(50,50);
