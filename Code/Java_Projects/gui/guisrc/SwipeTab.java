@@ -21,7 +21,7 @@ public class SwipeTab extends JPanel implements ActionListener, MouseListener, M
 	private String message;
 	private int width;
 	private int height;
-	private final int initialHeight = 20;
+	private final int initialHeight = 40;
 	private int totalNumberOfTabs = 1;
 	private Color bg = Color.WHITE;
 	private Font font = new Font("Serif", Font.BOLD, initialHeight);
@@ -47,7 +47,8 @@ public class SwipeTab extends JPanel implements ActionListener, MouseListener, M
     	pulling = false;
     	pulled = false;
     	width = (int)(widthOfContainer/totalNumberOfTabs)-20;
-    	height = (int)(heightOfContainer/3)-20;
+    	height = 700;
+    	//height = (int)(heightOfContainer)-20;
     	message = "Pull down";
     	setPreferredSize(new Dimension(width, height));
     	setBackground(bg);
@@ -175,7 +176,7 @@ public class SwipeTab extends JPanel implements ActionListener, MouseListener, M
     		}
     		
     	oldY = newY;
-    	acceleration = -15*oldY;  		
+    	acceleration = -50*oldY;  		
     	newY = (int)(.5*acceleration*Math.pow(.025,2)+velocity*.025+oldY);
     	velocity = velocity + acceleration*.025;
     	
