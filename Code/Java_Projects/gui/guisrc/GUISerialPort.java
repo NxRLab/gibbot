@@ -5,69 +5,69 @@
  * @author 
  * @version 1.00 2014/7/11
  */
-import java.util.concurrent.TimeUnit;
-import java.util.Random;
+import java.nio.*;
 import jssc.*;
 
-public class GUISerialPort extends SerialPort {
+public class GUISerialPort {
 	
-	Random generator = new Random();
-
-    public GUISerialPort(String portName) {
-    	
-    	super(portName);
-    }
-    
-    public boolean openPort(){
-    	
-    	boolean retVal = false;
-    	
-		try {
-			retVal = super.openPort();
-    		setParams(230400, 8, 1, 0);
-        	setFlowControlMode(SerialPort.MASK_CTS);
+	private static SerialPort port = new SerialPort("COM5");
+	private static ByteBuffer bb;
+	
+	private static int[] codes = new int[3];
+	private static int[] angles = new int[3] ;
+	
+	private static final int CONVERT = 1; //will get real value later		
+	private static int[] KEYS = {1600, 1700, 1800};
+	
+	public static void open(){
+		try{
+    		port.openPort();
+    		port.setParams(115200, 8, 1, 0);
+            port.setFlowControlMode(SerialPort.MASK_CTS);
+    		System.out.println("1 written: " + port.writeString("1")); //initializes for angles; may need to alter
 		}
-        
-        catch(SerialPortException e){
-        	System.out.println(e);
-        }
-
-        	return retVal;   	
-
     	
-    }
+    	catch(SerialPortException e){
+    		System.out.println("Failed to open " + port.getPortName() + " due to: "); 
+    		System.out.println(e.getExceptionType());
+    	}
+	}
+	
+	public static double getCoors(){return 7;} //probably will use multiple methods here (for x and y of all three pivots)
+	
+	public static double getCurrent(){return 7;}
+	
+	public static int getAngles(int node){ //returns degree value b/t -360 and 360
+		
+		if(!port.isOpened())
+			return 360;
+		
+		if(node<0 || node>2)
+			return 7;
+			
+		else{
+			
+			try {
+				port.writeString("2");
+     			
+     			for(int i = 0; i < 3; i++){
+     				bb = ByteBuffer.wrap(port.readBytes(4));
+     				bb.order(ByteOrder.LITTLE_ENDIAN);
+     				codes[i] = bb.getInt();
+     				if(codes[i]!= KEYS[i])
+     					System.out.println(codes[i]);
+     				angles[i] = (codes[i]*CONVERT-KEYS[i]) % 360;
+     				if((codes[i]*CONVERT-KEYS[i]) < 0 && angles[i] > 0)
+     					angles[i] -= 360;    				
+     			}
+     			return angles[node];
+     		}
     
-    public int getGraphVal() {
-    	
-    	int write = generator.nextInt(5)+1;
-    	String read = "-1";
-    	String retVal="";
-    	
-    	try {
-    		super.writeString(write+"\n");
-    		try{
-				TimeUnit.MILLISECONDS.sleep(20);
-    		}
-    		catch(InterruptedException e){
-    			System.out.println(e);
-    		}
-    		read = super.readString();
-    		for(int i = 0; i < read.length(); i++){          
-    			if(read.substring(i, i + 1).matches("[0-9]"))
-    				retVal += read.substring(i, i + 1);
-    		}
-    		return Integer.parseInt(retVal, 10);
-    	}
-    	catch(SerialPortException e) {
-    		System.out.println(e);
-    		return 0;
-    	}
-    	
-    	catch(NumberFormatException e){
-    		System.out.println(e);
-    		return 0;
-    	}
-    }
+     		catch(SerialPortException e){
+     			System.out.println(e);
+     			return 7;
+     		}
+			
+		}
+	}
 }
-    
-    

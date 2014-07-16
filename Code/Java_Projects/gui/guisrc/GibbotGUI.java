@@ -27,6 +27,7 @@ public class GibbotGUI extends JFrame {
       	window.setLocation(50,50);
       	window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       	//window.setResizable(false);
+      	GUISerialPort.open();
       	window.setVisible(true);
       	
     	

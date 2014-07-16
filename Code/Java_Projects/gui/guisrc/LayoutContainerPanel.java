@@ -37,14 +37,14 @@ public class LayoutContainerPanel extends JPanel {
     	
     	SampleSwipeTab swipe;
     	
-    	swipe = new SampleSwipeTab(width, height, "Angle");
+    	AngleSwipeTab angle = new AngleSwipeTab(width, height, "Angle");
     	GridBagConstraints c2 = new GridBagConstraints();
     	c2.gridx=0;
     	c2.gridy=0;
     	c2.weightx=.25;
     	c2.weighty=.33;
     	c2.anchor=GridBagConstraints.PAGE_START;
-    	add(swipe, c2);
+    	add(angle, c2);
     	
     	swipe = new SampleSwipeTab(width, height, "Torque");
     	c2.gridx=1;

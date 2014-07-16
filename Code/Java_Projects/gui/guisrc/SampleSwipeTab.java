@@ -36,7 +36,7 @@ public class SampleSwipeTab extends JPanel implements MouseListener, MouseMotion
     	message=s;
     	setPreferredSize(new Dimension(width, height));
     	setBackground(bg);
-    	setFont(new Font("Serif", Font.BOLD, initialHeight));
+    	setFont(font);
     	addMouseListener(this);
     	addMouseMotionListener(this);
     }
@@ -50,7 +50,7 @@ public class SampleSwipeTab extends JPanel implements MouseListener, MouseMotion
     	message="Pull down";
     	setPreferredSize(new Dimension(width, height));
     	setBackground(bg);
-    	setFont(new Font("Serif", Font.BOLD, initialHeight));
+    	setFont(font);
     	addMouseListener(this);
     	addMouseMotionListener(this);
     }
