@@ -37,13 +37,14 @@ public class GUISerialPort {
 	
 	public static double getCurrent(){return 7;}
 	
-	public static int getAngles(int node){ //returns degree value b/t -360 and 360
+	public static int[] getAngles(){ //returns degree value b/t -360 and 360
+	
+		int[] retArray = new int[3];
 		
-		if(!port.isOpened())
-			return 360;
-		
-		if(node<0 || node>2)
-			return 7;
+		if(!port.isOpened()){
+			for(int i = 0; i<3; i++)
+				retArray[i] = 360;
+		}
 			
 		else{
 			
@@ -51,23 +52,33 @@ public class GUISerialPort {
 				port.writeString("2");
      			
      			for(int i = 0; i < 3; i++){
-     				bb = ByteBuffer.wrap(port.readBytes(4));
-     				bb.order(ByteOrder.LITTLE_ENDIAN);
-     				codes[i] = bb.getInt();
+     				/*if(port.getInputBufferBytesCount() != 4*(3-i)){
+     					port.purgePort(SerialPort.PURGE_RXCLEAR);
+     					codes[i] = KEYS[i];
+     				}*/
+ 
+     					bb = ByteBuffer.wrap(port.readBytes(4));
+     					bb.order(ByteOrder.LITTLE_ENDIAN);
+     					codes[i] = bb.getInt();
+     				
      				if(codes[i]!= KEYS[i])
      					System.out.println(codes[i]);
+     					
      				angles[i] = (codes[i]*CONVERT-KEYS[i]) % 360;
      				if((codes[i]*CONVERT-KEYS[i]) < 0 && angles[i] > 0)
      					angles[i] -= 360;    				
      			}
-     			return angles[node];
+     			retArray = angles;
      		}
     
      		catch(SerialPortException e){
      			System.out.println(e);
-     			return 7;
+     			for(int i = 0; i<3; i++)
+					retArray[i] = 7;
      		}
 			
 		}
+		
+		return retArray;
 	}
 }

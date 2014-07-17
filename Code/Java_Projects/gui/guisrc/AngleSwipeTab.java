@@ -13,13 +13,10 @@ class AngleSwipeTab extends SampleSwipeTab implements ContentSwipeTab, ActionLis
 	private int ry;
 	private int rcircle;
 	
-	private int[] angles = new int[3];
-	
-	/*private int head;
+	private int head;
 	private int arm1;
-	private int arm2;*/
-	
-	private Timer timer = new Timer(200, this);
+	private int arm2;
+
 	private boolean timing;
 	
 	public AngleSwipeTab(int widthOfContainer, int heightOfContainer, String s){
@@ -56,7 +53,7 @@ class AngleSwipeTab extends SampleSwipeTab implements ContentSwipeTab, ActionLis
 		if(getPulled()){
 			if(!timing){
 				timing = true;
-				timer.start();
+				GUITimer.addActionListener(this);
 			}
 			draw(g);
 		}
@@ -64,21 +61,29 @@ class AngleSwipeTab extends SampleSwipeTab implements ContentSwipeTab, ActionLis
 		else {
 			if(timing){
 				timing = false;
-				timer.stop();
+				GUITimer.removeActionListener(this);
 			}
 		}
 			
 	}
 	
 	public void actionPerformed(ActionEvent evt){
+		/*if(!getPulled){
+			super.actionPerformed(evt);
+		}
+		else{
+			updateForDrawing();
+			repaint();
+		}*/
 		updateForDrawing();
 		repaint();
+		
 	}
 	
 	public void updateForDrawing(){
-		head = GUISerialPort.getAngle(0);
-		arm1 = GUISerialPort.getAngle(1);
-		arm2 = GUISerialPort.getAngle(2);
+		head = GUISerialPort.getAngles()[0];
+		arm1 = GUISerialPort.getAngles()[1];
+		arm2 = GUISerialPort.getAngles()[2];
 	}
 		
 	

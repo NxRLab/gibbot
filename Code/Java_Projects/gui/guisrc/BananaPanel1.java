@@ -20,21 +20,22 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
 	boolean interacting = false;
 	boolean dragging = false;
 	Font f = new Font("Serif", Font.BOLD, 30);
-	Timer timer = new Timer(40, this);
 	double slope;
 	int dx = 5;
 	MetalTexture board = new MetalTexture();
+	Image img;
 	private int height;
 	private int width;
 	private double timerCount=0;
 	
     public BananaPanel1(int widthOfContainer, int heightOfContainer) {
     	width=widthOfContainer-30;
-    	height=(int)(heightOfContainer*2/3)-70;
+    	height=(int)(heightOfContainer*2/3);
     	setPreferredSize(new Dimension(width, height));
     	this.setBackground(Color.WHITE);
     	this.addMouseListener(this);
     	this.addMouseMotionListener(this);
+    	img = board.getImage();
     }
     
     public void paintComponent(Graphics g) {
@@ -47,7 +48,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     	g.drawRect(50, 50, getWidth()-100, getHeight()-100);    	
     	Graphics2D g2d = (Graphics2D)g;
     	g2d.setFont(f);
-    	g2d.drawImage(board.getImage(), 60, 60, getWidth()-120, getHeight()-120, this);
+    	g2d.drawImage(img, 60, 60, getWidth()-120, getHeight()-120, this);
     	
     	g2d.setColor(Color.RED);
     	g2d.fillRect((int)(.91*getWidth())-105, (int)(.75*getHeight())-15, (int)(.09*getWidth()), (int)(.25*getHeight()));
@@ -126,7 +127,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
    	if(dragging){								//NOTE: also need some restriction on target coors to keep real robot from falling off board
    		dragging = false;
    		interacting = true;
-   		timer.start();
+   		GUITimer.addActionListener(this);
    	}
    		
    }
@@ -143,7 +144,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
    		}
    		
    		else{               						//When the robot reaches the bananas, the panel resets itself.            
-   			timer.stop();
+   			GUITimer.removeActionListenerthis();
    			interacting = false;
    			timerCount=0;
    			bob.reset();

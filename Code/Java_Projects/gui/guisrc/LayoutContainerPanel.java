@@ -18,58 +18,54 @@ public class LayoutContainerPanel extends JPanel {
     	setBackground(Color.WHITE);
     	setOpaque(true);
     	setLayout(new GridBagLayout());
-    	height=heightOfContainer-80;
-    	width=widthOfContainer-45;
+    	height=heightOfContainer-1;
+    	width=widthOfContainer-1;
     	setPreferredSize(new Dimension(width, height));
     }
     
     public void paintComponent(Graphics g) {
+    	
     	super.paintComponent(g);
+    	
     	BananaPanel1 bananapan = new BananaPanel1(width, height);
     	GridBagConstraints c = new GridBagConstraints();
     	c.gridx=0;
     	c.gridy=1;
     	c.gridwidth=4;
     	c.gridheight=1;
-    	c.weighty = .75;
+    	c.weighty = .66;
     	c.fill=GridBagConstraints.BOTH;
     	add(bananapan,c);
     	
-    	SampleSwipeTab swipe;
+    	//SampleSwipeTab swipe0 = new SampleSwipeTab(width, height, "Torque");
+    	
+    	SampleSwipeTab swipe1 = new SampleSwipeTab(width, height, "Torque");
+   		//GridBagConstraints c = new GridBagConstraints();
+    	c.gridx=0;
+    	c.gridy=0;
+    	c.gridwidth=1;
+    	c.gridheight=1;
+    	c.weightx=.25;
+    	c.weighty=.33;
+    	//c.anchor=GridBagConstraints.LINE_START;
+    	add(swipe1, c);
+    	
+    	SampleSwipeTab swipe2 = new SampleSwipeTab(width, height, "Battery");
+    	//GridBagConstraints c = new GridBagConstraints();
+    	c.gridx=1;
+    	c.gridy=0;
+    	add(swipe2, c);
     	
     	AngleSwipeTab angle = new AngleSwipeTab(width, height, "Angle");
-    	GridBagConstraints c2 = new GridBagConstraints();
-    	c2.gridx=0;
-    	c2.gridy=0;
-    	c2.weightx=.25;
-    	c2.weighty=.33;
-    	c2.anchor=GridBagConstraints.PAGE_START;
-    	add(angle, c2);
+    	c.gridx=2;
+    	c.gridy=0;
+    	add(angle, c);
     	
-    	swipe = new SampleSwipeTab(width, height, "Torque");
-    	c2.gridx=1;
-    	c2.gridy=0;
-    	c2.weightx=.25;
-    	c2.weighty=.33;
-    	c2.anchor=GridBagConstraints.PAGE_START;
-    	add(swipe, c2);
-    	
-    	swipe = new SampleSwipeTab(width, height, "Battery");
-    	c2.gridx=2;
-    	c2.gridy=0;
-    	c2.weightx=.25;
-    	c2.weighty=.33;
-    	c2.anchor=GridBagConstraints.PAGE_START;
-    	add(swipe, c2);
-    	
-    	//swipe = new SampleSwipeTab(width, height, "Calculations");
     	CurrentSwipeTab current = new CurrentSwipeTab(width, height, "Current");
-    	c2.gridx=3;
-    	c2.gridy=0;
-    	c2.weightx=.25;
-    	c2.weighty=.33;
-    	c2.anchor=GridBagConstraints.PAGE_START;
-    	add(current, c2);
+    	c.gridx=3;
+    	c.gridy=0;
+    	add(current, c);
+    	
     }
     
     

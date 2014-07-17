@@ -9,7 +9,6 @@ public class CurrentSwipeTab extends SampleSwipeTab implements ContentSwipeTab, 
 	
 	private double w;
 	private double h;
-	private Timer timer = new Timer(40, this);
 	private boolean timing;
 	
 	public CurrentSwipeTab(int widthOfContainer, int heightOfContainer, String s){
@@ -29,7 +28,7 @@ public class CurrentSwipeTab extends SampleSwipeTab implements ContentSwipeTab, 
 		if(getPulled()){
 			if(!timing){
 				timing = true;
-				timer.start();
+				GUITimer.addActionListener(this);
 			}
 			draw(g);
 		}
@@ -37,7 +36,7 @@ public class CurrentSwipeTab extends SampleSwipeTab implements ContentSwipeTab, 
 		else {
 			if(timing){
 				timing = false;
-				timer.stop();
+				GUITimer.removeActionListener(this);
 			}
 		}
 	}
@@ -70,8 +69,13 @@ public class CurrentSwipeTab extends SampleSwipeTab implements ContentSwipeTab, 
 		}
 		
 	public void actionPerformed(ActionEvent evt){
-		updateForDrawing();
-		repaint();
+		if(!getPulled){
+			super.actionPerformed(evt);
+		}
+		else{
+			updateForDrawing();
+			repaint();
+		}
 	}
 	
 }
