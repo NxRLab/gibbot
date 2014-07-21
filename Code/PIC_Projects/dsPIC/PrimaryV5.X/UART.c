@@ -18,19 +18,14 @@ unsigned char read_UART(void){
     return dequeue();
 }
 
-void read_string_UART(unsigned char *data, int n){
-    int i = 0,j = 0;
-    while(i < n && j != 1){
-       data[i] = read_UART();
-       if(data[i] == '\n'){
-           j = 1;
-       }
-       else{
-           j = 0;
-       }
+unsigned char * readstring_UART(int n){
+     unsigned char data[n]; // this isn't valid ansi C syntax
+    int i = 0;
+    while(i <= n){
+        data[i] = read_UART();
         i++;
     }
-    data[i] = '\n';
+    return *data;
 }
 
 void write_UART(unsigned char data){
