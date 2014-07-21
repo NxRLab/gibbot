@@ -8,14 +8,13 @@
  * This file also contains functions for reading the ACD using single reads,
  * which resulted in significant noise in early tests.
  */
-//#include <libpic30.h>
+#include <libpic30.h>
 #include <p33EP512MC806.h>
 #include "initializeV5.h"
 #include "ADC.h"
 #define ADC_BUFF_LEN 128 //Length of the DMA Buffer, should be a power of 2
 
-//int Avi = 0;
-//unsigned short avidata[1024];
+unsigned short Avi = 0;
 
 
 //Create DMA buffer for ADC, the macro is required because the buffer is
@@ -84,18 +83,6 @@ void initialize_ADC(void){
     DMA0CONbits.CHEN = 1; //Turn on the DMA Channel
     AD1CON1bits.SAMP = 0; //Ensure ADC sampling is turned off
     AD1CON1bits.ADON = 1; //Turn on the ADC module
-
-    /*int i,j,k;
-    for(i=0;i<1024;i++){
-        avidata[i] = read_ADC();
-        __delay32(39000);
-        Avi = Avi/10;
-    }
-    for(j=0;j<64;j++){
-        k = 16*j;
-        Avi += avidata[k];
-        Avi = Avi/64;
-    }*/
 }
 
 unsigned short read_ADC(void){
@@ -143,4 +130,26 @@ unsigned short ADC_Read_Single(void) { //manual sampling and conversion function
     AD1CON1bits.SAMP = 1; //Start sampling, sampling is stopped after 1us
     while (!AD1CON1bits.DONE); //wait for sampling and conversion to finish
     return (unsigned short) ADC1BUF0;
+}
+
+void initialize_ADC_Offset(void){
+    int i;
+    unsigned int a;
+    for(i=0;i<10;i++){
+        a += read_ADC();
+        __delay32(39000);
+    }
+     Avi = a/10;
+}
+
+int ADC_to_current(unsigned short data){
+    int current;
+    current = (int)(Avi - data)*33000/4096;
+    return current;
+}
+
+int ADC_to_torque(unsigned short data){
+    int torque;
+    torque = (int)(Avi - data)*3762/4096;
+    return torque;
 }

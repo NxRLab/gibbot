@@ -3,9 +3,10 @@
 #include "initializeV5.h"
 #include "motor.h"
 #include "UART.h"
-#include "I2CMaster.h"
 #include "encoder.h"
 #include "ADC.h"
+#include "I2CMaster.h"
+#include "MPU.h"
 
 
 /* Configuration Bit Settings */
@@ -70,11 +71,14 @@ void initialize(void){
     initialize_PWM();
     initialize_CN();
     initialize_ADC();
-    //initialize_I2C_Master();
     initialize_QEI();
     initialize_UART();
     initialize_UART2();
+    initialize_I2C_Master();
     lights();
+    __delay32(10000000);
+    initialize_MPU();
+    initialize_encoder_values(1600,1700,1800);
 }
 
 void lights(void){

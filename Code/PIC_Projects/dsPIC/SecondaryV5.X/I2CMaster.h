@@ -2,7 +2,7 @@
 #define	I2CMASTER_H
 
 #define SLAVEADDR 0b11011010
-#define MPUSLAVEADDR 0b11010010 // Address for MPU9150
+#define MPUSLAVEADDR 0b11010010
 #define R 1
 #define W 0
 #define MOTENC    0x09 //MOTREG is a long filling 0x09 - 0x0C
@@ -14,12 +14,12 @@
 #define SELF_TEST_Y 0x0E // R/W
 #define SELF_TEST_Z 0x0F // R/W
 #define SELF_TEST_A 0x10 // R/W
-#define SMPLRT_DIV 0x19 // R/W Sample Rate Divider
-#define CONFIG 0x1A // R/W Configuration
-#define GYRO_CONFIG 0x1B // R/W Gyroscope Configuration
-#define ACCEL_CONFIG 0x1C // R/W Accelerometer Configuration
-#define INT_PIN_CFG 0x37 // R/W INT Pin Configuration
-#define INT_ENABLE 0x38 // R/W Interrupt Enable
+#define SMPLRT_DIV 0x19 // R/W
+#define CONFIG 0x1A // R/W
+#define GYRO_CONFIG 0x1B // R/W
+#define ACCEL_CONFIG 0x1C // R/W
+#define INT_PIN_CFG 0x37 // R/W
+#define INT_ENABLE 0x38 // R/W
 #define ACCEL_XOUT_H 0x3B // R
 #define ACCEL_XOUT_L 0x3C // R
 #define ACCEL_YOUT_H 0x3D // R
@@ -32,8 +32,8 @@
 #define GYRO_YOUT_L 0x46 // R
 #define GYRO_ZOUT_H 0x47 // R
 #define GYRO_ZOUT_L 0x48 // R
-#define USER_CTRL 0x6A // R/W User Control
-#define PWR_MGMT_1 0x6B // R/W Power Managment 1
+#define USER_CTRL 0x6A // R/W
+#define PWR_MGMT_1 0x6B // R/W
 #define WHO_AM_I 0x75 // R
 
 #define I2C_TIMEOUT 100000 //number of while loop iterations before I2C times out

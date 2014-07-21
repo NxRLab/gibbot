@@ -5,6 +5,7 @@
 #include "debug.h"
 #include "linkedlist.h"
 #include "encoder.h"
+#include "MPU.h"
 
 #define LOWMAG_ON '1'
 #define LOWMAG_OFF '2'
@@ -13,6 +14,8 @@
 #define MOTENC_READ '5'
 #define LOWMAGENC_SET '6'
 #define MOTENC_SET '7'
+#define ACCEL_READ '9'
+#define GYRO_READ 'a'
 
 
 volatile struct buffer_t uart_buffer;
@@ -190,6 +193,16 @@ void UART2_task(void){
              val = *((long *)temp);
              write_MOTENC(val);
              LED4 = !LED4;
+         }
+         else if(task == 'ACCEL_READ'){
+             unsigned char data[6];
+             read_Accel(data);
+             write_string_UART2(data,6);
+         }
+         else if(task == 'GYRO_READ'){
+             unsigned char data[6];
+             read_Gyro(data);
+             write_string_UART2(data,6);
          }
          else if(task == '8'){
              unsigned char data[5] = {'a','b','c','d','e'};

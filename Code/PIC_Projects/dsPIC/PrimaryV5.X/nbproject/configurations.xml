@@ -10,9 +10,10 @@
       <itemPath>linkedlist.h</itemPath>
       <itemPath>debug.h</itemPath>
       <itemPath>test.h</itemPath>
-      <itemPath>I2CMaster.h</itemPath>
       <itemPath>encoder.h</itemPath>
       <itemPath>ADC.h</itemPath>
+      <itemPath>I2CMaster.h</itemPath>
+      <itemPath>MPU.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -26,10 +27,11 @@
       <itemPath>motor.c</itemPath>
       <itemPath>UART.c</itemPath>
       <itemPath>debug.c</itemPath>
-      <itemPath>I2CMaster.c</itemPath>
       <itemPath>test.c</itemPath>
       <itemPath>encoder.c</itemPath>
       <itemPath>ADC.c</itemPath>
+      <itemPath>I2CMaster.c</itemPath>
+      <itemPath>MPU.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

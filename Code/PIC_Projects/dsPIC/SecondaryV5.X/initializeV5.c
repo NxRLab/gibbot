@@ -3,9 +3,10 @@
 #include <libpic30.h>
 #include <p33EP512MC806.h>
 #include "initializeV5.h"
-#include "I2CSlave.h"
 #include "UART.h"
 #include "encoder.h"
+#include "I2CMaster.h"
+#include "MPU.h"
 
 /* Configuration Bit Settings */
 //To avoid setting the PLL bits while PLL is being used the oscillator is
@@ -62,9 +63,10 @@ void initialize(void){
     RCON = 0;
     
     /* Initialization Functions */
-    //initialize_I2C_Slave();
     initialize_UART2();
+    initialize_I2C_Master();
     initialize_QEI();
+    initialize_MPU();
     lights();
 }
 

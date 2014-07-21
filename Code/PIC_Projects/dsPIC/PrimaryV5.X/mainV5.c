@@ -10,6 +10,7 @@
 
 int main(void) {
     initialize();
+    initialize_ADC_Offset();
     while (1){
         if(USER){
             LED1 = !LED1;

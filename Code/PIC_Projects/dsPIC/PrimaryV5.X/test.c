@@ -1,14 +1,16 @@
 #include <libpic30.h>
 #include <stdio.h>
+#include <string.h>
 #include <p33EP512MC806.h>
 #include "UART.h"
 #include "test.h"
 #include "initializeV5.h"
-#include "I2CMaster.h"
 #include "motor.h"
 #include "ADC.h"
 #include "encoder.h"
 #include "debug.h"
+#include "MPU.h"
+#include "I2CMaster.h"
 
 unsigned char testBuff[256];
 short duty=300;
@@ -45,6 +47,9 @@ void test_MayDay(void){
             data = read_ADC();
             write_UART(data);
             write_UART(data>>8);
+            printf("%u\n",Avi);
+            printf("%i\n",(Avi - data));
+            printf("%i\n",ADC_to_current(data));
         } else if(command=='1'){ //Set Encoder Values
             write_LOWMAGENC(1600);
             write_MOTENC(1700);
@@ -91,7 +96,7 @@ void test_MayDay(void){
         } else if(command =='9'){ //Set to minimum duty cycle
             duty=150;
             LED3 = !LED3;
-        } else if(command=='a'){ //Pass through test, 256 single reads
+        /*} else if(command=='a'){ //Pass through test, 256 single reads
             LED4 = 0;
             while((i2<256) && (i3<1000000)){
                 if(uart_buffer.len > 0){
@@ -129,7 +134,7 @@ void test_MayDay(void){
                 }
                 i3++;
             }
-            LED4 = 1;
+            LED4 = 1;*/
         } else if(command=='c'){ //Toggle Top Magnet
             TOPMAG = !TOPMAG;
         } else if(command=='d'){ //Turn on Top Magnet
@@ -186,6 +191,103 @@ void test_MayDay(void){
           while(!(uart_buffer.len>4));
           read_string_UART(d1,5);
           printf("%s\n",d1);
+      } else if(command == 'q'){
+          unsigned char send[200],d1[10];
+          short temp3;
+          //int temp2;
+          int low_ang,mot_ang,top_ang,current,torque;
+          double mot_temp,batt_volt;
+          double accel_x,accel_y,accel_z,gyro_x,gyro_y,gyro_z,accel_xs,accel_ys,accel_zs,gyro_xs,gyro_ys,gyro_zs;
+          low_ang = encoder_to_angle(read_LOWMAGENC(),'l');
+          //send[0] = temp2;
+          //send[1] = temp2 >> 8;
+          mot_ang = encoder_to_angle(read_MOTENC(),'m');
+          //send[2] = temp2;
+          //send[3] = temp2 >> 8;
+          top_ang = encoder_to_angle(read_TOPMAGENC(),'t');
+          //send[4] = temp2;
+          //send[5] = temp2 >> 8;
+          temp3 = read_ADC();
+          current = ADC_to_current(temp3);
+          //send[6] = temp2;
+          //send[7] = temp2 >> 8;
+          torque = ADC_to_torque(temp3);
+          //send[8] = temp2;
+          //send[9] = temp2 >> 8;
+          mot_temp = 98.62;
+          batt_volt = 12.54;
+          /*send[10] = 0xFF;
+          send[11] = 0xFF;
+          send[12] = 0xFF;
+          send[13] = 0xFF;
+          send[14] = 0xFF;
+          send[15] = 0xFF;
+          send[16] = 0xFF;
+          send[17] = 0xFF;
+          send[18] = 0xFF;
+          send[19] = 0xFF;
+          send[20] = 0xFF;
+          send[21] = 0xFF;
+          send[22] = 0xFF;
+          send[23] = 0xFF;
+          send[24] = 0xFF;
+          send[25] = 0xFF;*/
+          read_Accel(d1);
+          accel_x = Accel_convert(d1,0,1);
+          accel_y = Accel_convert(d1,2,3);
+          accel_z = Accel_convert(d1,4,5);
+          read_Gyro(d1);
+          gyro_x = Gyro_convert(d1,0,1);
+          gyro_y = Gyro_convert(d1,2,3);
+          gyro_z = Gyro_convert(d1,4,5);
+          read_Accel_Secondary(d1);
+          accel_xs = Accel_convert(d1,0,1);
+          accel_ys = Accel_convert(d1,2,3);
+          accel_zs = Accel_convert(d1,4,5);
+          read_Gyro_Secondary(d1);
+          gyro_xs = Gyro_convert(d1,0,1);
+          gyro_ys = Gyro_convert(d1,2,3);
+          gyro_zs = Gyro_convert(d1,4,5);
+          //write_string_UART(send,26);
+          sprintf(send,"%i %i %i %i %i %5.2f %4.2f %5.4f %5.4f %5.4f %5.4f %5.4f %5.4f %5.4f %5.4f %5.4f %5.4f %5.4f %5.4f\n",low_ang,mot_ang,top_ang,current,torque,mot_temp,batt_volt,accel_x,accel_y,accel_z,gyro_x,gyro_y,gyro_z,accel_xs,accel_ys,accel_zs,gyro_xs,gyro_ys,gyro_zs);
+          printf("%s",send);
+      } else if(command == 'y'){
+          initialize_ADC_Offset();
+      } else if(command == 'z'){
+          unsigned char d1[5];
+          read_MPU_test(d1);
+      } else if(command == 'x'){
+          unsigned char d1[10],d2[3],d3[10],d4[3];
+          double s1,s2;
+          unsigned int s;
+          read_Gyro(d1);
+          read_Accel(d3);
+          d2[0] = d1[4];
+          d2[1] = d1[5];
+          s = d1[5] << 8 | d1[4];
+                  //Gyro_convert(d2);
+          d4[0] = d3[4];
+          d4[1] = d3[5];
+          //s2 = Accel_convert(d4);-----------------------
+          //printf("%u %f",s,s2);
+      } else if(command == 'r'){
+          unsigned char d1[10];
+          double s;
+          write_UART2('9');
+          while(!(uart_buffer.len>5));
+          read_string_UART(d1,6);
+          s = d1[1] << 8 | d1[0];
+          s = 4.8828125e-04 * s;
+          printf("%f",s);
+      } else if(command == 's'){
+          unsigned char d1[10];
+          double s;
+          write_UART2('a');
+          while(!(uart_buffer.len>5));
+          read_string_UART(d1,6);
+          s = d1[1] << 8 | d1[0];
+          s = .0609756098 * s;
+          printf("%f",s);
       }
     }
 }

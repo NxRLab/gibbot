@@ -1,6 +1,5 @@
 #include <p33EP512MC806.h>
 #include "encoder.h"
-#include "I2CSlave.h"
 
 void initialize_QEI(void){
     //Turn on QEI
@@ -18,7 +17,7 @@ void initialize_QEI(void){
     QEI2CONbits.QEIEN = 1; //Turn on QEI 2
 }
 
-void read_encoder(void){
+/*void read_encoder(void){
     unsigned short temp1L;
     unsigned short temp1H;
     unsigned short temp2L;
@@ -39,7 +38,7 @@ void read_encoder(void){
     RegBuffer[LOWMAGENC+2] = temp1H;
     RegBuffer[LOWMAGENC+1] = temp1L>>8;
     RegBuffer[LOWMAGENC] = temp1L;
-}
+}*/
 
 long read_LOWMAGENC(void){
     long temp1, temp2, test;

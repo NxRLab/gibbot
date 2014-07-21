@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <p33EP512MC806.h>
 #include "encoder.h"
-#include "I2CMaster.h"
 #include "UART.h"
 #include "initializeV5.h"
 #include "linkedlist.h"
@@ -80,4 +79,31 @@ long read_TOPMAGENC(void){
     temp2 = POS1HLD;
     test = temp2<<16 | temp1;
     return test;
+}
+
+int encoder_to_angle(long val, char num){
+    int angle, cpr;
+    long start;
+    switch (num){
+        case 'l':
+            start = 1600;
+            cpr = 2000;
+            break;
+        case 'm':
+            start = 1700;
+            cpr = 2000;
+            break;
+        case 't':
+            start = 1800;
+            cpr = 2000;
+            break;
+    }
+    angle = (val - start)*360/cpr;
+    return angle;
+}
+
+void initialize_encoder_values(long val1,long val2,long val3){
+     write_LOWMAGENC(val1);
+     write_MOTENC(val2);
+     write_TOPMAGENC(val3);
 }

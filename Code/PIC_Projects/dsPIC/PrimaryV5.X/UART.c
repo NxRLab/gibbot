@@ -49,7 +49,7 @@ void write_string_UART(unsigned char *data, int n){
         write_UART(data[i]);
         i++;
     }
-    write_UART('\n');
+    //write_UART('\n');
 }
 
 void write_string_UART2(unsigned char *data, int n){

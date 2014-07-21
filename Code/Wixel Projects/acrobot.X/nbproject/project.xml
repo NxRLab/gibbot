@@ -2,14 +2,13 @@
     <type>com.microchip.mplab.nbide.embedded.makeproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
-            <name>SecondaryV4</name>
-            <creation-uuid>b11aa690-d409-44e2-8986-7997aa62049e</creation-uuid>
+            <name>acrobot</name>
+            <creation-uuid>8f5e3adf-b73c-4039-90db-2b16f0d0bd70</creation-uuid>
             <make-project-type>0</make-project-type>
             <c-extensions>c</c-extensions>
             <cpp-extensions/>
-            <header-extensions>h</header-extensions>
+            <header-extensions/>
             <sourceEncoding>ISO-8859-1</sourceEncoding>
-            <asminc-extensions/>
             <make-dep-projects/>
         </data>
     </configuration>
