@@ -10,6 +10,7 @@ public class CurrentSwipeTab extends SampleSwipeTab implements ContentSwipeTab, 
 	private double w;
 	private double h;
 	private boolean timing;
+	private double amps = 0;
 	
 	public CurrentSwipeTab(int widthOfContainer, int heightOfContainer, String s){
 		super(widthOfContainer, heightOfContainer, s);
@@ -43,7 +44,6 @@ public class CurrentSwipeTab extends SampleSwipeTab implements ContentSwipeTab, 
 	
 	//Currently a simulation
 	//haha.
-	private double amps = 0;
 	
 	public void updateForDrawing(){
 		
@@ -78,6 +78,7 @@ public class CurrentSwipeTab extends SampleSwipeTab implements ContentSwipeTab, 
 		}*/
 		updateForDrawing();
 		repaint();
+		
 	}
 	
 }
