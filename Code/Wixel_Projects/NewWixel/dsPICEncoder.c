@@ -1,6 +1,15 @@
 #include <p33FJ64MC802.h>
 #include <stdio.h>
 
+#define RESET 'q'
+#define ENABLE 'e'
+#define DISABLE 'd'
+#define READ 'l'
+#define TEST 't'
+
+
+
+
 /* Configuration Bit Settings */
 _FOSCSEL(FNOSC_FRC) // Use Internal Fast RC oscillator
 _FOSC(FCKSM_CSECMD & OSCIOFNC_ON) // Clock switching enabled and OSC2 pin is IO
@@ -25,8 +34,9 @@ void init_clock_and_pins(void);
 void init_UART(void);
 
 int main() {
-    unsigned int c;
-
+    char c;
+    int num;
+    num=33745;
     init_clock_and_pins();
     AD1PCFGL = 0xFFFF; // turn off ADC
     init_UART();
@@ -39,7 +49,28 @@ int main() {
         // wait for data to be received.
         while (!U1STAbits.URXDA);
         c = U1RXREG;
+        switch (c) {
+            case RESET:
+                QEI_reset(1); // reset QEI 1
+                QEI_reset(2); // reset QEI 2
+                break;
+            case ENABLE:
+                QEI_enable(1, 0xFFFF); // enable QEI 1, threshold=4,294,967,295
+                QEI_enable(2, 0xFFFF); // enable QEI 2, threshold=4,294,967,295
+                break;
+            case DISABLE:
+                QEI_disable(1); // disable QEI 1
+                QEI_disable(2); // disable QEI 2
+                break;
+            case READ:
+                printf("%u\n", QEI_read(1)); // print QEI 1 value to UART
+                //printf("%u\r\n", QEI_read(2)); // print QEI 2 value to UART
+                break;
+            case TEST:
+                printf("%u\n", num); // print an integer to UART
 
+
+        }
         // add switch statement to perform
         // read, reset, enable, or disable
         // actions based on received input.
@@ -49,7 +80,7 @@ int main() {
         // wixel using printf
 
         // transmit data
-        printf("%u\r\n", QEI_read(1));
+        // printf("%u\r\n", QEI_read(1));
     }
 }
 
@@ -58,6 +89,8 @@ void init_clock_and_pins() {
      * Fosc= Fin*M/(N1*N2), Fcy=Fosc/2
      * Fosc= 7.37*(43)/(2*2)=80Mhz for Fosc, Fcy = 40Mhz
      */
+
+
 
     // Configure PLL prescaler, PLL postscaler, PLL divisor
     PLLFBD = 41; // M = 43
@@ -123,9 +156,13 @@ unsigned int QEI_read(int QEI) {
         QEI_Count = POS1CNT; // Set the  count to POS1CNT or POS2CNT depending on QEI
     if ((2 == QEI) && 0 == QEI2CONbits.CNTERR)
         QEI_Count = POS2CNT; // Set the  count to POS1CNT or POS2CNT depending on QEI
+    if (1 == QEI1CONbits.CNTERR)
+        QEI_Count = 32768;
 
     return QEI_Count;
-}
+
+
+    }
 
 /************************************************************
  * QEI enable turns the QEI device on which makes the
