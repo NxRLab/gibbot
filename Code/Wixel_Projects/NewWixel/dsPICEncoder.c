@@ -55,8 +55,8 @@ int main() {
                 QEI_reset(2); // reset QEI 2
                 break;
             case ENABLE:
-                QEI_enable(1, 0xFFFF); // enable QEI 1, threshold=4,294,967,295
-                QEI_enable(2, 0xFFFF); // enable QEI 2, threshold=4,294,967,295
+                QEI_enable(1, 0xFFFF); // enable QEI 1, threshold=65,535
+                QEI_enable(2, 0xFFFF); // enable QEI 2, threshold=65,535
                 break;
             case DISABLE:
                 QEI_disable(1); // disable QEI 1
@@ -64,23 +64,11 @@ int main() {
                 break;
             case READ:
                 printf("%u\n", QEI_read(1)); // print QEI 1 value to UART
-                //printf("%u\r\n", QEI_read(2)); // print QEI 2 value to UART
+                printf("%u\n", QEI_read(2)); // print QEI 2 value to UART
                 break;
             case TEST:
                 printf("%u\n", num); // print an integer to UART
-
-
         }
-        // add switch statement to perform
-        // read, reset, enable, or disable
-        // actions based on received input.
-
-        // here is an example of how data
-        // can be transmitted back to the
-        // wixel using printf
-
-        // transmit data
-        // printf("%u\r\n", QEI_read(1));
     }
 }
 
@@ -115,8 +103,8 @@ void init_clock_and_pins() {
     RPINR14bits.QEA1R = 0b00111; // QEA1A Pin Select (RP7)
     RPINR15bits.INDX1R = 0b11111; // INDX1R (VSS)
 
-    RPINR16bits.QEB2R = 0b00001; // QEA2B Pin Select (RP8)
-    RPINR16bits.QEA2R = 0b00010; // QEA2A Pin Select (RP7)
+    RPINR16bits.QEB2R = 0b00001; // QEA2B Pin Select (RP1)
+    RPINR16bits.QEA2R = 0b00010; // QEA2A Pin Select (RP2)
     RPINR17bits.INDX2R = 0b11111; // INDX2R (VSS)
 
     // Pin Select for UART1
@@ -176,11 +164,11 @@ unsigned int QEI_read(int QEI) {
 void QEI_enable(int QEI, int threshold) {
 
     if (1 == QEI && !QEI1CONbits.CNTERR) {
-        QEI1CONbits.QEIM = 0b101;
+        QEI1CONbits.QEIM = 0b101; // Only count up and down on channel A, channel B is used for direction only.
         MAX1CNT = threshold >= 0 ? threshold : 0xFFFF; // The threshold is used to determine when to reset the clock
     }
     if (2 == QEI && !QEI2CONbits.CNTERR) {
-        QEI2CONbits.QEIM = 0b111;
+        QEI2CONbits.QEIM = 0b111; // Count up and down on both channel A and channel B.
         MAX2CNT = threshold >= 0 ? threshold : 0xFFFF; // The threshold is used to determine when to reset the clock
     }
 }
