@@ -176,7 +176,7 @@ unsigned int QEI_read(int QEI) {
 void QEI_enable(int QEI, int threshold) {
 
     if (1 == QEI && !QEI1CONbits.CNTERR) {
-        QEI1CONbits.QEIM = 0b111;
+        QEI1CONbits.QEIM = 0b101;
         MAX1CNT = threshold >= 0 ? threshold : 0xFFFF; // The threshold is used to determine when to reset the clock
     }
     if (2 == QEI && !QEI2CONbits.CNTERR) {
