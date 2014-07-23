@@ -22,7 +22,7 @@ function varargout = acrobot_position(varargin)
 
 % Edit the above text to modify the response to help acrobot_position
 
-% Last Modified by GUIDE v2.5 22-Jul-2014 12:37:47
+% Last Modified by GUIDE v2.5 23-Jul-2014 15:25:01
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -59,13 +59,6 @@ handles.obj=obj; %saves the serial object to the handles structure so it can
 xlim(handles.axes1,[0,1000]);
 ylim(handles.axes1,[0,1000]);
 axis off
-theta=0;
-
-line([500,500],[1000,500],'Color','k','LineWidth',10)
-newx=500+500*sind(theta);
-newy=500-500*cosd(theta);
-line([500,newx],[500,newy],'Color','b','LineWidth',10)
-
 
 % Update handles structure
 handles.output = hObject;
@@ -85,23 +78,35 @@ varargout{1} = handles.output;
 
 function update_button_Callback(hObject, ~, ~)
 cla 
-cpr=117000; %the counts per rotation of our motor/gearhead combo
+%get data
+motorcpr=58500; %the counts per rotation of our motor/gearhead/bevel gear combination
+wallcpr=8192; %the counts per rotation of our wall encoder
 handles=guidata(hObject);
 obj=handles.obj;
 fprintf(obj,'l'); %sends command to read QEI value over USB
-count=str2num(fscanf(obj)); %reads data from serial port to get encoder count
-theta=count*(360/cpr)-(32768/cpr)*360; %converts the count to degrees and offsets 
-                                       %to account for resetting to the middle
-                                       %of the count
-angle=sprintf('%.2f%c',theta,176);                                
-set(handles.angle_display_text,'string',angle);
-set(handles.count_display_text,'string',count);
+motorcount=str2num(fscanf(obj)); %reads data from serial port to get motor encoder count
+wallcount=str2num(fscanf(obj)); %reads data from serial port to get wall encoder count
+motortheta=motorcount*(360/motorcpr)-(32768/motorcpr)*360; %converts the motor count to degrees and offsets 
+walltheta=wallcount*(360/wallcpr)-(32768/wallcpr)*360; %converts the motor count to degrees and offsets
+
+%set text boxes
+motorangle=sprintf('%.2f%c',motortheta,176); 
+wallangle=sprintf('%.2f%c',walltheta,176); 
+set(handles.motor_angle_display_text,'string',motorangle);
+set(handles.motor_count_display_text,'string',motorcount);
+set(handles.wall_angle_display_text,'string',wallangle);
+set(handles.wall_count_display_text,'string',wallcount);
+
+
+%calculate points
+x1=500+250*sind(walltheta);
+y1=500-250*cosd(walltheta);
+x2=x1+250*sind(motortheta+walltheta);
+y2=y1-250*cosd(motortheta+walltheta);
 
 %draw lines
-line([500,500],[1000,500],'Color','k','LineWidth',10)
-newx=500+500*sind(theta);
-newy=500-500*cosd(theta);
-line([500,newx],[500,newy],'Color','b','LineWidth',10)
+line([500,x1],[500,y1],'Color','k','LineWidth',10)
+line([x1,x2],[y1,y2],'Color','b','LineWidth',10)
 
 guidata(hObject,handles); 
 
