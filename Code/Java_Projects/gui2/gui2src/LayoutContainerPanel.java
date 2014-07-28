@@ -8,8 +8,9 @@
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
-public class LayoutContainerPanel extends JPanel {
+public class LayoutContainerPanel extends JPanel implements ActionListener {
 	
 	private int height;
 	private int width;
@@ -22,6 +23,7 @@ public class LayoutContainerPanel extends JPanel {
     	height=heightOfContainer-1;
     	width=widthOfContainer-1;
     	setPreferredSize(new Dimension(width, height));
+    	GUITimer.addActionListener(this);
     }
     
     public void paintComponent(Graphics g) {
@@ -38,31 +40,39 @@ public class LayoutContainerPanel extends JPanel {
     	c.fill=GridBagConstraints.BOTH;
     	add(bananapan,c);
     	
-    	
-    	SampleSwipeTab swipe1 = new SampleSwipeTab(width, height, "torque");
+
+    	AngleSwipeTab angle = new AngleSwipeTab(width, height, "serial input: rotations");
     	c.gridx=0;
     	c.gridy=0;
     	c.gridwidth=1;
     	c.gridheight=1;
-    	c.weightx=.25;
+    	c.weightx=.33;
     	c.weighty=.3;
-    	add(swipe1, c);
-    	
-    	SampleSwipeTab swipe2 = new SampleSwipeTab(width, height, "battery");
-    	c.gridx=1;
-    	c.gridy=0;
-    	add(swipe2, c);
-    	
-    	AngleSwipeTab angle = new AngleSwipeTab(width, height, "angle");
-    	c.gridx=2;
-    	c.gridy=0;
     	add(angle, c);
     	
-    	CurrentSwipeTab current = new CurrentSwipeTab(width, height, "current");
-    	c.gridx=3;
+    	CurrentSwipeTab current = new CurrentSwipeTab(width, height, "motor data");
+    	c.gridx=1;
     	c.gridy=0;
+    	c.weightx = .25;
     	add(current, c);
     	
+    	HardwareSwipeTab hardware = new HardwareSwipeTab(width, height, "hardware stats");
+    	c.gridx=2;
+    	c.gridy=0;
+    	c.weightx = .16;
+    	add(hardware, c);
+    	
+    	AccelSwipeTab accel = new AccelSwipeTab(width, height, "accelerometer");
+    	c.gridx=3;
+    	c.gridy=0;
+    	c.weightx = .25;
+    	add(accel, c);
+    	
+    }
+    
+      public void actionPerformed(ActionEvent evt){
+    	
+    	GUISerialPort.update();
     }
     
     

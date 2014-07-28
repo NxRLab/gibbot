@@ -10,26 +10,24 @@ import java.awt.*;
 import java.awt.event.*;
 import java.lang.Math;
 import javax.swing.*;
-import jssc.*;
 
-public class HardwareSwipeTab extends SampleSwipeTab implements ContentSwipeTab, ActionListener {
+public class HardwareSwipeTab extends SampleSwipeTab implements ActionListener {
 	
-	private double w;
-	private double h;
+	private int w;
+	private int h;
+	private double xscale;
+	private double yscale;
+	private Image chart = ImageHandler.getImage("hardwareChart");
 	private boolean timing;
-	private int battLevel; //int?
+	private int batt; //int?
 	private int temp; //int?
 	
 	public HardwareSwipeTab(int widthOfContainer, int heightOfContainer, String s){
-		super(widthOfContainer, heightOfContainer, s);
-		w = (double)getWidth();
-		h = (double)getHeight();
-	}
-	
-	public HardwareSwipeTab(int widthOfContainer, int heightOfContainer){
-		super(widthOfContainer, heightOfContainer);
-		w = (double)getWidth();
-		h = (double)getHeight();	
+		super((int)(widthOfContainer/6), heightOfContainer, s);
+		w = (int)widthOfContainer/6 - 70;
+		h = getHeight()-60;
+		xscale = (w/146);
+		yscale = (h/185);
 	}
 	
 	public void paintComponent(Graphics g){
@@ -39,7 +37,11 @@ public class HardwareSwipeTab extends SampleSwipeTab implements ContentSwipeTab,
 				timing = true;
 				GUITimer.addActionListener(this);
 			}
-			draw(g);
+			g.drawImage(chart, 30, 20, this);
+			g.setColor(Color.RED);
+			g.fillRect((int)(30 + xscale*21) + 1, (int)(20 + yscale*144) - temp, (int)(xscale*20)-1, temp-2);
+			g.setColor(Color.CYAN);
+			g.fillRect((int)(30 + xscale*79) + 1, (int)(20 + yscale*144) - batt, (int)(xscale*44)-1, batt-2);
 		}
 		
 		else {
@@ -53,18 +55,14 @@ public class HardwareSwipeTab extends SampleSwipeTab implements ContentSwipeTab,
 	
 	public void updateForDrawing(){
 		
-		//battLevel = GUISerialPort.getBattLevel();
-		//temp = GUISerialPort.getTemp();
+		float[] data = GUISerialPort.getDataF();
+		
+		batt = (int)data[3];
+		temp = (int)data[2];
 		
 		//temporary simulation
-		battLevel = 75;
-		temp = 80;
-		
-		}
-	
-	public void draw(Graphics g){
-		
-		//hold
+		//batt = 75;
+		//temp = 80;
 		
 		}
 		

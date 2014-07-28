@@ -3,48 +3,39 @@ import java.awt.*;
 import java.awt.event.*;
 import java.lang.Math;
 import javax.swing.*;
-import jssc.*;
 
-class AngleSwipeTab extends SampleSwipeTab implements ContentSwipeTab, ActionListener {
+class AngleSwipeTab extends SampleSwipeTab implements ActionListener {
+	
+	private Image chart = ImageHandler.getImage("angleChart");
 	
 	private int w;
 	private int h;
-	private int rx;
-	private int ry;
 	private int rcircle;
+	private double xscale;
+	private double yscale;
 	
 	private int head;
-	private int arm1;
-	private int arm2;
+	private int arm1 = 0;
+	private int arm2 = 0;
+	
+	private String avhead = "";
+	private String avarm1 = "";
+	private String avarm2 = "";
 
 	private boolean timing;
 	
 	public AngleSwipeTab(int widthOfContainer, int heightOfContainer, String s){
-		super(widthOfContainer, heightOfContainer, s);
-		w = getWidth()-60; //-60 to account for border/shadow
+		super((int)(widthOfContainer/3), heightOfContainer, s);
+		w = (int)widthOfContainer/3 -70; //-60 to account for border/shadow
 		h = getHeight()-60;
 		
-		rx = (int)((w)/3);
-		ry = (int)(h)/2;
+		xscale = (w/363);
+		yscale = (h/185);
 		
-		if(rx > ry)
-			rcircle = ry;
+		if(xscale*50 > yscale*75)
+			rcircle = (int)(yscale*75);
 		else
-			rcircle = rx;
-	}
-	
-	public AngleSwipeTab(int widthOfContainer, int heightOfContainer){
-		super(widthOfContainer, heightOfContainer);
-		w = getWidth()-70;
-		h = getHeight()-70;
-		
-		rx = (int)((w)/3);
-		ry = (int)(h - 63)/2;
-		
-		if(rx > ry)
-			rcircle = ry;
-		else
-			rcircle = rx;		
+			rcircle = (int)(xscale*50);
 	}
 	
 	public void paintComponent(Graphics g){
@@ -55,7 +46,24 @@ class AngleSwipeTab extends SampleSwipeTab implements ContentSwipeTab, ActionLis
 				timing = true;
 				GUITimer.addActionListener(this);
 			}
-			draw(g);
+		
+			g.drawImage(chart, 20, 20, w, h, this);
+		
+			g.setColor(Color.RED);	
+			g.fillArc((int)(20 + xscale*78), (int)(20 + yscale*10), rcircle, rcircle, 0, arm1);
+			g.fillArc((int)(20 + xscale*185), (int)(20 + yscale*10), rcircle, rcircle, 0, head);
+			g.fillArc((int)(20 + xscale*292), (int)(20 + yscale*10), rcircle, rcircle, 0, arm2);
+			
+			g.drawString(avarm1, 20 + (int)(xscale*78), 145);
+			g.drawString(avarm2, 20 + (int)(xscale*292), 145);
+			
+			//g.drawString("ang vel", 20 + (int)(xscale*78), 145);
+			//g.drawString("vals", 20 + (int)(xscale*185), 145);
+			//g.drawString("here", 20 + (int)(xscale*292), 145);
+			
+			//g.drawString(avarm1, xscale*60, 125);
+			//g.drawString(avhead, xscale*60, 125);
+			//g.drawString(avarm2, xscale*60, 125);;
 		}
 		
 		else {
@@ -80,23 +88,17 @@ class AngleSwipeTab extends SampleSwipeTab implements ContentSwipeTab, ActionLis
 	}
 	
 	public void updateForDrawing(){
-		head = GUISerialPort.getAngles()[0];
-		arm1 = GUISerialPort.getAngles()[1];
-		arm2 = GUISerialPort.getAngles()[2];
-	}
 		
-	
-	public void draw(Graphics g){
-
-		g.setColor(Color.RED);	
-		g.fillArc(20, 20, rcircle, rcircle, 0, arm1);
-		g.fillArc(20 + rx, 20 + ry, rcircle, rcircle, 0, head);
-		g.fillArc(20 + 2*rx, 20, rcircle, rcircle, 0, arm2);
+		String[] data = GUISerialPort.getDataS();
+		float[] dataF = GUISerialPort.getDataF();
 		
-		g.setColor(Color.BLACK);
-		g.drawString("Arm 1", 45, 30 + ry);
-		g.drawString("Head", 45 + rx, 30 + 2*ry);
-		g.drawString("Arm 2", 45 + 2*rx, 30 + ry);
+		head = Integer.parseInt(data[1]); //indicies will likely change
+		arm1 = Integer.parseInt(data[0]);
+		arm2 = Integer.parseInt(data[2]);
+		
+		//avhead = GUISerialPort.getData()[];
+		avarm1 = Float.toString(dataF[9]);
+		avarm2 = Float.toString(dataF[15]); 
 	}	
 		
 }

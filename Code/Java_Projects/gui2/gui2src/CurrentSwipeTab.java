@@ -3,25 +3,46 @@ import java.awt.*;
 import java.awt.event.*;
 import java.lang.Math;
 import javax.swing.*;
-import jssc.*;
 
-public class CurrentSwipeTab extends SampleSwipeTab implements ContentSwipeTab, ActionListener {
+public class CurrentSwipeTab extends SampleSwipeTab implements ActionListener {
 	
-	private double w;
-	private double h;
+	private int w;
+	private int h;
+	private double xscale;
+	private double yscale;
+	private Image chart = ImageHandler.getImage("currentChart");	
 	private boolean timing;
-	private double amps = 0;
+	private int timerCount;
+	private int[] milliampsE;
+	private int[] milliampsO;	
+	private int[] milnewtmetsE;
+	private int[] milnewtmetsO;
+	private int[] t;  //x values for chart
+	private int n;  //number of points drawn
+	private int par;  //tracks which array to draw
 	
 	public CurrentSwipeTab(int widthOfContainer, int heightOfContainer, String s){
-		super(widthOfContainer, heightOfContainer, s);
-		w = (double)getWidth();
-		h = (double)getHeight();
-	}
-	
-	public CurrentSwipeTab(int widthOfContainer, int heightOfContainer){
-		super(widthOfContainer, heightOfContainer);
-		w = (double)getWidth();
-		h = (double)getHeight();	
+		super((int)(widthOfContainer/4), heightOfContainer, s);
+		w = (int)widthOfContainer/4 -70;
+		h = getHeight()-60;
+		xscale = (w/254);
+		yscale = (h/185);
+		n = (int)(220*xscale/10); //points drawn 10 pixles apart
+		
+		milliampsE = new int[n];
+		milliampsO = new int[n];
+		milnewtmetsE = new int[n];
+		milnewtmetsO = new int[n];
+		t = new int[n];
+		par = 0;
+		
+		for(int i = 0; i < n; i++){
+			milliampsE[i] = 20 + (int)(170*yscale); //replace 20 w/ y coor where chart image is drawn
+			milliampsO[i] = 20 + (int)(170*yscale);
+			milnewtmetsE[i] = 20 + (int)(170*yscale);
+			milnewtmetsO[i] = 20 + (int)(170*yscale);
+			t[i] = 10*i + 25 + (int)(17*xscale);  //replace 25 w/ x coor where chart image is drawn
+		}
 	}
 	
 	public void paintComponent(Graphics g){
@@ -29,15 +50,30 @@ public class CurrentSwipeTab extends SampleSwipeTab implements ContentSwipeTab, 
 		if(getPulled()){
 			if(!timing){
 				timing = true;
+				timerCount = 0;
 				GUITimer.addActionListener(this);
 			}
-			draw(g);
+			
+			g.drawImage(chart, 25, 20, w, h, this);
+			if(par == 0){
+				g.setColor(Color.RED);
+    			g.drawPolyline(t, milliampsE, n);
+    			g.setColor(Color.CYAN);
+    			g.drawPolyline(t, milnewtmetsE, n);
+			}    	
+    		else{
+    			g.setColor(Color.RED);
+    			g.drawPolyline(t, milliampsO, n);
+    			g.setColor(Color.CYAN);
+    			g.drawPolyline(t, milnewtmetsO, n);	
+    		}
 		}
 		
 		else {
 			if(timing){
 				timing = false;
 				GUITimer.removeActionListener(this);
+				timerCount = 0;
 			}
 		}
 	}
@@ -47,27 +83,38 @@ public class CurrentSwipeTab extends SampleSwipeTab implements ContentSwipeTab, 
 	
 	public void updateForDrawing(){
 		
-		amps = 7;
-		
-		}
-	
-	public void draw(Graphics g){
-		
-		Graphics2D g2 = (Graphics2D)g; //not sure if this is or will be necessary but I'll leave it for now.
-		
-		//y axis
-		g2.drawLine(20, 20, 20, (int)h-20);
-		g2.drawString("Amps", 5, 15);
-		
-		//x axis
-		g2.drawLine(20, (int)h-20, (int)w-20, (int)h-20);
-		
-		g2.setColor(Color.MAGENTA);
+		timerCount++;
+		if(timerCount % 4 == 0){
+			float[] data = GUISerialPort.getDataF();
 			
-		g2.fillRect((int)w/4, (int)(h-amps-20), (int)(w-40)/2, (int)amps);
-		
+			int newCurr = 20 + (int)(170*yscale) - (int)data[0];
+			int newTor = 20 + (int)(170*yscale) -  (int)data[1];
+			//int newCurr = 20 + (int)(170*yscale) -  GUISerialPort.getData()[];
+			//int newTor = 20 + (int)(170*yscale) -  GUISerialPort.getData()[];
+			
+			if(par == 0){
+				par = 1;
+				milliampsE[0] = newCurr;
+				milnewtmetsE[0] = newTor;
+    			for(int i = 0; i<n-2; i++){
+    				milliampsE[i+1] = milliampsO[i];
+    				milnewtmetsE[i+1] = milnewtmetsO[i];
+    			}
+			}
+    		else{
+    			par = 0;
+    			milliampsO[0] = newCurr;
+				milnewtmetsO[0] = newTor;
+    			for(int i = 0; i<n-2; i++){
+    				milliampsO[i+1] = milliampsE[i];
+    				milnewtmetsO[i+1] = milnewtmetsE[i];
+    			}
+			}
+			repaint();
 		}
 		
+	}
+	
 	public void actionPerformed(ActionEvent evt){
 		/*if(!getPulled()){
 			super.actionPerformed(evt);

@@ -7,9 +7,8 @@
  */
 
 import javax.swing.*;
-import java.awt.event.*;
 import java.awt.*;
-import java.io.*;
+import java.awt.event.*;
 
 //Panels that can be pulled down by the user to display robot data
 
@@ -26,57 +25,18 @@ public class SampleSwipeTab extends JPanel implements MouseListener, MouseMotion
 	private int totalNumberOfTabs=4;
 	private int latchPoint;
 	private int mouseAt;
-	private Font font;
 	private Polygon triangle;
-	private InputStream fontStream;
 
-    public SampleSwipeTab(int widthOfContainer, int heightOfContainer, String s) {
+    public SampleSwipeTab(int correctedWidth, int heightOfContainer, String s) {
     	waitingForPull=true;
     	pulling=false;
     	pulled=false;
-    	width=(int)(widthOfContainer/totalNumberOfTabs)-10;
+    	width = correctedWidth;
     	height=(int)(heightOfContainer/3.25);
     	message=s;
     	setPreferredSize(new Dimension(width, height));
     	setBackground(bg);
-    	
-    	try{
-    		fontStream = new BufferedInputStream(new FileInputStream("C:\\Users\\K\\Documents\\AndaleMono.ttf"));
-    		font = (Font.createFont(Font.TRUETYPE_FONT, fontStream)).deriveFont(Font.BOLD, 12);
-    	}
-    	catch(Exception e){
-    		System.out.println(e);
-    		font = new Font("Serif", Font.PLAIN, 15);
-    	}
-    	
-		setFont(font);
-    	triangle = new Polygon(new int[]{(int)(width/2)-5, (int)(width/2)+5, (int)(width/2)},
-    						   new int[]{48, 48, 51}, 
-    							3);
-    	addMouseListener(this);
-    	addMouseMotionListener(this);
-    }
-    
-    public SampleSwipeTab(int widthOfContainer, int heightOfContainer) {
-    	waitingForPull=true;
-    	pulling=false;
-    	pulled=false;
-    	width=(int)(widthOfContainer/totalNumberOfTabs)-5;
-    	height=(int)(heightOfContainer/3)-20;
-    	message="Pull down";
-    	setPreferredSize(new Dimension(width, height));
-    	setBackground(bg);
-    	
-    	try{
-    		fontStream = new BufferedInputStream(new FileInputStream("C:\\Users\\K\\Documents\\AndaleMono.ttf"));
-    		font = (Font.createFont(Font.TRUETYPE_FONT, fontStream)).deriveFont(Font.BOLD, 12);
-    	}
-    	catch(Exception e){
-    		System.out.println(e);
-    		font = new Font("Serif", Font.PLAIN, 15);
-    	}
-    	
-    	setFont(font);
+    	setFont(ImageHandler.getFont());
     	triangle = new Polygon(new int[]{(int)(width/2)-5, (int)(width/2)+5, (int)(width/2)},
     						   new int[]{48, 48, 51}, 
     							3);
@@ -87,7 +47,6 @@ public class SampleSwipeTab extends JPanel implements MouseListener, MouseMotion
     public void paintComponent(Graphics g){
     	super.paintComponent(g);
     	g.setColor(new Color(0, 51, 153));
-    	//g.setColor(Color.GREEN);
     	
     	if(waitingForPull){			//Tab is at the top waiting to be pulled; prompter message specified in constructor or default: "Pull down"
     	
@@ -98,23 +57,17 @@ public class SampleSwipeTab extends JPanel implements MouseListener, MouseMotion
 			g.drawString(message, (int)((getWidth()-stringWidth)/2), 70);
     		
     		drawTab(initialHeight, g);
-    		//g.fillRect(1, 1, width-1, initialHeight);
-    		//g.setColor(Color.BLACK);
-    		//g.drawString(message, 10, initialHeight-3);
     	}
     	
     	else{
     		if(pulling){			//User is in the act of pulling the tab down
     			drawTab(initialHeight+(mouseAt-latchPoint), g);
-    			//g.fillRect(1, 1, width-1, initialHeight+(mouseAt-latchPoint));
-    	}
+    		}
     	
     		else{
     			if(pulled){			//Tab has been pulled down; stays where it is with a propmt to return it to the top.
     				g.drawString("click to hide", 10, height);
     				drawTab(height-19, g);
-    				//g.fillRect(1, 1, width-1, height-1);
-    				//g.setColor(Color.BLACK);
     				
     			//drawDataContent
     			}
@@ -144,6 +97,8 @@ public class SampleSwipeTab extends JPanel implements MouseListener, MouseMotion
     	g2.setStroke(new BasicStroke(4));  //yellow
     	g2.setColor(new Color(255, 255, 0)); 
     	g2.drawRoundRect(13, 13, width - 39, height-20, 9, 9);
+    	
+    	g2.setStroke(new BasicStroke(1));
     	
     }
     		
@@ -213,10 +168,6 @@ public class SampleSwipeTab extends JPanel implements MouseListener, MouseMotion
     
     public boolean getPulled(){
     	return pulled;
-    }
-    
-    public Font getFont(){
-    	return font;
     }
 }
 

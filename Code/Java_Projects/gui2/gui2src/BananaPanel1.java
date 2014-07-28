@@ -10,26 +10,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
-import java.awt.image.*;
-import java.io.*;
-import javax.imageio.*;
 
 /*Handles user placement of bananas, animation of robot, and draws metal board background*/
 
 public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
 	
-	Banana banana;
+	Banana banana = new Banana();
 	Gibbot bob = new Gibbot();
 	boolean interacting = false;
 	boolean dragging = false;
-	Font f = new Font("Serif", Font.BOLD, 30);
-	double slope;
-	int dx = 5;
 	private Color bg = new Color(255, 204, 255);
-	Image boardImg;
-	Image bucketImg;
-	Image prompt1;
-	Image prompt2;
+	Image bananaBubble = ImageHandler.getImage("bananaBubble");;
+	Image board = ImageHandler.getImage("board");
+	Image bucket = ImageHandler.getImage("bucket");
+	Image gibbotBubble = ImageHandler.getImage("gibbotBubble");
 	private int height;
 	private int width;
 	
@@ -42,15 +36,6 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     	setBackground(bg);
     	addMouseListener(this);
     	addMouseMotionListener(this);
-    	try {
-		boardImg = ImageIO.read(new File("C:\\Users\\K\\Downloads\\sheet_metal.png"));
-		bucketImg = ImageIO.read(new File("C:\\Users\\K\\Downloads\\bucket.png"));
-		prompt1 = ImageIO.read(new File("C:\\Users\\K\\Downloads\\gibbot_prompt.png"));
-		prompt2 = ImageIO.read(new File("C:\\Users\\K\\Downloads\\banana_prompt.png"));
-		}
-	catch(IOException e){
-		System.out.println("not found");
-		}
 		
     }
     
@@ -58,28 +43,26 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     	
     	super.paintComponent(g);
     	
-    	Graphics2D g2d = (Graphics2D)g;
-    	
-    	/*for non proportional board in GUI*/
-    	g2d.drawImage(boardImg, 1, 1, getWidth()-1, getHeight()-1, this);
-    	g2d.drawImage(bucketImg, (int)(getWidth()-1.6*(getHeight()/3)), 2*(int)(getHeight()/3), 
+    	//for non proportional board in GUI
+    	g.drawImage(board, 1, 1, getWidth()-1, getHeight()-1, this);
+    	g.drawImage(bucket, (int)(getWidth()-1.6*(getHeight()/3)), 2*(int)(getHeight()/3), 
     		(int)(getHeight()/2.7), (int)(getHeight()/2.7), this);
     	
-    	g2d.setColor(Color.BLACK);
+    	g.setColor(Color.BLACK);
 
-    	if(!interacting){												//Either nothing has happened or the user is moving the banana
+    	if(!interacting){		//Either nothing has happened or the user is moving the banana
     		if(dragging)
-    			g2d.drawImage(banana.getImage(), banana.getX(), banana.getY(), 80, 60, this);												//AKA if the user hasn't clicked on the board yet
+    			g.drawImage(banana.getImage(), banana.getX(), banana.getY(), 80, 60, this);												//AKA if the user hasn't clicked on the board yet
     		
     		else{
-    			g2d.drawImage(prompt1, (int)bob.getPivotX(), (int)bob.getPivotY()+20, 150, 100, this);
-    			g2d.drawImage(prompt2, (int)(getWidth()-1.6*(getHeight()/3))-20, 2*(int)(getHeight()/3)-100, 150, 100, this);
+    			g.drawImage(gibbotBubble, (int)bob.getPivotX(), (int)bob.getPivotY()+20, 150, 100, this);
+    			g.drawImage(bananaBubble, (int)(getWidth()-1.6*(getHeight()/3))-20, 2*(int)(getHeight()/3)-100, 150, 100, this);
     		}
     		bob.draw(g);
     	}
     	
-    	else{															//If the user dropped the banana, this is where we draw call for animation images
-        	g2d.drawImage(banana.getImage(), banana.getX(), banana.getY(), 80, 60, this);
+    	else{		//If the user dropped the banana, this is where we draw call for animation images
+        	g.drawImage(banana.getImage(), banana.getX(), banana.getY(), 80, 60, this);
         	bob.draw(g);    
     	}        
     	
@@ -124,8 +107,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     	repaint();
    		
    	}
-   	
-   	
+   	  	
    }
    
    public void mouseExited(MouseEvent evt){
@@ -145,9 +127,9 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
    		
    }
    
-   public void actionPerformed(ActionEvent evt){//Handles events from the timer
+   public void actionPerformed(ActionEvent evt){   //Handles events from the timer
 											
-   		if((int)bob.getPivotX()<= banana.getX()){        //If the robot is not to the bananas yet	
+   		if((int)bob.getPivotX()<= banana.getX()){      //If the robot is not to the bananas yet	
    			bob.arcMotionUpdate(timerCount);
    			//SERIAL: above method will be replaced by getting coordinates of the three "clusters" from python code, sending it to updateRealCoors method
    			
@@ -163,8 +145,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
    			bob.reset();
    			repaint();
    		}
-   		
-   		
+ 
    }
    /*Required methods for MouseListener interface*/
    public void mouseClicked(MouseEvent evt){}

@@ -8,25 +8,16 @@
  */
  
 import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.*;
-import java.io.*;
-import javax.imageio.*;
-import javax.swing.*;
 
 /*Contains the data on where the robot is assigned to move and image data for the user interface*/
 public class Banana {
 
 	private int x;
 	private int y;
-	BufferedImage img;
+	private Image banana;
 
 	public Banana() {
-		
-		try {
-			img = ImageIO.read(new File("C:\\Users\\K\\Downloads\\banana_clip_art_edit.png"));
-		}
-		catch(IOException e){System.out.println("not found");}
+		banana = ImageHandler.getImage("banana");
         x = 0;
         y = 0;
 	}
@@ -48,6 +39,6 @@ public class Banana {
 	}
 	
 	public Image getImage() {
-		return img;
+		return banana;
 	}
 }

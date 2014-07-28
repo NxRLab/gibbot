@@ -9,27 +9,25 @@ import java.awt.*;
 import java.awt.event.*;
 import java.lang.Math;
 import javax.swing.*;
-import jssc.*;
 
-public class AccelSwipeTab extends SampleSwipeTab implements ContentSwipeTab, ActionListener {
+public class AccelSwipeTab extends SampleSwipeTab implements ActionListener {
 	
-	private double w;
-	private double h;
+	private int w;
+	private int h;
+	private double xscale;
+	private double yscale;
+	private Image chart = ImageHandler.getImage("accelChart");
 	private boolean timing;
 	private int headAccel; //int?
 	private int arm1Accel; //int?
 	private int arm2Accel; //int?
 	
 	public AccelSwipeTab(int widthOfContainer, int heightOfContainer, String s){
-		super(widthOfContainer, heightOfContainer, s);
-		w = (double)getWidth();
-		h = (double)getHeight();
-	}
-	
-	public AccelSwipeTab(int widthOfContainer, int heightOfContainer){
-		super(widthOfContainer, heightOfContainer);
-		w = (double)getWidth();
-		h = (double)getHeight();	
+		super((int)(widthOfContainer/4), heightOfContainer, s);
+		w = (int)widthOfContainer/4 - 70;
+		h = getHeight()-60;
+		xscale = w/254;
+		yscale = h/185;
 	}
 	
 	public void paintComponent(Graphics g){
@@ -39,7 +37,10 @@ public class AccelSwipeTab extends SampleSwipeTab implements ContentSwipeTab, Ac
 				timing = true;
 				GUITimer.addActionListener(this);
 			}
-			draw(g);
+			g.drawImage(chart, 30, 20, this);
+			g.setColor((Color.RED));
+			g.fillRect(30 + (int)(xscale*43), 20 + (int)(yscale*93) - arm1Accel, (int)(xscale*24), arm1Accel);
+			g.fillRect(30 + (int)(xscale*187), 20 + (int)(yscale*93) - arm2Accel, (int)(xscale*24), arm2Accel);	
 		}
 		
 		else {
@@ -53,20 +54,13 @@ public class AccelSwipeTab extends SampleSwipeTab implements ContentSwipeTab, Ac
 	
 	public void updateForDrawing(){
 		
-		//headAccel = GUISerialPort.getAccelVals()[0];
-		//arm1Accel = GUISerialPort.getAccelVals()[1];
-		//arm2Accel = GUISerialPort.getAccelVals()[2];
+		float[] data = GUISerialPort.getDataF();
+		arm1Accel = (int)(Math.sqrt(data[4]*data[4] + data[5]*data[5]));
+		arm2Accel = (int)(Math.sqrt(data[10]*data[10] + data[11]*data[11]));
 		
-		//temporary simulation
-		headAccel = 20;
-		arm1Accel = 20;
-		arm2Accel = 20;
-		
-		}
-	
-	public void draw(Graphics g){
-		
-		//hold
+		//headAccel = 20;
+		//arm1Accel = 20;
+		//arm2Accel = 20;
 		
 		}
 		

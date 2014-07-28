@@ -5,7 +5,9 @@
  * @author 
  * @version 1.00 2014/7/11
  */
+import java.awt.event.*;
 import java.nio.*;
+import javax.swing.*;
 import jssc.*;
 
 public class GUISerialPort {
@@ -13,72 +15,94 @@ public class GUISerialPort {
 	private static SerialPort port = new SerialPort("COM5");
 	private static ByteBuffer bb;
 	
-	private static int[] codes = new int[3];
-	private static int[] angles = new int[3] ;
-	
-	private static final int CONVERT = 1; //will get real value later		
-	private static int[] KEYS = {1600, 1700, 1800};
+	private static String[] dataS = new String[3];
+	private static float[] dataF = new float[16]; 
+	private static String str = "";
+	private static String[] temp = new String[19];
 	
 	public static void open(){
 		try{
     		port.openPort();
     		port.setParams(115200, 8, 1, 0);
             port.setFlowControlMode(SerialPort.MASK_CTS);
-    		System.out.println("1 written: " + port.writeString("1")); //initializes for angles; may need to alter
+    		//System.out.println("1 written: " + port.writeString("1")); //initializes for angles; may need to alter
 		}
     	
     	catch(SerialPortException e){
     		System.out.println("Failed to open " + port.getPortName() + " due to: "); 
     		System.out.println(e.getExceptionType());
     	}
+    	
+    	for(int i = 0; i < 19; i++){
+			if(i < 3)
+				dataS[i] = "360";
+			else
+				dataF[i-3] = 7;
+    	}
 	}
 	
 	public static double getCoors(){return 7;} //probably will use multiple methods here (for x and y of all three pivots)
 	
-	public static double getCurrent(){return 7;}
+	public static String[] getDataS(){
+		return dataS;
+	}
 	
-	public static int[] getAngles(){ //returns degree value b/t -360 and 360
+	public static float[] getDataF(){
+		return dataF;
+	}	 
 	
-		int[] retArray = new int[3];
+	public static void update(){  //called by GibbotGUI2 in response to timer-generated events
 		
 		if(!port.isOpened()){
-			for(int i = 0; i<3; i++)
-				retArray[i] = 360;
-		}
+			
+						for(int i = 0; i < 19; i++){
+							if(i < 3)
+								dataS[i] = "180";
+							else
+								dataF[i-3] = 20;
+						}
+					}
 			
 		else{
 			
 			try {
-				port.writeString("2");
-     			
-     			for(int i = 0; i < 3; i++){
-     				/*if(port.getInputBufferBytesCount() != 4*(3-i)){
-     					port.purgePort(SerialPort.PURGE_RXCLEAR);
-     					codes[i] = KEYS[i];
-     				}*/
- 
-     					bb = ByteBuffer.wrap(port.readBytes(4));
-     					bb.order(ByteOrder.LITTLE_ENDIAN);
-     					codes[i] = bb.getInt();
-     				
-     				if(codes[i]!= KEYS[i])
-     					System.out.println(codes[i]);
-     					
-     				angles[i] = (codes[i]*CONVERT-KEYS[i]) % 360;
-     				if((codes[i]*CONVERT-KEYS[i]) < 0 && angles[i] > 0)
-     					angles[i] -= 360;    				
-     			}
-     			retArray = angles;
-     		}
+				
+				if(port.getInputBufferBytesCount() != 0)
+					return;
+
+				port.writeString("q");
+				try{
+					Thread.sleep(200);
+				}
+				catch(InterruptedException e){
+					System.out.println("interrupted");
+				}
+				str = port.readString();
+				if(str == null)
+					return;
+				System.out.println(str);
+				temp = str.split(" ");
+				
+				for(int i = 0; i < 19; i++){
+					if(i < 3)
+						dataS[i] = temp[i];
+					else
+						dataF[i-3] = Float.parseFloat(temp[i]);
+				}
+
+			}
     
      		catch(SerialPortException e){
-     			System.out.println(e);
-     			for(int i = 0; i<3; i++)
-					retArray[i] = 7;
+     			for(int i = 0; i < 19; i++){
+					if(i < 3)
+						dataS[i] = "7";
+					else
+						dataF[i-3] = 7;
+     			}
      		}
 			
 		}
-		
-		return retArray;
+
 	}
 }
+
