@@ -10,9 +10,13 @@ public class CurrentSwipeTab extends SampleSwipeTab implements ActionListener {
 	private int h;
 	private double xscale;
 	private double yscale;
+	
 	private Image chart = ImageHandler.getImage("currentChart");	
+	
 	private boolean timing;
 	private int timerCount;
+	private int factor = GUITimer.getSerialFactor();
+	
 	private int[] milliampsE;
 	private int[] milliampsO;	
 	private int[] milnewtmetsE;
@@ -27,7 +31,7 @@ public class CurrentSwipeTab extends SampleSwipeTab implements ActionListener {
 		h = getHeight()-60;
 		xscale = (w/254);
 		yscale = (h/185);
-		n = (int)(220*xscale/10); //points drawn 10 pixles apart
+		n = (int)(200*xscale/10); //points drawn 10 pixles apart
 		
 		milliampsE = new int[n];
 		milliampsO = new int[n];
@@ -41,7 +45,7 @@ public class CurrentSwipeTab extends SampleSwipeTab implements ActionListener {
 			milliampsO[i] = 20 + (int)(170*yscale);
 			milnewtmetsE[i] = 20 + (int)(170*yscale);
 			milnewtmetsO[i] = 20 + (int)(170*yscale);
-			t[i] = 10*i + 25 + (int)(17*xscale);  //replace 25 w/ x coor where chart image is drawn
+			t[i] = 10*i + 25 + (int)(26*xscale);  //replace 25 w/ x coor where chart image is drawn
 		}
 	}
 	
@@ -56,15 +60,15 @@ public class CurrentSwipeTab extends SampleSwipeTab implements ActionListener {
 			
 			g.drawImage(chart, 25, 20, w, h, this);
 			if(par == 0){
-				g.setColor(Color.RED);
+				g.setColor(new Color(207, 46, 46));
     			g.drawPolyline(t, milliampsE, n);
-    			g.setColor(Color.CYAN);
+    			g.setColor(new Color(36, 149, 176));
     			g.drawPolyline(t, milnewtmetsE, n);
 			}    	
     		else{
-    			g.setColor(Color.RED);
+    			g.setColor(new Color(207, 46, 46));
     			g.drawPolyline(t, milliampsO, n);
-    			g.setColor(Color.CYAN);
+    			g.setColor(new Color(36, 149, 176));
     			g.drawPolyline(t, milnewtmetsO, n);	
     		}
 		}
@@ -78,38 +82,35 @@ public class CurrentSwipeTab extends SampleSwipeTab implements ActionListener {
 		}
 	}
 	
-	//Currently a simulation
-	//haha.
-	
 	public void updateForDrawing(){
 		
 		timerCount++;
-		if(timerCount % 4 == 0){
-			float[] data = GUISerialPort.getDataF();
+		
+		if(timerCount % factor/2 == 0){
+			int[] data = GUISerialPort.getData();
 			
-			int newCurr = 20 + (int)(170*yscale) - (int)data[0];
-			int newTor = 20 + (int)(170*yscale) -  (int)data[1];
-			//int newCurr = 20 + (int)(170*yscale) -  GUISerialPort.getData()[];
-			//int newTor = 20 + (int)(170*yscale) -  GUISerialPort.getData()[];
-			
+			int newCurr = 20 + (int)(170*yscale) - data[3];
+			int newTor = 20 + (int)(170*yscale) -  data[4];
+		
 			if(par == 0){
 				par = 1;
 				milliampsE[0] = newCurr;
 				milnewtmetsE[0] = newTor;
     			for(int i = 0; i<n-2; i++){
     				milliampsE[i+1] = milliampsO[i];
-    				milnewtmetsE[i+1] = milnewtmetsO[i];
+	    			milnewtmetsE[i+1] = milnewtmetsO[i];
     			}
 			}
-    		else{
+	    	else{
     			par = 0;
     			milliampsO[0] = newCurr;
 				milnewtmetsO[0] = newTor;
     			for(int i = 0; i<n-2; i++){
     				milliampsO[i+1] = milliampsE[i];
-    				milnewtmetsO[i+1] = milnewtmetsE[i];
+	    			milnewtmetsO[i+1] = milnewtmetsE[i];
     			}
 			}
+				
 			repaint();
 		}
 		

@@ -20,13 +20,13 @@ public class GibbotGUI2 extends JFrame{
       		public void run() {
         		GibbotGUI2 gui = new GibbotGUI2();
         		gui.setVisible(true);
-        		//gui.setExtendedState(Frame.MAXIMIZED_BOTH);
+        		gui.setExtendedState(MAXIMIZED_BOTH);
       }
     });
   }
 
  	 private GibbotGUI2() {
-    	GUITimer.start(500);
+    	GUITimer.start(33);
       	GUISerialPort.open(); 
       	ImageHandler.loadImages();
       	ImageHandler.drawImages();

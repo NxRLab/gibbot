@@ -99,13 +99,12 @@ public class Gibbot {
 		Graphics2D g2=(Graphics2D)g;
 		
 		g2.fillOval((int)pivotX-10, (int)pivotY-15, (int)ARMH+12, (int)ARMH+12);
-		g2.fillOval((int)armX-16, (int)armY-15, (int)ARMH+12, (int)ARMH+12);
-		g2.fillOval((int)legX-10, (int)legY-15, (int)ARMH+12, (int)ARMH+12);
+		g2.fillOval((int)armX-15, (int)armY-15, (int)ARMH+12, (int)ARMH+12);
+		g2.fillOval((int)legX-15, (int)legY-15, (int)ARMH+12, (int)ARMH+12);
 		
 		g2.setStroke(new BasicStroke((int)ARMH));
 		g2.drawLine((int)armX, (int)armY, (int)pivotX, (int)pivotY);
 		g2.drawLine((int)legX, (int)legY, (int)pivotX, (int)pivotY);
-		
 	}
 	
 	public double calcRotAngle(double x, double y){

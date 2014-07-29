@@ -19,7 +19,7 @@ public class SampleSwipeTab extends JPanel implements MouseListener, MouseMotion
 	private boolean pulling;
 	private boolean pulled;
 	private final int initialHeight=24;
-	private Color bg = new Color(255, 204, 255);
+	private Color bg = new Color(204, 204, 255);
 	private int width;
 	private int height;
 	private int totalNumberOfTabs=4;
@@ -66,10 +66,9 @@ public class SampleSwipeTab extends JPanel implements MouseListener, MouseMotion
     	
     		else{
     			if(pulled){			//Tab has been pulled down; stays where it is with a propmt to return it to the top.
-    				g.drawString("click to hide", 10, height);
     				drawTab(height-19, g);
-    				
-    			//drawDataContent
+    				g.setColor(new Color(207, 46, 46));
+    				g.drawString("tap to hide", 10, height-2);
     			}
     		}
     	}
@@ -95,7 +94,8 @@ public class SampleSwipeTab extends JPanel implements MouseListener, MouseMotion
     	g2.fillRoundRect(3, 3, width - 19, height, 9, 9);
     	
     	g2.setStroke(new BasicStroke(4));  //yellow
-    	g2.setColor(new Color(255, 255, 0)); 
+    	//g2.setColor(new Color(255, 255, 0));
+    	g2.setColor(new Color(0, 51, 153)); 
     	g2.drawRoundRect(13, 13, width - 39, height-20, 9, 9);
     	
     	g2.setStroke(new BasicStroke(1));

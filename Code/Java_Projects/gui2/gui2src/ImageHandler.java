@@ -54,22 +54,30 @@ public class ImageHandler {
     
     public static void drawImages(){ //draws all chart backgrounds for swipe tabs
     
+    	Color LIGHTER_GRAY = new Color(225, 225, 225);
+    
     	//accel
     	Graphics2D g2 = accelChart.createGraphics();
     	g2.setColor(Color.WHITE);
     	g2.fillRect(0, 0, 254, 185);
     	g2.setFont(andale);
-    	g2.setColor(Color.LIGHT_GRAY);
-    	g2.fillRect(18, 15, 220, 156);
+    	g2.setColor(LIGHTER_GRAY);
+    	g2.fillRect(28, 15, 210, 156);
     	g2.setColor(Color.BLACK);
-    	g2.drawLine(17, 15, 17, 170);
-    	g2.drawLine(17, 93, 237, 93);
+    	g2.drawLine(27, 15, 27, 170);
+    	g2.drawLine(27, 93, 237, 93);
     	g2.setColor(new Color(0, 51, 153));
-    	g2.drawString("arm 1", 31, 183);
-    	//g2.drawString("head", 105, 183);
-    	g2.drawString("arm 2", 175, 183);
+    	g2.drawString("arm 1", 57, 183);
+    	g2.drawString("arm 2", 170, 183);
+    	g2.setFont(andale.deriveFont(8));
+    	for(int i = 2; i > -3; i--)
+    		if(i >= 0)
+    			g2.drawString(Integer.toString(i), 18, 97 - i*35);
+    		else
+    			g2.drawString(Integer.toString(i), 11, 97 - i*35);
+    	g2.setFont(andale);
     	g2.rotate(-Math.PI/2);
-    	g2.drawString("acceleration  (m/s^2)", -168, 14);
+    	g2.drawString("acceleration  (g)", -156, 9);
     	map.put(imageNames[5], accelChart);
     	  	
     	//angle
@@ -96,18 +104,26 @@ public class ImageHandler {
     	g2.fillRect(0, 0, 254, 185);
     	g2.setFont(andale);
     	g2.setColor(Color.BLACK);
-    	g2.drawLine(17, 15, 17, 170);
-    	g2.drawLine(17, 170, 237, 170);
-    	g2.drawLine(237, 170, 237, 15);
+    	g2.drawLine(26, 15, 26, 170);
+    	g2.drawLine(26, 170, 217, 170);
+    	g2.drawLine(217, 170, 217, 15);
     	g2.setColor(new Color(0, 51, 153));
     	g2.drawString("time", 102, 183);
-    	g2.setColor(Color.LIGHT_GRAY);
-    	g2.fillRect(18, 15, 219, 155);
+    	g2.setColor(LIGHTER_GRAY);
+    	g2.fillRect(27, 15, 190, 155);
+    	g2.setColor(Color.BLACK);
+    	g2.setFont(andale.deriveFont(12));
+    	for(int i = 1; i < 10; i++)
+    		g2.drawString(Integer.toString(i), 13, 174 - 15*i);
+    	g2.drawString("10", 11, 24);
+    	for(int i = 1; i < 12; i++)
+    		g2.drawString(String.format("%1.1f", i*0.1), 219, 171 - 13*i);
+    	g2.setFont(andale);
     	g2.rotate(-Math.PI/2);
-    	g2.setColor(Color.RED);
-    	g2.drawString("current  (milliamps)", -170, 12);
-    	g2.setColor(Color.CYAN);
-    	g2.drawString("torque  (N*10^-3*m)", -165, 250);
+    	g2.setColor(new Color(207, 46, 46));
+    	g2.drawString("current  (amps)", -150, 9);
+    	g2.setColor(new Color(36, 149, 176));
+    	g2.drawString("torque  (N*m)", -147, 252);
     	g2.dispose();
     	map.put(imageNames[7], currentChart);
     	
@@ -117,14 +133,24 @@ public class ImageHandler {
     	g2.fillRect(0, 0, 146, 185);
     	g2.setFont(andale);
     	g2.setColor(Color.BLACK);
-    	g2.drawRect(19, 15, 24, 129);
-    	g2.drawRect(77, 15, 48, 129);
+    	g2.drawRect(18, 15, 25, 129);
+    	g2.drawRect(76, 15, 47, 129);
+    	g2.setFont(andale.deriveFont(4));
+    	for(int i = 1; i < 5; i++)
+    		g2.drawString("-" + Integer.toString(i*15) + "-", 17, 148 - 30*(i));
+    	for(int i = 1; i < 8; i++){
+  			if(i>2)
+    			g2.drawString("---" + Integer.toString(i*4) + "-- ", 74, 148 - 16*(i));
+    		else
+    			g2.drawString("---" + Integer.toString(i*4) + "---", 76, 148 - 16*(i));
+    	}
+    	g2.setFont(andale);
     	g2.setColor(new Color(0, 51, 153));
     	g2.drawString("motor", 12, 155);
     	g2.drawString("temp", 12, 169);
-    	g2.drawString("(deg F)", 5, 183);
+    	g2.drawString("(deg C)", 5, 183);
     	g2.drawString("battery", 73, 155);
-    	g2.drawString("life (%)", 70, 169);
+    	g2.drawString("life (V)", 70, 169);
     	g2.dispose();
     	map.put(imageNames[8], hardwareChart);
     	

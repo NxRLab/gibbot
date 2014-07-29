@@ -19,7 +19,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
 	Gibbot bob = new Gibbot();
 	boolean interacting = false;
 	boolean dragging = false;
-	private Color bg = new Color(255, 204, 255);
+	private Color bg = new Color(204, 204, 255);
 	Image bananaBubble = ImageHandler.getImage("bananaBubble");;
 	Image board = ImageHandler.getImage("board");
 	Image bucket = ImageHandler.getImage("bucket");
@@ -123,6 +123,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
    		dragging = false;
    		interacting = true;
    		GUITimer.addActionListener(this);
+   		//GUISerialPort.sendGoalCoors(evt.getX(), evt.getY());
    	}
    		
    }

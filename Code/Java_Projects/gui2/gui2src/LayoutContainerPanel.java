@@ -14,7 +14,10 @@ public class LayoutContainerPanel extends JPanel implements ActionListener {
 	
 	private int height;
 	private int width;
-	private Color bg = new Color(255, 204, 255);
+	private Color bg = new Color(204, 204, 255);
+	
+	private int timerCount = 0;
+	private int factor = GUITimer.getSerialFactor();
 
     public LayoutContainerPanel(int widthOfContainer, int heightOfContainer) {
     	setBackground(bg);
@@ -71,8 +74,14 @@ public class LayoutContainerPanel extends JPanel implements ActionListener {
     }
     
       public void actionPerformed(ActionEvent evt){
-    	
-    	GUISerialPort.update();
+      	
+      	if(timerCount % factor == (factor - 1)){
+    		GUISerialPort.update();
+    		timerCount = 0;
+      	}
+      	
+      	else
+      		timerCount++;
     }
     
     

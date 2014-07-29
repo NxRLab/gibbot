@@ -16,11 +16,18 @@ public class AccelSwipeTab extends SampleSwipeTab implements ActionListener {
 	private int h;
 	private double xscale;
 	private double yscale;
+	
 	private Image chart = ImageHandler.getImage("accelChart");
+	
 	private boolean timing;
-	private int headAccel; //int?
-	private int arm1Accel; //int?
-	private int arm2Accel; //int?
+	private int timerCount = 0;
+
+	private int dt = GUITimer.getDelay(); //time b/t timer pulses, ms
+	private int dT = dt*GUITimer.getSerialFactor(); //time b/t serial updates, ms
+	private int arm1Slope = 0;
+	private int arm2Slope = 0;
+	private int arm1Accel = 0; //int?
+	private int arm2Accel = 0; //int?
 	
 	public AccelSwipeTab(int widthOfContainer, int heightOfContainer, String s){
 		super((int)(widthOfContainer/4), heightOfContainer, s);
@@ -38,9 +45,9 @@ public class AccelSwipeTab extends SampleSwipeTab implements ActionListener {
 				GUITimer.addActionListener(this);
 			}
 			g.drawImage(chart, 30, 20, this);
-			g.setColor((Color.RED));
-			g.fillRect(30 + (int)(xscale*43), 20 + (int)(yscale*93) - arm1Accel, (int)(xscale*24), arm1Accel);
-			g.fillRect(30 + (int)(xscale*187), 20 + (int)(yscale*93) - arm2Accel, (int)(xscale*24), arm2Accel);	
+			g.setColor(new Color(36, 149, 176));
+			g.fillRect(30 + (int)(xscale*65), 20 + (int)(yscale*93) - arm1Accel, (int)(xscale*24), arm1Accel);
+			g.fillRect(30 + (int)(xscale*178), 20 + (int)(yscale*93) - arm2Accel, (int)(xscale*24), arm2Accel);	
 		}
 		
 		else {
@@ -54,15 +61,23 @@ public class AccelSwipeTab extends SampleSwipeTab implements ActionListener {
 	
 	public void updateForDrawing(){
 		
-		float[] data = GUISerialPort.getDataF();
-		arm1Accel = (int)(Math.sqrt(data[4]*data[4] + data[5]*data[5]));
-		arm2Accel = (int)(Math.sqrt(data[10]*data[10] + data[11]*data[11]));
+		timerCount++;
 		
-		//headAccel = 20;
-		//arm1Accel = 20;
-		//arm2Accel = 20;
+		if(timerCount % (dT/dt) == (dT/dt - 1)){
+			int[] data = GUISerialPort.getData();
+			arm1Slope = (int)((arm1Slope*(dT - dt) + (Math.sqrt(data[7]*data[7] + data[8]*data[8]) - arm1Accel)*1000)/(dT + 2*dt));
+			arm2Slope = (int)((arm2Slope*(dT - dt) + (Math.sqrt(data[13]*data[13] + data[14]*data[14]) - arm2Accel)*1000)/(dT + 2*dt));
 		
+			arm1Accel = (int)(Math.sqrt(data[7]*data[7] + data[8]*data[8]));
+			arm2Accel = (int)(Math.sqrt(data[13]*data[13] + data[14]*data[14]));
+			
+			timerCount = 0;
 		}
+		else {
+			arm1Accel += (int)(arm1Slope*dt/1000);
+			arm2Accel += (int)(arm2Slope*dt/1000);
+		}
+	}
 		
 	public void actionPerformed(ActionEvent evt){
 		/*if(!getPulled()){

@@ -12,9 +12,12 @@ import javax.swing.*;
 public class GUITimer {
 	
 	private static Timer timer;
+	private static int delay;
+	private static int serialFactor = 3; //must be even for CurrentSwipeTab
     
     public static void start(int millisDelay){
-    	timer = new Timer(millisDelay, null);
+    	delay = millisDelay;
+    	timer = new Timer(delay, null);
     	timer.start();
     }
     
@@ -24,6 +27,14 @@ public class GUITimer {
     
     public static void removeActionListener(ActionListener listener){
     	timer.removeActionListener(listener);
+    }
+    
+    public static int getDelay(){
+    	return delay;
+    }
+    
+    public static int getSerialFactor(){
+    	return serialFactor;
     }
     
     
