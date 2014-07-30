@@ -47,7 +47,7 @@ public class GUISerialPort {
 		if(!port.isOpened()){
 			
 			for(int i = 0; i < 19; i++){
-				data[i] = 50;
+				data[i] = 0;
 			}
 		}
 		
@@ -80,7 +80,7 @@ public class GUISerialPort {
 				tempInt[0] = Integer.parseInt(temp[0]);
 				tempInt[1] = Integer.parseInt(temp[1]);
 				tempInt[2] = Integer.parseInt(temp[2]);
-				tempInt[3] = (int)(Float.parseFloat(temp[3])*15);
+				tempInt[3] = (int)(Float.parseFloat(temp[3])*7.5);
 				tempInt[4] = (int)Float.parseFloat(temp[4]);
 				tempInt[5] = (int)(Float.parseFloat(temp[5])); //add *2 scalar when we have real vals
 				tempInt[6] = (int)((Float.parseFloat(temp[6]))*4); //?

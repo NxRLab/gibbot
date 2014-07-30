@@ -41,10 +41,10 @@ public class CurrentSwipeTab extends SampleSwipeTab implements ActionListener {
 		par = 0;
 		
 		for(int i = 0; i < n; i++){
-			milliampsE[i] = 20 + (int)(170*yscale); //replace 20 w/ y coor where chart image is drawn
-			milliampsO[i] = 20 + (int)(170*yscale);
-			milnewtmetsE[i] = 20 + (int)(170*yscale);
-			milnewtmetsO[i] = 20 + (int)(170*yscale);
+			milliampsE[i] = 20 + (int)(93*yscale); //replace 20 w/ y coor where chart image is drawn
+			milliampsO[i] = 20 + (int)(93*yscale);
+			milnewtmetsE[i] = 20 + (int)(93*yscale);
+			milnewtmetsO[i] = 20 + (int)(93*yscale);
 			t[i] = 10*i + 25 + (int)(26*xscale);  //replace 25 w/ x coor where chart image is drawn
 		}
 	}
@@ -89,8 +89,8 @@ public class CurrentSwipeTab extends SampleSwipeTab implements ActionListener {
 		if(timerCount % factor/2 == 0){
 			int[] data = GUISerialPort.getData();
 			
-			int newCurr = 20 + (int)(170*yscale) - data[3];
-			int newTor = 20 + (int)(170*yscale) -  data[4];
+			int newCurr = 20 + (int)(93*yscale) - data[3];
+			int newTor = 20 + (int)(93*yscale) -  data[4];
 		
 			if(par == 0){
 				par = 1;

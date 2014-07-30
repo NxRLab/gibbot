@@ -105,19 +105,36 @@ public class ImageHandler {
     	g2.setFont(andale);
     	g2.setColor(Color.BLACK);
     	g2.drawLine(26, 15, 26, 170);
-    	g2.drawLine(26, 170, 217, 170);
     	g2.drawLine(217, 170, 217, 15);
     	g2.setColor(new Color(0, 51, 153));
     	g2.drawString("time", 102, 183);
     	g2.setColor(LIGHTER_GRAY);
-    	g2.fillRect(27, 15, 190, 155);
+    	g2.fillRect(27, 15, 190, 156);
     	g2.setColor(Color.BLACK);
+    	g2.drawLine(26, 93, 217, 93);
     	g2.setFont(andale.deriveFont(12));
-    	for(int i = 1; i < 10; i++)
-    		g2.drawString(Integer.toString(i), 13, 174 - 15*i);
+    	g2.drawString(Integer.toString(-10), 4, 173);
+    	for(int i = 1; i < 5; i++)
+    		g2.drawString(Integer.toString((2*i-10)), 11, 173 - 15*i);
+    	for(int i = 5; i < 10; i++)
+    		g2.drawString(Integer.toString((2*i-10)), 15, 173 - 15*i);
     	g2.drawString("10", 11, 24);
-    	for(int i = 1; i < 12; i++)
-    		g2.drawString(String.format("%1.1f", i*0.1), 219, 171 - 13*i);
+    	//for(int i = 1; i < 5; i++)
+    	//	g2.drawString("-." + Integer.toString(-2*i+10), 219, 171 - 13*i);
+    	for(int i = -1; i < 12; i++){
+    		if (i == 5)
+    			g2.drawString("0", 219, 98);
+    		else{
+	 			if(i>9 | i<1)
+	 				g2.drawString(String.format("%.1f", .1*(2*i-10)), 219, 163 - 13*i);					
+ 				else{ 
+ 					if(i<5)
+ 						g2.drawString("-." + (-2*i+10), 218, 163 - 13*i); 						
+ 					else	
+    					g2.drawString("." + (2*i-10), 219, 163 - 13*i);
+ 				}
+    		}
+    	}
     	g2.setFont(andale);
     	g2.rotate(-Math.PI/2);
     	g2.setColor(new Color(207, 46, 46));

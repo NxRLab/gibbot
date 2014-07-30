@@ -13,7 +13,7 @@ public class GUITimer {
 	
 	private static Timer timer;
 	private static int delay;
-	private static int serialFactor = 3; //must be even for CurrentSwipeTab
+	private static int serialFactor = 4; //must be even for CurrentSwipeTab
     
     public static void start(int millisDelay){
     	delay = millisDelay;
