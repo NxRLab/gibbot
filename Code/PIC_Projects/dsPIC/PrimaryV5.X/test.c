@@ -18,6 +18,37 @@ int senddata=0;
 unsigned short csdata[1024];
 int j=0;
 
+typedef struct {
+    int low_ang;
+    int mot_ang;
+    int top_ang;
+    float current;
+    float torque;
+    float mot_temp;
+    float batt_volt;
+    double accel_x;
+    double accel_y;
+    double accel_z;
+    double gyro_x;
+    double gyro_y;
+    double gyro_z;
+    double accel_xs;
+    double accel_ys;
+    double accel_zs;
+    double gyro_xs;
+    double gyro_ys;
+    double gyro_zs;
+} Sensor_data;
+
+typedef struct {
+    double accel_xs;
+    double accel_ys;
+    double accel_zs;
+    double gyro_xs;
+    double gyro_ys;
+    double gyro_zs;
+} IMU_data;
+
 void test_MayDay(void){
     unsigned char command;
     unsigned short data;
@@ -49,7 +80,7 @@ void test_MayDay(void){
             write_UART(data>>8);
             printf("%u\n",Avi);
             printf("%i\n",(Avi - data));
-            printf("%i\n",ADC_to_current(data));
+            printf("%5.2f\n",ADC_to_current(data));
         } else if(command=='1'){ //Set Encoder Values
             write_LOWMAGENC(1600);
             write_MOTENC(1700);
@@ -192,102 +223,111 @@ void test_MayDay(void){
           read_string_UART(d1,5);
           printf("%s\n",d1);
       } else if(command == 'q'){
-          unsigned char send[200],d1[10];
+          LED4 = !LED4;
+          unsigned char d1[10];
+          Sensor_data sensor_data;
+          unsigned char send2[500];
           short temp3;
-          //int temp2;
-          int low_ang,mot_ang,top_ang,current,torque;
-          double mot_temp,batt_volt;
-          double accel_x,accel_y,accel_z,gyro_x,gyro_y,gyro_z,accel_xs,accel_ys,accel_zs,gyro_xs,gyro_ys,gyro_zs;
-          low_ang = encoder_to_angle(read_LOWMAGENC(),'l');
-          //send[0] = temp2;
-          //send[1] = temp2 >> 8;
-          mot_ang = encoder_to_angle(read_MOTENC(),'m');
-          //send[2] = temp2;
-          //send[3] = temp2 >> 8;
-          top_ang = encoder_to_angle(read_TOPMAGENC(),'t');
-          //send[4] = temp2;
-          //send[5] = temp2 >> 8;
+          sensor_data.low_ang = encoder_to_angle(read_LOWMAGENC(),'l');
+          sensor_data.mot_ang = encoder_to_angle(read_MOTENC(),'m');
+          sensor_data.top_ang = encoder_to_angle(read_TOPMAGENC(),'t');
           temp3 = read_ADC();
-          current = ADC_to_current(temp3);
-          //send[6] = temp2;
-          //send[7] = temp2 >> 8;
-          torque = ADC_to_torque(temp3);
-          //send[8] = temp2;
-          //send[9] = temp2 >> 8;
-          mot_temp = 98.62;
-          batt_volt = 12.54;
-          /*send[10] = 0xFF;
-          send[11] = 0xFF;
-          send[12] = 0xFF;
-          send[13] = 0xFF;
-          send[14] = 0xFF;
-          send[15] = 0xFF;
-          send[16] = 0xFF;
-          send[17] = 0xFF;
-          send[18] = 0xFF;
-          send[19] = 0xFF;
-          send[20] = 0xFF;
-          send[21] = 0xFF;
-          send[22] = 0xFF;
-          send[23] = 0xFF;
-          send[24] = 0xFF;
-          send[25] = 0xFF;*/
-          read_Accel(d1);
-          accel_x = Accel_convert(d1,0,1);
-          accel_y = Accel_convert(d1,2,3);
-          accel_z = Accel_convert(d1,4,5);
-          read_Gyro(d1);
-          gyro_x = Gyro_convert(d1,0,1);
-          gyro_y = Gyro_convert(d1,2,3);
-          gyro_z = Gyro_convert(d1,4,5);
+          sensor_data.current = ADC_to_current(temp3);
+          sensor_data.torque = ADC_to_torque(temp3);
+          sensor_data.mot_temp = 98.62;
+          sensor_data.batt_volt = 12.54;
+          //read_Accel(d1);
+          //sensor_data.accel_x = Accel_convert(d1,0,1);
+          //sensor_data.accel_y = Accel_convert(d1,2,3);
+          //sensor_data.accel_z = Accel_convert(d1,4,5);
+          sensor_data.accel_x = 2.32;
+          sensor_data.accel_y = -1.43;
+          sensor_data.accel_z = 0.50;
+          //read_Gyro(d1);
+          //sensor_data.gyro_x = Gyro_convert(d1,0,1);
+          //sensor_data.gyro_y = Gyro_convert(d1,2,3);
+          //sensor_data.gyro_z = Gyro_convert(d1,4,5);
+          sensor_data.gyro_x = 1.22;
+          sensor_data.gyro_y = 15.55;
+          sensor_data.gyro_z = 9.87;
           read_Accel_Secondary(d1);
-          accel_xs = Accel_convert(d1,0,1);
-          accel_ys = Accel_convert(d1,2,3);
-          accel_zs = Accel_convert(d1,4,5);
+          sensor_data.accel_xs = Accel_convert(d1,0,1);
+          sensor_data.accel_ys = Accel_convert(d1,2,3);
+          sensor_data.accel_zs = Accel_convert(d1,4,5);
           read_Gyro_Secondary(d1);
-          gyro_xs = Gyro_convert(d1,0,1);
-          gyro_ys = Gyro_convert(d1,2,3);
-          gyro_zs = Gyro_convert(d1,4,5);
-          //write_string_UART(send,26);
-          sprintf(send,"%i %i %i %i %i %5.2f %4.2f %5.4f %5.4f %5.4f %5.4f %5.4f %5.4f %5.4f %5.4f %5.4f %5.4f %5.4f %5.4f\n",low_ang,mot_ang,top_ang,current,torque,mot_temp,batt_volt,accel_x,accel_y,accel_z,gyro_x,gyro_y,gyro_z,accel_xs,accel_ys,accel_zs,gyro_xs,gyro_ys,gyro_zs);
-          printf("%s",send);
+          sensor_data.gyro_xs = Gyro_convert(d1,0,1);
+          sensor_data.gyro_ys = Gyro_convert(d1,2,3);
+          sensor_data.gyro_zs = Gyro_convert(d1,4,5);
+          sprintf(send2,"%i %i %i %05.2f %05.2f %5.2f %4.2f %5.4f %5.4f %5.4f %5.4f %5.4f %5.4f %5.4f %5.4f %5.4f %5.4f %5.4f %5.4f\n",sensor_data.low_ang,sensor_data.mot_ang,sensor_data.top_ang,sensor_data.current,sensor_data.torque,sensor_data.mot_temp,sensor_data.batt_volt,sensor_data.accel_x,sensor_data.accel_y,sensor_data.accel_z,sensor_data.gyro_x,sensor_data.gyro_y,sensor_data.gyro_z,sensor_data.accel_xs,sensor_data.accel_ys,sensor_data.accel_zs,sensor_data.gyro_xs,sensor_data.gyro_ys,sensor_data.gyro_zs);
+          printf("%s",send2);
+          LED4 = !LED4;
       } else if(command == 'y'){
           initialize_ADC_Offset();
       } else if(command == 'z'){
           unsigned char d1[5];
           read_MPU_test(d1);
       } else if(command == 'x'){
-          unsigned char d1[10],d2[3],d3[10],d4[3];
-          double s1,s2;
-          unsigned int s;
-          read_Gyro(d1);
-          read_Accel(d3);
-          d2[0] = d1[4];
-          d2[1] = d1[5];
-          s = d1[5] << 8 | d1[4];
-                  //Gyro_convert(d2);
-          d4[0] = d3[4];
-          d4[1] = d3[5];
-          //s2 = Accel_convert(d4);-----------------------
-          //printf("%u %f",s,s2);
+          unsigned char d1[10];
+          IMU_data imu;
+          char *send = &imu;
+          //,send[50];
+          //double accel_xs,accel_ys,accel_zs,gyro_xs,gyro_ys,gyro_zs;
+          read_Accel_Secondary(d1);
+          imu.accel_xs = Accel_convert(d1,0,1);
+          imu.accel_ys = Accel_convert(d1,2,3);
+          imu.accel_zs = Accel_convert(d1,4,5);
+          read_Gyro_Secondary(d1);
+          imu.gyro_xs = Gyro_convert(d1,0,1);
+          imu.gyro_ys = Gyro_convert(d1,2,3);
+          imu.gyro_zs = Gyro_convert(d1,4,5);
+          //sprintf(send,"%5.4f %5.4f %5.4f %5.4f %5.4f %5.4f\n",accel_xs,accel_ys,accel_zs,gyro_xs,gyro_ys,gyro_zs);
+          //printf("%s",send);
+           for (i=0; i<sizeof(imu);i++){
+              write_UART(send[i]);
+          }
       } else if(command == 'r'){
+          LED4 = !LED4;
           unsigned char d1[10];
-          double s;
-          write_UART2('9');
-          while(!(uart_buffer.len>5));
-          read_string_UART(d1,6);
-          s = d1[1] << 8 | d1[0];
-          s = 4.8828125e-04 * s;
-          printf("%f",s);
+          Sensor_data sensor_data;
+          char *send = &sensor_data;
+          short temp3;
+          sensor_data.low_ang = encoder_to_angle(read_LOWMAGENC(),'l');
+          sensor_data.mot_ang = encoder_to_angle(read_MOTENC(),'m');
+          sensor_data.top_ang = encoder_to_angle(read_TOPMAGENC(),'t');
+          temp3 = read_ADC();
+          sensor_data.current = ADC_to_current(temp3);
+          sensor_data.torque = ADC_to_torque(temp3);
+          sensor_data.mot_temp = 98.62;
+          sensor_data.batt_volt = 12.54;
+          //read_Accel(d1);
+          //sensor_data.accel_x = Accel_convert(d1,0,1);
+          //sensor_data.accel_y = Accel_convert(d1,2,3);
+          //sensor_data.accel_z = Accel_convert(d1,4,5);
+          sensor_data.accel_x = 2.32;
+          sensor_data.accel_y = -1.43;
+          sensor_data.accel_z = 0.50;
+          //read_Gyro(d1);
+          //sensor_data.gyro_x = Gyro_convert(d1,0,1);
+          //sensor_data.gyro_y = Gyro_convert(d1,2,3);
+          //sensor_data.gyro_z = Gyro_convert(d1,4,5);
+          sensor_data.gyro_x = 1.22;
+          sensor_data.gyro_y = 15.55;
+          sensor_data.gyro_z = 9.87;
+          read_Accel_Secondary(d1);
+          sensor_data.accel_xs = Accel_convert(d1,0,1);
+          sensor_data.accel_ys = Accel_convert(d1,2,3);
+          sensor_data.accel_zs = Accel_convert(d1,4,5);
+          read_Gyro_Secondary(d1);
+          sensor_data.gyro_xs = Gyro_convert(d1,0,1);
+          sensor_data.gyro_ys = Gyro_convert(d1,2,3);
+          sensor_data.gyro_zs = Gyro_convert(d1,4,5);
+          for (i=0; i<sizeof(Sensor_data);i++){
+              write_UART(send[i]);
+          }
       } else if(command == 's'){
-          unsigned char d1[10];
-          double s;
-          write_UART2('a');
-          while(!(uart_buffer.len>5));
-          read_string_UART(d1,6);
-          s = d1[1] << 8 | d1[0];
-          s = .0609756098 * s;
-          printf("%f",s);
+          unsigned char d1[50];
+          sprintf(d1,"%s","11111111111111111111111111111111111111111111111111111111111");
+          printf("%s",d1);
       }
     }
 }

@@ -59,15 +59,23 @@ void read_Gyro(unsigned char *data){
 }
 
 void read_Accel_Secondary(unsigned char *data){
+    unsigned short i;
     write_UART2('9');
     while(!(uart_buffer.len>5));
-    read_string_UART(data,6);
+    //read_string_UART(data,6);
+    for (i=0;i<6;i++){
+        data[i] = read_UART();
+    }
 }
 
 void read_Gyro_Secondary(unsigned char *data){
+    unsigned short i;
     write_UART2('a');
     while(!(uart_buffer.len>5));
-    read_string_UART(data,6);
+    //read_string_UART(data,6);
+     for (i=0;i<6;i++){
+        data[i] = read_UART();
+    }
 }
 
 void read_MPU_test(unsigned char *data){
