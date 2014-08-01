@@ -1,0 +1,44 @@
+/**
+ * @(#)GibbotGUI3.java
+ *
+ *
+ * @author 
+ * @version 1.00 2014/7/30
+ */
+
+
+import javax.swing.*;
+
+/*Sets up external window to display content*/
+ 
+public class GibbotGUI3 extends JFrame{
+    
+    public static void main(String[] args) {
+    	
+    	SwingUtilities.invokeLater(new Runnable() {
+      		public void run() {
+        		GibbotGUI3 gui = new GibbotGUI3();
+        		gui.setVisible(true);
+        		gui.setExtendedState(MAXIMIZED_BOTH);
+      }
+    });
+  }
+
+ 	 private GibbotGUI3() {
+    	GUITimer.start(GUITimer.getMillisPerFrame());
+      	GUISerialPort.open(); 
+      	ImageHandler.loadImages();
+      	ImageHandler.drawImages();
+    	
+    	super.setLayout(null);	 	
+    	super.setSize(1300, 800);
+    	super.setUndecorated(false);
+      	super.setLocation(50,50);
+      	super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      	
+      	LayoutContainerPanel content = new LayoutContainerPanel(super.getWidth(), super.getHeight());
+      	super.setContentPane(content);    	     
+    	
+ 	 }
+    
+}
