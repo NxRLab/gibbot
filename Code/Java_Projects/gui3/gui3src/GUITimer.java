@@ -9,6 +9,10 @@
 import java.awt.event.*;
 import javax.swing.*;
 
+/*Wrapper class for Swing Timer; gets started by GibbotGUI3 and is used for
+ *animations. GUILayeredPane listens for timer fires and calls GUISerialPort.update()
+ *in response, so that individual components don't all have to.*/
+
 public class GUITimer {
 	
 	private static Timer timer;
@@ -16,7 +20,6 @@ public class GUITimer {
 	private static int serialFactor = 10;
 	private static int millisPerFrame = 33;
 	
-    
     public static void start(int millisDelay){
     	delay = millisDelay;
     	timer = new Timer(delay, null);

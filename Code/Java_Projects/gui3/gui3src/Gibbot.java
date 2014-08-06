@@ -7,24 +7,20 @@
  */
 import java.lang.Math;
 import java.awt.*;
-import java.awt.geom.*;
 
 /*Contains data on where the robot is to be translated to user interface*/
+ 
 public class Gibbot {
 	
-	private double pivotX, pivotY, armX, armY, legX, legY;
+	//these will be based on true dimensions
 	private final double ARMW = 100;
 	private final double LEGW = 100;
 	private final double ARMH = 20;
 	private final double LEGH = 20;
+	
+	private double pivotX, pivotY, armX, armY, legX, legY;
 	private double radius = ARMH/2; //NOTE: if height of arm and leg are different, this will need to be changed.
 	private double theta;
-	private RoundRectangle2D arm = new RoundRectangle2D.Double();
-	private RoundRectangle2D leg = new RoundRectangle2D.Double();
-	private Shape rotatedArm;
-	private Shape rotatedLeg;
-	
-	AffineTransform transform = new AffineTransform();
 
     public Gibbot() {
     	pivotX = 250;
@@ -53,11 +49,11 @@ public class Gibbot {
     	return armY;
     }
     
-    public double getLegX(){ //Calculate third point based on known position of other two, length of arms, and angle b/t them
+    public double getLegX(){ 
     	return legX;
     }
     
-    public double getLegY(){ //Ditto
+    public double getLegY(){ 
     	return legY;
     }
     
@@ -78,8 +74,8 @@ public class Gibbot {
      
      public void arcMotionUpdate(double frameCount){
     	
-     		if((int)(frameCount/50)%2==0){             //frameCount/(ARMW/2)
-     			armX+=8;							   //+=(2*ARMW)/framespersec
+     		if((int)(frameCount/50)%2==0){             
+     			armX+=8;							   
      			armY=Math.sqrt(4*Math.pow(ARMW,2)-Math.pow((armX-legX),2))+legY;
      			pivotX+=4;
      			pivotY=Math.sqrt(Math.pow(ARMW,2)-Math.pow((pivotX-legX),2))+legY;

@@ -9,13 +9,15 @@
  
 import java.awt.*;
 
-/*Contains the data on where the robot is assigned to move and image data for the user interface*/
+/*Contains the data on where the robot is assigned to move, and image data for the user interface*/
+ 
 public class Banana {
+	
+	private Image banana;
 
 	private int x;
 	private int y;
-	private Image banana;
-
+	
 	public Banana() {
 		banana = ImageHandler.getImage("banana");
         x = 0;

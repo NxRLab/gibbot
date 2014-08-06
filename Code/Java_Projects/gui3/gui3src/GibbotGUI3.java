@@ -6,11 +6,15 @@
  * @version 1.00 2014/7/30
  */
 
-
 import javax.swing.*;
 
-/*Sets up external window to display content*/
- 
+/*Runs GUI. Note that GUISerialPort, GUITimer, and ImageHandler are activated here.
+ *All visuals are contained in GUILayeredPane. setSize() parameters should
+ *remain the same to preserve graphics quality; if screen size needs to be 
+ *adjusted, setBounds() method for LayoutContainerPanels should be altered 
+ *in GUILayeredPane.
+ */
+  
 public class GibbotGUI3 extends JFrame{
     
     public static void main(String[] args) {
@@ -29,15 +33,14 @@ public class GibbotGUI3 extends JFrame{
       	GUISerialPort.open(); 
       	ImageHandler.loadImages();
       	ImageHandler.drawImages();
-    	
-    	super.setLayout(null);	 	
+    		 	
     	super.setSize(1300, 800);
-    	super.setUndecorated(false);
+    	super.setUndecorated(true);
       	super.setLocation(50,50);
       	super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       	
-      	LayoutContainerPanel content = new LayoutContainerPanel(super.getWidth(), super.getHeight());
-      	super.setContentPane(content);    	     
+    	GUILayeredPane content = new GUILayeredPane(getWidth(), getHeight());
+    	setContentPane(content);
     	
  	 }
     

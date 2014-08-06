@@ -6,11 +6,16 @@
  * @version 1.00 2014/7/22
  */
 import java.awt.*;
-import java.awt.geom.*;
 import java.awt.image.*;
 import java.io.*;
 import java.util.*;
 import javax.imageio.*;
+
+/*Downloads/draws all complex images at initialization of GUI (this class is 
+ *called by GibbotGUI3). Also downloads AndaleMono font, which is used throughout
+ *the GUI. Methods that need any images from here call getImage() before their
+ *constructor method.
+ */
 
 public class ImageHandler {
 	
@@ -23,16 +28,16 @@ public class ImageHandler {
 	private static BufferedImage hardwareChart = new BufferedImage(146, 185, BufferedImage.TYPE_BYTE_INDEXED);
 	private static BufferedImage speedometer = new BufferedImage(363, 185, BufferedImage.TYPE_BYTE_INDEXED);
 	
-	private static HashMap<String, Image> map = new HashMap<String, Image>(10);
-	private static String[] imageNames = new String[] {"banana", "bananaBubble", "board", "bucket", "bunch", "gibbotBubble", 
-		"accelChart", "angleChart", "currentChart", "hardwareChart", "speedometer"};
+	private static HashMap<String, Image> map = new HashMap<String, Image>(15);
+	private static String[] imageNames = new String[] {"currentChart", "hardwareChart", "speedometer",  
+		"banana", "bananaBubble", "board", "bunch", "gibbotBubble", "gibbotTab1", "gibbotTab2", "gibbotTab3", "sleepBubble"};
 
     public ImageHandler() {
     }
     
     public static void loadImages(){ //also loads AndaleMono Font
     
-    	for(int i = 0; i < 6; i++){
+    	for(int i = 3; i < 12; i++){
     		try {
     			Image img = ImageIO.read(new File(imageNames[i]+".png"));
 				map.put(imageNames[i], img);
@@ -56,49 +61,8 @@ public class ImageHandler {
     public static void drawImages(){ //draws all chart backgrounds for swipe tabs
     
     	Color LIGHTER_GRAY = new Color(225, 225, 225);
+ 		Graphics2D g2;
     
-    	//accel
-    	Graphics2D g2 = accelChart.createGraphics();
-    	g2.setColor(Color.WHITE);
-    	g2.fillRect(0, 0, 254, 185);
-    	g2.setFont(andale);
-    	g2.setColor(LIGHTER_GRAY);
-    	g2.fillRect(28, 15, 210, 156);
-    	g2.setColor(Color.BLACK);
-    	g2.drawLine(27, 15, 27, 170);
-    	g2.drawLine(27, 93, 237, 93);
-    	g2.setColor(new Color(0, 51, 153));
-    	g2.drawString("arm 1", 57, 183);
-    	g2.drawString("arm 2", 170, 183);
-    	g2.setFont(andale.deriveFont(8));
-    	for(int i = 2; i > -3; i--)
-    		if(i >= 0)
-    			g2.drawString(Integer.toString(i), 18, 97 - i*35);
-    		else
-    			g2.drawString(Integer.toString(i), 11, 97 - i*35);
-    	g2.setFont(andale);
-    	g2.rotate(-Math.PI/2);
-    	g2.drawString("acceleration  (g)", -156, 9);
-    	map.put(imageNames[6], accelChart);
-    	  	
-    	//angle
-    	g2 = angleChart.createGraphics();
-    	g2.setColor(Color.WHITE);
-    	g2.fillRect(0, 0, 363, 185);
-    	g2.setFont(andale);
-    	g2.setColor(new Color(0, 51, 153));
-    	g2.drawString("arm 1", 78, 183);
-    	g2.drawString("head", 185, 183);
-    	g2.drawString("arm 2", 292, 183);
-    	g2.rotate(-Math.PI/2);
-    	g2.drawString("angular", -159, 15);
-    	g2.drawString("velocity", -162, 29);
-    	g2.drawString("(deg/sec)", -167, 43);
-    	g2.drawString("theta", -60, 29);
-    	g2.drawString("(degrees)", -75, 43);
-    	g2.dispose();
-    	map.put(imageNames[7], angleChart);
-    	
     	//current
     	g2 = currentChart.createGraphics();
     	g2.setColor(Color.WHITE);
@@ -120,8 +84,6 @@ public class ImageHandler {
     	for(int i = 5; i < 10; i++)
     		g2.drawString(Integer.toString((2*i-10)), 15, 173 - 15*i);
     	g2.drawString("10", 11, 24);
-    	//for(int i = 1; i < 5; i++)
-    	//	g2.drawString("-." + Integer.toString(-2*i+10), 219, 171 - 13*i);
     	for(int i = -1; i < 12; i++){
     		if (i == 5)
     			g2.drawString("0", 219, 98);
@@ -143,7 +105,7 @@ public class ImageHandler {
     	g2.setColor(new Color(36, 149, 176));
     	g2.drawString("torque  (N*m)", -147, 252);
     	g2.dispose();
-    	map.put(imageNames[8], currentChart);
+    	map.put(imageNames[0], currentChart);
     	
     	//hardware
     	g2 = hardwareChart.createGraphics();
@@ -170,7 +132,7 @@ public class ImageHandler {
     	g2.drawString("battery", 73, 155);
     	g2.drawString("life (V)", 70, 169);
     	g2.dispose();
-    	map.put(imageNames[9], hardwareChart);
+    	map.put(imageNames[1], hardwareChart);
     	
     	//speedometer;
     	g2 = speedometer.createGraphics();
@@ -197,7 +159,7 @@ public class ImageHandler {
     	g2.setColor(new Color(0, 51, 153));
     	g2.drawString("speed of \"arms\"", 129, 183);
     	g2.dispose();
-    	map.put(imageNames[10], speedometer);
+    	map.put(imageNames[2], speedometer);
     	
     }
     

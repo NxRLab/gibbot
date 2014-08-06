@@ -9,8 +9,16 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+/*Displays current and torque as an animated line graph with a double y-axis.
+ *Stores points in two different arrays and updates/draws them alternatively 
+ *depending on the value of the par (parity) variable - which is either zero or
+ *one. This was done to cut back on lengthy array updating functions.
+ */
+
 public class CurrentBox extends JPanel implements ActionListener{
 
+    private Image chart = ImageHandler.getImage("currentChart");
+    
     private int width;
     private int height;
     private int w;
@@ -18,10 +26,7 @@ public class CurrentBox extends JPanel implements ActionListener{
 	private double xscale;
 	private double yscale;
 	
-	private Image chart = ImageHandler.getImage("currentChart");
 	private Color bg = new Color(204, 204, 255);	
-	//private Color bg = new Color(255, 255, 255);
-	
 	private int[] milliampsE;
 	private int[] milliampsO;	
 	private int[] milnewtmetsE;
@@ -32,7 +37,7 @@ public class CurrentBox extends JPanel implements ActionListener{
 	
 	public CurrentBox(int widthOfContainer, int heightOfContainer){
 		
-		width = (int)(widthOfContainer/4);
+		width = widthOfContainer/4;
 		height = (int)(heightOfContainer/3.25);
 		
 		super.setPreferredSize(new Dimension(width, height));
@@ -40,8 +45,8 @@ public class CurrentBox extends JPanel implements ActionListener{
 		
 		w = (int)width -70;
 		h = height-60;
-		xscale = (w/254);
-		yscale = (h/185);
+		xscale = w/254.0;
+		yscale = h/185.0;
 		n = (int)(200*xscale/10); //points drawn 10 pixles apart
 		
 		milliampsE = new int[n];
@@ -114,28 +119,20 @@ public class CurrentBox extends JPanel implements ActionListener{
 	
 	public void drawTab(int width, int height, Graphics g){
     	
-    	Graphics2D g2 = (Graphics2D)g;
+    	g.setColor(new Color(125, 125, 125, 50)); //lightest gray
+    	g.fillRoundRect(7, 7, width - 7, height + 12, 12, 12);
     	
-    	g2.setColor(new Color(125, 125, 125, 50)); //lightest gray
-    	g2.fillRoundRect(7, 7, width - 7, height + 12, 12, 12);
-    	
-    	g2.setColor(new Color(125, 125, 125, 100)); //light gray
-    	g2.fillRoundRect(7, 7, width - 11, height + 8, 12, 12);
+    	g.setColor(new Color(125, 125, 125, 100)); //light gray
+    	g.fillRoundRect(7, 7, width - 11, height + 8, 12, 12);
         
-        g2.setColor(new Color(125, 125, 125, 150)); //middle gray
-    	g2.fillRoundRect(7, 7, width - 15, height + 4, 12, 12);
+        g.setColor(new Color(125, 125, 125, 150)); //middle gray
+    	g.fillRoundRect(7, 7, width - 15, height + 4, 12, 12);
     	
-    	g2.setColor(new Color(130, 130, 130, 200)); //dark gray
-    	g2.fillRoundRect(7, 7, width - 19, height, 9, 9);
+    	g.setColor(new Color(130, 130, 130, 200)); //dark gray
+    	g.fillRoundRect(7, 7, width - 19, height, 9, 9);
    		
-   		g2.setColor(Color.WHITE); //white
-    	g2.fillRoundRect(3, 3, width - 19, height, 12, 12);
-    	
-    	g2.setStroke(new BasicStroke(4));  //blue
-    	g2.setColor(new Color(0, 51, 153)); 
-    	//g2.drawRoundRect(13, 13, width - 39, height-20, 9, 9);
-    	
-    	g2.setStroke(new BasicStroke(1));
+   		g.setColor(Color.WHITE); //white
+    	g.fillRoundRect(3, 3, width - 19, height, 12, 12);
 
 	}
 	

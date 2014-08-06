@@ -9,13 +9,16 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+/*Displays the message: "real time wireless data from the gibbot" with an animated
+ *wireless signal. Note that font size is set in the first line.
+ */
+
 public class TextBox extends JPanel implements ActionListener{
 	
-	private Color bg = new Color(204, 204, 255);
 	private Font andaleBig = ImageHandler.getFont().deriveFont(Font.BOLD, 36);
+	
 	private int width;
 	private int height;
-	private Polygon triangle;
 	
 	private final int W0 = 0;
 	private final int W1 = 1;
@@ -26,21 +29,18 @@ public class TextBox extends JPanel implements ActionListener{
 	private int timerCount;
 	private int updateCount = (int)(750/GUITimer.getMillisPerFrame()); //symbol updates every .75 seconds
 	
+	private Color bg = new Color(204, 204, 255);
 	JButton okButton;
 
     public TextBox(int widthOfContainer, int heightOfContainer) {
     	
-    	width = (int)(widthOfContainer/4) - 20;
+    	width = widthOfContainer/4 - 20;
     	height = (int)(heightOfContainer/3.25) - 30;
     	super.setPreferredSize(new Dimension(width, height));
     	super.setBackground(bg);
     	timerCount = 0;
     	wireless = -1;
     	GUITimer.addActionListener(this);
-    	
-    	okButton = new JButton("OK");
-    	ButtonHandler listener = new ButtonHandler();
-    	okButton.addActionListener(listener);
     }
     
     public void paintComponent(Graphics g){
@@ -52,18 +52,6 @@ public class TextBox extends JPanel implements ActionListener{
     }
     
     public void drawTextBubble(int x, int y, int width, int height, Graphics g){
-    	
-    	/*g.setColor(new Color(125, 125, 125, 50)); //lightest gray
-    	g.fillRoundRect(x + 4, y + 4, width - 7, height + 12, 12, 12);
-    	
-    	g.setColor(new Color(125, 125, 125, 100)); //light gray
-    	g.fillRoundRect(x + 4, y + 4, width - 11, height + 8, 12, 12);
-        
-        g.setColor(new Color(125, 125, 125, 150)); //middle gray
-    	g.fillRoundRect(x + 4, y + 4, width - 15, height + 4, 12, 12);
-    	
-    	g.setColor(new Color(130, 130, 130, 200)); //dark gray
-    	g.fillRoundRect(x + 4, y + 4, width - 19, height, 9, 9);*/
    		
    		g.setColor(Color.WHITE); //white
     	g.fillRoundRect(x, y, width - 19, height, 12, 12);
@@ -101,17 +89,18 @@ public class TextBox extends JPanel implements ActionListener{
     }
     
     public void actionPerformed(ActionEvent evt){  //symbol changes every .75 seconds
-    	if(timerCount % updateCount == 0){
-    		wireless++;
-    		repaint();
-    	}
-    	
-    	if(timerCount == updateCount*4){
-    		timerCount = 1;
-    		wireless = W0;
-    	}
-    	else
-    		timerCount++;
+
+	    	if(timerCount % updateCount == 0){
+    			wireless++;
+    			repaint();
+	    	}
+    		
+	    	if(timerCount == updateCount*4){
+    			timerCount = 1;
+    			wireless = W0;
+	    	}
+    		else
+    			timerCount++;
     	
     }
     

@@ -5,14 +5,28 @@
  * @author 
  * @version 1.00 2014/7/11
  */
-import java.awt.event.*;
+
 import javax.swing.*;
 import jssc.*;
+
+/*Wrapper class for jssc SerialPort; gets all data from wireless
+ *serial connection. GUILayeredPane calls update() method at a set interval,
+ *which updates the data[] array, then GUI components are free to call
+ *getData() when they need to without causing confliction serial commands.
+ *Conversion to ints/ scaling is done in update().
+ *
+ *tempInt[] is used to store information as it is being converted for use
+ *in GUI so that a call to getData() won't return a partially updated array.
+ *
+ *sendGoalCoors() currently unimplemented in GUI, but available for when camera is set up.
+ */
 
 public class GUISerialPort {
 	
 	private static SerialPort port = new SerialPort("COM5");
 	 
+	private final static double RADIUS = .15; //distance in meters from gyroscope to center of rotation
+	
 	private static String str = "";
 	private static String[] temp = new String[19];
 	private static int[] tempInt = new int[19];
@@ -90,13 +104,13 @@ public class GUISerialPort {
 				tempInt[9] = (int)(Float.parseFloat(temp[9])*35);
 				tempInt[10] = (int)Float.parseFloat(temp[10]);
 				tempInt[11] = (int)Float.parseFloat(temp[11]);
-				tempInt[12] = Math.abs((int)(Float.parseFloat(temp[12])*.6));
+				tempInt[12] = Math.abs((int)(Float.parseFloat(temp[12])*4*RADIUS)); //converts velocity into angle for speedometer
 				tempInt[13] = (int)(Float.parseFloat(temp[13])*35);
 				tempInt[14] = (int)(Float.parseFloat(temp[14])*35);
 				tempInt[15] = (int)(Float.parseFloat(temp[15])*35);
 				tempInt[16] = (int)Float.parseFloat(temp[16]);
 				tempInt[17] = (int)Float.parseFloat(temp[17]);
-				tempInt[18] = Math.abs((int)(Float.parseFloat(temp[18])*.6));
+				tempInt[18] = Math.abs((int)(Float.parseFloat(temp[18])*4*RADIUS)); //converts velocity into angle for speedometer
 				
 				data = tempInt;
 					
