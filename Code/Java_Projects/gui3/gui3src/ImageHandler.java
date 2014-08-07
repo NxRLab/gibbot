@@ -30,14 +30,15 @@ public class ImageHandler {
 	
 	private static HashMap<String, Image> map = new HashMap<String, Image>(15);
 	private static String[] imageNames = new String[] {"currentChart", "hardwareChart", "speedometer",  
-		"banana", "bananaBubble", "board", "bunch", "gibbotBubble", "gibbotTab1", "gibbotTab2", "gibbotTab3", "sleepBubble"};
+		"banana", "bananaBubble", "batteryArrow", "batteryBar", "board", "bunch", "gibbotBubble", 
+		"gibbotTab1", "gibbotTab2", "gibbotTab3", "sleepBubble"};
 
     public ImageHandler() {
     }
     
     public static void loadImages(){ //also loads AndaleMono Font
     
-    	for(int i = 3; i < 12; i++){
+    	for(int i = 3; i < 14; i++){
     		try {
     			Image img = ImageIO.read(new File(imageNames[i]+".png"));
 				map.put(imageNames[i], img);
@@ -65,7 +66,7 @@ public class ImageHandler {
     
     	//current
     	g2 = currentChart.createGraphics();
-    	g2.setColor(Color.WHITE);
+    	g2.setColor(new Color(240, 240, 240));
     	g2.fillRect(0, 0, 254, 185);
     	g2.setFont(andale);
     	g2.setColor(Color.BLACK);
@@ -109,7 +110,7 @@ public class ImageHandler {
     	
     	//hardware
     	g2 = hardwareChart.createGraphics();
-    	g2.setColor(Color.WHITE);
+    	g2.setColor(new Color(240, 240, 240));
     	g2.fillRect(0, 0, 146, 185);
     	g2.setFont(andale);
     	g2.setColor(Color.BLACK);
@@ -136,13 +137,13 @@ public class ImageHandler {
     	
     	//speedometer;
     	g2 = speedometer.createGraphics();
-    	g2.setColor(Color.WHITE);
+    	g2.setColor(new Color(240, 240, 240));
     	g2.fillRect(0, 0, 363, 185);
     	g2.setFont(andale);
     	g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     	g2.setPaint(new GradientPaint(50, 75, new Color(0, 51, 153), 225, 75, new Color(207, 46, 46)));
     	g2.fillArc(27, 8, 310, 310, 0, 180);
-    	g2.setColor(Color.WHITE);
+    	g2.setColor(new Color(240, 240, 240));
     	g2.fillArc(36, 17, 292, 292, 0, 180);
     	g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
     	g2.setColor(new Color(225, 225, 225));

@@ -24,7 +24,6 @@ public class HardwareBox extends JPanel implements ActionListener{
 	private double xscale;
 	private double yscale;
 	
-	private Color bg = new Color(204, 204, 255);
 	private int batt; 
 	private int temp; 
 	
@@ -32,8 +31,8 @@ public class HardwareBox extends JPanel implements ActionListener{
 		
 		width = widthOfContainer/6;
 		height = (int)(heightOfContainer/3.25);
-		super.setPreferredSize(new Dimension(width, height));
-		super.setBackground(bg);
+		setPreferredSize(new Dimension(width, height));
+		setBackground(GibbotGUI3.globalBg);
 		w = width - 70;
 		h = height - 60;
 		xscale = w/146.0;
@@ -58,8 +57,8 @@ public class HardwareBox extends JPanel implements ActionListener{
 	
 		int[] data = GUISerialPort.getData();	
 	
-		batt = data[6]; 
-		temp = data[5]; 
+		batt = data[3]; 
+		temp = data[2]; 
 			
 	}
 			
@@ -78,7 +77,7 @@ public class HardwareBox extends JPanel implements ActionListener{
     	g.setColor(new Color(130, 130, 130, 200)); //dark gray
     	g.fillRoundRect(7, 7, width - 19, height, 9, 9);
    		
-   		g.setColor(Color.WHITE); //white
+   		g.setColor(new Color(240, 240, 240));
     	g.fillRoundRect(3, 3, width - 19, height, 12, 12);
     	
 	}

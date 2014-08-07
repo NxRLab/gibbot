@@ -1,22 +1,19 @@
-/**
- * @(#)GibbotGUI3.java
- *
- *
- * @author 
- * @version 1.00 2014/7/30
+/*GibbotGUI3 is a JFrame (window) object that runs the GUI. 
+ *Note that {@link GUISerialPort}, {@link GUITimer}, and {@link ImageHandler} are activated here.
+ *All visuals are contained in an instance of {@link GUILayeredPane}. 
  */
 
 import javax.swing.*;
-
-/*Runs GUI. Note that GUISerialPort, GUITimer, and ImageHandler are activated here.
- *All visuals are contained in GUILayeredPane. setSize() parameters should
- *remain the same to preserve graphics quality; if screen size needs to be 
- *adjusted, setBounds() method for LayoutContainerPanels should be altered 
- *in GUILayeredPane.
- */
+import java.awt.Color;
   
 public class GibbotGUI3 extends JFrame{
+	
+	/*Background color for all elements in the awake view.*/
+	public final Color globalBg = new Color(255, 255, 255);
+	/*Panel that contains all graphics*/
+	private GUILayeredPane content;
     
+   /* Main method that runs.*/
     public static void main(String[] args) {
     	
     	SwingUtilities.invokeLater(new Runnable() {
@@ -27,7 +24,10 @@ public class GibbotGUI3 extends JFrame{
       }
     });
   }
-
+	 /*Constructor for the GibbotGUI3 object. Parameters of setSize() call should remain the same to preserve 
+	 graphics quality; if screen size needs to be adjusted, parameters of setBounds() calls for awake and asleep panels 
+	 should be altered in constructor code of {@link GUILayeredPane}.*/
+  	 	
  	 private GibbotGUI3() {
     	GUITimer.start(GUITimer.getMillisPerFrame());
       	GUISerialPort.open(); 
@@ -39,7 +39,7 @@ public class GibbotGUI3 extends JFrame{
       	super.setLocation(50,50);
       	super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       	
-    	GUILayeredPane content = new GUILayeredPane(getWidth(), getHeight());
+    	content = new GUILayeredPane();
     	setContentPane(content);
     	
  	 }

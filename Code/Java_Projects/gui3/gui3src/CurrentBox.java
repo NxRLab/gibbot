@@ -26,7 +26,8 @@ public class CurrentBox extends JPanel implements ActionListener{
 	private double xscale;
 	private double yscale;
 	
-	private Color bg = new Color(204, 204, 255);	
+	//private Color bg = new Color(204, 204, 255);
+private Color bg = new Color(135, 135, 114);	
 	private int[] milliampsE;
 	private int[] milliampsO;	
 	private int[] milnewtmetsE;
@@ -40,8 +41,8 @@ public class CurrentBox extends JPanel implements ActionListener{
 		width = widthOfContainer/4;
 		height = (int)(heightOfContainer/3.25);
 		
-		super.setPreferredSize(new Dimension(width, height));
-    	super.setBackground(bg);
+		setPreferredSize(new Dimension(width, height));
+    	setBackground(GibbotGUI3.globalBg);
 		
 		w = (int)width -70;
 		h = height-60;
@@ -91,8 +92,8 @@ public class CurrentBox extends JPanel implements ActionListener{
 		
 		int[] data = GUISerialPort.getData();
 			
-		int newCurr = 20 + (int)(93*yscale) - data[3];
-		int newTor = 20 + (int)(93*yscale) -  data[4];
+		int newCurr = 20 + (int)(93*yscale) - data[0];
+		int newTor = 20 + (int)(93*yscale) -  data[1];
 		
 		if(par == 0){
 			par = 1;
@@ -131,7 +132,7 @@ public class CurrentBox extends JPanel implements ActionListener{
     	g.setColor(new Color(130, 130, 130, 200)); //dark gray
     	g.fillRoundRect(7, 7, width - 19, height, 9, 9);
    		
-   		g.setColor(Color.WHITE); //white
+   		g.setColor(new Color(240, 240, 240));
     	g.fillRoundRect(3, 3, width - 19, height, 12, 12);
 
 	}

@@ -29,15 +29,16 @@ public class TextBox extends JPanel implements ActionListener{
 	private int timerCount;
 	private int updateCount = (int)(750/GUITimer.getMillisPerFrame()); //symbol updates every .75 seconds
 	
-	private Color bg = new Color(204, 204, 255);
+	//private Color bg = new Color(204, 204, 255);
+	private Color bg = new Color(135, 135, 114);
 	JButton okButton;
 
     public TextBox(int widthOfContainer, int heightOfContainer) {
     	
     	width = widthOfContainer/4 - 20;
     	height = (int)(heightOfContainer/3.25) - 30;
-    	super.setPreferredSize(new Dimension(width, height));
-    	super.setBackground(bg);
+    	setPreferredSize(new Dimension(width, height));
+    	setBackground(GibbotGUI3.globalBg);
     	timerCount = 0;
     	wireless = -1;
     	GUITimer.addActionListener(this);
@@ -53,8 +54,8 @@ public class TextBox extends JPanel implements ActionListener{
     
     public void drawTextBubble(int x, int y, int width, int height, Graphics g){
    		
-   		g.setColor(Color.WHITE); //white
-    	g.fillRoundRect(x, y, width - 19, height, 12, 12);
+   		/*g.setColor(Color.WHITE); //white
+    	g.fillRoundRect(x, y, width - 19, height, 12, 12);*/
     	
     	g.setColor(new Color(0, 51, 153));
     	g.drawString("real time", x + 15, 70);
@@ -64,7 +65,7 @@ public class TextBox extends JPanel implements ActionListener{
     	
     	Graphics2D g2 = (Graphics2D)g;
     	g2.setStroke(new BasicStroke(5, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
-    	g2.setColor(Color.WHITE);
+    	g2.setColor(new Color (0, 51, 153));
     	
     	switch(wireless){
     		case(W0):

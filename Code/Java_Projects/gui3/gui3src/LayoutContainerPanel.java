@@ -44,6 +44,7 @@ public class LayoutContainerPanel extends JPanel{
     	
     	c.weighty = .3;
     	c.gridwidth = 1;
+    	c.anchor = GridBagConstraints.SOUTH;
     	
     	TextBox text = new TextBox(width, height);
     	c.gridx = 0;
