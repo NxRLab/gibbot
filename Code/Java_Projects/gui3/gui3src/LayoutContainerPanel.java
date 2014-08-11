@@ -1,32 +1,30 @@
-/**
- * @(#)LayoutContainerPanel.java
- *
- *
- * @author 
- * @version 1.00 2014/7/1
- */
 
 import javax.swing.*;
 import java.awt.*;
 
-/*This is the "awake" view of the GUI. Basically just handles layout for
- *all subpanels in that view: BananaPanel1, TextBox, Speedometer, HardwareBox,
- *and CurrentBox instances.
+/**LayoutContainerPanel is the "awake" view of the GUI. Basically just handles layout for
+ *all subpanels in that view: {@link BananaPanel1}, {@link TextBox}, {@link Speedometer}, {@link HardwareBox},
+ *and {@link CurrentBox} instances.
  */
-
 public class LayoutContainerPanel extends JPanel{
 	
+	/**Used to communicate available space to child components*/
 	private int height;
+	/**Used to communicate available space to child components*/
 	private int width;
-	
-	private Color bg = new Color(204, 204, 255);
-	public BananaPanel1 bananapan; //this is declared public for access by GUILayeredPane for enabling/disabling
+
+	/**bananapan is declared public for access by {@link GUILayeredPane} for enabling/disabling*/
+	public BananaPanel1 bananapan;
+	/**Tells layout manager where to position child components */
 	GridBagConstraints c;
 
+	/**Configures layout and adds child components.
+	 @param widthOfContainer used to set {@link width}
+     @param heightOfContainer used to set {@link height}*/
 
     public LayoutContainerPanel(int widthOfContainer, int heightOfContainer) {
-    	
-    	setBackground(bg);
+
+    	setBackground(GibbotGUI3.globalBg);
     	setLayout(new GridBagLayout());
     	height=heightOfContainer-1;
     	width=widthOfContainer-1;
@@ -70,11 +68,5 @@ public class LayoutContainerPanel extends JPanel{
     	c.weightx = .25;
     	add(current, c);
     }
-    
-    public void paintComponent(Graphics g) {
-
-    		super.paintComponent(g);
-    }
-    
 }
 

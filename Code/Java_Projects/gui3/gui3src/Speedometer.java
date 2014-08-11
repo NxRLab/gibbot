@@ -1,32 +1,37 @@
-/**
- * @(#)Speedometer.java
- *
- *
- * @author 
- * @version 1.00 2014/7/31
- */
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-/*What it sounds like; shows the linear velocity of the two links with two different colored "needles"
+/**Speedometer is what it sounds like; shows the linear velocity of the two links with two different colored "needles"
  */
-
 public class Speedometer extends JPanel implements ActionListener{
 	
 	private Image chart = ImageHandler.getImage("speedometer");
 
-    private int width;
-    private int height;
+    /**Specified by LayoutContainerPanel parent. Used to set preferred dimensons in constructor*/
+	private int height;
+	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensons in constructor*/
+	private int width;
+    
+    /**Width for drawing chart image (not really needed unless parameters of setBounds() call in {@link GUILayeredPane#GUILayeredPane} are altered)*/
     private int w;
+    /**Height for drawing chart image (not really needed unless parameters of setBounds() call in {@link GUILayeredPane#GUILayeredPane} are altered)*/
 	private int h;
+	/**Horizontal scale for drawing chart image (not really needed unless parameters of setBounds() call in {@link GUILayeredPane#GUILayeredPane} are altered)*/
 	private double xscale;
+	/**Vertical for drawing chart image (not really needed unless parameters of setBounds() call in {@link GUILayeredPane#GUILayeredPane} are altered)*/
 	private double yscale;
 	
-	private int arm1vel; 
+	/**Value of velocity for first link (primary board) that's displayed on the speedometer*/	
+	private int arm1vel;
+	/**Value of velocity for second link (secondary board) that's displayed on the speedometer*/ 
 	private int arm2vel; 
 	
+	/**Constructor sets preferred size to tell layout manager of {@link LayoutContainerPanel} how to draw this panel;
+    Initializes chart size variables.
+    @param widthOfContainer used to set {@link #width}
+    @param heightOfContainer used to set {@link #height}*/
 	public Speedometer(int widthOfContainer, int heightOfContainer){
 		
 		width = widthOfContainer/3;
@@ -40,6 +45,11 @@ public class Speedometer extends JPanel implements ActionListener{
 		GUITimer.addActionListener(this);
 	}
 	
+	/**Override of {@link javax.swing.JComponent#paintComponent}. super.paintComponent() call fills background color.
+    This is what is executed whenever repaint() is called in the program. 
+    Calls {@link #drawTab} to draw containing rectangle and shadow, draws chart image, then draws needles in the appropriate place. 
+    @param g Graphics context for drawing. Kind of a black box; gets handled in the background somehow
+     */ 
 	public void paintComponent(Graphics g){
 		
 		super.paintComponent(g);
@@ -57,6 +67,8 @@ public class Speedometer extends JPanel implements ActionListener{
 
 	}
 	
+	/**Gets velocity values from {@link GUISerialPort#data}. Called by {@link #actionPerformed}.
+	*/
 	public void updateForDrawing(){
 	
 		int[] data = GUISerialPort.getData();	
@@ -64,8 +76,13 @@ public class Speedometer extends JPanel implements ActionListener{
 		arm1vel = data[4]; 
 		arm2vel = data[5]; 
 			
-	}			
-	
+	}
+				
+	/**Draws the containing rectangle and shadow. Called by {@link #paintComponent}.
+	@param width Width of rectangle available to draw in
+    @param height Height of rectangle available to draw in
+    @param g Graphics context to draw with.
+     */
 	public void drawTab(int width, int height, Graphics g){
     	
     	g.setColor(new Color(125, 125, 125, 50)); //lightest gray
@@ -85,6 +102,10 @@ public class Speedometer extends JPanel implements ActionListener{
 
 	}
 	
+	/**Specifies how to respond to timer events from {@link GUITimer}. This panel uses events as a signal to 
+    call {@link #updateForDrawing} and repaint.
+    @param evt The timer event (not important to code but required by {@link java.awt.event#ActionListener} interface)
+    */
 	public void actionPerformed(ActionEvent evt){
 		
 		updateForDrawing();

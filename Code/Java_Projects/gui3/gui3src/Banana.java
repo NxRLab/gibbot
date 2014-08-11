@@ -1,46 +1,35 @@
-/**
- * @(#)Banana.java
- *
- * Banana application
- *
- * @author 
- * @version 1.00 2014/6/30
- */
  
 import java.awt.*;
 
-/*Contains the data on where the robot is assigned to move, and image data for the user interface*/
- 
+/**A Banana object contains a banana image's coordinates. Basically just exists to keep some clutter out of {@link BananaPanel1}.*/
+  
 public class Banana {
-	
-	private Image banana;
 
+	/**X-coor of where the user has dragged the banana image*/
 	private int x;
+	/**X-coor of where the user has dragged the banana image*/
 	private int y;
 	
-	public Banana() {
-		banana = ImageHandler.getImage("banana");
-        x = 0;
-        y = 0;
-	}
-	
+	/**Returns x-coor.
+	@return x*/
 	public int getX() {
 		return x;
 	}
-	
+	/**Returns y-coor.
+	@return y*/
 	public int getY() {
 		return y;
 	}
 	
+	/**Sets x-coor.
+	@param cor Horizontal coordinate */
 	public void setX(int cor){
 		x=cor;
 	}
 	
+	/**Sets y-coor.
+	@param cor Vertical coordinate*/
 	public void setY(int cor){
 		y=cor;
-	}
-	
-	public Image getImage() {
-		return banana;
 	}
 }

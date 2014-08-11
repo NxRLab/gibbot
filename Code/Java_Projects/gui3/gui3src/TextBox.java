@@ -1,61 +1,72 @@
-/**
- * @(#)TextBox.java
- *
- *
- * @author 
- * @version 1.00 2014/7/31
- */
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-/*Displays the message: "real time wireless data from the gibbot" with an animated
- *wireless signal. Note that font size is set in the first line.
+/**TextBox displays the message: "real time wireless data from the gibbot" with an animated
+ *wireless signal.
  */
 
 public class TextBox extends JPanel implements ActionListener{
 	
-	private Font andaleBig = ImageHandler.getFont().deriveFont(Font.BOLD, 36);
+	/**Font used to write. Set to bold, size 36.*/
+	private final Font ANDALE_BIG = ImageHandler.getFont().deriveFont(Font.BOLD, 36);
 	
-	private int width;
+	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensons in constructor*/
 	private int height;
+	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensons in constructor*/
+	private int width;
 	
+	/**Wireless signal: dot only*/
 	private final int W0 = 0;
+	/**Wireless signal: dot, one arc*/
 	private final int W1 = 1;
+	/**Wireless signal: dot, two arcs*/
 	private final int W2 = 2;
+	/**Wireless signal: dot, three arcs*/
 	private final int W3 = 3;
 	
+	/**Set to W[int] to determine which wireless signal frame to draw.*/
 	private int wireless;
+	/**Used to update {@link #wireless} at even intervals.*/
 	private int timerCount;
-	private int updateCount = (int)(750/GUITimer.getMillisPerFrame()); //symbol updates every .75 seconds
-	
-	//private Color bg = new Color(204, 204, 255);
-	private Color bg = new Color(135, 135, 114);
-	JButton okButton;
+	/**How many timer events heard before wireless is updated (currently set so that signal updates every .75 seconds*/
+	private final int UPDATE_COUNT = (int)(750/GUITimer.getMillisPerFrame()); //symbol updates every .75 seconds
 
+    /**Constructor sets preferred size to tell layout manager of {@link LayoutContainerPanel} how to draw this panel;
+    Initializes some graphics elements including wireless signal.
+    @param widthOfContainer used to set {@link #width}
+    @param heightOfContainer used to set {@link #height}*/
     public TextBox(int widthOfContainer, int heightOfContainer) {
     	
     	width = widthOfContainer/4 - 20;
     	height = (int)(heightOfContainer/3.25) - 30;
     	setPreferredSize(new Dimension(width, height));
     	setBackground(GibbotGUI3.globalBg);
+    	setFont(ANDALE_BIG);
     	timerCount = 0;
     	wireless = -1;
     	GUITimer.addActionListener(this);
     }
     
+    /**Override of {@link javax.swing.JComponent#paintComponent}. super.paintComponent() call fills background color.
+     *This is what is executed whenever repaint() is called in the program. 
+     *Calls {@link #drawTextBubble} to draw everything. If images need to be relocated/resized, change parameters of this call.
+     *@param g Graphics context for drawing. Kind of a black box; gets handled in the background somehow */  	
     public void paintComponent(Graphics g){
     	
     	super.paintComponent(g);
-    	g.setFont(andaleBig);
     	drawTextBubble(10, 20, width - 30, height - 20, g);
     	
     }
     
+    /**Draws all graphics for the TextBox panel.
+    @param x X-coor of upper left corner
+    @param y Y-coor of upper left corner
+    @param width Width of rectangle available to draw in
+    @param height Height of rectangle available to draw in
+    @param g Graphics context to draw with.*/
     public void drawTextBubble(int x, int y, int width, int height, Graphics g){
-   		
-   		/*g.setColor(Color.WHITE); //white
-    	g.fillRoundRect(x, y, width - 19, height, 12, 12);*/
     	
     	g.setColor(new Color(0, 51, 153));
     	g.drawString("real time", x + 15, 70);
@@ -89,14 +100,17 @@ public class TextBox extends JPanel implements ActionListener{
     	}
     }
     
-    public void actionPerformed(ActionEvent evt){  //symbol changes every .75 seconds
+    /**Specifies how to respond to timer events from {@link GUITimer}. This panel uses events as a signal to 
+    update {@link #wireless} at frequency determined by {@link #UPDATE_COUNT}.
+    @param evt The timer event (not important to code but required by {@link java.awt.event#ActionListener} interface)*/
+    public void actionPerformed(ActionEvent evt){  
 
-	    	if(timerCount % updateCount == 0){
+	    	if(timerCount % UPDATE_COUNT == 0){
     			wireless++;
     			repaint();
 	    	}
     		
-	    	if(timerCount == updateCount*4){
+	    	if(timerCount == UPDATE_COUNT*4){
     			timerCount = 1;
     			wireless = W0;
 	    	}

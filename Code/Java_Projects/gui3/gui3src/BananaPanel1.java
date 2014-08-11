@@ -1,65 +1,82 @@
-/**
- * @(#)BananaPanel1.java
- *
- *
- * @author 
- * @version 1.00 2014/6/30
- */
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-/*Handles user placement of bananas, animation of robot, and draws metal board background.
- *Note: once process is implemented to get camera data, ActionListener implementation, 
- *actionPerformed() method, timerCount variable will no longer be needed in this class.
- */
- 
-
+/**BananaPanel1 handles user directions for the robot's goal coordinates (in the form of dragging and dropping
+a banana on the screen), and controls animation of the robot in its movement towards those coordinates. Contained
+by an instance of {@link LayoutContainerPanel}.*/
 public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
 	
+	private Image bananaImg = ImageHandler.getImage("banana");
 	private Image bananaBubble = ImageHandler.getImage("bananaBubble");
 	private Image board = ImageHandler.getImage("board");
 	private Image bunch = ImageHandler.getImage("bunch");
 	private Image gibbotBubble = ImageHandler.getImage("gibbotBubble");
 	private Font andaleBig = ImageHandler.getFont().deriveFont(Font.BOLD, 64);
 	
+	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensons in constructor*/
 	private int height;
+	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensons in constructor*/
 	private int width;
 	
-	private final int XBOUND = 30; //board image has upper left corner at (20, 10) with width 1285 and height 450
+	/**Margin around the board that can't be passed in the x direction when the user is placing banana image.
+	Note that the board image has upper left corner at (20, 10) with width 1285 and height 450.*/
+	private final int XBOUND = 30;
+	/**Margin around the board that can't be passed in the y direction when the user is placing banana image.
+	Note that the board image has upper left corner at (20, 10) with width 1285 and height 450.*/ 
 	private final int YBOUND = 30;
 	
-	private boolean interacting;
+	/**True if the banana has been placed and gibbot movement is being animated.*/
+	private boolean animating;
+	/**True if the user is dragging a banana object around the screen but hasn't placed it yet.*/
 	private boolean dragging;
+	/**True if the user is dragging a banana object around the screen and has breached margins set by {@link #XBOUND} or {@link #YBOUND}.*/
 	private boolean outOfBounds;
 	
 	private Banana banana = new Banana();
 	private Gibbot bob = new Gibbot();
 	private double timerCount; //only for gibbot animation simulation
 	
+	/**Color of the pulsing outline around the prompt to drag and drop a banana.*/
 	private Color promptHighlight;
-	private int a; //alpha (opacity) val of promptHightlight
+	/**Alpha (transparency) value of promptHighlight; this is what changes.*/
+	private int a;
 	
+    /**Constructor sets preferred size to tell layout manager of {@link LayoutContainerPanel} how to draw this panel;
+    sets all boolean state variables to false, initializes some graphics elements.
+    @param widthOfContainer used to set {@link #width}
+    @param heightOfContainer used to set {@link #height}*/
     public BananaPanel1(int widthOfContainer, int heightOfContainer) {
     	
     	width = widthOfContainer-30;
     	height = heightOfContainer*2/3;
     	setPreferredSize(new Dimension(width, height));
-    	interacting = false;
+    	
+    	animating = false;
     	dragging = false;
     	outOfBounds = false;
-    	timerCount = 0;
+    	
     	setBackground(GibbotGUI3.globalBg);
     	setFont(andaleBig);
+    	
     	a = 0;
     	promptHighlight = new Color(207, 46, 46, a);
+    	
+    	timerCount = 0;
     	addMouseListener(this);
     	addMouseMotionListener(this);
     	GUITimer.addActionListener(this);
 		
     }
     
+    /**Override of {@link javax.swing.JComponent#paintComponent}. super.paintComponent() call fills background color.
+    Draws everything. This is what is executed whenever repaint() is called in the program.
+    There are basically four states: (1)Nothing is happening (prompt for dragging a banana pulses);
+    (2)User is dragging a banana around on screen; (3)User is dragging a banana around on screen and is
+    "out of bounds" (red rectangle with warning shows up); (4)User has placed banana and the
+    gibbot is being animated.
+    *@param g Graphics context for drawing. Kind of a black box; gets handled in the background somehow */  	   
     public void paintComponent(Graphics g) {
     	
     	super.paintComponent(g);
@@ -67,9 +84,9 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     	g.drawImage(board, 1, 1, getWidth()-1, getHeight()-1, this);
     	g.setColor(Color.BLACK);
 
-    	if(!interacting){	//Either nothing has happened or the user is moving the banana
+    	if(!animating){	//Either nothing has happened or the user is moving the banana
     		if(dragging){ 	//user is moving the banana
-    			g.drawImage(banana.getImage(), banana.getX(), banana.getY(), 80, 60, this);
+    			g.drawImage(bananaImg, banana.getX(), banana.getY(), 80, 60, this);
     			if(outOfBounds){
     				g.setColor(new Color(255, 0, 0, 150));
     				g.fillRect(56, 37, 1222, 400);
@@ -97,7 +114,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     	}
     	
     	else{		//If the user dropped the banana, this is where we call draw for animation images
-        	g.drawImage(banana.getImage(), banana.getX(), banana.getY(), 80, 60, this);
+        	g.drawImage(bananaImg, banana.getX(), banana.getY(), 80, 60, this);
         	bob.draw(g);    
     	}
     	
@@ -105,9 +122,13 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     	
     }
     
+    /**Called when mouse is pressed (not clicked). Uses location of mouse at press event to set boolean state variables.
+    As long as nothing is currently happening (gibbot is not moving), a click on the bunch of bananas image in the top
+   	right corner initializes a {@link Banana} object and draws it in this class's {@link #paintComponent} method.
+   	@param evt Used to get x, y coordinates of mouse press event*/
     public void mousePressed(MouseEvent evt) {
     	
-    	if(interacting)	//If the user clicks while the animation is going on, nothing happens.
+    	if(animating)	//If the user clicks while the animation is going on, nothing happens.
     		return;
     	
     	int x = evt.getX();
@@ -134,6 +155,9 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     		return;
   }
    
+   /**Called continuously as the mouse is dragged. Only registers if there is a banana object that's being dragged.
+   "Listens" for the user dragging to an "out of bounds" region determined by {@link #XBOUND} and {@link #YBOUND}.
+   @param evt Used to get x, y coordinates of mouse press event*/
    public void mouseDragged(MouseEvent evt){
    	
    		int x = evt.getX();
@@ -150,6 +174,8 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
    		} 		
    }
    
+   /**Called if the user drags out of the panel entirely; current {@link Banana} object is set to null.
+    @param evt Used to get x, y coordinates of mouse press event*/
    public void mouseExited(MouseEvent evt){
    	
    		if(dragging){
@@ -158,6 +184,10 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
    		}
    	}
    
+   /**Called when mouse is released after a press event. Only does something if the user has been dragging a banana.
+   If the coordinates of the release event are "in bounds" as specified by {@link #XBOUND} and {@link #YBOUND}, gibbot animation is
+   activated.
+   @param evt Used to get x, y coordinates of mouse press event*/
    public void mouseReleased(MouseEvent evt){
    		
    		if(dragging){		//NOTE: also need some restriction on target coors to keep real robot from falling off board
@@ -167,24 +197,27 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
 	   		}
 	   		else{
 	   			dragging = false;
-   				interacting = true;
+   				animating = true;
    				//GUISerialPort.sendGoalCoors(evt.getX(), evt.getY());
 	   		}
    		}	
    }
    
-   public void actionPerformed(ActionEvent evt){   //Handles events from the timer. Only needed for gibbot animation simulation
+   /**Specifies how to respond to timer events from {@link GUITimer}. This panel uses events as a signal to 
+   change {@link #promptHighlight} color, and to run gibbot animation (which is canned right now; see: 
+   {@link Gibbot#arcMotionUpdate}). Checks for when gibbot reaches banana and resets panel when it does.
+   @param evt The timer event (not important to code but required by {@link java.awt.event#ActionListener} interface)*/
+   public void actionPerformed(ActionEvent evt){
 											
-   		if(interacting && (int)bob.getPivotX() <= banana.getX()){  //If the robot is not to the bananas yet	
+   		if(animating && (int)bob.getPivotX() <= banana.getX()){  //If the robot is not to the bananas yet	
    			bob.arcMotionUpdate(timerCount);
-   				//SERIAL: above call will be replaced by getting coordinates of the three "clusters" from python code, 
-   				//sending it to updateRealCoors method
+   			//With camera data, above call will be replaced by bob.updateRealCoors(); 
    			timerCount++;
    		}
    		
    		else{
-   			if(interacting){ 	//When the robot reaches the bananas, the panel resets itself.            
-	   			interacting = false;
+   			if(animating){ 	//When the robot reaches the bananas, the panel resets itself.            
+	   			animating = false;
    				timerCount=0;
    				bob.reset();
    			}
@@ -201,9 +234,11 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
    			
    		repaint();
    }
-   /*Required methods for MouseListener interface*/
+   /**Required for MouseListener interface*/
    public void mouseClicked(MouseEvent evt){}
+   /**Required for MouseListener interface*/
    public void mouseEntered(MouseEvent evt){}
+   /**Required for MouseMotionListener interface*/
    public void mouseMoved(MouseEvent evt){}
     
 }
