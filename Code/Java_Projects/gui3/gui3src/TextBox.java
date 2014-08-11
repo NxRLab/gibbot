@@ -63,8 +63,8 @@ public class TextBox extends JPanel implements ActionListener{
     /**Draws all graphics for the TextBox panel.
     @param x X-coor of upper left corner
     @param y Y-coor of upper left corner
-    @param width Width of rectangle available to draw in
-    @param height Height of rectangle available to draw in
+    @param width Width of rectangle available to draw text in
+    @param height Height of rectangle available to draw text in
     @param g Graphics context to draw with.*/
     public void drawTextBubble(int x, int y, int width, int height, Graphics g){
     	
@@ -80,22 +80,22 @@ public class TextBox extends JPanel implements ActionListener{
     	
     	switch(wireless){
     		case(W0):
-    			g2.fillOval(width, height/2 + 15, 15, 15);
+    			g2.fillOval(width - 5, height/2 + 15, 15, 15);
     			break;
     		case(W1):;
-    			g2.fillOval(width, height/2 + 15, 15, 15);
-    			g2.drawArc(width - 30, height/2 - 7, 60, 60, -45, 90);
+    			g2.fillOval(width - 5, height/2 + 15, 15, 15);
+    			g2.drawArc(width - 35, height/2 - 7, 60, 60, -45, 90);
     			break;
     		case(W2):;
-    			g2.fillOval(width, height/2 + 15, 15, 15);
-    			g2.drawArc(width - 30, height/2 - 7, 60, 60, -45, 90);
-    			g2.drawArc(width - 45, height/2 - 22, 90, 90, -45, 90);
+    			g2.fillOval(width - 5, height/2 + 15, 15, 15);
+    			g2.drawArc(width - 35, height/2 - 7, 60, 60, -45, 90);
+    			g2.drawArc(width - 50, height/2 - 22, 90, 90, -45, 90);
     			break;
     		case(W3):;
-    			g2.fillOval(width, height/2 + 15, 15, 15);
-    			g2.drawArc(width - 30, height/2 - 7, 60, 60, -45, 90);
-    			g2.drawArc(width - 45, height/2 - 22, 90, 90, -45, 90);
-    			g2.drawArc(width - 60, height/2 - 37, 120, 120, -45, 90);
+    			g2.fillOval(width - 5, height/2 + 15, 15, 15);
+    			g2.drawArc(width - 35, height/2 - 7, 60, 60, -45, 90);
+    			g2.drawArc(width - 50, height/2 - 22, 90, 90, -45, 90);
+    			g2.drawArc(width - 65, height/2 - 37, 120, 120, -45, 90);
     			break;
     	}
     }

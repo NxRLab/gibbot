@@ -8,10 +8,10 @@ import java.awt.*;
  */
 public class LayoutContainerPanel extends JPanel{
 	
-	/**Used to communicate available space to child components*/
-	private int height;
-	/**Used to communicate available space to child components*/
-	private int width;
+	/**Specified by GUILayeredPane parent. Used to communicate available space to child components*/
+	private int drawingHeight;
+	/**Specified by GUILayeredPane parent. Used to communicate available space to child components*/
+	private int drawingWidth;
 
 	/**bananapan is declared public for access by {@link GUILayeredPane} for enabling/disabling*/
 	public BananaPanel1 bananapan;
@@ -19,17 +19,18 @@ public class LayoutContainerPanel extends JPanel{
 	GridBagConstraints c;
 
 	/**Configures layout and adds child components.
-	 @param widthOfContainer used to set {@link width}
-     @param heightOfContainer used to set {@link height}*/
-
-    public LayoutContainerPanel(int widthOfContainer, int heightOfContainer) {
+	 @param drawW used to set {@link #drawingWidth}
+     @param drawH used to set {@link #drawingHeight}
+	 @param sizeW only used to pass to {@link BananaPanel1#BananaPanel1}; comes from {@link GUILayeredPane}.
+	 @param sizeH only used to pass to {@link BananaPanel1#BananaPanel1}; comes from {@link GUILayeredPane}.*/
+    public LayoutContainerPanel(int drawW, int drawH, int sizeW, int sizeH) {
 
     	setBackground(GibbotGUI3.globalBg);
     	setLayout(new GridBagLayout());
-    	height=heightOfContainer-1;
-    	width=widthOfContainer-1;
+    	drawingHeight=drawH-1;
+    	drawingWidth=drawW-1;
     	
-    	bananapan = new BananaPanel1(width, height);
+    	bananapan = new BananaPanel1(drawingWidth, drawingHeight, sizeW, sizeH);
     	c = new GridBagConstraints();
     	c.gridx=0;
     	c.gridy=0;
@@ -44,25 +45,25 @@ public class LayoutContainerPanel extends JPanel{
     	c.gridwidth = 1;
     	c.anchor = GridBagConstraints.SOUTH;
     	
-    	TextBox text = new TextBox(width, height);
+    	TextBox text = new TextBox(drawingWidth, drawingHeight);
     	c.gridx = 0;
     	c.gridy = 1;
     	c.weightx = .25;
     	add(text, c);
     	
-    	Speedometer speed = new Speedometer(width, height);
+    	Speedometer speed = new Speedometer(drawingWidth, drawingHeight);
     	c.gridx = 1;
     	c.gridy = 1;
     	c.weightx = .33;
     	add(speed, c);
     	
-    	HardwareBox hardware = new HardwareBox(width, height);
+    	HardwareBox hardware = new HardwareBox(drawingWidth, drawingHeight);
     	c.gridx = 2;
     	c.gridy = 1;
     	c.weightx = .16;
     	add(hardware, c);
     	
-    	CurrentBox current = new CurrentBox(width, height);
+    	CurrentBox current = new CurrentBox(drawingWidth, drawingHeight);
     	c.gridx = 3;
     	c.gridy = 1;
     	c.weightx = .25;

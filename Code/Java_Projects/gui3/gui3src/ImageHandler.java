@@ -1,17 +1,11 @@
-/**
- * @(#)ImageHandler.java
- *
- *
- * @author 
- * @version 1.00 2014/7/22
- */
+
 import java.awt.*;
 import java.awt.image.*;
 import java.io.*;
 import java.util.*;
 import javax.imageio.*;
 
-/*Downloads/draws all complex images at initialization of GUI (this class is 
+/*ImageHandler downloads/draws all complex images at initialization of GUI (this class is 
  *called by GibbotGUI3). Also downloads AndaleMono font, which is used throughout
  *the GUI. Methods that need any images from here call getImage() before their
  *constructor method.
@@ -19,24 +13,27 @@ import javax.imageio.*;
 
 public class ImageHandler {
 	
+	/**Used to read image files*/
 	private static InputStream stream;
 	
+	/**Font used throughtout the GUI*/
 	private static Font andale;
-	private static BufferedImage accelChart = new BufferedImage(254, 185, BufferedImage.TYPE_BYTE_INDEXED);
-	private static BufferedImage angleChart = new BufferedImage(363, 185, BufferedImage.TYPE_BYTE_INDEXED);
+	/**For displaying data in CurrentBox*/
 	private static BufferedImage currentChart = new BufferedImage(254, 185, BufferedImage.TYPE_BYTE_INDEXED);
+	/**For displaying data in HardwareBox*/
 	private static BufferedImage hardwareChart = new BufferedImage(146, 185, BufferedImage.TYPE_BYTE_INDEXED);
+	/**For displaying data in Speedometer*/
 	private static BufferedImage speedometer = new BufferedImage(363, 185, BufferedImage.TYPE_BYTE_INDEXED);
 	
+	/**Holds images in a map where each has a key of type String, so that other classes can easily access them.*/
 	private static HashMap<String, Image> map = new HashMap<String, Image>(15);
+	/**All the keys for {@link #map}*/
 	private static String[] imageNames = new String[] {"currentChart", "hardwareChart", "speedometer",  
 		"banana", "bananaBubble", "batteryArrow", "batteryBar", "board", "bunch", "gibbotBubble", 
 		"gibbotTab1", "gibbotTab2", "gibbotTab3", "sleepBubble"};
-
-    public ImageHandler() {
-    }
     
-    public static void loadImages(){ //also loads AndaleMono Font
+    /**Loads png image files and AndaleMono font*/
+    public static void loadImages(){ 
     
     	for(int i = 3; i < 14; i++){
     		try {
@@ -59,7 +56,8 @@ public class ImageHandler {
     	}
     }
     
-    public static void drawImages(){ //draws all chart backgrounds for swipe tabs
+    /**Draws chart images (currentChart, hardwareChart, and speedometer)*/
+    public static void drawImages(){ 
     
     	Color LIGHTER_GRAY = new Color(225, 225, 225);
  		Graphics2D g2;
@@ -164,10 +162,15 @@ public class ImageHandler {
     	
     }
     
+    /**Returns the image in {@link #map} that's associated with the given key.
+     *@param s Key for desired image
+     *@return The image associated with key s.*/
     public static Image getImage(String s){
     	return map.get(s);
     }
     
+    /**Returns AndaleMono font.
+     *@return andale The AndaleMono font.*/
     public static Font getFont(){
     	return andale;
     }

@@ -34,10 +34,8 @@ public class GibbotGUI3 extends JFrame{
       	GUISerialPort.openPort(); 
       	ImageHandler.loadImages();
       	ImageHandler.drawImages();
-    		 	
-    	super.setSize(1300, 800);
+
     	super.setUndecorated(true);
-      	super.setLocation(50,50);
       	super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       	
     	content = new GUILayeredPane();

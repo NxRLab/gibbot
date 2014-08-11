@@ -16,16 +16,20 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
 	private Font andaleBig = ImageHandler.getFont().deriveFont(Font.BOLD, 64);
 	
 	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensons in constructor*/
-	private int height;
+	private int drawingHeight;
 	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensons in constructor*/
-	private int width;
+	private int drawingWidth;
+	/**Specified by LayoutContainerPanel parent. Used to determine "out of bounds" area in x-direction.*/
+	private int sizingHeight;
+	/**Specified by LayoutContainerPanel parent. Used to determine "out of bounds" area in y-direction.*/
+	private int sizingWidth;
 	
 	/**Margin around the board that can't be passed in the x direction when the user is placing banana image.
-	Note that the board image has upper left corner at (20, 10) with width 1285 and height 450.*/
-	private final int XBOUND = 30;
+	Note that the board image has upper left corner at (20, 10) with drawingWidth 1285 and drawingHeight 450.*/
+	private final int XBOUND = 35;
 	/**Margin around the board that can't be passed in the y direction when the user is placing banana image.
-	Note that the board image has upper left corner at (20, 10) with width 1285 and height 450.*/ 
-	private final int YBOUND = 30;
+	Note that the board image has upper left corner at (20, 10) with drawingWidth 1285 and drawingHeight 450.*/ 
+	private final int YBOUND = 27;
 	
 	/**True if the banana has been placed and gibbot movement is being animated.*/
 	private boolean animating;
@@ -45,13 +49,18 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
 	
     /**Constructor sets preferred size to tell layout manager of {@link LayoutContainerPanel} how to draw this panel;
     sets all boolean state variables to false, initializes some graphics elements.
-    @param widthOfContainer used to set {@link #width}
-    @param heightOfContainer used to set {@link #height}*/
-    public BananaPanel1(int widthOfContainer, int heightOfContainer) {
+    @param drawW used to set {@link #drawingWidth}
+    @param drawH used to set {@link #drawingHeight}
+    @param sizeW used to set {@link #sizingWidth}
+    @param sizeH used to set {@link #sizingHeight}*/
+    public BananaPanel1(int drawW, int drawH, int sizeW, int sizeH) {
     	
-    	width = widthOfContainer-30;
-    	height = heightOfContainer*2/3;
-    	setPreferredSize(new Dimension(width, height));
+    	drawingWidth = drawW-30;
+    	drawingHeight = drawH*2/3;
+    	setPreferredSize(new Dimension(drawingWidth, drawingHeight));
+    	
+    	sizingWidth = sizeW;
+    	sizingHeight = sizeH;
     	
     	animating = false;
     	dragging = false;
@@ -89,7 +98,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     			g.drawImage(bananaImg, banana.getX(), banana.getY(), 80, 60, this);
     			if(outOfBounds){
     				g.setColor(new Color(255, 0, 0, 150));
-    				g.fillRect(56, 37, 1222, 400);
+    				g.fillRect(56, 37, sizingWidth - 140, sizingHeight/2 + 15);
     				g.setColor(Color.BLACK);
     				g.drawString("Out of Bounds!", 400, 240);
     			}
@@ -133,8 +142,6 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     	
     	int x = evt.getX();
     	int y = evt.getY();
-    	
-    	System.out.println(x + " " + y);
 
     	if((x - (getWidth() - getHeight()/1.8) > 70) && (y < getHeight()/1.7 - 70)){ //clicked in the right place to start dragging banana
     	
@@ -164,9 +171,9 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
 	    int y = evt.getY();
    	
   	 	if(dragging){
-   			banana.setX(x);
-    		banana.setY(y);
-    		if(x < 20 + XBOUND || x > 1305 - XBOUND || y < 10 + YBOUND || y > 460 - YBOUND)
+   			banana.setX(x - 40);
+    		banana.setY(y - 30);
+    		if(x < 20 + XBOUND || x > sizingWidth - 60 - XBOUND || y < 10 + YBOUND || y > sizingHeight/2 + 73 - YBOUND)
     			outOfBounds = true;
     		else
     			outOfBounds = false;
