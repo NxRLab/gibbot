@@ -15,6 +15,15 @@ public class LayoutContainerPanel extends JPanel{
 
 	/**bananapan is declared public for access by {@link GUILayeredPane} for enabling/disabling*/
 	public BananaPanel1 bananapan;
+	/**current is declared public for access by {@link GUILayeredPane} for enabling/disabling*/
+	public CurrentBox current;
+	/**hardware is declared public for access by {@link GUILayeredPane} for enabling/disabling*/
+	public HardwareBox hardware;
+	/**speed is declared public for access by {@link GUILayeredPane} for enabling/disabling*/
+	public Speedometer speed;
+	/**text is declared public for access by {@link GUILayeredPane} for enabling/disabling*/
+	public TextBox text;
+	
 	/**Tells layout manager where to position child components */
 	GridBagConstraints c;
 
@@ -45,25 +54,25 @@ public class LayoutContainerPanel extends JPanel{
     	c.gridwidth = 1;
     	c.anchor = GridBagConstraints.SOUTH;
     	
-    	TextBox text = new TextBox(drawingWidth, drawingHeight);
+    	text = new TextBox(drawingWidth, drawingHeight);
     	c.gridx = 0;
     	c.gridy = 1;
     	c.weightx = .25;
     	add(text, c);
     	
-    	Speedometer speed = new Speedometer(drawingWidth, drawingHeight);
+    	speed = new Speedometer(drawingWidth, drawingHeight);
     	c.gridx = 1;
     	c.gridy = 1;
     	c.weightx = .33;
     	add(speed, c);
     	
-    	HardwareBox hardware = new HardwareBox(drawingWidth, drawingHeight);
+    	hardware = new HardwareBox(drawingWidth, drawingHeight);
     	c.gridx = 2;
     	c.gridy = 1;
     	c.weightx = .16;
     	add(hardware, c);
     	
-    	CurrentBox current = new CurrentBox(drawingWidth, drawingHeight);
+    	current = new CurrentBox(drawingWidth, drawingHeight);
     	c.gridx = 3;
     	c.gridy = 1;
     	c.weightx = .25;

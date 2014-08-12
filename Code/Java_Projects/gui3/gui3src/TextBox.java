@@ -101,9 +101,10 @@ public class TextBox extends JPanel implements ActionListener{
     }
     
     /**Specifies how to respond to timer events from {@link GUITimer}. This panel uses events as a signal to 
-    update {@link #wireless} at frequency determined by {@link #UPDATE_COUNT}.
+    update {@link #wireless} at frequency determined by {@link #UPDATE_COUNT}. Only updates  for drawing if awake
+    panel is active.
     @param evt The timer event (not important to code but required by {@link java.awt.event#ActionListener} interface)*/
-    public void actionPerformed(ActionEvent evt){  
+    public void actionPerformed(ActionEvent evt){ 
 
 	    	if(timerCount % UPDATE_COUNT == 0){
     			wireless++;
@@ -116,7 +117,5 @@ public class TextBox extends JPanel implements ActionListener{
 	    	}
     		else
     			timerCount++;
-    	
-    }
-    
+		}   	  
 }

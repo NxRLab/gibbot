@@ -122,11 +122,14 @@ public class Gibbot {
 	
 		Graphics2D g2=(Graphics2D)g;
 		
+		g2.setColor(Color.BLACK);
+		
 		g2.fillOval((int)pivotX-10, (int)pivotY-15, (int)ARM1H+12, (int)ARM1H+12);
 		g2.fillOval((int)arm1X-15, (int)arm1Y-15, (int)ARM1H+12, (int)ARM1H+12);
 		g2.fillOval((int)arm2X-15, (int)arm2Y-15, (int)ARM1H+12, (int)ARM1H+12);
 		
 		g2.setStroke(new BasicStroke((int)ARM1H));
+		g2.setColor(Color.BLUE);
 		g2.drawLine((int)arm1X, (int)arm1Y, (int)pivotX, (int)pivotY);
 		g2.drawLine((int)arm2X, (int)arm2Y, (int)pivotX, (int)pivotY);
 	}

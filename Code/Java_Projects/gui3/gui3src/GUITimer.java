@@ -5,13 +5,16 @@ import javax.swing.*;
 /**GUITimer is a wrapper class for Swing Timer; gets started by {@link GibbotGUI3} and is used for animations. 
  *{@link GUILayeredPane#actionPerformed} listens for timer fires and calls {@link GUISerialPort#update} in 
  *response, so that individual components don't all have to. Any object in the GUI that adds itself as an
- *ActionListener using {@link addActionListener} 'hears' the timer fires, and does with them what it wishes. */
+ *ActionListener using {@link addActionListener} 'hears' the timer fires, and does with them what it wishes.
+ *Has capability to run GUI at 30 Hz without updating serial data at that rate (see {@link #serialFactor}, 
+ *but currently everything runs as intended at 30 Hz. */
 public class GUITimer {
 	
 	/**Timer object that is wrapped by this class*/
 	private static Timer timer;
-	/**How many timer fires per one serial update (to limit bugs in serial comm without slowing down the whole program)*/
-	private static int serialFactor = 10;
+	/**How many timer fires per one serial update (to limit bugs in serial comm without slowing down the whole program).
+	 *Right now set to 1 because serial updates are running without issue at 30 Hz.*/
+	private static int serialFactor = 1;
 	/**Time, in milliseconds, between each timer fire*/
 	private static int millisPerFrame = 33;
 	
@@ -29,8 +32,8 @@ public class GUITimer {
     	timer.addActionListener(listener);
     }
     
-    /**Currently unused in code, but can be used if component should not 'hear' timer fires anymore for
-    some reason.
+    /**Keeps objects from 'hearing' timer fires. Used in {@link GUILayeredPane#actionPerformed} to
+     *disable animations when they are not being displayed (due to change between awake/asleep mode).
     @param listener Listener to be added (must extend ActionListener interface)*/
     public static void removeActionListener(ActionListener listener){
     	timer.removeActionListener(listener);

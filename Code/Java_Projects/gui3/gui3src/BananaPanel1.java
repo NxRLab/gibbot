@@ -212,7 +212,8 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
    
    /**Specifies how to respond to timer events from {@link GUITimer}. This panel uses events as a signal to 
    change {@link #promptHighlight} color, and to run gibbot animation (which is canned right now; see: 
-   {@link Gibbot#arcMotionUpdate}). Checks for when gibbot reaches banana and resets panel when it does.
+   {@link Gibbot#arcMotionUpdate}). Checks for when gibbot reaches banana and resets panel when it does. Only 
+   updates for drawing if awake panel is active.
    @param evt The timer event (not important to code but required by {@link java.awt.event#ActionListener} interface)*/
    public void actionPerformed(ActionEvent evt){
 											
@@ -237,8 +238,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
    				a = 255;
    				promptHighlight = new Color(255, 0, 0, a);
    			}
-   		}		
-   			
+   		}		 			
    		repaint();
    }
    /**Required for MouseListener interface*/

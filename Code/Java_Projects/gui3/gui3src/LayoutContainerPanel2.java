@@ -6,7 +6,7 @@ import javax.swing.*;
 /**This is the "asleep" view of the GUI. The gibbotTab images contain "public-friendly" 
  *descriptions of how the robot works. Only subpanel is a {@link ChargingBox} instance.
  */
-public class LayoutContainerPanel2 extends JPanel implements MouseListener, MouseMotionListener {
+public class LayoutContainerPanel2 extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
 
 	private Image batteryArrow = ImageHandler.getImage("batteryArrow");
 	private Image gibbotTab1 = ImageHandler.getImage("gibbotTab1");
@@ -23,8 +23,12 @@ public class LayoutContainerPanel2 extends JPanel implements MouseListener, Mous
 	private boolean pulled2;
 	/**True if top pull tab is being pulled by user*/
 	private boolean pulling1;
-	/**True if top pull tab is being pulled by user*/	
+	/**True if middle pull tab is being pulled by user*/	
 	private boolean pulling2;
+	/**True if the user was swiping the top pull tab and let go*/
+	private boolean floating1;
+	/**True if the user was swiping the middle pull tab and let go*/
+	private boolean floating2;
 	/**True if top tab is pulled open (not visible).
 	 *Allows user to pull top tab closed, since mouse-handling methods don't allow 
 	 *dragging past a certain point - to keep the end of the tab visible.*/
@@ -35,8 +39,17 @@ public class LayoutContainerPanel2 extends JPanel implements MouseListener, Mous
 	/**Difference between left-most edge of the tab image and mouseAt*/
 	private int offset;
 	
-	/**Shows battery status*/
-	private ChargingBox charge;
+	/**Used to track velocity as user is pulling a tab*/
+	private long t = System.currentTimeMillis();
+	/**Velocity at which user is pulling tab (pixels/sec)*/
+	private double v;
+	/**Time between timer fires (sec), used to update velocity of a "floating" tab*/
+	private double dt = (double)GUITimer.getMillisPerFrame()/1000;
+	/**Acceleration of a "floating" tab*/
+	private double a = -2000;
+	
+	/**charge is declared public for access by {@link GUILayeredPane} for enabling/disabling*/
+	public ChargingBox charge;
 
 	/**Constructor adds an instance of {@link ChargingBox} and initializes all boolean state variables to false
 	 *@param sizeW Used to set {@link #sizingWidth}*/
@@ -58,6 +71,8 @@ public class LayoutContainerPanel2 extends JPanel implements MouseListener, Mous
     	pulled2 = false;
     	pulling1 = false;
     	pulling2 = false;
+    	floating1 = false;
+    	floating2 = false;
     	allowDragging = false;
     }
     
@@ -73,33 +88,31 @@ public class LayoutContainerPanel2 extends JPanel implements MouseListener, Mous
     	g.fillRect(0, 0, getWidth(), getHeight());
     	g.drawImage(sleepBubble, 0, 0, this);
     	g.drawImage(batteryArrow, 750, 10, this);
-    	g.drawImage(gibbotTab3, sizingWidth - gibbotTab3.getWidth(this), 
-    			sleepBubble.getHeight(this), this);
+    	g.drawImage(gibbotTab3, sizingWidth - gibbotTab3.getWidth(this), //third tab doesn't move, so it's always drawn															 
+    			sleepBubble.getHeight(this), this);						 //in the same place.
     			
-    	if(!pulled2 && !pulling2)
+    	if(!pulled2 && !pulling2 && !floating2) //closed
     		g.drawImage(gibbotTab2, sizingWidth - gibbotTab2.getWidth(this) + 10, 
     			sleepBubble.getHeight(this) - 30, this); //10 and -30 to account for invisible margins on the images
     	else {
-    		if(pulling2){
+    		if(pulling2 || floating2) //in the middle
     			g.drawImage(gibbotTab2, mouseAt - offset, 
     				sleepBubble.getHeight(this) - 30, this); //-30 to account for invisible margins on the image
-    		}
-    		else{
+    		else{ //open
     			g.drawImage(gibbotTab2, sizingWidth - 120, 
     				sleepBubble.getHeight(this) - 30, this);//-30 to account for invisible margins on the image, -120 to keep a small 
     														//portion visible on screen
     		}
     	}
     	
-    	if(!pulled1 && !pulling1)
+    	if(!pulled1 && !pulling1 && !floating1) //closed
     		g.drawImage(gibbotTab1, sizingWidth - gibbotTab1.getWidth(this) + 160, 
     			sleepBubble.getHeight(this) - 180, this); //160 and -180 to account for invisible margins on the images
     	else {
-    		if(pulling1){
+    		if(pulling1 || floating1) //in the middle
     			g.drawImage(gibbotTab1, mouseAt - offset, 
     				sleepBubble.getHeight(this) - 180, this); //-180 to account for invisible margins on the image
-    		}
-    		else{
+    		else{ //open
     			g.drawImage(gibbotTab1, sizingWidth - 80, 
     				sleepBubble.getHeight(this) - 180, this);//-180 to account for invisible margins on the image, -80 to keep a small 
     														 //portion visible on screen. 
@@ -127,8 +140,6 @@ public class LayoutContainerPanel2 extends JPanel implements MouseListener, Mous
     	
     	int x = evt.getX();
     	int y = evt.getY();
-    	
-    	System.out.println(x + " " + y);
     	
     	if((!pulled1 && !pulled2) || (!pulled1 && pulled2)){ //if top tab is not pulled, the user may only pull open the top tab
     		if (x > 170 + sizingWidth - 1366 && y > 355 && y < 675){
@@ -186,12 +197,14 @@ public class LayoutContainerPanel2 extends JPanel implements MouseListener, Mous
     	int y = evt.getY();
     	
     	if(pulling1){
-    		if(x < 180 + sizingWidth - 1366){
+    		v = (double)(x - mouseAt)/(System.currentTimeMillis() - t)*1000;
+    		t = System.currentTimeMillis();
+    		if(x < 180 + sizingWidth - 1366){ //pulled too far to the left
     			pulling1 = false;
     			pulled1 = false;
     		}
     		else{
-    			if(x > 1330 + sizingWidth - 1366){
+    			if(x > 1330 + sizingWidth - 1366){ //pulled too far to the right
     				if(allowDragging)
     					mouseAt = x;
     				else{
@@ -199,7 +212,7 @@ public class LayoutContainerPanel2 extends JPanel implements MouseListener, Mous
     					pulled1 = true;
     				}
     			}
-    			else{
+    			else{ //just pulling around in the middle (checks to see if it needs to update allowDragging, as well).
     				if(mouseAt < 1330 + sizingWidth - 1366)
     					allowDragging = false;
     				mouseAt = x;
@@ -208,16 +221,18 @@ public class LayoutContainerPanel2 extends JPanel implements MouseListener, Mous
     	}
     	else{
     		if(pulling2){
-    			if(x < 140 + sizingWidth - 1366){
+    			v = (double)(x - mouseAt)/(System.currentTimeMillis() - t)*1000;
+    			t = System.currentTimeMillis();
+    			if(x < 140 + sizingWidth - 1366){ //pulled too far to the left
 	    			pulling2 = false;
     				pulled2 = false;
     			}
     			else{
-	    			if(x > 1320 + sizingWidth - 1366){
+	    			if(x > 1320 + sizingWidth - 1366){ //pulled too far to the right
     					pulling2 = false;
     					pulled2 = true;
     				}
-    				else{
+    				else{ //just pulling around in the middle
     					mouseAt = x;
     				}
     			}	
@@ -228,25 +243,84 @@ public class LayoutContainerPanel2 extends JPanel implements MouseListener, Mous
     }
     
     /**Called when mouse is released. Only does something if user lets go of a tab before they have
-    fully pulled it open, in which case the tab is redrawn as closed
-    @param evt Used to get x, y coordinates of mouse press event
+    fully pulled it open, in which case the tab is set to "floating" state and is handled by {@link #actionPerformed}.
+    @param evt Used to get x coordinate of mouse press event
     */
     public void mouseReleased(MouseEvent evt){
     	
     	int x = evt.getX();
-    	int y = evt.getY();
     	
     	if(pulling1){
     		pulling1 = false;
-    		repaint();
+    		floating1 = true;
+    		GUITimer.addActionListener(this);
+    		//repaint();
     	}
     	else{
     		if(pulling2){
     			pulling2 = false;
+    			floating2 = true;
+    			GUITimer.addActionListener(this);
+    			//repaint();
+    		}
+    	}   			
+    }
+    
+    /**Specifies how to respond to timer events from {@link GUITimer}. This panel uses events as a signal to 
+   update status of a "floating" tab (user let go while swiping; tab continues to move, but decelerates.)
+   @param evt The timer event (not important to code but required by {@link java.awt.event#ActionListener} interface)*/
+    public void actionPerformed(ActionEvent evt){
+    	
+    	if(floating1){
+	    	if(v <= 0){ //stopped before getting anywhere
+    			floating1 = false;
+    			pulled1 = false;
+    			GUITimer.removeActionListener(this);
     			repaint();
+    			return;
+    		}	
+    		else{ //update floating motion
+    			mouseAt = (int)(v*dt + mouseAt);
+    			v = a*dt + v;
+    		}
+    		
+    		if(mouseAt < 180 + sizingWidth - 1366){ //floated too far to the left
+    			floating1 = false;
+    			pulled1 = false;
+    		}
+    		else{
+    			if(mouseAt > 1330 + sizingWidth - 1366){ //floated too far to the right
+    				floating1 = false;
+    				pulled1 = true;
+    			}	
     		}
     	}
-    			
+    		
+    	if(floating2){
+    		if(v <= 0){ //stopped before getting anywhere
+    			floating2 = false;
+    			pulled2 = false;
+    			GUITimer.removeActionListener(this);
+    			repaint();
+    			return;
+    		}	
+    		else{ //update floating motion
+    			mouseAt = (int)(v*dt + mouseAt);
+    			v = a*dt + v;
+    		}
+    		
+    		if(mouseAt < 140 + sizingWidth - 1366){ //floated too far to the left
+	    			floating2 = false;
+    				pulled2 = false;
+    		}
+    			else{
+	    			if(mouseAt > 1320 + sizingWidth - 1366){ //floated too far to the right
+    					floating2 = false;
+    					pulled2 = true;
+    			}
+    		}	
+    	}
+    	repaint();
     }
     
     /**Required for MouseListener interface*/	

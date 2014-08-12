@@ -10,8 +10,8 @@ public class GibbotGUI3 extends JFrame{
 	
 	/**Background color for all elements in the awake view.*/
 	public static final Color globalBg = new Color(255, 255, 255);
-	/**Panel that contains all graphics*/
-	private GUILayeredPane content;
+	/**Panel that contains all graphics.*/
+	private static GUILayeredPane content;
     
    /** Main method that runs.
     *@param args String array of arguments when program is run on command line (handled in the background)*/

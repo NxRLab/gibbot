@@ -161,13 +161,12 @@ public class CurrentBox extends JPanel implements ActionListener{
 	}
 	
 	/**Specifies how to respond to timer events from {@link GUITimer}. This panel uses events as a signal to 
-    call {@link #updateForDrawing} and repaint.
+    call {@link #updateForDrawing} and repaint. Only updates for drawing if awake panel is active.
     @param evt The timer event (not important to code but required by {@link java.awt.event#ActionListener} interface)
     */
 	public void actionPerformed(ActionEvent evt){
-		
-		updateForDrawing();
-		repaint();
-	}
-	
+
+			updateForDrawing();
+			repaint();
+	}	
 }

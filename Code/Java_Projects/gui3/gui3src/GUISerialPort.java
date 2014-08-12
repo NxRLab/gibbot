@@ -6,15 +6,15 @@ import javax.swing.*;
 import jssc.*;
 
 /**Wrapper class for jssc's SerialPort; gets all data from wireless
- *serial connection. GUILayeredPane calls update() method at a set interval,
- *which updates the data[] array, then GUI components are free to call
- *getData() when they need to without causing confliction serial commands.
- *Conversion to ints/ scaling is done in update().
+ *serial connection. GUILayeredPane calls {@link #update} method at a set interval,
+ *which updates the {@link #data} array, then GUI components are free to call
+ *{@link #getData} when they need to without causing confliction serial commands.
+ *Conversion to ints and scaling is done in update().
  *
- *tempData[] is used to store information as it is being converted for use
+ *{@link #tempData} is used to store information as it is being converted for use
  *in GUI so that a call to getData() won't return a partially updated array.
  *
- *sendGoalCoors() currently unimplemented in GUI, but available for when camera is set up.
+ *{@link #sendGoalCoors} currently unimplemented in GUI, but available for when camera is set up.
  */
 
 public class GUISerialPort {
@@ -73,11 +73,13 @@ public class GUISerialPort {
 	}	 
 	
 	/**Updates {@link #data}. Called by {@link GUILayeredPane} in response to {@link GUITimer fires}.
-	 * As per communication protocol, sends a "q" to the other XBee and reads a stream of bytes that
+	 * As per communication protocol, sends an "s" to the other XBee and reads the stream of bytes that
 	 *is returned. Turns the bytes into floats, scales as necessary, converts to ints and writes new 
 	 *values over old ones in {@link #data}. If port is not open or if an error occurs while sending/
-	 *receiving, fills data with dummy values. Note that this does not return the array; {@link #getData}
-	 *must be called for that.*/
+	 *receiving, fills data with dummy values. The problem that seemed to freeze the program was that 
+	 *the last byte would be dropped, so this method checks for that and returns without updating if 
+	 *that is the case (update speed is fast enough that this does not have a noticeable effect on the GUI. 
+	 *Note that this method does not return the data array; {@link #getData} must be called to obtain that.*/
 	public static void update(){  //called by GUILayeredPane in response to timer-generated events
 		
 		if(!port.isOpened()){
@@ -94,19 +96,32 @@ public class GUISerialPort {
 		else{
 			
 			try {
-				port.writeString("q");
-				for(int i = 0; i < 7; i++){
-     				bb = ByteBuffer.wrap(port.readBytes(4));
-     				bb.order(ByteOrder.LITTLE_ENDIAN);
-     				floatHolder[i] = bb.getFloat();		
-     			}
+				port.writeString("s");
+				
+				int bytes = port.getInputBufferBytesCount();
+				
+				for(int i = 0; i < 6; i++){
+					if(bytes % 4 == 0 && bytes > 3){ //makes sure last byte hasn't been dropped
+	     				bb = ByteBuffer.wrap(port.readBytes(4));
+     					bb.order(ByteOrder.LITTLE_ENDIAN);
+     					floatHolder[i] = bb.getFloat();
+     					//System.out.print(floatHolder[i] + " "); //can use to track dropped data
+					}
+					else{ //if last byte has been dropped, reads those in the port to clear it but doesn't do anything with them.
+							port.readBytes();
+							return;
+					}		
+     			}			
+     			
+     			//System.out.println(); //Uncomment this if using print command in for loop above
+     			
 				tempData[0] = (int)(floatHolder[0]*7.5);
 				tempData[1] = (int)floatHolder[1];
 				tempData[2] = (int)floatHolder[2];				
 				tempData[3] = (int)(floatHolder[3]*4);
 				tempData[4] = Math.abs((int)(floatHolder[4]*4*RADIUS));
 				tempData[5] = Math.abs((int)(floatHolder[5]*4*RADIUS));
-				tempData[6] = (int)floatHolder[6]; //for battery signal?
+				//tempData[6] = (int)floatHolder[6]; //for battery signal?
 				
 				for(int i = 0; i < 7; i++)
 					data[i] = tempData[i];
@@ -121,7 +136,8 @@ public class GUISerialPort {
 	}
 	
 	/**Used to send user-determined goal coordinates to the robot. Called by {@link BananaPanel1#mouseReleased}.
-	 *Right now has {@link #port} simply send coordinates as a string, but this is not final or necessary.
+	 *Currently has {@link #port} simply send coordinates as a string, but this is not final or necessary to any
+	 *other part of the program right now.
 	 *@param x X coordinate to be reached by the robot
 	 *@param y Y coordinate to be reached by the robot
 	 **/
