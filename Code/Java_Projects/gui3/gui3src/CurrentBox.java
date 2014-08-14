@@ -16,15 +16,50 @@ public class CurrentBox extends JPanel implements ActionListener{
 	private int height;
 	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensons in constructor*/
 	private int width;
-    
-    /**Width for drawing chart image (not really needed unless parameters of setBounds() call in {@link GUILayeredPane#GUILayeredPane} are altered)*/
+	
+    /**Width for drawing chart image*/
     private int w;
-    /**Height for drawing chart image (not really needed unless parameters of setBounds() call in {@link GUILayeredPane#GUILayeredPane} are altered)*/
+    /**Height for drawing chart image*/
 	private int h;
-	/**Horizontal scale for drawing chart image (not really needed unless parameters of setBounds() call in {@link GUILayeredPane#GUILayeredPane} are altered)*/
+		
+	/**Horizontal scale for drawing chart image (not really needed unless {@link GUILayeredPane#DRAWING_WIDTH} is altered)*/
 	private double xscale;
-	/**Vertical for drawing chart image (not really needed unless parameters of setBounds() call in {@link GUILayeredPane#GUILayeredPane} are altered)*/
+	/**Vertical scale for drawing chart image (not really needed unless {@link GUILayeredPane#DRAWING_HEIGHT} is altered)*/
 	private double yscale;
+	
+	/**Proportion of horizontal space this box will take up in {@link LayoutContainerPanel}. Stronly recommended not to alter.*/
+	private final double CURRENT_WIDTH_ALLOCATION = .25;
+	/**Proportion of vertical space this box will take up in {@link LayoutContainerPanel}. Stronly recommended not to alter.*/
+	private final double CURRENT_HEIGHT_ALLOCATION = 1/3.25;
+	
+	/**Horizontal margin around chart area when placed in panel. Strongly recommended not to alter.*/
+	private final int XMARGIN = 35;
+	/**Vertical margin around chart area when placed in panel. Strongly recommended not to alter.*/
+	private final int YMARGIN = 30;
+	/**X-coor of upper left corner of {@link #chart}. Strongly recommended not to alter.*/
+	private final int CHARTX = 25;
+	/**Y-coor of upper left corner of {@link #chart}. Strongly recommended not to alter.*/
+	private final int CHARTY = 20;
+	/**X-coor of the left origin of the gray graph plane area on current graphic.*/
+	private final int PLANE_XORIGIN = ImageHandler.CURRENT_PLANE_XORIGIN;
+	/**Y-coor of the left origin of the gray graph plane area on current graphic.*/
+	private final int PLANE_YORIGIN = ImageHandler.CURRENT_PLANE_YORIGIN;
+	
+	/**Light shadow color*/
+	private final Color SHADOW1 = new Color(125, 125, 125, 50);
+	/**Medium -light shadow color*/
+	private final Color SHADOW2 = new Color(125, 125, 125, 100);
+	/**Medium-dark shadow color*/
+	private final Color SHADOW3 = new Color(125, 125, 125, 150);
+	/**Dark shadow color*/
+	private final Color SHADOW4 = new Color(130, 130, 130, 200);
+	/**Color of the rectangle the chart is in*/
+	private final Color CHART_BG = GibbotGUI3.SECONDARY_GLOBAL_BG;
+	
+	/**Color of current axis label and line graph*/
+	private final Color CURRENT_COLOR = new Color(207, 46, 46); //reddish
+	/**Color of torque axis label and line graph*/
+	private final Color TORQUE_COLOR = new Color(36, 149, 176); //bluish
 	
 	/**Y-coor values for current chart on even {@link #par} (see class notes)*/
 	private int[] milliampsE;
@@ -48,17 +83,17 @@ public class CurrentBox extends JPanel implements ActionListener{
     @param heightOfContainer used to set {@link #height}*/
 	public CurrentBox(int widthOfContainer, int heightOfContainer){
 		
-		width = widthOfContainer/4;
-		height = (int)(heightOfContainer/3.25);
+		width = (int)(widthOfContainer*CURRENT_WIDTH_ALLOCATION);
+		height = (int)(heightOfContainer*CURRENT_HEIGHT_ALLOCATION);
 		
 		setPreferredSize(new Dimension(width, height));
-    	setBackground(GibbotGUI3.globalBg);
+    	setBackground(GibbotGUI3.GLOBAL_BG);
 		
-		w = (int)width -70;
-		h = height-60;
-		xscale = w/254.0;
-		yscale = h/185.0;
-		n = (int)(200*xscale/10); //points drawn 10 pixles apart
+		w = width - 2*XMARGIN;
+		h = height - 2*YMARGIN;
+		xscale = w/(double)(ImageHandler.CURRENT_WIDTH);
+		yscale = h/(double)(ImageHandler.HEIGHT);
+		n = (int)((ImageHandler.CURRENT_PLANE_WIDTH + 10)*xscale/10); //points drawn 10 pixles apart. + 10 to put last point on right axis 
 		
 		milliampsE = new int[n];
 		milliampsO = new int[n];
@@ -68,11 +103,11 @@ public class CurrentBox extends JPanel implements ActionListener{
 		par = 0;
 		
 		for(int i = 0; i < n; i++){
-			milliampsE[i] = 20 + (int)(93*yscale); //replace 20 w/ y coor where chart image is drawn
-			milliampsO[i] = 20 + (int)(93*yscale);
-			millinewtmetsE[i] = 20 + (int)(93*yscale);
-			millinewtmetsO[i] = 20 + (int)(93*yscale);
-			t[i] = 10*i + 25 + (int)(26*xscale);  //replace 25 w/ x coor where chart image is drawn
+			milliampsE[i] = CHARTY + (int)(PLANE_YORIGIN*yscale); 
+			milliampsO[i] = CHARTY + (int)(PLANE_YORIGIN*yscale);
+			millinewtmetsE[i] = CHARTY + (int)(PLANE_YORIGIN*yscale);
+			millinewtmetsO[i] = CHARTY + (int)(PLANE_YORIGIN*yscale);
+			t[i] = 10*i + CHARTX + (int)(PLANE_XORIGIN*xscale);  
 		}
 		
 		GUITimer.addActionListener(this);
@@ -86,19 +121,19 @@ public class CurrentBox extends JPanel implements ActionListener{
 	public void paintComponent(Graphics g){
 		
 		super.paintComponent(g);
-		drawTab(width, height - 20, g);	
-		g.drawImage(chart, 25, 20, w, h, this);
+		drawTab(width, height - CHARTY, g);	
+		g.drawImage(chart, CHARTX, CHARTY, w, h, this);
 			
 		if(par == 0){
-			g.setColor(new Color(207, 46, 46));
+			g.setColor(CURRENT_COLOR);
     		g.drawPolyline(t, milliampsE, n);
-	   		g.setColor(new Color(36, 149, 176));
+	   		g.setColor(TORQUE_COLOR);
     		g.drawPolyline(t, millinewtmetsE, n);
 		}    	
     	else{
-    		g.setColor(new Color(207, 46, 46));
+    		g.setColor(CURRENT_COLOR);
     		g.drawPolyline(t, milliampsO, n);
-    		g.setColor(new Color(36, 149, 176));
+    		g.setColor(TORQUE_COLOR);
     		g.drawPolyline(t, millinewtmetsO, n);	
     	}
 	}
@@ -110,8 +145,8 @@ public class CurrentBox extends JPanel implements ActionListener{
 		
 		int[] data = GUISerialPort.getData();
 			
-		int newCurr = 20 + (int)(93*yscale) - data[0];
-		int newTor = 20 + (int)(93*yscale) -  data[1];
+		int newCurr = CHARTY + (int)(PLANE_YORIGIN*yscale) - data[0];
+		int newTor = CHARTY + (int)(PLANE_YORIGIN*yscale) -  data[1];
 		
 		if(par == 0){
 			par = 1;
@@ -143,21 +178,21 @@ public class CurrentBox extends JPanel implements ActionListener{
      */
 	public void drawTab(int width, int height, Graphics g){
     	
-    	g.setColor(new Color(125, 125, 125, 50)); //lightest gray
+    	g.setColor(SHADOW1);
     	g.fillRoundRect(7, 7, width - 7, height + 12, 12, 12);
     	
-    	g.setColor(new Color(125, 125, 125, 100)); //light gray
+    	g.setColor(SHADOW2); 
     	g.fillRoundRect(7, 7, width - 11, height + 8, 12, 12);
         
-        g.setColor(new Color(125, 125, 125, 150)); //middle gray
+        g.setColor(SHADOW3); 
     	g.fillRoundRect(7, 7, width - 15, height + 4, 12, 12);
     	
-    	g.setColor(new Color(130, 130, 130, 200)); //dark gray
+    	g.setColor(SHADOW4); 
     	g.fillRoundRect(7, 7, width - 19, height, 9, 9);
    		
-   		g.setColor(new Color(240, 240, 240));
+   		g.setColor(CHART_BG);
     	g.fillRoundRect(3, 3, width - 19, height, 12, 12);
-
+    	
 	}
 	
 	/**Specifies how to respond to timer events from {@link GUITimer}. This panel uses events as a signal to 

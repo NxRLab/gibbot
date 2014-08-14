@@ -84,9 +84,11 @@ public class GUISerialPort {
 		
 		if(!port.isOpened()){
 			
-			for(int i = 0; i < 7; i++)
-				data[i] = 8;
-			
+			data[0] = 30;
+			data[1] = 13;
+			data[2] = 60;
+			data[3] = 48;
+			data[4] = 10;
 			data[5] = 80;
 		}
 		
@@ -98,26 +100,29 @@ public class GUISerialPort {
 			try {
 				port.writeString("s");
 				
+				//System.out.println("sent");
 				int bytes = port.getInputBufferBytesCount();
 				
-				for(int i = 0; i < 6; i++){
-					if(bytes % 4 == 0 && bytes > 3){ //makes sure last byte hasn't been dropped
+				if(bytes == 24){ //makes a byte hasn't been dropped
+					for(int i = 0; i < 6; i++){
+					 
 	     				bb = ByteBuffer.wrap(port.readBytes(4));
      					bb.order(ByteOrder.LITTLE_ENDIAN);
      					floatHolder[i] = bb.getFloat();
      					//System.out.print(floatHolder[i] + " "); //can use to track dropped data
 					}
-					else{ //if last byte has been dropped, reads those in the port to clear it but doesn't do anything with them.
-							port.readBytes();
-							return;
-					}		
-     			}			
+				}
+				else{ //if a byte has been dropped, reads those in the port to clear it but doesn't do anything with them.
+						port.readBytes();
+						return;
+					}					
      			
      			//System.out.println(); //Uncomment this if using print command in for loop above
      			
+				//scaling for drawing on charts
 				tempData[0] = (int)(floatHolder[0]*7.5);
-				tempData[1] = (int)floatHolder[1];
-				tempData[2] = (int)floatHolder[2];				
+				tempData[1] = (int)(floatHolder[1]*.065);
+				tempData[2] = ((int)(27*floatHolder[2]/25 - 10.8));				
 				tempData[3] = (int)(floatHolder[3]*4);
 				tempData[4] = Math.abs((int)(floatHolder[4]*4*RADIUS));
 				tempData[5] = Math.abs((int)(floatHolder[5]*4*RADIUS));

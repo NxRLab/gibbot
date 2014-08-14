@@ -9,7 +9,10 @@ import java.awt.Color;
 public class GibbotGUI3 extends JFrame{
 	
 	/**Background color for all elements in the awake view.*/
-	public static final Color globalBg = new Color(255, 255, 255);
+	public static final Color GLOBAL_BG = Color.WHITE;
+	/**Background color for chart animations*/
+	public static final Color SECONDARY_GLOBAL_BG = new Color(240, 240, 240);
+	
 	/**Panel that contains all graphics.*/
 	private static GUILayeredPane content;
     

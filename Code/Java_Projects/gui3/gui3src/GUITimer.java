@@ -16,7 +16,7 @@ public class GUITimer {
 	 *Right now set to 1 because serial updates are running without issue at 30 Hz.*/
 	private static int serialFactor = 1;
 	/**Time, in milliseconds, between each timer fire*/
-	private static int millisPerFrame = 33;
+	private static int millisPerFrame = 15;
 	
     /**Starts the timer object with initially no ActionListener objects associated with it
     */

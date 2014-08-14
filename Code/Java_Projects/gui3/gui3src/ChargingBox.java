@@ -12,6 +12,8 @@ public class ChargingBox extends JPanel implements ActionListener {
 	
 	/**How many seconds the panel waits between checks for change in battery level*/
 	private final int SEC_PER_UPDATE = 10;
+	/**Color of bar that indicates battery level*/
+	private final Color GREEN = new Color(0, 204, 0, 200);
 	/**Used to update {@link #batt} at even intervals*/
 	private int timerCount;
 	/**Used to update {@link #batt} at even intervals; set by call to {@link GUITimer#getMillisPerFrame} in constructor*/
@@ -43,7 +45,7 @@ public class ChargingBox extends JPanel implements ActionListener {
     																									 //height of the charge bar to be
     																									 //exactly 2*((int)4*max) voltage.
     																									 //See update() method of GUISerialPort. 
-    	g.setColor(new Color(0, 204, 0, 200));
+    	g.setColor(GREEN);
     	g.fillRect(81, 299 - batt, 113, batt);
     }
     
@@ -54,7 +56,7 @@ public class ChargingBox extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent evt){
     	
     	if(timerCount == SEC_PER_UPDATE*1000/millisPerFrame){ 
-    		batt = GUISerialPort.getData()[3]*2;
+    		batt = GUISerialPort.getData()[3]*2; //*2 to scale
     		timerCount = 0;
     		repaint();
     	}

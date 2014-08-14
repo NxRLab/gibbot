@@ -3,8 +3,9 @@ import javax.swing.*;
 import java.awt.*;
 
 /**LayoutContainerPanel is the "awake" view of the GUI. Basically just handles layout for
- *all subpanels in that view: {@link BananaPanel1}, {@link TextBox}, {@link Speedometer}, {@link HardwareBox},
- *and {@link CurrentBox} instances.
+ *all subpanels in that view: {@link BananaPanel1}, {@link TextBox}, {@link SpeedometerBox}, {@link HardwareBox},
+ *and {@link CurrentBox} instances. Values for c.weightx and c.weighty for the most part reflect ALLOCATION constants
+ *in all "Box" classes and should not be altered.
  */
 public class LayoutContainerPanel extends JPanel{
 	
@@ -20,7 +21,7 @@ public class LayoutContainerPanel extends JPanel{
 	/**hardware is declared public for access by {@link GUILayeredPane} for enabling/disabling*/
 	public HardwareBox hardware;
 	/**speed is declared public for access by {@link GUILayeredPane} for enabling/disabling*/
-	public Speedometer speed;
+	public SpeedometerBox speed;
 	/**text is declared public for access by {@link GUILayeredPane} for enabling/disabling*/
 	public TextBox text;
 	
@@ -34,7 +35,7 @@ public class LayoutContainerPanel extends JPanel{
 	 @param sizeH only used to pass to {@link BananaPanel1#BananaPanel1}; comes from {@link GUILayeredPane}.*/
     public LayoutContainerPanel(int drawW, int drawH, int sizeW, int sizeH) {
 
-    	setBackground(GibbotGUI3.globalBg);
+    	setBackground(GibbotGUI3.GLOBAL_BG);
     	setLayout(new GridBagLayout());
     	drawingHeight=drawH-1;
     	drawingWidth=drawW-1;
@@ -60,7 +61,7 @@ public class LayoutContainerPanel extends JPanel{
     	c.weightx = .25;
     	add(text, c);
     	
-    	speed = new Speedometer(drawingWidth, drawingHeight);
+    	speed = new SpeedometerBox(drawingWidth, drawingHeight);
     	c.gridx = 1;
     	c.gridy = 1;
     	c.weightx = .33;

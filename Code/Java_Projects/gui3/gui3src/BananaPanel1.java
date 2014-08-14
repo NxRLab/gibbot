@@ -42,6 +42,8 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
 	private Gibbot bob = new Gibbot();
 	private double timerCount; //only for gibbot animation simulation
 	
+	/**Board lights up to this color when user drags banana image out of bounds*/
+	private Color OUT_OF_BOUNDS_COLOR = new Color(255, 0, 0, 150);
 	/**Color of the pulsing outline around the prompt to drag and drop a banana.*/
 	private Color promptHighlight;
 	/**Alpha (transparency) value of promptHighlight; this is what changes.*/
@@ -66,11 +68,11 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     	dragging = false;
     	outOfBounds = false;
     	
-    	setBackground(GibbotGUI3.globalBg);
+    	setBackground(GibbotGUI3.GLOBAL_BG);
     	setFont(andaleBig);
     	
     	a = 0;
-    	promptHighlight = new Color(207, 46, 46, a);
+    	promptHighlight = new Color(207, 46, 46, a); //red with variable alpha value (transparancy)
     	
     	timerCount = 0;
     	addMouseListener(this);
@@ -97,7 +99,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     		if(dragging){ 	//user is moving the banana
     			g.drawImage(bananaImg, banana.getX(), banana.getY(), 80, 60, this);
     			if(outOfBounds){
-    				g.setColor(new Color(255, 0, 0, 150));
+    				g.setColor(OUT_OF_BOUNDS_COLOR);
     				g.fillRect(56, 37, sizingWidth - 140, sizingHeight/2 + 15);
     				g.setColor(Color.BLACK);
     				g.drawString("Out of Bounds!", 400, 240);

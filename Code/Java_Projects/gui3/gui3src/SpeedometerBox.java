@@ -1,22 +1,22 @@
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-/**HardwareBox displays motor temperature and battery life in a bar chart graphic
+/**SpeedometerBox is what it sounds like; shows the linear velocity of the two links with two different colored "needles"
  */
-public class HardwareBox extends JPanel implements ActionListener{
+public class SpeedometerBox extends JPanel implements ActionListener{
 	
-	private Image chart = ImageHandler.getImage("hardwareChart");
+	private Image chart = ImageHandler.getImage("speedometerChart");
 
     /**Specified by LayoutContainerPanel parent. Used to set preferred dimensons in constructor*/
 	private int height;
 	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensons in constructor*/
 	private int width;
-	    
-    /**Width for drawing chart image*/
+	
+
+    /**Width of chart image*/
     private int w;
-    /**Height for drawing chart image*/
+    /**Height of chart image*/
 	private int h;
 		
 	/**Horizontal scale for drawing chart image (not really needed unless {@link GUILayeredPane#DRAWING_WIDTH} is altered)*/
@@ -25,10 +25,10 @@ public class HardwareBox extends JPanel implements ActionListener{
 	private double yscale;
 	
 	/**Proportion of horizontal space this box will take up in {@link LayoutContainerPanel}. Stronly recommended not to alter.*/
-	private final double HARDWARE_WIDTH_ALLOCATION = 1/6.0;
+	private final double SPEEDOMETER_WIDTH_ALLOCATION = 1/3.0;
 	/**Proportion of vertical space this box will take up in {@link LayoutContainerPanel}. Stronly recommended not to alter.*/
-	private final double HARDWARE_HEIGHT_ALLOCATION = 1/3.25;
-	
+	private final double SPEEDOMETER_HEIGHT_ALLOCATION = 1/3.25;
+    
 	/**Horizontal margin around chart area when placed in panel. Strongly recommended not to alter.*/
 	private final int XMARGIN = 35;
 	/**Vertical margin around chart area when placed in panel. Strongly recommended not to alter.*/
@@ -37,19 +37,12 @@ public class HardwareBox extends JPanel implements ActionListener{
 	private final int CHARTX = 30;
 	/**Y-coor of upper left corner of {@link #chart}. Strongly recommended not to alter.*/
 	private final int CHARTY = 20;
-	/**Space, in pixels, between outline of battery and temperature rectangles and the colored bars within.*/
-	private final int BAR_MARGIN = 2;
-	/**X-coor of left edge of temperature empty rectangle. Strongly recommended not to alter.*/
-	private final int TEMP_LEFT_EDGE = ImageHandler.HARDWARE_TEMP_LEFT_EDGE + BAR_MARGIN;
-	/**Width, in pixels, of temperature empty rectangle.*/
-	private final int TEMP_WIDTH = ImageHandler.HARDWARE_TEMP_WIDTH - 2*BAR_MARGIN;
-	/**X-coor of left edge of battery empty rectangle.*/
-	private final int BATT_LEFT_EDGE = ImageHandler.HARDWARE_BATT_LEFT_EDGE + BAR_MARGIN;
-	/**Width, in pixels, of battery empty rectangle.*/
-	private final int BATT_WIDTH = ImageHandler.HARDWARE_BATT_WIDTH - 2*BAR_MARGIN;
-	/**Y-coor of bottom edge of temperature and battery empty rectangles.*/
-	private final int BOTTOM_EDGE = ImageHandler.HARDWARE_BOTTOM_EDGE;
-	
+	/**Radius of both needles on speedometer graphic. Alterations okay if needed.*/
+	private final int NEEDLE_RADIUS = 117;
+	/**X-coor of where needles on speedometer graphic are anchored.*/
+	private final int NEEDLE_XORIGIN = ImageHandler.SPEEDOMETER_NEEDLE_XORIGIN;
+	/**Y-coor of where needles on speedometer graphic are anchored.*/
+	private final int NEEDLE_YORIGIN = ImageHandler.SPEEDOMETER_NEEDLE_YORIGIN;
 	
 	/**Light shadow color*/
 	private final Color SHADOW1 = new Color(125, 125, 125, 50);
@@ -62,40 +55,42 @@ public class HardwareBox extends JPanel implements ActionListener{
 	/**Color of the rectangle the chart is in*/
 	private final Color CHART_BG = GibbotGUI3.SECONDARY_GLOBAL_BG;
 	
-	/**Color for temperature bar*/
-	private final Color TEMP_COLOR = new Color(207, 46, 46, 125); //reddish, transparent
-	/**Color for battery bar*/
-	private final Color BATT_COLOR = new Color(36, 149, 176, 125); //bluish, transparent
+	/**Color of needle on the speedometer cooresponding to first link. If altered, also alter 
+	 *{@link Gibbot#ARM1COLOR} with same first three values (RGB) but no fourth parameter (alpha).*/
+	public final Color ARM1COLOR = new Color(150, 150, 150, 100);
+	/**Color of needle on the speedometer cooresponding to second link. If altered, also alter 
+	 *{@link Gibbot#ARM2COLOR} with same first three values (RGB) but no fourth parameter (alpha).*/
+	public final Color ARM2COLOR = new Color(36, 149, 176, 125);
 	
-	/**Value of motor temperature that's displayed in the graph*/ 
-	private int temp;
-	/**Value of battery level that's displayed in the graph*/
-	private int batt; 
+	/**Value of velocity for first link (primary board) that's displayed on the speedometer*/	
+	private double arm1vel;
+	/**Value of velocity for second link (secondary board) that's displayed on the speedometer*/ 
+	private double arm2vel;
+ 
 	
 	/**Constructor sets preferred size to tell layout manager of {@link LayoutContainerPanel} how to draw this panel;
     Initializes chart size variables.
     @param widthOfContainer used to set {@link #width}
     @param heightOfContainer used to set {@link #height}*/
-	public HardwareBox(int widthOfContainer, int heightOfContainer){
+	public SpeedometerBox(int widthOfContainer, int heightOfContainer){
 		
-		width = (int)(widthOfContainer*HARDWARE_WIDTH_ALLOCATION);
-		height = (int)(heightOfContainer*HARDWARE_HEIGHT_ALLOCATION);
+		width = (int)(widthOfContainer*SPEEDOMETER_WIDTH_ALLOCATION);
+		height = (int)(heightOfContainer*SPEEDOMETER_HEIGHT_ALLOCATION);
 		
 		setPreferredSize(new Dimension(width, height));
 		setBackground(GibbotGUI3.GLOBAL_BG);
 		
 		w = width - 2*XMARGIN;
 		h = height - 2*YMARGIN;
-		xscale = w/(double)(ImageHandler.HARDWARE_WIDTH);
+		xscale = w/(double)(ImageHandler.SPEEDOMETER_WIDTH);
 		yscale = h/(double)(ImageHandler.HEIGHT);
-		
+
 		GUITimer.addActionListener(this);
 	}
 	
 	/**Override of {@link javax.swing.JComponent#paintComponent}. super.paintComponent() call fills background color.
     This is what is executed whenever repaint() is called in the program. 
-    Calls {@link #drawTab} to draw containing rectangle and shadow, draws chart image, 
-    then draws bars to represent battery level and motor temperature.
+    Calls {@link #drawTab} to draw containing rectangle and shadow, draws chart image, then draws needles in the appropriate place. 
     @param g Graphics context for drawing. Kind of a black box; gets handled in the background somehow
      */ 
 	public void paintComponent(Graphics g){
@@ -104,27 +99,31 @@ public class HardwareBox extends JPanel implements ActionListener{
 		drawTab(width, height - CHARTY, g);
 		g.drawImage(chart, CHARTX, CHARTY, w, h, this);
 		
-		g.setColor(TEMP_COLOR);
-		g.fillRect((int)(CHARTX + xscale*TEMP_LEFT_EDGE) + 1, (int)(CHARTY + yscale*BOTTOM_EDGE) - temp, 
-			(int)(xscale*TEMP_WIDTH) - 1, temp - BAR_MARGIN); // +/- 1 to adjust placement
-		g.setColor(BATT_COLOR);
-		g.fillRect((int)(CHARTX + xscale*BATT_LEFT_EDGE) + 1, (int)(CHARTY + yscale*BOTTOM_EDGE) - batt, 
-			(int)(xscale*BATT_WIDTH) - 1, batt - BAR_MARGIN); // +/- 1 to adjust placement
+		Graphics2D g2 = (Graphics2D)g;
+		g2.setColor(ARM1COLOR);
+		g2.setStroke(new BasicStroke(4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
+		g2.drawLine((int)(xscale*NEEDLE_XORIGIN) + CHARTX, (int)(yscale*NEEDLE_YORIGIN + CHARTY), 
+			(int)(xscale*(NEEDLE_XORIGIN - NEEDLE_RADIUS*Math.cos(arm1vel))) + CHARTX, 
+				(int)(yscale*(NEEDLE_YORIGIN - NEEDLE_RADIUS*Math.sin(arm1vel))) + CHARTY);
+		g2.setColor(ARM2COLOR);
+		g2.drawLine((int)(xscale*NEEDLE_XORIGIN) + CHARTX, (int)(yscale*NEEDLE_YORIGIN + CHARTY), 
+			(int)(xscale*(NEEDLE_XORIGIN - NEEDLE_RADIUS*Math.cos(arm2vel)) + CHARTX), 
+				(int)(yscale*(NEEDLE_YORIGIN - NEEDLE_RADIUS*Math.sin(arm2vel))) + CHARTY);
 
 	}
 	
-	/**Gets battery and temperature values from {@link GUISerialPort#data}. Called by {@link #actionPerformed}.
+	/**Gets velocity values from {@link GUISerialPort#data}. Called by {@link #actionPerformed}.
 	*/
 	public void updateForDrawing(){
 	
 		int[] data = GUISerialPort.getData();	
 	
-		batt = data[3]; 
-		temp = data[2]; 
+		arm1vel = data[4]*Math.PI/180; //convert to radians
+		arm2vel = data[5]*Math.PI/180; //convert to radians
 			
 	}
-			
-	/**Draws the containing rectangle and shadow. Called by Called by {@link #paintComponent}.
+				
+	/**Draws the containing rectangle and shadow. Called by {@link #paintComponent}.
 	@param width Width of rectangle available to draw in
     @param height Height of rectangle available to draw in
     @param g Graphics context to draw with.
@@ -156,5 +155,5 @@ public class HardwareBox extends JPanel implements ActionListener{
 
 			updateForDrawing();
 			repaint();
-	}
+	}	
 }

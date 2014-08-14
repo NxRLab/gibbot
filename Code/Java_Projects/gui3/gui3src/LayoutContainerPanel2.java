@@ -5,6 +5,7 @@ import javax.swing.*;
 
 /**This is the "asleep" view of the GUI. The gibbotTab images contain "public-friendly" 
  *descriptions of how the robot works. Only subpanel is a {@link ChargingBox} instance.
+ *Strongly recommended not to alter any fields declared final.
  */
 public class LayoutContainerPanel2 extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
 
@@ -16,6 +17,34 @@ public class LayoutContainerPanel2 extends JPanel implements MouseListener, Mous
 	
 	/**Specified by GUILayeredPane parent. Used to determine anchor locations for pull tabs.*/
 	private int sizingWidth;
+	/**Difference bewteen sizingWidth and 1366 (the original width used to design the GUI)*/
+	private int widthCorrection;
+	
+	/**Furthest left user is allowed to get or pull top tab when closed*/
+	private final int LEFT_BOUND_1 = 180;
+	/**Furthest left user is allowed to get or pull middle tab when closed*/
+	private final int LEFT_BOUND_2 = 140;
+	/**Furthest right user is allowed to get or pull top tab when open*/
+	private final int RIGHT_BOUND_1 = 1330;
+	/**Furthest right user is allowed to get or pull middle tab when open*/
+	private final int RIGHT_BOUND_2 = 1290;
+	/**Furthest up user is allowed to get or pull either tab*/
+	private final int TOP_BOUND = 355;
+	/**Furthest down user is allowed to get or pull either tab*/
+	private final int BOTTOM_BOUND = 675;
+	
+	/**X-coor of top tab when closed; set in constructor method*/
+	private final int CLOSED_X1;
+	/**X-coor of top tab when open; set in constructor method*/
+	private final int OPEN_X1;
+	/**Y-coor of top tab; set in constructor method*/
+	private final int Y1;
+	/**X-coor of middle tab when closed; set in constructor method*/
+	private final int CLOSED_X2;
+	/**X-coor of middle tab when open; set in constructor method*/
+	private final int OPEN_X2;
+	/**Y-coor of middle tab; set in constructor method*/
+	private final int Y2;
 	
 	/**True if top pull tab is pulled open (not visible)*/
 	private boolean pulled1;
@@ -46,7 +75,10 @@ public class LayoutContainerPanel2 extends JPanel implements MouseListener, Mous
 	/**Time between timer fires (sec), used to update velocity of a "floating" tab*/
 	private double dt = (double)GUITimer.getMillisPerFrame()/1000;
 	/**Acceleration of a "floating" tab*/
-	private double a = -2000;
+	private double a = -6000;
+	
+	/**Transparent dark gray, for the background*/
+	private final Color TRANSPARENT_BG = new Color(125, 125, 125, 180); 
 	
 	/**charge is declared public for access by {@link GUILayeredPane} for enabling/disabling*/
 	public ChargingBox charge;
@@ -56,12 +88,20 @@ public class LayoutContainerPanel2 extends JPanel implements MouseListener, Mous
     public LayoutContainerPanel2(int sizeW) {
     	
     	sizingWidth = sizeW;
+    	
+    	widthCorrection = sizingWidth - 1366;
+    	CLOSED_X1 = sizingWidth - (gibbotTab1.getWidth(this) - 160); //-160 to account for image margins
+    	OPEN_X1 = sizingWidth - 80; //-80 to keep small portion visible on screen
+    	Y1 = sleepBubble.getHeight(this) - 180; //-180 to account for image margins
+    	CLOSED_X2 = sizingWidth - (gibbotTab2.getWidth(this) - 10); //-10 to account for image margins
+    	OPEN_X2 = sizingWidth - 120; //-120 to keep small portion visible on screen
+    	Y2 = sleepBubble.getHeight(this) - 30; //-30 to account for image margins
 
     	setLayout(null);
   
     	charge = new ChargingBox();
     	charge.setOpaque(false);
-    	charge.setBounds(975, 5, 250, 350);
+    	charge.setBounds(975, 5, 250, 350); //location and dimensions of battery charging icon
     	add(charge);
     	
     	addMouseListener(this);
@@ -84,38 +124,30 @@ public class LayoutContainerPanel2 extends JPanel implements MouseListener, Mous
      * */  	
     public void paintComponent(Graphics g){
 
-    	g.setColor(new Color(125, 125, 125, 180));
+    	g.setColor(TRANSPARENT_BG);
     	g.fillRect(0, 0, getWidth(), getHeight());
     	g.drawImage(sleepBubble, 0, 0, this);
     	g.drawImage(batteryArrow, 750, 10, this);
     	g.drawImage(gibbotTab3, sizingWidth - gibbotTab3.getWidth(this), //third tab doesn't move, so it's always drawn															 
-    			sleepBubble.getHeight(this), this);						 //in the same place.
+				sleepBubble.getHeight(this), this);						 //in the same place.
     			
     	if(!pulled2 && !pulling2 && !floating2) //closed
-    		g.drawImage(gibbotTab2, sizingWidth - gibbotTab2.getWidth(this) + 10, 
-    			sleepBubble.getHeight(this) - 30, this); //10 and -30 to account for invisible margins on the images
+    		g.drawImage(gibbotTab2, CLOSED_X2, Y2, this); 
     	else {
     		if(pulling2 || floating2) //in the middle
-    			g.drawImage(gibbotTab2, mouseAt - offset, 
-    				sleepBubble.getHeight(this) - 30, this); //-30 to account for invisible margins on the image
+    			g.drawImage(gibbotTab2, mouseAt - offset, Y2, this);
     		else{ //open
-    			g.drawImage(gibbotTab2, sizingWidth - 120, 
-    				sleepBubble.getHeight(this) - 30, this);//-30 to account for invisible margins on the image, -120 to keep a small 
-    														//portion visible on screen
+    			g.drawImage(gibbotTab2, OPEN_X2, Y2, this);														
     		}
     	}
     	
     	if(!pulled1 && !pulling1 && !floating1) //closed
-    		g.drawImage(gibbotTab1, sizingWidth - gibbotTab1.getWidth(this) + 160, 
-    			sleepBubble.getHeight(this) - 180, this); //160 and -180 to account for invisible margins on the images
+    		g.drawImage(gibbotTab1, CLOSED_X1, Y1, this);
     	else {
     		if(pulling1 || floating1) //in the middle
-    			g.drawImage(gibbotTab1, mouseAt - offset, 
-    				sleepBubble.getHeight(this) - 180, this); //-180 to account for invisible margins on the image
+    			g.drawImage(gibbotTab1, mouseAt - offset, Y1, this); 
     		else{ //open
-    			g.drawImage(gibbotTab1, sizingWidth - 80, 
-    				sleepBubble.getHeight(this) - 180, this);//-180 to account for invisible margins on the image, -80 to keep a small 
-    														 //portion visible on screen. 
+    			g.drawImage(gibbotTab1, OPEN_X1, Y1, this);
     		}
     	}
     }
@@ -142,43 +174,43 @@ public class LayoutContainerPanel2 extends JPanel implements MouseListener, Mous
     	int y = evt.getY();
     	
     	if((!pulled1 && !pulled2) || (!pulled1 && pulled2)){ //if top tab is not pulled, the user may only pull open the top tab
-    		if (x > 170 + sizingWidth - 1366 && y > 355 && y < 675){
+    		if (x > LEFT_BOUND_1 + widthCorrection && y > TOP_BOUND && y < BOTTOM_BOUND){
     			pulling1 = true;
     			mouseAt = x;
-    			offset = mouseAt - (sizingWidth - gibbotTab1.getWidth(this) + 160);
+    			offset = mouseAt - CLOSED_X1;
     		}
     	}
     	
     	if(pulled1 && !pulled2){ //either the user can pull the top tab closed again or pull the second tab open
-    		if(x > 150 + sizingWidth - 1366 && x < 1320 + sizingWidth - 1366 && y > 355 && y < 675){
+    		if(x > LEFT_BOUND_2 + widthCorrection && x < 1320 + widthCorrection && y > TOP_BOUND && y < BOTTOM_BOUND){
     			pulling2 = true;
     			mouseAt = x;
-    			offset = mouseAt - (sizingWidth - gibbotTab2.getWidth(this) + 10);
+    			offset = mouseAt - CLOSED_X2;
     		}
     		else{
-    			if (x > 1330 + sizingWidth - 1366 && y > 355 && y < 675){
+    			if (x > RIGHT_BOUND_1 + widthCorrection && y > TOP_BOUND && y < BOTTOM_BOUND){
     				pulled1 = false;
     				pulling1 = true;
     				mouseAt = x;
-    				offset = mouseAt - (sizingWidth - 80);
+    				offset = mouseAt - (OPEN_X1);
     				allowDragging = true;
     			}
     		}
     	}
     	
     	if(pulled1 && pulled2){ //the user may pull either tab closed
-    		if(x > 1290 + sizingWidth - 1366 && x < 1330 + sizingWidth - 1366 && y > 355 && y < 675){
+    		if(x > RIGHT_BOUND_2 + widthCorrection && x < RIGHT_BOUND_1 + widthCorrection && y > TOP_BOUND && y < BOTTOM_BOUND){
     			pulled2 = false;
     			pulling2 = true;
     			mouseAt = x;
-    			offset = mouseAt - (sizingWidth - 120);
+    			offset = mouseAt - (OPEN_X2);
     		}
     		else{
-    			if (x > 1330 + sizingWidth - 1366 && y > 355 && y < 675){
+    			if (x > RIGHT_BOUND_1 + widthCorrection && y > TOP_BOUND && y < BOTTOM_BOUND){
     				pulled1 = false;
     				pulling1 = true;
     				mouseAt = x;
-    				offset = mouseAt - (sizingWidth - 80);
+    				offset = mouseAt - (OPEN_X1);
     				allowDragging = true;
     			}	
     		}
@@ -199,12 +231,12 @@ public class LayoutContainerPanel2 extends JPanel implements MouseListener, Mous
     	if(pulling1){
     		v = (double)(x - mouseAt)/(System.currentTimeMillis() - t)*1000;
     		t = System.currentTimeMillis();
-    		if(x < 180 + sizingWidth - 1366){ //pulled too far to the left
+    		if(x < LEFT_BOUND_1 + widthCorrection){ //pulled too far to the left
     			pulling1 = false;
     			pulled1 = false;
     		}
     		else{
-    			if(x > 1330 + sizingWidth - 1366){ //pulled too far to the right
+    			if(x > RIGHT_BOUND_1 + widthCorrection){ //pulled too far to the right
     				if(allowDragging)
     					mouseAt = x;
     				else{
@@ -213,7 +245,7 @@ public class LayoutContainerPanel2 extends JPanel implements MouseListener, Mous
     				}
     			}
     			else{ //just pulling around in the middle (checks to see if it needs to update allowDragging, as well).
-    				if(mouseAt < 1330 + sizingWidth - 1366)
+    				if(mouseAt < RIGHT_BOUND_1 + widthCorrection)
     					allowDragging = false;
     				mouseAt = x;
     			}
@@ -223,12 +255,12 @@ public class LayoutContainerPanel2 extends JPanel implements MouseListener, Mous
     		if(pulling2){
     			v = (double)(x - mouseAt)/(System.currentTimeMillis() - t)*1000;
     			t = System.currentTimeMillis();
-    			if(x < 140 + sizingWidth - 1366){ //pulled too far to the left
+    			if(x < LEFT_BOUND_2 + widthCorrection){ //pulled too far to the left
 	    			pulling2 = false;
     				pulled2 = false;
     			}
     			else{
-	    			if(x > 1320 + sizingWidth - 1366){ //pulled too far to the right
+	    			if(x > RIGHT_BOUND_2 + 30 + widthCorrection){ //pulled too far to the right; +30 to allow it to pull from start point
     					pulling2 = false;
     					pulled2 = true;
     				}
@@ -284,12 +316,12 @@ public class LayoutContainerPanel2 extends JPanel implements MouseListener, Mous
     			v = a*dt + v;
     		}
     		
-    		if(mouseAt < 180 + sizingWidth - 1366){ //floated too far to the left
+    		if(mouseAt < LEFT_BOUND_1 + widthCorrection){ //floated too far to the left
     			floating1 = false;
     			pulled1 = false;
     		}
     		else{
-    			if(mouseAt > 1330 + sizingWidth - 1366){ //floated too far to the right
+    			if(mouseAt > RIGHT_BOUND_1 + widthCorrection){ //floated too far to the right
     				floating1 = false;
     				pulled1 = true;
     			}	
@@ -309,12 +341,12 @@ public class LayoutContainerPanel2 extends JPanel implements MouseListener, Mous
     			v = a*dt + v;
     		}
     		
-    		if(mouseAt < 140 + sizingWidth - 1366){ //floated too far to the left
+    		if(mouseAt < LEFT_BOUND_2 + widthCorrection){ //floated too far to the left
 	    			floating2 = false;
     				pulled2 = false;
     		}
     			else{
-	    			if(mouseAt > 1320 + sizingWidth - 1366){ //floated too far to the right
+	    			if(mouseAt > RIGHT_BOUND_2 + widthCorrection){ //floated too far to the right
     					floating2 = false;
     					pulled2 = true;
     			}

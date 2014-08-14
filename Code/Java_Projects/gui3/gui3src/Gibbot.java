@@ -8,27 +8,38 @@ import java.awt.*;
  All the get methods may not be neccessary (last four are currently unused) but they were left just in case.*/
 public class Gibbot {
 	
-	/**Distance from motor to end of first link*/
-	private final double ARM1W = 100;
-	/**Distance from motor to end of second link*/
-	private final double ARM2W = 100;
-	/**Height of first link*/
-	private final double ARM1H = 20;
-	/**Height of second link*/
-	private final double ARM2H = 20;
+	/**Distance, in pixels, from motor to end of first link*/
+	private final int ARM1W = 100;
+	/**Distance, in pixels, from motor to end of second link*/
+	private final int ARM2W = 100;
+	/**Height, in pixels, of first link*/
+	private final int ARM1H = 20;
+	/**Height, in pixels, of second link*/
+	private final int ARM2H = 20;
+	/**Initial x-coor of center joint of gibbot animation*/
+	private final int STARTX = 250;
+	/**Initial y-coor of center joint of gibbot animation*/
+	private final int STARTY = 100;
+	/**Specifies radius, in pixels, of circles at the joints of the gibbot animation. 
+	 *NOTE: if height of arm1 and arm2 are different, this will need to be changed. */
+	private final int RADIUS = (ARM1H % 2 == 0 ? ARM1H + 12 : ARM1H + 11);   																			  
 
+	/**Color of the first link in the animation. If altered, also alter 
+	 *{@link Speedometer#ARM1COLOR} with same first three values (RGB) and fourth value (alpha) = 100.*/
+	public final Color ARM1COLOR = new Color(150, 150, 150);
+	/**Color of the second link in the animation. If altered, also alter 
+	 *{@link Speedometer#ARM2COLOR} with same first three values (RGB) and fourth value (alpha) = 100.*/
+	public final Color ARM2COLOR = new Color(36, 149, 176); 
+	
 	/**Coordinates of center joint, ends of links*/
 	private double pivotX, pivotY, arm1X, arm1Y, arm2X, arm2Y;
-	/**Specifies size of circles at the joints of the gibbot animation*/
-	private double radius = ARM1H/2; //NOTE: if height of arm1 and arm2 are different, this will need to be changed.
 	/**Angle between links (currently unused in code)*/
 	private double theta;
 
-    /**Constructor initializes all coordinates. If initial coordinates need to be changed, make sure to change them
-     *in {@link #reset}, as well.*/
+    /**Constructor initializes all coordinates.*/
     public Gibbot() {
-    	pivotX = 250;
-    	pivotY = 100;
+    	pivotX = STARTX;
+    	pivotY = STARTY;
     	arm2X = pivotX+ARM2W;
     	arm2Y = pivotY;
     	arm1X = pivotX-ARM2W;
@@ -122,24 +133,30 @@ public class Gibbot {
 	
 		Graphics2D g2=(Graphics2D)g;
 		
-		g2.setColor(Color.BLACK);
-		
-		g2.fillOval((int)pivotX-10, (int)pivotY-15, (int)ARM1H+12, (int)ARM1H+12);
-		g2.fillOval((int)arm1X-15, (int)arm1Y-15, (int)ARM1H+12, (int)ARM1H+12);
-		g2.fillOval((int)arm2X-15, (int)arm2Y-15, (int)ARM1H+12, (int)ARM1H+12);
-		
 		g2.setStroke(new BasicStroke((int)ARM1H));
-		g2.setColor(Color.BLUE);
+		g2.setColor(Color.BLACK);
 		g2.drawLine((int)arm1X, (int)arm1Y, (int)pivotX, (int)pivotY);
 		g2.drawLine((int)arm2X, (int)arm2Y, (int)pivotX, (int)pivotY);
+		g2.setStroke(new BasicStroke((int)ARM1H - 7));
+		g2.setColor(ARM1COLOR);
+		g2.drawLine((int)arm1X, (int)arm1Y, (int)pivotX, (int)pivotY);
+		g2.setColor(ARM2COLOR);
+		g2.drawLine((int)arm2X, (int)arm2Y, (int)pivotX, (int)pivotY);
+		
+		g2.setColor(Color.BLACK);
+		g2.fillOval((int)pivotX-RADIUS/2, (int)pivotY-RADIUS/2, RADIUS, RADIUS);
+		g2.fillOval((int)arm1X-RADIUS/2, (int)arm1Y-RADIUS/2, RADIUS, RADIUS);
+		g2.fillOval((int)arm2X-RADIUS/2, (int)arm2Y-RADIUS/2, RADIUS, RADIUS);
+		
+		
 	}
 	
 	/**Called by {@link BananaPanel1#actionPerformed} when the animated robot reaches the banana image. Not sure
 	if this will be needed when using actual coordinates for animation.
 	*/
 	public void reset(){ 
-		pivotX = 250;
-    	pivotY = 100;
+		pivotX = STARTX;
+    	pivotY = STARTY;
     	arm2X = pivotX+ARM2W;
     	arm2Y = pivotY;
     	arm1X = pivotX-ARM2W;

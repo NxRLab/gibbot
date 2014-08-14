@@ -17,6 +17,20 @@ public class TextBox extends JPanel implements ActionListener{
 	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensons in constructor*/
 	private int width;
 	
+	/**Horizontal margin around chart area when placed in panel. Strongly recommended not to alter.*/
+	private final int XMARGIN = 15;
+	/**Vertical margin around chart area when placed in panel. Strongly recommended not to alter.*/
+	private final int YMARGIN = 10;
+	/**X-coor of upper left corner of box. Strongly recommended not to alter.*/
+	private final int BOXX = 10;
+	/**Y-coor of upper left corner of box. Strongly recommended not to alter.*/
+	private final int BOXY = 20;
+	
+	/**Proportion of horizontal space this box will take up in {@link LayoutContainerPanel}. Stronly recommended not to alter.*/
+	private final double TEXT_WIDTH_ALLOCATION = .23;
+	/**Proportion of vertical space this box will take up in {@link LayoutContainerPanel}. Stronly recommended not to alter.*/
+	private final double TEXT_HEIGHT_ALLOCATION = 1/3.45;
+	
 	/**Wireless signal: dot only*/
 	private final int W0 = 0;
 	/**Wireless signal: dot, one arc*/
@@ -25,6 +39,21 @@ public class TextBox extends JPanel implements ActionListener{
 	private final int W2 = 2;
 	/**Wireless signal: dot, three arcs*/
 	private final int W3 = 3;
+	
+	/**Length, in pixels, of wireless signal dot*/
+	private final int DOT_RAD = 15;
+	/**Length, in pixels, of wireless signal first arc*/
+	private final int ARC1_RAD = 60;
+	/**Length, in pixels, of wireless signal second arc*/
+	private final int ARC2_RAD = 90;
+	/**Length, in pixels, of wireless signal third arc*/
+	private final int ARC3_RAD = 120;
+	/**Degrees relative to pos. x-axis where arcs begin*/
+	private final int START_ANGLE = -45;
+	/**Degree measure of arcs*/
+	private final int ARC_ANGLE = 90;
+	
+	private final Color INDIGO = new Color(0, 51, 153);
 	
 	/**Set to W[int] to determine which wireless signal frame to draw.*/
 	private int wireless;
@@ -39,13 +68,16 @@ public class TextBox extends JPanel implements ActionListener{
     @param heightOfContainer used to set {@link #height}*/
     public TextBox(int widthOfContainer, int heightOfContainer) {
     	
-    	width = widthOfContainer/4 - 20;
-    	height = (int)(heightOfContainer/3.25) - 30;
+    	width = (int)(widthOfContainer*TEXT_WIDTH_ALLOCATION);
+    	height = (int)(heightOfContainer*TEXT_HEIGHT_ALLOCATION);
+    	
     	setPreferredSize(new Dimension(width, height));
-    	setBackground(GibbotGUI3.globalBg);
+    	setBackground(GibbotGUI3.GLOBAL_BG);
     	setFont(ANDALE_BIG);
+    	
     	timerCount = 0;
     	wireless = -1;
+    	
     	GUITimer.addActionListener(this);
     }
     
@@ -56,46 +88,47 @@ public class TextBox extends JPanel implements ActionListener{
     public void paintComponent(Graphics g){
     	
     	super.paintComponent(g);
-    	drawTextBubble(10, 20, width - 30, height - 20, g);
+    	drawTextBubble(BOXX, BOXY, width - 2*XMARGIN, height - 2*YMARGIN, g);
     	
     }
     
     /**Draws all graphics for the TextBox panel.
     @param x X-coor of upper left corner
     @param y Y-coor of upper left corner
-    @param width Width of rectangle available to draw text in
-    @param height Height of rectangle available to draw text in
+    @param w Width of rectangle available to draw text in
+    @param h Height of rectangle available to draw text in
     @param g Graphics context to draw with.*/
-    public void drawTextBubble(int x, int y, int width, int height, Graphics g){
+    public void drawTextBubble(int x, int y, int w, int h, Graphics g){
     	
-    	g.setColor(new Color(0, 51, 153));
-    	g.drawString("real time", x + 15, 70);
+    	g.setColor(INDIGO);
+    	g.drawString("real time", x + 15, 70); //last two parameters give (x, y) coors of bottom left corner.
     	g.drawString("wireless", x + 24, 110);
     	g.drawString("data from", x + 15, 150);
     	g.drawString("the gibbot", x + 6, 190);
     	
     	Graphics2D g2 = (Graphics2D)g;
     	g2.setStroke(new BasicStroke(5, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
-    	g2.setColor(new Color (0, 51, 153));
+    	g2.setColor(INDIGO);
     	
     	switch(wireless){
     		case(W0):
-    			g2.fillOval(width - 5, height/2 + 15, 15, 15);
+    			g2.fillOval(w - 5, h/2 + DOT_RAD, DOT_RAD, DOT_RAD); //first two parameters are (x, y) of upper left 
+    																 //corner of binding rectangle; do not alter.
     			break;
     		case(W1):;
-    			g2.fillOval(width - 5, height/2 + 15, 15, 15);
-    			g2.drawArc(width - 35, height/2 - 7, 60, 60, -45, 90);
+    			g2.fillOval(w - 5, h/2 + DOT_RAD, DOT_RAD, DOT_RAD);
+    			g2.drawArc(w - 35, h/2 - 7, ARC1_RAD, ARC1_RAD, START_ANGLE, ARC_ANGLE);
     			break;
     		case(W2):;
-    			g2.fillOval(width - 5, height/2 + 15, 15, 15);
-    			g2.drawArc(width - 35, height/2 - 7, 60, 60, -45, 90);
-    			g2.drawArc(width - 50, height/2 - 22, 90, 90, -45, 90);
+    			g2.fillOval(w - 5, h/2 + DOT_RAD, DOT_RAD, DOT_RAD);
+    			g2.drawArc(w - 35, h/2 - 7, ARC1_RAD, ARC1_RAD, START_ANGLE, ARC_ANGLE);
+    			g2.drawArc(w - 50, h/2 - 22, ARC2_RAD, ARC2_RAD, START_ANGLE, ARC_ANGLE);
     			break;
     		case(W3):;
-    			g2.fillOval(width - 5, height/2 + 15, 15, 15);
-    			g2.drawArc(width - 35, height/2 - 7, 60, 60, -45, 90);
-    			g2.drawArc(width - 50, height/2 - 22, 90, 90, -45, 90);
-    			g2.drawArc(width - 65, height/2 - 37, 120, 120, -45, 90);
+    			g2.fillOval(w - 5, h/2 + DOT_RAD, DOT_RAD, DOT_RAD);
+    			g2.drawArc(w - 35, h/2 - 7, ARC1_RAD, ARC1_RAD, START_ANGLE, ARC_ANGLE);
+    			g2.drawArc(w - 50, h/2 - 22, ARC2_RAD, ARC2_RAD, START_ANGLE, ARC_ANGLE);
+    			g2.drawArc(w - 65, h/2 - 37, ARC3_RAD, ARC3_RAD, START_ANGLE, ARC_ANGLE);
     			break;
     	}
     }
