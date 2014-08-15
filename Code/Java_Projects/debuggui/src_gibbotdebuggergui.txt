@@ -1,0 +1,8 @@
+C:\Users\K\Documents\GitHub\Code\Java_Projects\debuggui\src\ButtonPanel.java
+C:\Users\K\Documents\GitHub\Code\Java_Projects\debuggui\src\DebuggerGUISerialPort.java
+C:\Users\K\Documents\GitHub\Code\Java_Projects\debuggui\src\DebuggerGUITimer.java
+C:\Users\K\Documents\GitHub\Code\Java_Projects\debuggui\src\GibbotDebuggerGUI.java
+C:\Users\K\Documents\GitHub\Code\Java_Projects\debuggui\src\LogButton.java
+C:\Users\K\Documents\GitHub\Code\Java_Projects\debuggui\src\RandomPanel.java
+C:\Users\K\Documents\GitHub\Code\Java_Projects\debuggui\src\ToBytesButton.java
+C:\Users\K\Documents\GitHub\Code\Java_Projects\debuggui\src\ToValsButton.java
