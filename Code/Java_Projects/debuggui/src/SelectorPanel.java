@@ -26,6 +26,7 @@ public class SelectorPanel extends JPanel{
     	c.anchor = GridBagConstraints.CENTER;
     	ChoiceBox cb;
     	JLabel name;
+    	ScaleTextField f;
     	
     	for(int i = 0; i < 19; i++){
     		
@@ -40,10 +41,10 @@ public class SelectorPanel extends JPanel{
     		add(cb, c);
     		
     		c.gridx = 2;
-    		f = new JTextField
+    		f = new ScaleTextField("Scale", i);
     	}
+    }
     	
     }
     
     
-}

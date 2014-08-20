@@ -27,7 +27,7 @@ public class ScaleTextField extends JTextField implements ActionListener{
 
    		ScaleTextField src = (ScaleTextField)evt.getSource();
    		String str = src.getText();
-   		if(str.matches("-?\\d+(\\.\\d+)?"))){
+   		if(str.matches("-?\\d+(\\.\\d+)?")){
    			int i = TAG;
    			GraphArrayUpdater.graphChoices[i] = Integer.parseInt(str);
    		}
@@ -36,7 +36,7 @@ public class ScaleTextField extends JTextField implements ActionListener{
    }
     
     public int getTag(){
-    	return tag;
+    	return TAG;
     }
     
 }
