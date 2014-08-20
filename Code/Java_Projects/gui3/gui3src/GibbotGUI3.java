@@ -20,6 +20,10 @@ public class GibbotGUI3 extends JFrame{
     *@param args String array of arguments when program is run on command line (handled in the background)*/
     public static void main(String[] args) {
     	
+        if(args.length > 0) {
+            GUISerialPort.portName = args[0];
+        } 
+
     	SwingUtilities.invokeLater(new Runnable() {
       		public void run() {
         		GibbotGUI3 gui = new GibbotGUI3();

@@ -19,8 +19,11 @@ import jssc.*;
 
 public class GUISerialPort {
 	
+	/**SerialPort name to open */ 
+    public static String portName = "COM5";
+
 	/**SerialPort object that is wrapped by this class*/
-	private static SerialPort port = new SerialPort("COM5");
+	private static SerialPort port;
 	
 	/**Used to read byte stream*/
 	private static ByteBuffer bb;
@@ -46,6 +49,7 @@ public class GUISerialPort {
 	 *in data to non-null.*/
 	public static void openPort(){
 		try{
+            port = new SerialPort(portName);
     		port.openPort();
     		port.setParams(115200, 8, 1, 0);
             port.setFlowControlMode(SerialPort.MASK_CTS);

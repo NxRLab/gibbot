@@ -40,8 +40,8 @@ public class SelectorPanel extends JPanel{
     		cb = new ChoiceBox(new Integer[] {0, 1, 2, 3, 4}, i);
     		add(cb, c);
     		
-    		c.gridx = 2;
-    		f = new ScaleTextField("Scale", i);
+    		//c.gridx = 2;
+    		//f = new ScaleTextField("Scale", i);
     	}
     }
     	
