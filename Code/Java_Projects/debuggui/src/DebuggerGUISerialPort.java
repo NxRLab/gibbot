@@ -76,6 +76,7 @@ public class DebuggerGUISerialPort {
 	    	if(port.isOpened()){
     		
     			try{
+    				
     				port.writeString("r");
     			
     				int totalBytes = port.getInputBufferBytesCount();
@@ -85,11 +86,13 @@ public class DebuggerGUISerialPort {
     				
     					for(int i = 0; i < 3; i++){
     						bb = ByteBuffer.wrap(bytesData, 2*i, 2);
+    						bb.order(ByteOrder.LITTLE_ENDIAN);
     						anglesData[i] = (int)bb.getChar();
     					}
     				
 	    				for (int i = 0; i < 16; i++){
     						bb = ByteBuffer.wrap(bytesData, 4*i + 6, 4);
+    						bb.order(ByteOrder.LITTLE_ENDIAN);
     						floatsData[i] = bb.getFloat();
     					}
     				
@@ -118,6 +121,7 @@ public class DebuggerGUISerialPort {
 								bos.write(time);
 								bos.write(totalBytes);    						
     							bos.write(ASTERIX);
+    							bos.flush();
     						}
     						
     						else{
@@ -152,8 +156,7 @@ public class DebuggerGUISerialPort {
     				bos.write(SPACE);
 					bos.write(bytesData);
 					bos.flush();
-					if(!logging){}
-    				}
+    			}
  	   			
  		   		catch(Exception e){
     				e.printStackTrace();

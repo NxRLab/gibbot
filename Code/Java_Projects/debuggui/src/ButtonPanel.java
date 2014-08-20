@@ -110,7 +110,7 @@ public class ButtonPanel extends JPanel{
 	    	
 	    	BufferedInputStream bis = null;
     		OutputStreamWriter osw = null;
-    		
+
     		int bytesInLine;
     		int bytesInTimestamp;
     		
@@ -149,6 +149,8 @@ public class ButtonPanel extends JPanel{
     			
 	    			bis.read(byteCount);
 	    			bytesInLine = byteCount[0];
+	    			if(bytesInLine < 0)
+	    				bytesInLine += 256;
 	    			data = new byte[bytesInLine + 1];
 	    			bis.read(data);
     				String first = Integer.toString(data[0]);
@@ -203,6 +205,7 @@ public class ButtonPanel extends JPanel{
 	    	byte[] data;
     	
     		ByteBuffer bb;
+
     		BufferedInputStream bis = null;
 	    	OutputStreamWriter osw = null;
     	
@@ -248,6 +251,8 @@ public class ButtonPanel extends JPanel{
     			
 	    			bis.read(byteCount);
 	    			bytesInLine = byteCount[0];
+	    			if(bytesInLine < 0)
+	    				bytesInLine += 256;
 	    			data = new byte[bytesInLine + 1];
 	    			bis.read(data);
     				String first = Integer.toString(data[0]);

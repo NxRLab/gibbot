@@ -11,7 +11,7 @@ import javax.swing.*;
 
 public class DebuggerGUITimer {
 	
-	private static final int MILLISDELAY = 500;
+	private static final int MILLISDELAY = 30;
     private static Timer timer = new Timer(MILLISDELAY, null);
     
     public static void start(){

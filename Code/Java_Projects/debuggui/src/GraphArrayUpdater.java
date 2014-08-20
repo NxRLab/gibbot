@@ -30,7 +30,7 @@ public class GraphArrayUpdater{
 	private static UpdateListener listener = new UpdateListener();
 	
 	public static void start(){
-		Arrays.fill(scales, 1);
+
 		DebuggerGUITimer.addActionListener(listener);
 	}
 	
@@ -50,7 +50,7 @@ public class GraphArrayUpdater{
 	    	for(int i = 0; i < 3; i++){
 	    		if(graphChoices[i] != 0){
 	    			if(par == 0){
-	    				evens[i][0] = currentHeight - marginOfGraphs - angles[i];
+	    				evens[i][0] = (int)(currentHeight - marginOfGraphs - angles[i]*scales[i]);
 		    			for(int j = 0; j < N - 1; j++)
 		    				if(odds[i][j] == 0)
 		    					evens[i][j+1] = currentHeight - marginOfGraphs;
@@ -58,7 +58,7 @@ public class GraphArrayUpdater{
 	    						evens[i][j+1] = odds[i][j];
 	    			}
 	    			else{
-	    				odds[i][0] = currentHeight - marginOfGraphs - angles[i];
+	    				odds[i][0] = (int)(currentHeight - marginOfGraphs - angles[i]*scales[i]);
 	    				for(int j = 0; j < N - 1; j++)
 	    					if(odds[i][j] == 0)
 		    					odds[i][j+1] = currentHeight - marginOfGraphs;
@@ -71,7 +71,8 @@ public class GraphArrayUpdater{
 	    	for(int i = 3; i < 19; i++){
 	    		if(graphChoices[i] != 0){
 	    			if(par == 0){
-	    				evens[i][0] = (int)(currentHeight - marginOfGraphs - floats[i - 3]);
+	    				evens[i][0] = (int)(currentHeight - marginOfGraphs - floats[i - 3]*scales[i - 3]);
+	    				System.out.println(scales[i - 3]);
 		    			for(int j = 0; j < N - 1; j++)
 	    					if(odds[i][j] == 0)
 		    					evens[i][j+1] = currentHeight - marginOfGraphs;
@@ -79,7 +80,8 @@ public class GraphArrayUpdater{
 	    						evens[i][j+1] = odds[i][j];
 	    			}
 	    			else{
-	    				odds[i][0] = (int)(currentHeight - marginOfGraphs - floats[i - 3]);
+	    				odds[i][0] = (int)(currentHeight - marginOfGraphs - floats[i - 3]*scales[i-3]);
+	    				System.out.println(scales[i - 3]);
 	    				for(int j = 0; j < 19; j++)
 	    					if(odds[i][j] == 0)
 		    					odds[i][j+1] = currentHeight - marginOfGraphs;
@@ -96,4 +98,8 @@ public class GraphArrayUpdater{
 	public static int getN(){
 	   	return N;
 	} 
+	
+	public static void setScale(int i, double val){
+		scales[i] = val;
+	}
 }

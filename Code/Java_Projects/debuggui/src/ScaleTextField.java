@@ -18,7 +18,7 @@ public class ScaleTextField extends JTextField implements ActionListener{
     	
     	super(s);
     	TAG = i;
-    	GraphArrayUpdater.graphChoices[i] = 1;
+    	//GraphArrayUpdater.scales[i] = 1;
    		addActionListener(this);
     	
     }
@@ -29,10 +29,10 @@ public class ScaleTextField extends JTextField implements ActionListener{
    		String str = src.getText();
    		if(str.matches("-?\\d+(\\.\\d+)?")){
    			int i = TAG;
-   			GraphArrayUpdater.graphChoices[i] = Integer.parseInt(str);
+   			GraphArrayUpdater.setScale(i, Double.parseDouble(str));
    		}
    		else
-   			src.setText("Not a number");	
+   			src.setText("NaN");	
    }
     
     public int getTag(){
