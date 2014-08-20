@@ -231,7 +231,7 @@ public class LayoutContainerPanel2 extends JPanel implements MouseListener, Mous
     	if(pulling1){
     		v = (double)(x - mouseAt)/(System.currentTimeMillis() - t)*1000;
     		t = System.currentTimeMillis();
-    		if(x < LEFT_BOUND_1 + widthCorrection){ //pulled too far to the left
+    		if(x - offset < CLOSED_X1 + widthCorrection){ //pulled too far to the left
     			pulling1 = false;
     			pulled1 = false;
     		}
@@ -255,7 +255,7 @@ public class LayoutContainerPanel2 extends JPanel implements MouseListener, Mous
     		if(pulling2){
     			v = (double)(x - mouseAt)/(System.currentTimeMillis() - t)*1000;
     			t = System.currentTimeMillis();
-    			if(x < LEFT_BOUND_2 + widthCorrection){ //pulled too far to the left
+    			if(x  - offset < CLOSED_X2 + widthCorrection){ //pulled too far to the left
 	    			pulling2 = false;
     				pulled2 = false;
     			}

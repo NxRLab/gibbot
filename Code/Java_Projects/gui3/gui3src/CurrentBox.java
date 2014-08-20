@@ -153,7 +153,7 @@ public class CurrentBox extends JPanel implements ActionListener{
 			milliampsE[0] = newCurr;
 			millinewtmetsE[0] = newTor;
     	
-    		for(int i = 0; i<n-2; i++){
+    		for(int i = 0; i < n-1; i++){
     			milliampsE[i+1] = milliampsO[i];
 	   			millinewtmetsE[i+1] = millinewtmetsO[i];
     		}
@@ -163,7 +163,7 @@ public class CurrentBox extends JPanel implements ActionListener{
     		milliampsO[0] = newCurr;
 			millinewtmetsO[0] = newTor;
     
-    		for(int i = 0; i<n-2; i++){
+    		for(int i = 0; i < n-1; i++){
    				milliampsO[i+1] = milliampsE[i];
     			millinewtmetsO[i+1] = millinewtmetsE[i];
    			}

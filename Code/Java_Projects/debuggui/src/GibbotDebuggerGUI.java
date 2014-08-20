@@ -23,10 +23,13 @@ public class GibbotDebuggerGUI {
     public static void createAndShowGUI(){
     	
     	JFrame frame = new JFrame();
-    	frame.setSize(500, 500);
+    	frame.setSize(1000, 600);
     	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	frame.add(new ButtonPanel(), BorderLayout.CENTER);
+    	frame.add(new DebuggerLayoutPanel());
     	frame.setVisible(true);
     	DebuggerGUITimer.start();
+    	GraphArrayUpdater.start();
+    	DebuggerGUISerialPort.openPort();
+    	
     }
 }
