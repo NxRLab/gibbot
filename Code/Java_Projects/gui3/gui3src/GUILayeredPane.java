@@ -23,7 +23,7 @@ public class GUILayeredPane extends JLayeredPane implements ActionListener{
 	/**Height of rectangle drawn on: avoid altering!*/
 	private final int DRAWING_HEIGHT = 800;
 	/**Width of screen: adjust as neccesary. Suggested range: 1320 - 1420 (designed for 1366)*/
-	private final int SIZING_WIDTH = 1366;
+	private final int SIZING_WIDTH = 1320;
 	/**Height of screen: adjust as neccesary. Suggested range: 685 - 775 (designed for 775)*/	
 	private final int SIZING_HEIGHT = 775;
 	
