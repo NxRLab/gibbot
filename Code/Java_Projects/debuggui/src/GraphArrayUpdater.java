@@ -13,7 +13,6 @@ import java.util.Arrays;
 public class GraphArrayUpdater{
 	
 	public static int[] graphChoices = new int[19];
-	public static double[] scales = new double[19];
 	
 	private static int par = 0;
 	private static int[] angles = new int[3];
@@ -27,14 +26,16 @@ public class GraphArrayUpdater{
 	public static int currentHeight;
 	public static int marginOfGraphs;
 	
-	private static UpdateListener listener = new UpdateListener();
+	public static UpdateListener listener = new UpdateListener();
 	
 	public static void start(){
 
 		DebuggerGUITimer.addActionListener(listener);
 	}
 	
-	private static class UpdateListener implements ActionListener{
+	public static class UpdateListener implements ActionListener{
+		
+		public double[] scales = new double[19];
 
 	    public void actionPerformed(ActionEvent evt){
 	    	
@@ -71,8 +72,7 @@ public class GraphArrayUpdater{
 	    	for(int i = 3; i < 19; i++){
 	    		if(graphChoices[i] != 0){
 	    			if(par == 0){
-	    				evens[i][0] = (int)(currentHeight - marginOfGraphs - floats[i - 3]*scales[i - 3]);
-	    				System.out.println(scales[i - 3]);
+	    				evens[i][0] = (int)(currentHeight - marginOfGraphs - floats[i - 3]*scales[i]);
 		    			for(int j = 0; j < N - 1; j++)
 	    					if(odds[i][j] == 0)
 		    					evens[i][j+1] = currentHeight - marginOfGraphs;
@@ -80,8 +80,7 @@ public class GraphArrayUpdater{
 	    						evens[i][j+1] = odds[i][j];
 	    			}
 	    			else{
-	    				odds[i][0] = (int)(currentHeight - marginOfGraphs - floats[i - 3]*scales[i-3]);
-	    				System.out.println(scales[i - 3]);
+	    				odds[i][0] = (int)(currentHeight - marginOfGraphs - floats[i - 3]*scales[i]);
 	    				for(int j = 0; j < 19; j++)
 	    					if(odds[i][j] == 0)
 		    					odds[i][j+1] = currentHeight - marginOfGraphs;
@@ -100,6 +99,6 @@ public class GraphArrayUpdater{
 	} 
 	
 	public static void setScale(int i, double val){
-		scales[i] = val;
+		listener.scales[i] = val;
 	}
 }

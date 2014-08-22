@@ -145,6 +145,7 @@ public class DebuggerGUISerialPort {
    	 		}
    	 	
    	 	else{
+   	 		
     		if(logging){
     			try{
 	    			currentTimestamp = new Timestamp(Calendar.getInstance().getTime().getTime());

@@ -11,10 +11,10 @@ import javax.swing.*;
 
 public class SelectorPanel extends JPanel{
 	
-	Color[] colors = new Color[]{Color.BLACK, Color.CYAN, Color.RED, Color.GREEN, Color.MAGENTA, Color.GRAY, Color.YELLOW, Color.BLUE, 
-		 							Color.ORANGE, Color.PINK, new Color(129,215,145), new Color(244,128,90), new Color(140,63,43), 
-		 								new Color(145, 0, 255), new Color(160,172,188), new Color(169,82,214), new Color(255, 188, 0), 
-		 									new Color(41,118,137), new Color(86, 127, 53)};
+	Color[] colors = new Color[]{Color.BLACK, new Color(0, 229, 221), Color.RED, new Color(15, 229, 0), Color.MAGENTA, Color.GRAY, 
+									new Color(210, 0, 0), Color.BLUE, Color.ORANGE, Color.PINK, new Color(129,215,145), 
+										new Color(244,128,90), new Color(140,63,43), new Color(145, 0, 255), new Color(160,172,188), 
+										   new Color(169,82,214), new Color(255, 188, 0), new Color(41,118,137), new Color(86, 127, 53)};
 	
 	private String[] valNames = new String[] {"Theta1", "Theta2", "Theta3", "Current", "Torque", "Temperature", "Voltage", 
 												"AccelX1", "AccelY1", "AccelZ1", "GyroX1", "GyroY1", "GyroZ1", 

@@ -11,11 +11,11 @@ import javax.swing.*;
 
 public class DebuggerGraphPanel extends JPanel implements ActionListener{
 	
-	private final Color GRAPH_BG = new Color(200, 200, 200);
-	Color[] colors = new Color[]{Color.BLACK, Color.CYAN, Color.RED, Color.GREEN, Color.MAGENTA, Color.GRAY, Color.YELLOW, Color.BLUE, 
-		 							Color.ORANGE, Color.PINK, new Color(129,215,145), new Color(244,128,90), new Color(140,63,43), 
-		 								new Color(145, 0, 255), new Color(160,172,188), new Color(169,82,214), new Color(255, 188, 0), 
-		 									new Color(41,118,137), new Color(86, 127, 53)};
+	private final Color GRAPH_BG = new Color(230, 230, 230);
+	Color[] colors = new Color[]{Color.BLACK, new Color(0, 229, 221), Color.RED, new Color(15, 229, 0), Color.MAGENTA, Color.GRAY, 
+									new Color(210, 0, 0), Color.BLUE, Color.ORANGE, Color.PINK, new Color(129,215,145), 
+										new Color(244,128,90), new Color(140,63,43), new Color(145, 0, 255), new Color(160,172,188), 
+										   new Color(169,82,214), new Color(255, 188, 0), new Color(41,118,137), new Color(86, 127, 53)};
 		 									
 	public final int MARGIN = 20;
 	private final String message;

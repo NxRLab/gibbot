@@ -9,16 +9,18 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.util.Random;
 
 public class ScaleTextField extends JTextField implements ActionListener{
 	
 	private int TAG;
+	Random gen = new Random();
 
     public ScaleTextField(String s, int i) {
     	
     	super(s);
     	TAG = i;
-    	//GraphArrayUpdater.scales[i] = 1;
+    	GraphArrayUpdater.listener.scales[i] = 1;
    		addActionListener(this);
     	
     }
