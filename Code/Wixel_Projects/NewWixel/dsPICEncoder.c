@@ -9,7 +9,6 @@
 
 
 
-
 /* Configuration Bit Settings */
 _FOSCSEL(FNOSC_FRC) // Use Internal Fast RC oscillator
 _FOSC(FCKSM_CSECMD & OSCIOFNC_ON) // Clock switching enabled and OSC2 pin is IO
@@ -35,8 +34,6 @@ void init_UART(void);
 
 int main() {
     char c;
-    int num;
-    num=33745;
     init_clock_and_pins();
     AD1PCFGL = 0xFFFF; // turn off ADC
     init_UART();
@@ -67,9 +64,19 @@ int main() {
                 printf("%u\n", QEI_read(2)); // print QEI 2 value to UART
                 break;
             case TEST:
-                printf("%u\n", num); // print an integer to UART
+                //printf("%c", 'y'); // Send 'y' over UART
+                IFS3bits.QEI1IF = 1; // Set interrupt flag to 1
+                break;
         }
     }
+}
+
+
+void __attribute__((__interrupt__,auto_psv)) _QEIInterrupt(void)
+{
+     printf("%c", 'y'); // Send 'y' over UART
+     IFS3bits.QEI1IF = 0; // Reset interrupt flag to zero
+    
 }
 
 void init_clock_and_pins() {
@@ -114,6 +121,8 @@ void init_clock_and_pins() {
     __builtin_write_OSCCONL(OSCCON | (1 << 6)); // Set bit 6
 }
 
+
+
 void init_UART(void) {
     U1MODEbits.UARTEN = 0; // UART1 disabled
 
@@ -152,6 +161,12 @@ unsigned int QEI_read(int QEI) {
 
     }
 
+/*void __attribute__((interrupt, auto_psv)) _T1Interrupt( void )
+{
+  printf("%c", 'y'); // Send 'y' over UART
+  IFS0bits.T1IF = 0;  // reset timer interrupt flag
+}*/
+
 /************************************************************
  * QEI enable turns the QEI device on which makes the
  *	device count pulses.
@@ -164,13 +179,19 @@ unsigned int QEI_read(int QEI) {
 void QEI_enable(int QEI, int threshold) {
 
     if (1 == QEI && !QEI1CONbits.CNTERR) {
-        QEI1CONbits.QEIM = 0b101; // Only count up and down on channel A, channel B is used for direction only.
+        QEI1CONbits.QEIM = 0b101; // Only count up and down on channel A, channel B is used for direction only
         MAX1CNT = threshold >= 0 ? threshold : 0xFFFF; // The threshold is used to determine when to reset the clock
     }
     if (2 == QEI && !QEI2CONbits.CNTERR) {
-        QEI2CONbits.QEIM = 0b111; // Count up and down on both channel A and channel B.
+        QEI2CONbits.QEIM = 0b111; // Count up and down on both channel A and channel B
         MAX2CNT = threshold >= 0 ? threshold : 0xFFFF; // The threshold is used to determine when to reset the clock
     }
+    INTCON1bits.NSTDIS = 1; // Interrupt nesting is disabled
+    IPC14bits.QEI1IP = 0b111; // Interrupt priority is set to seven, highest possible value
+    IFS3bits.QEI1IF = 0; // Interrupt request has not occured yet
+    IEC3bits.QEI1IE = 1; // Interrupt request enabled, flag will be set upon count overflow or underflow
+   
+    
 }
 
 /***********************************************************

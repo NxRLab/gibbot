@@ -175,34 +175,34 @@ void initialize_UART(void){
     U1MODEbits.UEN = 0b00;
 
     IPC2bits.U1RXIP = 7;     // Set RX interrupt priority to 5
-    IFS0bits.U1RXIF = 0;     // Clear the Recieve Interrupt Flag
-    IEC0bits.U1RXIE = 1;     // Enable Recieve Interrupts
+    IFS0bits.U1RXIF = 0;     // Clear the Receive Interrupt Flag
+    IEC0bits.U1RXIE = 1;     // Enable Receive Interrupts
 
     U1MODEbits.UARTEN = 1;   //enable the UART
     U1STAbits.UTXEN = 1;     //Enable transmitting
 }
 
 void initialize_UART2(void){
-    TRISFbits.TRISF4 = 0;
-    TRISFbits.TRISF5 = 1;
+    //UART2 is used for communication between the two dsPICs
+    /* UART2 connections to the dsPIC are as follows:
+     * RX: RP101/RF5
+     * TX: RP100/RF4
+     */
+    
+    TRISFbits.TRISF4 = 0; //TX is output
+    TRISFbits.TRISF5 = 1; //RX is input
 
-    RPINR19bits.U2RXR = 101;
-    RPOR9bits.RP100R = 3;
+    RPINR19bits.U2RXR = 101; //UART1 RX tied to RP101 (RF5)
+    RPOR9bits.RP100R = 3; //RP100 (RF4) tied to UART2 TX
 
-    U2MODEbits.BRGH = 1;
-    U2BRG = 89;
+    U2MODEbits.BRGH = 1; //Turn High Baud Rate Mode On
+    U2BRG = 89; //Baud Rate = 112044
     U2MODEbits.UEN = 0b00;
 
-    IPC7bits.U2RXIP = 7;
-    IFS1bits.U2RXIF = 0;
-    IEC1bits.U2RXIE = 1;
+    IPC7bits.U2RXIP = 7; //Set RX interrupt priority to 7
+    IFS1bits.U2RXIF = 0; //Clear the Receive Interrupt Flag
+    IEC1bits.U2RXIE = 1; //Enable Receive Interrupts
 
-    U2MODEbits.UARTEN = 1;
-    U2STAbits.UTXEN = 1;
-}
-
-void read_motor_temp(unsigned char *data){
-    write_UART2('b');
-    while(!(uart_buffer.len>3));
-    read_string_UART(data,4);
+    U2MODEbits.UARTEN = 1; //enable the UART
+    U2STAbits.UTXEN = 1; //enable transmitting
 }

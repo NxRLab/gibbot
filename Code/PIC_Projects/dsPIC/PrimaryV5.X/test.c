@@ -13,7 +13,7 @@
 #include "I2CMaster.h"
 
 unsigned char testBuff[256];
-short duty=300;
+short duty=100;
 int senddata=0;
 unsigned short csdata[1024];
 int j=0;
@@ -48,6 +48,15 @@ typedef struct {
     double gyro_ys;
     double gyro_zs;
 } IMU_data;
+
+typedef struct {
+    float current;
+    float torque;
+    float mot_temp;
+    float batt_volt;
+    double gyro_z;
+    double gyro_zs;
+} Send_to_screen;
 
 void test_MayDay(void){
     unsigned char command;
@@ -222,7 +231,7 @@ void test_MayDay(void){
           while(!(uart_buffer.len>4));
           read_string_UART(d1,5);
           printf("%s\n",d1);
-      } else if(command == 'q'){
+      } else if(command == 'q'){ // send out all sensor data as human-readable string
           LED4 = !LED4;
           unsigned char d1[10];
           Sensor_data sensor_data;
@@ -285,7 +294,7 @@ void test_MayDay(void){
            for (i=0; i<sizeof(imu);i++){
               write_UART(send[i]);
           }
-      } else if(command == 'r'){
+      } else if(command == 'r'){ // send out all sensor data as raw bytes
           LED4 = !LED4;
           unsigned char d1[10];
           Sensor_data sensor_data;
@@ -324,10 +333,25 @@ void test_MayDay(void){
           for (i=0; i<sizeof(Sensor_data);i++){
               write_UART(send[i]);
           }
-      } else if(command == 's'){
-          unsigned char d1[50];
-          sprintf(d1,"%s","11111111111111111111111111111111111111111111111111111111111");
-          printf("%s",d1);
+      } else if(command == 's'){ // send out sensor data desired by GUI in raw bytes
+          Send_to_screen data_send;
+          short temp3;
+          char *send = &data_send;
+          unsigned char d1[10];
+          temp3 = read_ADC();
+          data_send.current = ADC_to_current(temp3);
+          data_send.torque = ADC_to_torque(temp3);
+          data_send.mot_temp = 98.62;
+          data_send.batt_volt = 12.54;
+          //read_Gyro(d1);
+          //data_send.gyro_z = Gyro_convert(d1,4,5);
+          data_send.gyro_z = 20.255;
+          read_Gyro_Secondary(d1);
+          data_send.gyro_zs = Gyro_convert(d1,4,5);
+          //data_send.gyro_zs = 20;
+          for (i=0; i<sizeof(data_send);i++){
+              write_UART(send[i]);
+          }
       }
     }
 }

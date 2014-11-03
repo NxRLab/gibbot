@@ -16,6 +16,8 @@
 #define MOTENC_SET '7'
 #define ACCEL_READ '9'
 #define GYRO_READ 'a'
+#define MOTOR_TEMP_READ 'b'
+#define MPU_TEST 'c'
 
 
 volatile struct buffer_t uart_buffer;
@@ -123,25 +125,27 @@ void __attribute__((interrupt, no_auto_psv)) _U2RXInterrupt(void){
 }
 
 void initialize_UART2(void){
-    TRISFbits.TRISF4 = 1;
-    TRISFbits.TRISF5 = 0;
+    TRISFbits.TRISF4 = 1; //RX is input
+    TRISFbits.TRISF5 = 0; //TX is output
 
-    RPINR19bits.U2RXR = 100;
-    RPOR9bits.RP101R = 3;
+    RPINR19bits.U2RXR = 100; //UART2 RX tied to RP100 (RF4)
+    RPOR9bits.RP101R = 3; //RP101 (RF5) tied to UART2 TX
 
-    U2MODEbits.BRGH = 1;
-    U2BRG = 89;
+    U2MODEbits.BRGH = 1; //Turn High Baud Rate Mode on
+    U2BRG = 89; //Baud Rate = 112044
     U2MODEbits.UEN = 0b00;
 
-    IPC7bits.U2RXIP = 7;
-    IFS1bits.U2RXIF = 0;
-    IEC1bits.U2RXIE = 1;
+    IPC7bits.U2RXIP = 7; //Set RX interrupt priority to 7
+    IFS1bits.U2RXIF = 0; //Clear the receive interrupt flag
+    IEC1bits.U2RXIE = 1; //Enable receive interrupts
 
-    U2MODEbits.UARTEN = 1;
-    U2STAbits.UTXEN = 1;
+    U2MODEbits.UARTEN = 1; //Enable the UART
+    U2STAbits.UTXEN = 1; //Enable transmitting
 }
 
 void UART2_task(void){
+    /*Performs a set task depenedent upon command received over UART from the
+     dsPIC on the primary board.*/
     unsigned char task;
      if(uart_buffer.len>0){
         task = read_UART();
@@ -154,7 +158,7 @@ void UART2_task(void){
          }
          else if(task == LOWMAG_TOGGLE){
              LOWMAG = !LOWMAG;
-             write_UART2('w');
+             write_UART2('w'); // simple test to ensure UART communication between boards is working
          }
          else if(task == LOWMAGENC_READ){
              long value;
@@ -194,17 +198,32 @@ void UART2_task(void){
              write_MOTENC(val);
              LED4 = !LED4;
          }
-         else if(task == 'ACCEL_READ'){
+         else if(task == MPU_TEST){
+             unsigned char data[1];
+             read_MPU_test(data);
+         }
+         else if(task == ACCEL_READ){
              unsigned char data[6];
+             unsigned short i;
              read_Accel(data);
-             write_string_UART2(data,6);
+             for (i=0;i<6;i++){
+                 write_UART2(data[i]);
+             }
          }
-         else if(task == 'GYRO_READ'){
+         else if(task == GYRO_READ){
              unsigned char data[6];
+             unsigned short i;
              read_Gyro(data);
-             write_string_UART2(data,6);
+             for (i=0;i<6;i++){
+                 write_UART2(data[i]);
+             }
          }
-         else if(task == '8'){
+         else if(task == MOTOR_TEMP_READ){
+             //float mot_temp;
+             //mot_temp = motor_temp(thermistor_resistance());
+             //write_string_UART2((unsigned char *) &mot_temp,4);
+         }
+         else if(task == '8'){ // test
              unsigned char data[5] = {'a','b','c','d','e'};
              write_string_UART2(data, 5);
          }

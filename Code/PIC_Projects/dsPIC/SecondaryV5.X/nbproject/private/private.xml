@@ -1,19 +1,3 @@
 <?xml version="1.0" encoding="UTF-8"?><project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
-    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
-        <file>file:/C:/Users/MSI/Documents/GitHub/gibbot/Code/PIC_Projects/dsPIC/SecondaryV5.X/UART.c</file>
-        <file>file:/C:/Users/MSI/Documents/GitHub/gibbot/Code/PIC_Projects/dsPIC/SecondaryV5.X/UART.h</file>
-        <file>file:/C:/Users/MSI/Documents/GitHub/gibbot/Code/PIC_Projects/dsPIC/SecondaryV5.X/mainV5.c</file>
-        <file>file:/C:/Users/MSI/Documents/GitHub/gibbot/Code/PIC_Projects/dsPIC/SecondaryV5.X/initializeV5.c</file>
-        <file>file:/C:/Users/MSI/Documents/GitHub/gibbot/Code/PIC_Projects/dsPIC/SecondaryV5.X/encoder.c</file>
-        <file>file:/C:/Users/MSI/Documents/GitHub/gibbot/Code/PIC_Projects/dsPIC/SecondaryV5.X/I2CSlave.c</file>
-        <file>file:/C:/Users/MSI/Documents/GitHub/gibbot/Code/PIC_Projects/dsPIC/SecondaryV5.X/encoder.h</file>
-        <file>file:/C:/Users/MSI/Documents/GitHub/gibbot/Code/PIC_Projects/dsPIC/SecondaryV5.X/debug.h</file>
-        <file>file:/C:/Users/MSI/Documents/GitHub/gibbot/Code/PIC_Projects/dsPIC/SecondaryV5.X/initializeV5.h</file>
-        <file>file:/C:/Users/MSI/Documents/GitHub/gibbot/Code/PIC_Projects/dsPIC/SecondaryV5.X/linkedlist.h</file>
-        <file>file:/C:/Users/MSI/Documents/GitHub/gibbot/Code/PIC_Projects/dsPIC/SecondaryV5.X/debug.c</file>
-        <file>file:/C:/Users/MSI/Documents/GitHub/gibbot/Code/PIC_Projects/dsPIC/SecondaryV5.X/MPU.c</file>
-        <file>file:/C:/Users/MSI/Documents/GitHub/gibbot/Code/PIC_Projects/dsPIC/SecondaryV5.X/MPU.h</file>
-        <file>file:/C:/Users/MSI/Documents/GitHub/gibbot/Code/PIC_Projects/dsPIC/SecondaryV5.X/I2CMaster.c</file>
-    </open-files>
 </project-private>

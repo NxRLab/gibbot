@@ -26,7 +26,7 @@
 #include "initializeV6.h"
 #include "motor.h"
 #include "stdio.h"
-char motoron = 0;
+char motoron = 1;
 char state = 0;
 int direction = CW;
 
@@ -80,6 +80,8 @@ void initialize_PWM(void){
     //Period = 80 MHz / (PTPER * Prescaler)
     //PTPER = 80 MHz / (20kHz * 4) = 1000
     PTPER = 1000;
+    //PTPER = 80 MHz / (50kHz * 4) = 400
+    //PTPER = 400;
 
     IOCON1bits.PMOD = 0; //Set PWM1 to Complementary Mode
     IOCON2bits.PMOD = 0; //Set PWM2 to Complementary Mode
@@ -271,9 +273,9 @@ void commutate(int state){
                 High(1); Float(2); Low(3);
             }
             break;
-        case 7:
-            Low(1); High(2);
-            break;
+        //case 7:
+          //  Low(1); High(2);
+            //break;
         default:
             Float(1); Float(2); Float(3);
             break;

@@ -183,22 +183,25 @@ void initialize_UART(void){
 }
 
 void initialize_UART2(void){
-    TRISFbits.TRISF4 = 0;
-    TRISFbits.TRISF5 = 1;
+    /*Initializes UART communication between the two dsPICs on the primary and
+     secondary boards.*/
+    TRISFbits.TRISF4 = 0; //TX is output
+    TRISFbits.TRISF5 = 1; //RX is input
 
-    RPINR19bits.U2RXR = 101;
-    RPOR9bits.RP100R = 3;
+    RPINR19bits.U2RXR = 101; //UART2 RX is tied to RP101 (RF5)
+    RPOR9bits.RP100R = 3; //RP100 (RF4) tied to UART2 TX
 
-    U2MODEbits.BRGH = 1;
-    U2BRG = 89;
+    U2MODEbits.BRGH = 1; //Turn High Baud Rate Mode on
+    U2BRG = 89; //Baud Rate = 112044
+
     U2MODEbits.UEN = 0b00;
 
-    IPC7bits.U2RXIP = 7;
-    IFS1bits.U2RXIF = 0;
-    IEC1bits.U2RXIE = 1;
+    IPC7bits.U2RXIP = 7; //Set RX interrupt priority to 7
+    IFS1bits.U2RXIF = 0; //Clear the receive interrupt flag
+    IEC1bits.U2RXIE = 1; //Enable recieve interrupts
 
-    U2MODEbits.UARTEN = 1;
-    U2STAbits.UTXEN = 1;
+    U2MODEbits.UARTEN = 1; //Enable the UART
+    U2STAbits.UTXEN = 1; //Enable transmitting
 }
 
 void read_motor_temp(unsigned char *data){

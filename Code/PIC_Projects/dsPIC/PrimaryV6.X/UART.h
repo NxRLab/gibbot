@@ -14,7 +14,6 @@ void write(unsigned char data);
 void read_string_UART(unsigned char *data, int n);
 void write_string_UART2(unsigned char *data, int n);
 void write_string_UART(unsigned char *data, int n);
-void read_motor_temp(unsigned char *data);
 
 extern volatile struct buffer_t uart_buffer;
 

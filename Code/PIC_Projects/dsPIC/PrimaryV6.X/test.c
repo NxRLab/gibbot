@@ -11,6 +11,7 @@
 #include "debug.h"
 #include "MPU.h"
 #include "I2CMaster.h"
+#include "Temperature.h"
 
 unsigned char testBuff[256];
 short duty=100;
@@ -232,6 +233,8 @@ void test_MayDay(void){
           read_string_UART(d1,5);
           printf("%s\n",d1);
       } else if(command == 'q'){
+          /*Sends all the sensor data being collected over XBee in a human-readable
+           string format.  This format takes the longest to format and send.*/
           LED4 = !LED4;
           unsigned char d1[10];
           Sensor_data sensor_data;
@@ -243,22 +246,23 @@ void test_MayDay(void){
           temp3 = read_ADC();
           sensor_data.current = ADC_to_current(temp3);
           sensor_data.torque = ADC_to_torque(temp3);
-          sensor_data.mot_temp = 98.62;
+          sensor_data.mot_temp = read_motor_temp();
+          //sensor_data.mot_temp = 98.62;
           sensor_data.batt_volt = 12.54;
-          //read_Accel(d1);
-          //sensor_data.accel_x = Accel_convert(d1,0,1);
-          //sensor_data.accel_y = Accel_convert(d1,2,3);
-          //sensor_data.accel_z = Accel_convert(d1,4,5);
-          sensor_data.accel_x = 2.32;
-          sensor_data.accel_y = -1.43;
-          sensor_data.accel_z = 0.50;
-          //read_Gyro(d1);
-          //sensor_data.gyro_x = Gyro_convert(d1,0,1);
-          //sensor_data.gyro_y = Gyro_convert(d1,2,3);
-          //sensor_data.gyro_z = Gyro_convert(d1,4,5);
-          sensor_data.gyro_x = 1.22;
-          sensor_data.gyro_y = 15.55;
-          sensor_data.gyro_z = 9.87;
+          read_Accel(d1);
+          sensor_data.accel_x = Accel_convert(d1,0,1);
+          sensor_data.accel_y = Accel_convert(d1,2,3);
+          sensor_data.accel_z = Accel_convert(d1,4,5);
+          //sensor_data.accel_x = 2.32;
+          //sensor_data.accel_y = -1.43;
+          //sensor_data.accel_z = 0.50;
+          read_Gyro(d1);
+          sensor_data.gyro_x = Gyro_convert(d1,0,1);
+          sensor_data.gyro_y = Gyro_convert(d1,2,3);
+          sensor_data.gyro_z = Gyro_convert(d1,4,5);
+          //sensor_data.gyro_x = 1.22;
+          //sensor_data.gyro_y = 15.55;
+          //sensor_data.gyro_z = 9.87;
           read_Accel_Secondary(d1);
           sensor_data.accel_xs = Accel_convert(d1,0,1);
           sensor_data.accel_ys = Accel_convert(d1,2,3);
@@ -275,6 +279,11 @@ void test_MayDay(void){
       } else if(command == 'z'){
           unsigned char d1[5];
           read_MPU_test(d1);
+          read_MPU_test_secondary(d1);
+      } else if(command = 'v'){
+          float mot_temp;
+          mot_temp = read_motor_temp();
+          printf("%f",mot_temp);
       } else if(command == 'x'){
           unsigned char d1[10];
           IMU_data imu;
@@ -295,6 +304,8 @@ void test_MayDay(void){
               write_UART(send[i]);
           }
       } else if(command == 'r'){
+          /*Sends all the sensor data being collected over XBee in a raw byte
+           data stream.*/
           LED4 = !LED4;
           unsigned char d1[10];
           Sensor_data sensor_data;
@@ -306,6 +317,7 @@ void test_MayDay(void){
           temp3 = read_ADC();
           sensor_data.current = ADC_to_current(temp3);
           sensor_data.torque = ADC_to_torque(temp3);
+          //sensor_data.mot_temp = read_motor_temp();
           sensor_data.mot_temp = 98.62;
           sensor_data.batt_volt = 12.54;
           //read_Accel(d1);
@@ -341,6 +353,7 @@ void test_MayDay(void){
           temp3 = read_ADC();
           data_send.current = ADC_to_current(temp3);
           data_send.torque = ADC_to_torque(temp3);
+          //data_send.mot_temp = read_motor_temp();
           data_send.mot_temp = 98.62;
           data_send.batt_volt = 12.54;
           //read_Gyro(d1);

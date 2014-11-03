@@ -10,7 +10,7 @@
 
 int main(void) {
     initialize();
-    //initialize_ADC_Offset();
+    initialize_ADC_Offset();
     while (1){
         if(USER){
             LED1 = !LED1;
@@ -20,7 +20,7 @@ int main(void) {
             //TOPMAG = !TOPMAG;
             //commutate(7);
         }
-       //test_MayDay();
+       test_MayDay();
     }
     return 0;
 }

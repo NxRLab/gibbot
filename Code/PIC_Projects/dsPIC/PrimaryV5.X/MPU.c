@@ -8,6 +8,9 @@
 #include "linkedlist.h"
 
 void initialize_MPU(void){
+    /*Initializes the settings on the IMU.  Various settings and sensitivities can
+     be found below.  Uncomment the line for the sensitivity desired for the
+     accelerometer and gyroscope.*/
     unsigned char c;
     c = 0x01; // PLL with x-gyroscope reference for clock
     write_I2C(&c,PWR_MGMT_1,1);
@@ -41,6 +44,8 @@ void write_MPU(){
 }
 
 void read_Accel(unsigned char *data){
+    /*Reads all three accelerometer values.  Returns all six bytes (high and low
+     bytes for all three axes) in an array.*/
     read_I2C(data,ACCEL_XOUT_L,1);
     read_I2C(data+1,ACCEL_XOUT_H,1);
     read_I2C(data+2,ACCEL_YOUT_L,1);
@@ -50,6 +55,8 @@ void read_Accel(unsigned char *data){
 }
 
 void read_Gyro(unsigned char *data){
+      /*Reads all three gyroscope values.  Returns all six bytes (high and low
+     bytes for all three axes) in an array.*/
     read_I2C(data,GYRO_XOUT_L,1);
     read_I2C(data+1,GYRO_XOUT_H,1);
     read_I2C(data+2,GYRO_YOUT_L,1);
@@ -62,7 +69,6 @@ void read_Accel_Secondary(unsigned char *data){
     unsigned short i;
     write_UART2('9');
     while(!(uart_buffer.len>5));
-    //read_string_UART(data,6);
     for (i=0;i<6;i++){
         data[i] = read_UART();
     }
@@ -72,7 +78,6 @@ void read_Gyro_Secondary(unsigned char *data){
     unsigned short i;
     write_UART2('a');
     while(!(uart_buffer.len>5));
-    //read_string_UART(data,6);
      for (i=0;i<6;i++){
         data[i] = read_UART();
     }
@@ -83,7 +88,18 @@ void read_MPU_test(unsigned char *data){
     printf("%x\n",data[0]);
 }
 
+void read_MPU_test_secondary(unsigned char *data){
+    write_UART2('c');
+    while(!(uart_buffer.len>0));
+    data[0] = read_UART();
+    printf("%x/n",data[0]);
+}
+
 double Accel_convert(unsigned char *data,int i,int j){
+    /*Converts count value to acceration value.  Inputs are the array where the
+     data is stored and two indices for the low and high bytes for the acceleration
+     in one axis.  The scale factor for the different sensitivity settings can
+     be found below.  Change the value to the one being used.*/
     double accel;
     accel = data[j] << 8 | data[i];
     accel = 4.8828125e-04 * accel;
@@ -97,6 +113,10 @@ double Accel_convert(unsigned char *data,int i,int j){
 }
 
 double Gyro_convert(unsigned char *data,int i, int j){
+     /*Converts count value to angular velocity value.  Inputs are the array where the
+     data is stored and two indices for the low and high bytes for the gyroscope
+     about one axis.  The scale factor for the different sensitivity settings can
+     be found below.  Change the value to the one being used.*/
     double gyro;
     gyro = data[j] << 8 | data[i];
     gyro = .0609756098 * gyro;

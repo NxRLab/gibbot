@@ -44,7 +44,6 @@ long read_MOTENC(void){
     unsigned char temp[4] = {0,0,0,0};
     long test;
     //read_I2C(temp,MOTENC,4);
-    LED4 = !LED4;
     write_UART2('5');
     while(!(uart_buffer.len>3));
     temp[0] = read_UART();
@@ -82,27 +81,31 @@ long read_TOPMAGENC(void){
 }
 
 int encoder_to_angle(long val, char num){
+    /*Returns the angle value of one of three encoders from the encoder count.*/
     int angle, cpr;
     long start;
     switch (num){
-        case 'l':
-            start = 1600;
-            cpr = 2000;
+        case 'l': // lower magnet encoder
+            start = 1600; // starting value of lower magnet encoder
+            cpr = 2000; // counts per revolution of lower magnet encoder
             break;
-        case 'm':
-            start = 1700;
-            cpr = 2000;
+        case 'm': // motor encoder
+            start = 1700; // starting value of motor encoder
+            cpr = 2000; // counts per revolution of motor encoder
             break;
-        case 't':
-            start = 1800;
-            cpr = 2000;
+        case 't': // top magnet encoder
+            start = 1800; // starting value of top magnet encoder
+            cpr = 2000; // counts per revolution of top magnet encoder
             break;
     }
-    angle = (val - start)*360/cpr;
+    angle = (val - start)*360/cpr; // angle of specified encoder
     return angle;
 }
 
 void initialize_encoder_values(long val1,long val2,long val3){
+    /*Writes the specified encoder values to the three encoders being used.
+     This is used on initialization to set the starting encoder values so that
+     the proper angles can be calculated from a known value.*/
      write_LOWMAGENC(val1);
      write_MOTENC(val2);
      write_TOPMAGENC(val3);

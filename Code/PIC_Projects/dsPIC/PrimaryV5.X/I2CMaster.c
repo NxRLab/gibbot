@@ -1,4 +1,4 @@
-/* The I2C2 module is used to communicate between the dsPIC and MPU9150 on the PCB in each
+/* The I2C1 module is used to communicate between the MPU9150 on the PCB in each
  * of the links. The function initialize_I2C_Master configures the dsPIC to be
  * function as the master at 400kHz.
  *

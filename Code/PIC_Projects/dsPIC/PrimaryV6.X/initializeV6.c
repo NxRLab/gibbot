@@ -68,16 +68,16 @@ void initialize(void){
     RCON = 0;
 
     /* Initialize peripherals*/
-    //initialize_PWM();
-    //initialize_CN();
-    //initialize_ADC();
-    //initialize_QEI();
-    //initialize_UART();
-    //initialize_UART2();
-    //initialize_I2C_Master();
+    initialize_PWM();
+    initialize_CN();
+    initialize_ADC();
+    initialize_QEI();
+    initialize_UART();
+    initialize_UART2();
+    initialize_I2C_Master();
     lights();
     __delay32(10000000);
-    //initialize_MPU();
+    initialize_MPU();
     //initialize_encoder_values(1600,1700,1800);
 }
 

@@ -133,6 +133,11 @@ unsigned short ADC_Read_Single(void) { //manual sampling and conversion function
 }
 
 void initialize_ADC_Offset(void){
+    /*Due to the offset voltage inherent to the chip of plus of minus 11mV, it
+     is necessary to average the offset upon initialization to produce more accurate
+     readings.  This is done by reading the ADC 10 times and averaging the ADC count
+     and setting that as the zero mark.  This offset count is then stored in then
+     stored in a global variable to allow for its use in other functions.*/
     int i;
     unsigned int a;
     for(i=0;i<10;i++){
@@ -142,14 +147,22 @@ void initialize_ADC_Offset(void){
      Avi = a/10;
 }
 
-int ADC_to_current(unsigned short data){
-    int current;
-    current = (int)(Avi - data)*33000/4096;
+float ADC_to_current(unsigned short data){
+    /*The ADC reading is subtracted from the offset value calculated on initialization
+     (this is due to the orientation of the chip where a higher current decreases the
+     voltage).  The resultant count is then multiplied by 3.3V/(4096 counts * .1V/A)
+     to get the current.*/
+    float current;
+    current = (float)((int)(Avi - data))*33/4096;
     return current;
 }
 
-int ADC_to_torque(unsigned short data){
-    int torque;
-    torque = (int)(Avi - data)*3762/4096;
+float ADC_to_torque(unsigned short data){
+    /*The Maxon EC 60 flat motor (part number 412825) being used has a torque
+     * constant of 114mNm/A.  The ADC reading (after subtracting from offset) is
+     * multiplied by 3.3V/(4096counts * .1V/A) to get the current in A,
+     * then it is multiplied by 114mNm/A to get the torque.*/
+    float torque;
+    torque = (float)((int)(Avi - data))*3762/4096;
     return torque;
 }

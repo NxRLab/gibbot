@@ -1,3 +1,12 @@
+/*The MPU9150 is a nine-axis sensor from invenSense.  It consits of a gyroscope,
+ accelerometer, and a magnetometer (which is unused since the gibbot uses magnets)
+ tht allow for motion tracking.  All sensors have three axes (x, y, and z) to
+ provide data about the linear accleration, angular velocity, adn magnetic strength
+ in 3-dimensions.  The gyroscope and accelerometer have a user-programmable
+ range/sensitivity.  The MPU9150 communicates via I2C with the dsPIC at 400kHz.
+
+ Registers and address for MPU9150 can be found in I2CMaster.h.*/
+
 #include <libpic30.h>
 #include <stdio.h>
 #include <p33EP512MC806.h>
@@ -58,7 +67,7 @@ void read_Gyro(unsigned char *data){
 
 void read_MPU_test(unsigned char *data){
     read_I2C(data,WHO_AM_I,1); // use to verify identity of IMU to make sure communication is working.  Should return 0x68.
-    printf("%x\n",data[0]);
+    write_UART2(data[0]);
 }
 
 double Accel_convert(unsigned char *data){
