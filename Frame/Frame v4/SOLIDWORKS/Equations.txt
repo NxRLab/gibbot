@@ -1,0 +1,27 @@
+﻿"Magnet Thickness"= .985
+"Magnet OD"= 2.5
+"Bearing Thickness"= .4375
+"Bearing OD"= 1.625
+"# of Bearing"= 2
+"Snap Ring Thickness"= .062
+"Snap Ring OD"= 1.725
+"Magnet Offset"= .125
+"Delrin Ring Thickness"= .375
+"Neoprene Ring Thickness"= .125
+"Magnet Holder Thickness"= .7906
+"Bearing Outer Race Diameter"= 1.25
+"Ring Gear OD"= 120mm
+"Ring Gear ID"= 98.02mm
+"Wall Thickness"= .125
+"Ring Gear Thickness"= 8mm
+"Sun Gear"= 16mm
+"Planetary Gear"= 40mm
+"Planetary Gear Bore"= 6mm
+"Planetary Gear Bearing OD"= 13mm
+"Planetary Gear Bearing Thickness"= 4mm
+"Carrier Thickness"= 1.08435in
+"Link Spacing"= .25in
+"Link Thickness" = .125
+"Battery PCB Width"= 4.765
+
+
