@@ -1,4 +1,4 @@
-Microchip Technology Inc, vv1_11 (A) ª
+Microchip Technology Inc, vv1_11 (A) ,
 
 Tool Name:
   c:\program files (x86)\microchip\xc16\v1.11\bin\bin\..\bin/elf-ld.exe
@@ -180,10 +180,10 @@ section                    address   length (PC units)   length (bytes) (dec)
 .const                      0x231e               0x190           0x258  (600)
 .text                       0x24ae               0xea0          0x15f0  (5616)
 .dinit                      0x334e               0x1fc           0x2fa  (762)
-.text                       0x354a               0x8c6           0xd29  (3369)
-.init.delay32               0x3e10                0x1c            0x2a  (42)
+.text                       0x354a               0x8c2           0xd23  (3363)
+.init.delay32               0x3e0c                0x1c            0x2a  (42)
 
-                     Total program memory used (bytes):         0x5a42  (23106) 4%
+                     Total program memory used (bytes):         0x5a3c  (23100) 4%
 
 
 Auxflash Memory  [Origin = 0x7fc000, Length = 0x3ff8]
@@ -211,7 +211,7 @@ section                    address      alignment gaps    total length  (dec)
 .data.__C30_UART            0x1b84                   0             0x2  (2)
 .bss                        0x1b86                   0             0x2  (2)
 .heap                       0x1b88                   0           0x808  (2056)
-_04799F0054480ef1           0xdf00                   0           0x100  (256)
+_049C9F005487924b           0xdf00                   0           0x100  (256)
 
                         Total data memory used (bytes):         0x1490  (5264) 9%
 
@@ -420,10 +420,10 @@ External Symbols in Program Memory (by address):
                   0x003b7a                  _encoder_to_angle
                   0x003bee                  _initialize_encoder_values
                   0x003c0e                  _initialize
-                  0x003c9a                  _lights
-                  0x003d54                  _main
-                  0x003ddc                  _read_motor_temp
-                  0x003e10                  ___delay32
+                  0x003c96                  _lights
+                  0x003d50                  _main
+                  0x003dd8                  _read_motor_temp
+                  0x003e0c                  ___delay32
 
 External Symbols in Program Memory (by name):
 
@@ -440,7 +440,7 @@ External Symbols in Program Memory (by name):
                   0x00323c                  __U1RXInterrupt
                   0x003286                  __U2RXInterrupt
                   0x001aec                  ___adddf3
-                  0x003e10                  ___delay32
+                  0x003e0c                  ___delay32
                   0x001bfa                  ___divdf3
                   0x0020c0                  ___divdi3
                   0x00061a                  ___divsf3
@@ -522,9 +522,9 @@ External Symbols in Program Memory (by name):
                   0x003310                  _initialize_UART2
                   0x003bee                  _initialize_encoder_values
                   0x000594                  _kick
-                  0x003c9a                  _lights
+                  0x003c96                  _lights
                   0x003744                  _log_error
-                  0x003d54                  _main
+                  0x003d50                  _main
                   0x00086e                  _malloc
                   0x000a16                  _memcpy
                   0x0037da                  _print_error
@@ -544,7 +544,7 @@ External Symbols in Program Memory (by name):
                   0x0030ae                  _read_UART
                   0x00033a                  _read_duty
                   0x00378c                  _read_error
-                  0x003ddc                  _read_motor_temp
+                  0x003dd8                  _read_motor_temp
                   0x0030b6                  _read_string_UART
                   0x0009b4                  _realloc
                   0x003036                  _receiveOneByte_I2C
@@ -882,7 +882,7 @@ __FUID0
  .debug_abbrev    0x000b29         0x97 build/default/production/mainV6.o
  .debug_abbrev    0x000bc0         0xa5 build/default/production/Temperature.o
 
-.debug_line       0x000000       0x26a1
+.debug_line       0x000000       0x2691
  *(.debug_line)
  .debug_line      0x000000        0x2d4 build/default/production/ADC.o
  .debug_line      0x0002d4        0x2d4 build/default/production/debug.o
@@ -892,9 +892,9 @@ __FUID0
  .debug_line      0x0013cd        0x2db build/default/production/MPU.o
  .debug_line      0x0016a8        0x738 build/default/production/test.o
  .debug_line      0x001de0        0x4ba build/default/production/UART.o
- .debug_line      0x00229a        0x27c build/default/production/initializeV6.o
- .debug_line      0x002516         0xea build/default/production/mainV6.o
- .debug_line      0x002600         0xa1 build/default/production/Temperature.o
+ .debug_line      0x00229a        0x26c build/default/production/initializeV6.o
+ .debug_line      0x002506         0xea build/default/production/mainV6.o
+ .debug_line      0x0025f0         0xa1 build/default/production/Temperature.o
 
 .debug_frame      0x000000        0x7b0
  *(.debug_frame)
@@ -3752,9 +3752,9 @@ __c30_signature
  __c30_signature
                   0x000b96          0x6 c:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../lib\libm-elf.a(umuldi3.epeo)
 
-_04799F0054480ef1
+_049C9F005487924b
                     0xdf00        0x100
- _04799F0054480ef1
+ _049C9F005487924b
                     0xdf00        0x100 build/default/production/ADC.o
                     0xdf00                  _BufferA
 
@@ -3866,7 +3866,7 @@ _04799F0054480ef1
 .dinit            0x00334e        0x1fc
  .dinit           0x00334e        0x1fc data_init
 
-.text             0x00354a        0x8c6
+.text             0x00354a        0x8c2
  .text            0x00354a        0x1fa build/default/production/MPU.o
                   0x00354a                  _initialize_MPU
                   0x0035b0                  _write_MPU
@@ -3901,14 +3901,14 @@ _04799F0054480ef1
                   0x003b50                  _read_TOPMAGENC
                   0x003b7a                  _encoder_to_angle
                   0x003bee                  _initialize_encoder_values
- .text            0x003c0e        0x146 build/default/production/initializeV6.o
+ .text            0x003c0e        0x142 build/default/production/initializeV6.o
                   0x003c0e                  _initialize
-                  0x003c9a                  _lights
- .text            0x003d54         0x88 build/default/production/mainV6.o
-                  0x003d54                  _main
- .text            0x003ddc         0x34 build/default/production/Temperature.o
-                  0x003ddc                  _read_motor_temp
+                  0x003c96                  _lights
+ .text            0x003d50         0x88 build/default/production/mainV6.o
+                  0x003d50                  _main
+ .text            0x003dd8         0x34 build/default/production/Temperature.o
+                  0x003dd8                  _read_motor_temp
 
-.init.delay32     0x003e10         0x1c
- .init.delay32    0x003e10         0x1c c:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../lib\libpic30-elf.a(delay32ep.eo)
-                  0x003e10                  ___delay32
+.init.delay32     0x003e0c         0x1c
+ .init.delay32    0x003e0c         0x1c c:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../lib\libpic30-elf.a(delay32ep.eo)
+                  0x003e0c                  ___delay32

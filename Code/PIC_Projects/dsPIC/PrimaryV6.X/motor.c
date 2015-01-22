@@ -26,7 +26,7 @@
 #include "initializeV6.h"
 #include "motor.h"
 #include "stdio.h"
-char motoron = 1;
+char motoron = 0;
 char state = 0;
 int direction = CW;
 
