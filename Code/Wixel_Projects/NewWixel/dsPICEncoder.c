@@ -6,6 +6,7 @@
 #define DISABLE 'd'
 #define READ 'l'
 #define TEST 't'
+#define MASK 0b0000000011111111
 
 
 
@@ -34,6 +35,7 @@ void init_UART(void);
 
 int main() {
     char c;
+    int count;
     init_clock_and_pins();
     AD1PCFGL = 0xFFFF; // turn off ADC
     init_UART();
@@ -60,24 +62,27 @@ int main() {
                 QEI_disable(2); // disable QEI 2
                 break;
             case READ:
-                printf("%u\n", QEI_read(1)); // print QEI 1 value to UART
-                printf("%u\n", QEI_read(2)); // print QEI 2 value to UART
+                //printf("%u\n", QEI_read(1)); // print QEI 1 value to UART
+                //printf("%u\n", QEI_read(2)); // print QEI 2 value to UART
+                count=QEI_read(1);
+                U1TXREG=count>>8;
+                U1TXREG=MASK&&count;
                 break;
             case TEST:
-                //printf("%c", 'y'); // Send 'y' over UART
-                IFS3bits.QEI1IF = 1; // Set interrupt flag to 1
+                printf("%c", 'y'); // Send 'y' over UART
+                //IFS3bits.QEI1IF = 1; // Set interrupt flag to 1
                 break;
         }
     }
 }
 
 
-void __attribute__((__interrupt__,auto_psv)) _QEIInterrupt(void)
+/*void __attribute__((__interrupt__,auto_psv)) _QEIInterrupt(void)
 {
      printf("%c", 'y'); // Send 'y' over UART
      IFS3bits.QEI1IF = 0; // Reset interrupt flag to zero
     
-}
+}*/
 
 void init_clock_and_pins() {
     /* Configure Oscillator to operate the device at 40Mhz
@@ -186,11 +191,11 @@ void QEI_enable(int QEI, int threshold) {
         QEI2CONbits.QEIM = 0b111; // Count up and down on both channel A and channel B
         MAX2CNT = threshold >= 0 ? threshold : 0xFFFF; // The threshold is used to determine when to reset the clock
     }
-    INTCON1bits.NSTDIS = 1; // Interrupt nesting is disabled
+    /*INTCON1bits.NSTDIS = 1; // Interrupt nesting is disabled
     IPC14bits.QEI1IP = 0b111; // Interrupt priority is set to seven, highest possible value
     IFS3bits.QEI1IF = 0; // Interrupt request has not occured yet
     IEC3bits.QEI1IE = 1; // Interrupt request enabled, flag will be set upon count overflow or underflow
-   
+   */
     
 }
 
