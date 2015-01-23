@@ -1,11 +1,11 @@
-1)
+1)hey
 2)
-3)
+3)HI CRAIG! :))))
 4)
 5)
 6)
 7)
-8) hello
+8) numba eigghhtt
 9)
 10)
 11)
@@ -17,4 +17,8 @@
 17)
 18)
 19)
+<<<<<<< HEAD
 20) woohh!!
+=======
+20)LINE 20 IS MY FAVORITE LINE!!
+>>>>>>> FETCH_HEAD
