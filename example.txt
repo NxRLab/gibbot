@@ -4,7 +4,7 @@
 4)
 5)
 6)
-7)Vince smells
+7)
 8)
 9)
 10)
@@ -17,4 +17,4 @@
 17)
 18)
 19)
-20):3
+20)LINE 20 IS MY FAVORITE LINE!!
