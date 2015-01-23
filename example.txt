@@ -18,6 +18,9 @@
 18)
 19)
 <<<<<<< HEAD
+20)LINE 20 IS MY FAVORITE LINE!!
+=======
+<<<<<<< HEAD
 <<<<<<< HEAD
 20)Craig is good looking
 =======
@@ -30,3 +33,4 @@
 =======
 20)LINE 20 IS MY FAVORITE LINE!!
 >>>>>>> a6b54c8d580ab43d87b282f471c9816a94cdb94b
+>>>>>>> FETCH_HEAD
