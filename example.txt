@@ -17,8 +17,4 @@
 17)
 18)
 19)
-<<<<<<< HEAD
-20) woohh!!
-=======
-20)LINE 20 IS MY FAVORITE LINE!!
->>>>>>> FETCH_HEAD
+20)Resolved?
