@@ -4,8 +4,8 @@
 4)
 5)
 6)
-7)Vince smells
-8)
+7)
+8) whattt
 9)
 10)
 11)
@@ -17,4 +17,12 @@
 17)
 18)
 19)
+<<<<<<< HEAD
 20)Craig is good looking
+=======
+<<<<<<< HEAD
+20) woohh!!
+=======
+20)LINE 20 IS MY FAVORITE LINE!!
+>>>>>>> FETCH_HEAD
+>>>>>>> 9d027ddd9e1586aa9d62fa85226106dc15ea1394
