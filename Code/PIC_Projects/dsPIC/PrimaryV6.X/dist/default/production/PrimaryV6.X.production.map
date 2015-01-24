@@ -1,4 +1,4 @@
-Microchip Technology Inc, vv1_11 (A) ,
+Microchip Technology Inc, vv1_11 (A) ´
 
 Tool Name:
   c:\program files (x86)\microchip\xc16\v1.11\bin\bin\..\bin/elf-ld.exe
@@ -178,12 +178,12 @@ section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x200              0x211e          0x31ad  (12717)
 .const                      0x231e               0x190           0x258  (600)
-.text                       0x24ae               0xea0          0x15f0  (5616)
-.dinit                      0x334e               0x1fc           0x2fa  (762)
-.text                       0x354a               0x8c2           0xd23  (3363)
-.init.delay32               0x3e0c                0x1c            0x2a  (42)
+.text                       0x24ae              0x1032          0x184b  (6219)
+.dinit                      0x34e0               0x1fc           0x2fa  (762)
+.text                       0x36dc               0x8c2           0xd23  (3363)
+.init.delay32               0x3f9e                0x1c            0x2a  (42)
 
-                     Total program memory used (bytes):         0x5a3c  (23100) 4%
+                     Total program memory used (bytes):         0x5c97  (23703) 4%
 
 
 Auxflash Memory  [Origin = 0x7fc000, Length = 0x3ff8]
@@ -211,7 +211,7 @@ section                    address      alignment gaps    total length  (dec)
 .data.__C30_UART            0x1b84                   0             0x2  (2)
 .bss                        0x1b86                   0             0x2  (2)
 .heap                       0x1b88                   0           0x808  (2056)
-_049C9F005487924b           0xdf00                   0           0x100  (256)
+_04959F0054c2c642           0xdf00                   0           0x100  (256)
 
                         Total data memory used (bytes):         0x1490  (5264) 9%
 
@@ -366,81 +366,81 @@ External Symbols in Program Memory (by address):
                   0x00228c                  __dunpack
                   0x0022da                  ___umuldi3
                   0x0024ae                  _test_MayDay
-                  0x002b62                  _test_PWMPlotter
-                  0x002c9e                  _test_plotter
-                  0x002d8c                  _write_I2C
-                  0x002e68                  _read_I2C
-                  0x002f7c                  _initialize_I2C_Master
-                  0x002f88                  _start_I2C
-                  0x002fb6                  _repeatStart_I2C
-                  0x002fc8                  _stop_I2C
-                  0x002fda                  _sendOneByte_I2C
-                  0x003036                  _receiveOneByte_I2C
-                  0x0030ae                  _read_UART
-                  0x0030b6                  _read_string_UART
-                  0x003108                  _write_UART
-                  0x003122                  _write_UART2
-                  0x00313c                  _write_string_UART
-                  0x00316c                  _write_string_UART2
-                  0x0031a0                  _clear_queue
-                  0x0031c4                  _dequeue
-                  0x0031ee                  _enqueue
-                  0x00323c                  __U1RXInterrupt
-                  0x003286                  __U2RXInterrupt
-                  0x0032d0                  _initialize_UART
-                  0x003310                  _initialize_UART2
-                  0x00354a                  _initialize_MPU
-                  0x0035b0                  _write_MPU
-                  0x0035b6                  _read_Accel
-                  0x0035f4                  _read_Gyro
-                  0x003632                  _read_Accel_Secondary
-                  0x003660                  _read_Gyro_Secondary
-                  0x00368e                  _read_MPU_test
-                  0x0036ae                  _read_MPU_test_secondary
-                  0x0036d8                  _Accel_convert
-                  0x00370e                  _Gyro_convert
-                  0x003744                  _log_error
-                  0x00378c                  _read_error
-                  0x0037b6                  _clear_error
-                  0x0037da                  _print_error
-                  0x00390c                  _initialize_ADC
-                  0x00395c                  _read_ADC
-                  0x0039c4                  _initialize_ADC_Single
-                  0x003a08                  _ADC_Read_Single
-                  0x003a1c                  _initialize_ADC_Offset
-                  0x003a4a                  _ADC_to_current
-                  0x003a6c                  _ADC_to_torque
-                  0x003a8e                  _initialize_QEI
-                  0x003ab6                  _write_MOTENC
-                  0x003ac8                  _write_LOWMAGENC
-                  0x003ada                  _write_TOPMAGENC
-                  0x003af0                  _read_MOTENC
-                  0x003b20                  _read_LOWMAGENC
-                  0x003b50                  _read_TOPMAGENC
-                  0x003b7a                  _encoder_to_angle
-                  0x003bee                  _initialize_encoder_values
-                  0x003c0e                  _initialize
-                  0x003c96                  _lights
-                  0x003d50                  _main
-                  0x003dd8                  _read_motor_temp
-                  0x003e0c                  ___delay32
+                  0x002cf4                  _test_PWMPlotter
+                  0x002e30                  _test_plotter
+                  0x002f1e                  _write_I2C
+                  0x002ffa                  _read_I2C
+                  0x00310e                  _initialize_I2C_Master
+                  0x00311a                  _start_I2C
+                  0x003148                  _repeatStart_I2C
+                  0x00315a                  _stop_I2C
+                  0x00316c                  _sendOneByte_I2C
+                  0x0031c8                  _receiveOneByte_I2C
+                  0x003240                  _read_UART
+                  0x003248                  _read_string_UART
+                  0x00329a                  _write_UART
+                  0x0032b4                  _write_UART2
+                  0x0032ce                  _write_string_UART
+                  0x0032fe                  _write_string_UART2
+                  0x003332                  _clear_queue
+                  0x003356                  _dequeue
+                  0x003380                  _enqueue
+                  0x0033ce                  __U1RXInterrupt
+                  0x003418                  __U2RXInterrupt
+                  0x003462                  _initialize_UART
+                  0x0034a2                  _initialize_UART2
+                  0x0036dc                  _initialize_MPU
+                  0x003742                  _write_MPU
+                  0x003748                  _read_Accel
+                  0x003786                  _read_Gyro
+                  0x0037c4                  _read_Accel_Secondary
+                  0x0037f2                  _read_Gyro_Secondary
+                  0x003820                  _read_MPU_test
+                  0x003840                  _read_MPU_test_secondary
+                  0x00386a                  _Accel_convert
+                  0x0038a0                  _Gyro_convert
+                  0x0038d6                  _log_error
+                  0x00391e                  _read_error
+                  0x003948                  _clear_error
+                  0x00396c                  _print_error
+                  0x003a9e                  _initialize_ADC
+                  0x003aee                  _read_ADC
+                  0x003b56                  _initialize_ADC_Single
+                  0x003b9a                  _ADC_Read_Single
+                  0x003bae                  _initialize_ADC_Offset
+                  0x003bdc                  _ADC_to_current
+                  0x003bfe                  _ADC_to_torque
+                  0x003c20                  _initialize_QEI
+                  0x003c48                  _write_MOTENC
+                  0x003c5a                  _write_LOWMAGENC
+                  0x003c6c                  _write_TOPMAGENC
+                  0x003c82                  _read_MOTENC
+                  0x003cb2                  _read_LOWMAGENC
+                  0x003ce2                  _read_TOPMAGENC
+                  0x003d0c                  _encoder_to_angle
+                  0x003d80                  _initialize_encoder_values
+                  0x003da0                  _initialize
+                  0x003e28                  _lights
+                  0x003ee2                  _main
+                  0x003f6a                  _read_motor_temp
+                  0x003f9e                  ___delay32
 
 External Symbols in Program Memory (by name):
 
-                  0x003a08                  _ADC_Read_Single
-                  0x003a4a                  _ADC_to_current
-                  0x003a6c                  _ADC_to_torque
-                  0x0036d8                  _Accel_convert
+                  0x003b9a                  _ADC_Read_Single
+                  0x003bdc                  _ADC_to_current
+                  0x003bfe                  _ADC_to_torque
+                  0x00386a                  _Accel_convert
                   0x000450                  _Float
-                  0x00370e                  _Gyro_convert
+                  0x0038a0                  _Gyro_convert
                   0x0003f0                  _High
                   0x00041a                  _Low
                   0x0002c8                  __CNInterrupt
                   0x000616                  __DefaultInterrupt
-                  0x00323c                  __U1RXInterrupt
-                  0x003286                  __U2RXInterrupt
+                  0x0033ce                  __U1RXInterrupt
+                  0x003418                  __U2RXInterrupt
                   0x001aec                  ___adddf3
-                  0x003e0c                  ___delay32
+                  0x003f9e                  ___delay32
                   0x001bfa                  ___divdf3
                   0x0020c0                  ___divdi3
                   0x00061a                  ___divsf3
@@ -500,71 +500,71 @@ External Symbols in Program Memory (by name):
                   0x000c84                  __vfprintf_cdfFnopuxX
                   0x000c84                  __vfprintf_cdnopuxX
                   0x000c84                  __vfprintf_s
-                  0x0037b6                  _clear_error
-                  0x0031a0                  _clear_queue
+                  0x003948                  _clear_error
+                  0x003332                  _clear_queue
                   0x000486                  _commutate
-                  0x0031c4                  _dequeue
-                  0x003b7a                  _encoder_to_angle
-                  0x0031ee                  _enqueue
+                  0x003356                  _dequeue
+                  0x003d0c                  _encoder_to_angle
+                  0x003380                  _enqueue
                   0x000a2a                  _fputs
                   0x0009a4                  _free
                   0x001e38                  _frexpf
-                  0x003c0e                  _initialize
-                  0x00390c                  _initialize_ADC
-                  0x003a1c                  _initialize_ADC_Offset
-                  0x0039c4                  _initialize_ADC_Single
+                  0x003da0                  _initialize
+                  0x003a9e                  _initialize_ADC
+                  0x003bae                  _initialize_ADC_Offset
+                  0x003b56                  _initialize_ADC_Single
                   0x0003d4                  _initialize_CN
-                  0x002f7c                  _initialize_I2C_Master
-                  0x00354a                  _initialize_MPU
+                  0x00310e                  _initialize_I2C_Master
+                  0x0036dc                  _initialize_MPU
                   0x000368                  _initialize_PWM
-                  0x003a8e                  _initialize_QEI
-                  0x0032d0                  _initialize_UART
-                  0x003310                  _initialize_UART2
-                  0x003bee                  _initialize_encoder_values
+                  0x003c20                  _initialize_QEI
+                  0x003462                  _initialize_UART
+                  0x0034a2                  _initialize_UART2
+                  0x003d80                  _initialize_encoder_values
                   0x000594                  _kick
-                  0x003c96                  _lights
-                  0x003744                  _log_error
-                  0x003d50                  _main
+                  0x003e28                  _lights
+                  0x0038d6                  _log_error
+                  0x003ee2                  _main
                   0x00086e                  _malloc
                   0x000a16                  _memcpy
-                  0x0037da                  _print_error
+                  0x00396c                  _print_error
                   0x000a64                  _putchar
                   0x000a4c                  _puts
-                  0x00395c                  _read_ADC
-                  0x0035b6                  _read_Accel
-                  0x003632                  _read_Accel_Secondary
-                  0x0035f4                  _read_Gyro
-                  0x003660                  _read_Gyro_Secondary
-                  0x002e68                  _read_I2C
-                  0x003b20                  _read_LOWMAGENC
-                  0x003af0                  _read_MOTENC
-                  0x00368e                  _read_MPU_test
-                  0x0036ae                  _read_MPU_test_secondary
-                  0x003b50                  _read_TOPMAGENC
-                  0x0030ae                  _read_UART
+                  0x003aee                  _read_ADC
+                  0x003748                  _read_Accel
+                  0x0037c4                  _read_Accel_Secondary
+                  0x003786                  _read_Gyro
+                  0x0037f2                  _read_Gyro_Secondary
+                  0x002ffa                  _read_I2C
+                  0x003cb2                  _read_LOWMAGENC
+                  0x003c82                  _read_MOTENC
+                  0x003820                  _read_MPU_test
+                  0x003840                  _read_MPU_test_secondary
+                  0x003ce2                  _read_TOPMAGENC
+                  0x003240                  _read_UART
                   0x00033a                  _read_duty
-                  0x00378c                  _read_error
-                  0x003dd8                  _read_motor_temp
-                  0x0030b6                  _read_string_UART
+                  0x00391e                  _read_error
+                  0x003f6a                  _read_motor_temp
+                  0x003248                  _read_string_UART
                   0x0009b4                  _realloc
-                  0x003036                  _receiveOneByte_I2C
-                  0x002fb6                  _repeatStart_I2C
-                  0x002fda                  _sendOneByte_I2C
-                  0x002f88                  _start_I2C
-                  0x002fc8                  _stop_I2C
+                  0x0031c8                  _receiveOneByte_I2C
+                  0x003148                  _repeatStart_I2C
+                  0x00316c                  _sendOneByte_I2C
+                  0x00311a                  _start_I2C
+                  0x00315a                  _stop_I2C
                   0x0024ae                  _test_MayDay
-                  0x002b62                  _test_PWMPlotter
-                  0x002c9e                  _test_plotter
-                  0x002d8c                  _write_I2C
-                  0x003ac8                  _write_LOWMAGENC
-                  0x003ab6                  _write_MOTENC
-                  0x0035b0                  _write_MPU
-                  0x003ada                  _write_TOPMAGENC
-                  0x003108                  _write_UART
-                  0x003122                  _write_UART2
+                  0x002cf4                  _test_PWMPlotter
+                  0x002e30                  _test_plotter
+                  0x002f1e                  _write_I2C
+                  0x003c5a                  _write_LOWMAGENC
+                  0x003c48                  _write_MOTENC
+                  0x003742                  _write_MPU
+                  0x003c6c                  _write_TOPMAGENC
+                  0x00329a                  _write_UART
+                  0x0032b4                  _write_UART2
                   0x000342                  _write_duty
-                  0x00313c                  _write_string_UART
-                  0x00316c                  _write_string_UART2
+                  0x0032ce                  _write_string_UART
+                  0x0032fe                  _write_string_UART2
 
 Memory Configuration
 
@@ -853,7 +853,7 @@ __FUID0
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x81f2
+.debug_info       0x000000       0x8215
  *(.debug_info)
  .debug_info      0x000000        0xfbb build/default/production/ADC.o
  .debug_info      0x000fbb        0x29d build/default/production/debug.o
@@ -861,11 +861,11 @@ __FUID0
  .debug_info      0x0019ae        0x661 build/default/production/I2CMaster.o
  .debug_info      0x00200f       0x1a96 build/default/production/motor.o
  .debug_info      0x003aa5        0x414 build/default/production/MPU.o
- .debug_info      0x003eb9        0xc01 build/default/production/test.o
- .debug_info      0x004aba       0x2203 build/default/production/UART.o
- .debug_info      0x006cbd        0xe40 build/default/production/initializeV6.o
- .debug_info      0x007afd        0x4ed build/default/production/mainV6.o
- .debug_info      0x007fea        0x208 build/default/production/Temperature.o
+ .debug_info      0x003eb9        0xc24 build/default/production/test.o
+ .debug_info      0x004add       0x2203 build/default/production/UART.o
+ .debug_info      0x006ce0        0xe40 build/default/production/initializeV6.o
+ .debug_info      0x007b20        0x4ed build/default/production/mainV6.o
+ .debug_info      0x00800d        0x208 build/default/production/Temperature.o
  *(.gnu.linkonce.wi.*)
 
 .debug_abbrev     0x000000        0xc65
@@ -882,7 +882,7 @@ __FUID0
  .debug_abbrev    0x000b29         0x97 build/default/production/mainV6.o
  .debug_abbrev    0x000bc0         0xa5 build/default/production/Temperature.o
 
-.debug_line       0x000000       0x2691
+.debug_line       0x000000       0x28c1
  *(.debug_line)
  .debug_line      0x000000        0x2d4 build/default/production/ADC.o
  .debug_line      0x0002d4        0x2d4 build/default/production/debug.o
@@ -890,11 +890,11 @@ __FUID0
  .debug_line      0x0008bd        0x57f build/default/production/I2CMaster.o
  .debug_line      0x000e3c        0x591 build/default/production/motor.o
  .debug_line      0x0013cd        0x2db build/default/production/MPU.o
- .debug_line      0x0016a8        0x738 build/default/production/test.o
- .debug_line      0x001de0        0x4ba build/default/production/UART.o
- .debug_line      0x00229a        0x26c build/default/production/initializeV6.o
- .debug_line      0x002506         0xea build/default/production/mainV6.o
- .debug_line      0x0025f0         0xa1 build/default/production/Temperature.o
+ .debug_line      0x0016a8        0x968 build/default/production/test.o
+ .debug_line      0x002010        0x4ba build/default/production/UART.o
+ .debug_line      0x0024ca        0x26c build/default/production/initializeV6.o
+ .debug_line      0x002736         0xea build/default/production/mainV6.o
+ .debug_line      0x002820         0xa1 build/default/production/Temperature.o
 
 .debug_frame      0x000000        0x7b0
  *(.debug_frame)
@@ -1004,7 +1004,7 @@ __FUID0
                   0x000024          0x4 LONG 0x616 DEFINED (__T3Interrupt)?ABSOLUTE (__T3Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000026          0x4 LONG 0x616 DEFINED (__SPI1ErrInterrupt)?ABSOLUTE (__SPI1ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000028          0x4 LONG 0x616 DEFINED (__SPI1Interrupt)?ABSOLUTE (__SPI1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00002a          0x4 LONG 0x323c DEFINED (__U1RXInterrupt)?ABSOLUTE (__U1RXInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00002a          0x4 LONG 0x33ce DEFINED (__U1RXInterrupt)?ABSOLUTE (__U1RXInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00002c          0x4 LONG 0x616 DEFINED (__U1TXInterrupt)?ABSOLUTE (__U1TXInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00002e          0x4 LONG 0x616 DEFINED (__AD1Interrupt)?ABSOLUTE (__AD1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000030          0x4 LONG 0x616 DEFINED (__DMA1Interrupt)?ABSOLUTE (__DMA1Interrupt):ABSOLUTE (__DefaultInterrupt)
@@ -1023,7 +1023,7 @@ __FUID0
                   0x00004a          0x4 LONG 0x616 DEFINED (__T4Interrupt)?ABSOLUTE (__T4Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00004c          0x4 LONG 0x616 DEFINED (__T5Interrupt)?ABSOLUTE (__T5Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00004e          0x4 LONG 0x616 DEFINED (__INT2Interrupt)?ABSOLUTE (__INT2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000050          0x4 LONG 0x3286 DEFINED (__U2RXInterrupt)?ABSOLUTE (__U2RXInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000050          0x4 LONG 0x3418 DEFINED (__U2RXInterrupt)?ABSOLUTE (__U2RXInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000052          0x4 LONG 0x616 DEFINED (__U2TXInterrupt)?ABSOLUTE (__U2TXInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000054          0x4 LONG 0x616 DEFINED (__SPI2ErrInterrupt)?ABSOLUTE (__SPI2ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000056          0x4 LONG 0x616 DEFINED (__SPI2Interrupt)?ABSOLUTE (__SPI2Interrupt):ABSOLUTE (__DefaultInterrupt)
@@ -3752,9 +3752,9 @@ __c30_signature
  __c30_signature
                   0x000b96          0x6 c:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../lib\libm-elf.a(umuldi3.epeo)
 
-_049C9F005487924b
+_04959F0054c2c642
                     0xdf00        0x100
- _049C9F005487924b
+ _04959F0054c2c642
                     0xdf00        0x100 build/default/production/ADC.o
                     0xdf00                  _BufferA
 
@@ -3834,81 +3834,81 @@ _049C9F005487924b
  .const             0xa4a6          0x4 build/default/production/motor.o
  .const             0xa4aa          0x4 build/default/production/MPU.o
 
-.text             0x0024ae        0xea0
- .text            0x0024ae        0x8de build/default/production/test.o
+.text             0x0024ae       0x1032
+ .text            0x0024ae        0xa70 build/default/production/test.o
                   0x0024ae                  _test_MayDay
-                  0x002b62                  _test_PWMPlotter
-                  0x002c9e                  _test_plotter
- .text            0x002d8c        0x322 build/default/production/I2CMaster.o
-                  0x002d8c                  _write_I2C
-                  0x002e68                  _read_I2C
-                  0x002f7c                  _initialize_I2C_Master
-                  0x002f88                  _start_I2C
-                  0x002fb6                  _repeatStart_I2C
-                  0x002fc8                  _stop_I2C
-                  0x002fda                  _sendOneByte_I2C
-                  0x003036                  _receiveOneByte_I2C
- .text            0x0030ae        0x2a0 build/default/production/UART.o
-                  0x0030ae                  _read_UART
-                  0x0030b6                  _read_string_UART
-                  0x003108                  _write_UART
-                  0x003122                  _write_UART2
-                  0x00313c                  _write_string_UART
-                  0x00316c                  _write_string_UART2
-                  0x0031a0                  _clear_queue
-                  0x0031c4                  _dequeue
-                  0x0031ee                  _enqueue
-                  0x00323c                  __U1RXInterrupt
-                  0x003286                  __U2RXInterrupt
-                  0x0032d0                  _initialize_UART
-                  0x003310                  _initialize_UART2
+                  0x002cf4                  _test_PWMPlotter
+                  0x002e30                  _test_plotter
+ .text            0x002f1e        0x322 build/default/production/I2CMaster.o
+                  0x002f1e                  _write_I2C
+                  0x002ffa                  _read_I2C
+                  0x00310e                  _initialize_I2C_Master
+                  0x00311a                  _start_I2C
+                  0x003148                  _repeatStart_I2C
+                  0x00315a                  _stop_I2C
+                  0x00316c                  _sendOneByte_I2C
+                  0x0031c8                  _receiveOneByte_I2C
+ .text            0x003240        0x2a0 build/default/production/UART.o
+                  0x003240                  _read_UART
+                  0x003248                  _read_string_UART
+                  0x00329a                  _write_UART
+                  0x0032b4                  _write_UART2
+                  0x0032ce                  _write_string_UART
+                  0x0032fe                  _write_string_UART2
+                  0x003332                  _clear_queue
+                  0x003356                  _dequeue
+                  0x003380                  _enqueue
+                  0x0033ce                  __U1RXInterrupt
+                  0x003418                  __U2RXInterrupt
+                  0x003462                  _initialize_UART
+                  0x0034a2                  _initialize_UART2
 
-.dinit            0x00334e        0x1fc
- .dinit           0x00334e        0x1fc data_init
+.dinit            0x0034e0        0x1fc
+ .dinit           0x0034e0        0x1fc data_init
 
-.text             0x00354a        0x8c2
- .text            0x00354a        0x1fa build/default/production/MPU.o
-                  0x00354a                  _initialize_MPU
-                  0x0035b0                  _write_MPU
-                  0x0035b6                  _read_Accel
-                  0x0035f4                  _read_Gyro
-                  0x003632                  _read_Accel_Secondary
-                  0x003660                  _read_Gyro_Secondary
-                  0x00368e                  _read_MPU_test
-                  0x0036ae                  _read_MPU_test_secondary
-                  0x0036d8                  _Accel_convert
-                  0x00370e                  _Gyro_convert
- .text            0x003744        0x1c8 build/default/production/debug.o
-                  0x003744                  _log_error
-                  0x00378c                  _read_error
-                  0x0037b6                  _clear_error
-                  0x0037da                  _print_error
- .text            0x00390c        0x182 build/default/production/ADC.o
-                  0x00390c                  _initialize_ADC
-                  0x00395c                  _read_ADC
-                  0x0039c4                  _initialize_ADC_Single
-                  0x003a08                  _ADC_Read_Single
-                  0x003a1c                  _initialize_ADC_Offset
-                  0x003a4a                  _ADC_to_current
-                  0x003a6c                  _ADC_to_torque
- .text            0x003a8e        0x180 build/default/production/encoder.o
-                  0x003a8e                  _initialize_QEI
-                  0x003ab6                  _write_MOTENC
-                  0x003ac8                  _write_LOWMAGENC
-                  0x003ada                  _write_TOPMAGENC
-                  0x003af0                  _read_MOTENC
-                  0x003b20                  _read_LOWMAGENC
-                  0x003b50                  _read_TOPMAGENC
-                  0x003b7a                  _encoder_to_angle
-                  0x003bee                  _initialize_encoder_values
- .text            0x003c0e        0x142 build/default/production/initializeV6.o
-                  0x003c0e                  _initialize
-                  0x003c96                  _lights
- .text            0x003d50         0x88 build/default/production/mainV6.o
-                  0x003d50                  _main
- .text            0x003dd8         0x34 build/default/production/Temperature.o
-                  0x003dd8                  _read_motor_temp
+.text             0x0036dc        0x8c2
+ .text            0x0036dc        0x1fa build/default/production/MPU.o
+                  0x0036dc                  _initialize_MPU
+                  0x003742                  _write_MPU
+                  0x003748                  _read_Accel
+                  0x003786                  _read_Gyro
+                  0x0037c4                  _read_Accel_Secondary
+                  0x0037f2                  _read_Gyro_Secondary
+                  0x003820                  _read_MPU_test
+                  0x003840                  _read_MPU_test_secondary
+                  0x00386a                  _Accel_convert
+                  0x0038a0                  _Gyro_convert
+ .text            0x0038d6        0x1c8 build/default/production/debug.o
+                  0x0038d6                  _log_error
+                  0x00391e                  _read_error
+                  0x003948                  _clear_error
+                  0x00396c                  _print_error
+ .text            0x003a9e        0x182 build/default/production/ADC.o
+                  0x003a9e                  _initialize_ADC
+                  0x003aee                  _read_ADC
+                  0x003b56                  _initialize_ADC_Single
+                  0x003b9a                  _ADC_Read_Single
+                  0x003bae                  _initialize_ADC_Offset
+                  0x003bdc                  _ADC_to_current
+                  0x003bfe                  _ADC_to_torque
+ .text            0x003c20        0x180 build/default/production/encoder.o
+                  0x003c20                  _initialize_QEI
+                  0x003c48                  _write_MOTENC
+                  0x003c5a                  _write_LOWMAGENC
+                  0x003c6c                  _write_TOPMAGENC
+                  0x003c82                  _read_MOTENC
+                  0x003cb2                  _read_LOWMAGENC
+                  0x003ce2                  _read_TOPMAGENC
+                  0x003d0c                  _encoder_to_angle
+                  0x003d80                  _initialize_encoder_values
+ .text            0x003da0        0x142 build/default/production/initializeV6.o
+                  0x003da0                  _initialize
+                  0x003e28                  _lights
+ .text            0x003ee2         0x88 build/default/production/mainV6.o
+                  0x003ee2                  _main
+ .text            0x003f6a         0x34 build/default/production/Temperature.o
+                  0x003f6a                  _read_motor_temp
 
-.init.delay32     0x003e0c         0x1c
- .init.delay32    0x003e0c         0x1c c:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../lib\libpic30-elf.a(delay32ep.eo)
-                  0x003e0c                  ___delay32
+.init.delay32     0x003f9e         0x1c
+ .init.delay32    0x003f9e         0x1c c:/program files (x86)/microchip/xc16/v1.11/bin/bin/../../lib\libpic30-elf.a(delay32ep.eo)
+                  0x003f9e                  ___delay32

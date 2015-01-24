@@ -176,6 +176,78 @@ void test_MayDay(void){
                 i3++;
             }
             LED4 = 1;*/
+        } else if (command=='a'){
+            long int jjj = 0;
+            motoron = 1;
+            kick();
+            write_duty(200);
+            while(jjj<400000){
+                jjj++;
+            }
+            jjj = 0;
+            write_duty(400);
+           while(jjj<400000){
+                jjj++;
+            }
+            jjj = 0;
+            write_duty(600);
+            while(jjj<400000){
+                jjj++;
+            }
+            TOPMAG = 1;
+            motoron = 0;
+            jjj = 0;
+           while(jjj<100000){
+                jjj++;
+            }
+            direction = !direction;
+            write_duty(200);
+            write_UART2('2');
+            motoron = 1;
+            //kick();
+            jjj = 0;
+            while(jjj<700000){
+                jjj++;
+            }
+            jjj = 0;
+            write_duty(400);
+           while(jjj<700000){
+                jjj++;
+            }
+            jjj = 0;
+            write_duty(600);
+            while(jjj<700000){
+                jjj++;
+            }
+            write_UART2('1');
+            motoron = 0;
+             jjj = 0;
+           while(jjj<100000){
+                jjj++;
+            }
+            direction = !direction;
+            write_duty(200);
+            TOPMAG  = 0;
+            motoron = 1;
+            //kick();
+            jjj = 0;
+            while(jjj<400000){
+                jjj++;
+            }
+            jjj = 0;
+            write_duty(400);
+           while(jjj<400000){
+                jjj++;
+            }
+            jjj = 0;
+            write_duty(600);
+            while(jjj<400000){
+                jjj++;
+            }
+            TOPMAG = 1;
+            motoron = 0;
+            write_UART2('1');
+            TOPMAG = 1;
         } else if(command=='c'){ //Toggle Top Magnet
             TOPMAG = !TOPMAG;
         } else if(command=='d'){ //Turn on Top Magnet
