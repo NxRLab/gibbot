@@ -1,4 +1,7 @@
 #include <iostream>
+//#include <jni.h>
+#include "CameraJNI.h"
+
 using namespace std;
 
 #define ARRAY_SIZE 7
