@@ -1,6 +1,8 @@
 #include <iostream>
-//#include <jni.h>
+#include <C:\Program Files\Java\jdk1.8.0_31\include\jni.h>
 #include "CameraJNI.h"
+
+
 
 using namespace std;
 
@@ -11,17 +13,15 @@ double myarr[ARRAY_SIZE] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0};
 // using JNI framework, write code to send myarr into a Java program
 //}
 
+JNIEXPORT jdoubleArray JNICALL Java_CameraJNI_GetArrayFromC
+  (JNIEnv *, jclass){
 
-// uncomment to compile and test with output
- 
-int main(void) {
 int i;
-
 cout << "contents or myarr are: " << endl;
 for(i = 0; i < ARRAY_SIZE; i++) {
 cout << "myarr[i] = " << myarr[i] << endl;
 }
-
 return 0;
 }
+
 
