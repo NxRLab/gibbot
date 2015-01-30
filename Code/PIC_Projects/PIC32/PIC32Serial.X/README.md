@@ -1,5 +1,7 @@
 This code enables a PIC32 to act as a pass-through serial port for the Gibbot
 dsPIC.  It is a modified version of talkingPIC.c found in the ME 333 stock code.
+This code has only been tested on the NOV 2013 NDM version of the NU32 dev
+board.
 
 # CHANGES
 The following additions/modifications have been made to the code:
