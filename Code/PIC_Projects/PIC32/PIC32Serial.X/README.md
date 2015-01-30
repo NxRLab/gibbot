@@ -15,4 +15,4 @@ Make sure to connect XBEE ground to PIC32 ground.  PIC32's RX pin (F4) to XBEE
 TX pin and PIC32's TX pin (F5) to XBEE RX pin.  All XBEE pins are labeled on the
 Gibbot PCB's silkscreen.
 
-** Do not connect any other pins. **
+**Do not connect any other pins.**
