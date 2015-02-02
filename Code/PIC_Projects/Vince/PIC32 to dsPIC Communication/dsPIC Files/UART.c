@@ -19,6 +19,7 @@
 #define GYRO_READ 'a'
 #define MOTOR_TEMP_READ 'b'
 #define MPU_TEST 'c'
+#define READ_VALUE 'X'
 
 
 volatile struct buffer_t uart_buffer;
@@ -255,6 +256,12 @@ void UART2_task(void){
              unsigned char data[5] = {'a','b','c','d','e'};
              write_string_UART2(data, 5);
          }
+		 else if (task == READ_VALUE){
+			 //Test the communication between the dsPIC and PIC32.
+			 //Returns the character "Y" if the user enters "X".
+			 write_UART2(task);
+			 LED3 = !LED3;
+		 }
      }
 
 }

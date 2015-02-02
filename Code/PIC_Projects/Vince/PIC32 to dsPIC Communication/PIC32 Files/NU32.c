@@ -1,5 +1,5 @@
 #include "NU32.h"
-
+#define MAX_MESSAGE_LENGTH 200
 #define NU32_DESIRED_BAUD 112044//115200//230400 // Baudrate for RS232
 
 // Perform startup routines:
@@ -269,6 +269,7 @@ void __ISR(_UART_2_VECTOR, IPL2SOFT) UART2Interrupt() {
             while (U1STAbits.UTXBF); // wait until tx buffer isn't full
             // send XBEE byte on through from UART2 to PC
             U1TXREG = data;
+
 
             NU32_LED2 = !NU32_LED2;
         }
