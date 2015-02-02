@@ -16,8 +16,9 @@ int main(void) {
         if(USER){
             motoron = 0;    //emergency stop if USER button pressed
             write_duty = 0;
+            //LED1 = !LED1;
         }
-       
+
        //timer1_on();
        //timer2_on();
 

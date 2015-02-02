@@ -3,6 +3,7 @@
 #include "time.h"
 #include "stdio.h"
 #include "motor.h"
+#include "initializeV6.h"
 
 // File: time.c 
 // Author: Hannah Arntson
@@ -54,8 +55,8 @@ void timer2_on(void){
 							//Number of cycles to achieve 1Hz timer
 
 	IPC1bits.T2IP = 0x01;	//Set Timer2 interruprt priority level
-	IFS1bits.T2IF = 0;		//Clear Timer2 interrupt priority flag
-	IEC1bits.T2IE = 1;		//Enable Timer2 interrupt
+	IFS0bits.T2IF = 0;		//Clear Timer2 interrupt priority flag
+	IEC0bits.T2IE = 1;		//Enable Timer2 interrupt
 
 	T2CONbits.TON = 1;		//Start Timer2
 }
@@ -86,5 +87,5 @@ void __attribute__((interrupt, no_auto_psv)) _T2Interrupt(void)
 	//Toggle magnet state
 	TOPMAG = !TOPMAG;
 
-	IFS1bits.T2IF = 0; //Clear Timer2 interrupt flag
+	IFS0bits.T2IF = 0; //Clear Timer2 interrupt flag
 }
