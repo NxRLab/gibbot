@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -10,7 +9,8 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
 	
 	private Image bananaImg = ImageHandler.getImage("banana");
 	private Image bananaBubble = ImageHandler.getImage("bananaBubble");
-	private Image board = ImageHandler.getImage("board");
+	//private Image board = ImageHandler.getImage("board");
+	private Image board = ImageHandler.getImage("jungle");
 	private Image bunch = ImageHandler.getImage("bunch");
 	private Image gibbotBubble = ImageHandler.getImage("gibbotBubble");
 	private Font andaleBig = ImageHandler.getFont().deriveFont(Font.BOLD, 64);

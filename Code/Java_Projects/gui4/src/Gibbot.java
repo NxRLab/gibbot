@@ -1,4 +1,3 @@
-
 import java.lang.Math;
 import java.awt.*;
 
@@ -163,4 +162,3 @@ public class Gibbot {
     	arm1Y = pivotY;
 	}
 }   
-    

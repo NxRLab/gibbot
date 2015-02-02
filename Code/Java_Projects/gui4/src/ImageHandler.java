@@ -66,14 +66,14 @@ public class ImageHandler {
 	/**All the keys for {@link #map}*/
 	private static String[] imageNames = new String[] {"currentChart", "hardwareChart", "speedometerChart",  
 		"banana", "bananaBubble", "batteryArrow", "batteryBar", "board", "bunch", "gibbotBubble", 
-		"gibbotTab1", "gibbotTab2", "gibbotTab3", "sleepBubble"};
+		"gibbotTab1", "gibbotTab2", "gibbotTab3", "sleepBubble", "jungle"};
     
     /**Loads png image files and AndaleMono font*/
     public static void loadImages(){ 
-    
-    	for(int i = 3; i < 14; i++){
+    	//was 14
+    	for(int i = 3; i < imageNames.length; i++){
     		try {
-    			Image img = ImageIO.read(new File(imageNames[i]+".png"));
+    			Image img = ImageIO.read(new File(imageNames[i] + ".png"));
 				map.put(imageNames[i], img);
 			}
 			catch(IOException e){
