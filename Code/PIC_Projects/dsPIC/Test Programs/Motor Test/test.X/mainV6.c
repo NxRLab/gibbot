@@ -7,20 +7,20 @@
 #include "initializeV6.h"
 #include "motor.h"
 #include "test.h"
+#include "time.h"
 
 int main(void) {
     initialize();
     initialize_ADC_Offset();
     while (1){
         if(USER){
-            LED1 = !LED1;
-            LED2 = !LED2;
-            LED3 = !LED3;
-            LED4 = !LED4;
-            //TOPMAG = !TOPMAG;
-            //commutate(7);
+            motoron = 0;    //emergency stop if USER button pressed
+            write_duty = 0;
         }
-       test_MayDay();
+       
+       //timer1_on();
+       //timer2_on();
+
     }
     return 0;
 }
