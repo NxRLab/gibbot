@@ -51,7 +51,7 @@ void timer2_on(void){
 	T2CONbits.T32 = 0;		//Selects 16-bit timer mode
 	T2CONbits.TCKPS = 0b11;	//Selects 1:256 prescalar
 	TMR2 = 0x00;			//Clear timer register
-	PR2 = 0x30e;			//Load the period value
+	PR2 = 0x4c4b4;			//Load the period value
 							//Number of cycles to achieve 1Hz timer
 
 	IPC1bits.T2IP = 0x01;	//Set Timer2 interruprt priority level
@@ -72,10 +72,12 @@ void timer2_off(void){
 //*************************************
 // Interrupt triggered at 20Hz
 
+int torque = 0;
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void)
 {
 	//ISR here, eventually while loop for motor
-
+        write_duty(torque);
+        torque = torque + 10;
 	IFS0bits.T1IF = 0; 	//Clear Timer1 interrupt flag
 }
 
@@ -85,7 +87,8 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void)
 void __attribute__((interrupt, no_auto_psv)) _T2Interrupt(void)
 {
 	//Toggle magnet state
-	TOPMAG = !TOPMAG;
+	//TOPMAG = !TOPMAG;
+
 
 	IFS0bits.T2IF = 0; //Clear Timer2 interrupt flag
 }

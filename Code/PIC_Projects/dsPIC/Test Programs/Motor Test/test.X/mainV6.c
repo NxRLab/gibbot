@@ -12,15 +12,21 @@
 int main(void) {
     initialize();
     initialize_ADC_Offset();
+    motoron = 1;
+    direction = CW;
+    //write_duty(300);
+    //timer1_on();
     while (1){
+        //TOPMAG = 1;
         if(USER){
             motoron = 0;    //emergency stop if USER button pressed
-            write_duty = 0;
+
+            //write_duty = 0;
             //LED1 = !LED1;
         }
 
-       //timer1_on();
-       //timer2_on();
+       
+       
 
     }
     return 0;
