@@ -1,7 +1,7 @@
 #include <libpic30.h>
 #include <stdio.h>
 #include <p33EP512MC806.h>
-#include "initialize.h"
+#include "initializeV6.h"
 #include "debug.h"
 
 volatile struct buffer_t error_buffer;
