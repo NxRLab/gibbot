@@ -3,7 +3,7 @@ public class CameraJNI{
     public static native double[] GetArrayFromC();
     static
     {
-	System.loadLibrary("camera");
+	System.loadLibrary("camerajni");
         //double[] r = {100, 200, 300, 400, 500, 600, 700};
         //return r;
     }
