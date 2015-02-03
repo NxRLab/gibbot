@@ -1,11 +1,13 @@
 #include <libpic30.h>
 #include <p33EP512MC806.h>
-#include "initialize.h"
+#include "initializeV6.h"
 #include "motor.h"
 #include "UART.h"
-#include "I2CMaster.h"
 #include "encoder.h"
 #include "ADC.h"
+#include "I2CMaster.h"
+#include "MPU.h"
+
 
 /* Configuration Bit Settings */
 //To avoid setting the PLL bits while PLL is being used the oscillator is
@@ -17,7 +19,7 @@ _FOSC(FCKSM_CSECMD & OSCIOFNC_OFF & POSCMD_NONE)
 _FWDT(FWDTEN_OFF)
 //Programming on PGEC1 (pin 17) and PGED1 (pin 18)
 //If programming pn PGEC2 and PGED2 change to ISC_PGD2
-_FICD(ICS_PGD1)
+_FICD(ICS_PGD2 & JTAGEN_OFF)
 //Wait 1ms after power-on to initialize
 _FPOR(FPWRT_PWR128)
 
@@ -39,7 +41,7 @@ void initialize(void){
     // FPLLO = FVCO/N2 = 81.07 MHz
     // FOSC ~= 80MHz, FCY ~= 40MHz
     CLKDIVbits.PLLPOST = 0;  // N2 = 2
-    
+
     /* Initiate Clock Switch */
     //The __builtin macro handles unlocking the OSCCON register
     __builtin_write_OSCCONH(1); //New oscillator is FRC with PLL
@@ -49,28 +51,34 @@ void initialize(void){
     while (OSCCONbits.LOCK!= 1); //Wait for PLL to lock
 
     /* Configure IO*/
-    TRISDbits.TRISD8 = 1;   //USER input
+    TRISDbits.TRISD10 = 1;   //USER input
     //LED outputs
-    TRISDbits.TRISD9 = 0;   //LED1
-    TRISDbits.TRISD10 = 0;  //LED2
+    ANSELBbits.ANSB13 = 0;  //Disable Analog on B13
+    TRISBbits.TRISB13 = 0;  //LED1
+    ANSELBbits.ANSB12 = 0;  //Disable Analog on B12
+    TRISBbits.TRISB12 = 0;  //LED2
     TRISDbits.TRISD11 = 0;  //LED3
     TRISDbits.TRISD0 = 0;   //LED4
     //Magnet Control
-    TRISFbits.TRISF0 = 0;   //Top Magnet
+    TRISBbits.TRISB14 = 0;   //Top Magnet
 
     //Store bits indicating reason for reset
     resetStat = RCON;
     //Clear reset buffer so next reset reading is correct
     RCON = 0;
-    
+
     /* Initialize peripherals*/
     initialize_PWM();
     initialize_CN();
     initialize_ADC();
-    initialize_I2C_Master();
     initialize_QEI();
     initialize_UART();
-    lights();   
+    initialize_UART2();
+    //initialize_I2C_Master();
+    lights();
+    __delay32(10000000);
+    //initialize_MPU();
+    //initialize_encoder_values(1600,1700,1800);
 }
 
 void lights(void){

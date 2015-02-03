@@ -14,23 +14,23 @@
  * Hall 1          RD3
  * Hall 2          RD4          
  * Hall 3          RD5
- * LED 1           RD9
- * LED 2           RD10
+ * LED 1           RB13
+ * LED 2           RB12
  * LED 3           RD11
  * LED 4           RD0
- * Top Magnet      RF0
- * User            RD8
+ * Top Magnet      RB14
+ * User            RD10
  */
 
-#ifndef INITIALIZE_H
-#define	INITIALIZE_H
+#ifndef INITIALIZEV6_H
+#define	INITIALIZEV6_H
 
-#define LED1 LATDbits.LATD9
-#define LED2 LATDbits.LATD10
+#define LED1 LATBbits.LATB13
+#define LED2 LATBbits.LATB12
 #define LED3 LATDbits.LATD11
 #define LED4 LATDbits.LATD0
-#define USER PORTDbits.RD8
-#define TOPMAG LATFbits.LATF0
+#define USER PORTDbits.RD10
+#define TOPMAG LATBbits.LATB14
 
 #define RST_POR    (1<<0)
 #define RST_BOR    (1<<1)

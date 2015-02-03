@@ -23,7 +23,7 @@
  *
  */
 #include <p33EP512MC806.h>
-#include "initialize.h"
+#include "initializeV6.h"
 #include "motor.h"
 #include "stdio.h"
 char motoron = 0;
@@ -211,7 +211,7 @@ void Float(int pin){
 }
 
 /* The commutate function uses the High, Low and Float functions to commutate
- * the motor. The input to the function is the motor state from the hall effect 
+ * the motor. The input to the function is the motor state from the hall effect
  * sensors. Depending on the value of the global variable "direction" the
  * function sets the motor outputs according to the motor's commutation pattern.
  * The commutation pattern is derived from the commutation diagram found on p32
@@ -356,8 +356,6 @@ void commutate(int state){
 void kick(void){
     int kick;
     int state;
-    //int CWtable[6] = {5,3,1,6,4,2};
-    //int CCWtable[6] = {3,6,2,5,1,4};
     int CCWtable[6] = {5,3,1,6,4,2};
     int CWtable[6] = {3,6,2,5,1,4};
     state = (S3 << 2) | (S2 << 1) | S1;

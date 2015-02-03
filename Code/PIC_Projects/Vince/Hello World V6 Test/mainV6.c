@@ -9,9 +9,9 @@
 #include "test.h"
 
 int main(void) {
-    int duty = 500; //set duty (change number to test different duty cycles)
     initialize();
     initialize_ADC_Offset();
+    write_string_UART("Hello world\r\n",100);
     while (1){
         if(USER){
             LED1 = !LED1;
@@ -20,15 +20,8 @@ int main(void) {
             LED4 = !LED4;
             //TOPMAG = !TOPMAG;
             //commutate(7);
-            write_duty(duty); //apply duty cycle change
-            motoron = 1;//turn motor on
-            kick();//kick start commutation
-            
         }
-       //test_MayDay(); commented out to test running of motor. uncomment for actual final code
-
-
+       test_MayDay();
     }
-
     return 0;
 }
