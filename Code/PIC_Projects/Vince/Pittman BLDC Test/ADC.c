@@ -8,14 +8,10 @@
  * This file also contains functions for reading the ACD using single reads,
  * which resulted in significant noise in early tests.
  */
-#include <libpic30.h>
 #include <p33EP512MC806.h>
-#include "initializeV6.h"
+#include "initialize.h"
 #include "ADC.h"
 #define ADC_BUFF_LEN 128 //Length of the DMA Buffer, should be a power of 2
-
-unsigned short Avi = 0;
-
 
 //Create DMA buffer for ADC, the macro is required because the buffer is
 //outside of the normal memory space
@@ -54,7 +50,7 @@ void initialize_ADC(void){
                            // Tad = 10*25ns = 250ns
                            // Datasheet sets Tad minimum at 117.6ns
     AD1CON4bits.ADDMAEN = 1; //Use DMA module to automatically write data
-    AD1CHS0bits.CH0SA = 7;   //Current sensor connected to AN7
+    AD1CHS0bits.CH0SA = 8;   //Current sensor connected to AN8
 
     //Uncomment the next two lines to enable the ADC interrupt
     //IFS0bits.AD1IF = 0; //Clear ADC interrupt flag
@@ -121,7 +117,7 @@ void initialize_ADC_Single(void) {
                               // Datasheet sets Tad minimum at 117.6ns
 
     // Initialize MUXA Input Selection
-    AD1CHS0bits.CH0SA = 7;
+    AD1CHS0bits.CH0SA = 8;
     AD1CON1bits.SAMP        = 0; // Ensure sampling is turned off
     AD1CON1bits.ADON        = 1; //Turn on the ADC converter
 }
@@ -130,26 +126,4 @@ unsigned short ADC_Read_Single(void) { //manual sampling and conversion function
     AD1CON1bits.SAMP = 1; //Start sampling, sampling is stopped after 1us
     while (!AD1CON1bits.DONE); //wait for sampling and conversion to finish
     return (unsigned short) ADC1BUF0;
-}
-
-void initialize_ADC_Offset(void){
-    int i;
-    unsigned int a;
-    for(i=0;i<10;i++){
-        a += read_ADC();
-        __delay32(39000);
-    }
-     Avi = a/10;
-}
-
-float ADC_to_current(unsigned short data){
-    float current;
-    current = (float)((int)(Avi - data))*33/4096;
-    return current;
-}
-
-float ADC_to_torque(unsigned short data){
-    float torque;
-    torque = (float)((int)(Avi - data))*3762/4096;
-    return torque;
 }

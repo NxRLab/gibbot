@@ -23,7 +23,7 @@
  *
  */
 #include <p33EP512MC806.h>
-#include "initializeV6.h"
+#include "initialize.h"
 #include "motor.h"
 #include "stdio.h"
 char motoron = 0;
