@@ -516,14 +516,14 @@ void test_plotter(void){
 
 void test_motor(void){
   //swing from horizontal to horizontal
-  //TOPMAG = 0
+  TOPMAG = 0;
   //Wait for 0.2 second
-  //direction = correct direction
-  //write_duty(200)
+  direction = CW;
+  write_duty(200);
   //wait for 0.1 second
-  //write_duty(0)
+  write_duty(0);
   //wait for 0.1 second
-  //TOPMAG = 1
+  TOPMAG = 1;
 }
 
 

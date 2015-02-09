@@ -8,26 +8,25 @@
 #include "motor.h"
 #include "test.h"
 #include "time.h"
+#include "UART.h"
 
 int main(void) {
     initialize();
     initialize_ADC_Offset();
+    initialize_UART();
+    unsigned char c=0;
     motoron = 1;
     direction = CW;
     //write_duty(300);
     //timer1_on();
     while (1){
-        //TOPMAG = 1;
-        if(USER){
-            motoron = 0;    //emergency stop if USER button pressed
-
-            //write_duty = 0;
-            //LED1 = !LED1;
+        c = read_UART();
+        if (c=='o'){
+            TOPMAG=1;
         }
-
-       
-       
-
+        else if (c=='f'){
+            TOPMAG=0;
+        }
     }
     return 0;
 }

@@ -13,7 +13,7 @@
 
 //*********************************
 // function: timer1_on
-// initializes Timer1 in timer mode at 20Hz for clk cycles of 80Mz
+// initializes Timer1 in timer mode at 20Hz for clk cycles of 80MHz
 
 void timer1_on(void){
 	T1CONbits.TON = 0;  	//Disables the timer
