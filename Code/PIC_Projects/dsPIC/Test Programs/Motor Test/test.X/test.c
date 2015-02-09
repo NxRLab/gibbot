@@ -512,3 +512,14 @@ void test_plotter(void){
         }
     }
 }
+
+
+void test_motor(void){
+  //swing from horizontal to horizontal
+}
+
+
+
+void test_encoder(void){
+  //need info from Jacob to test encoder
+}
