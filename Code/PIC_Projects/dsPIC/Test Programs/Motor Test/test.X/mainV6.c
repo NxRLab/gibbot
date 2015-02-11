@@ -12,20 +12,30 @@
 
 int main(void) {
     initialize();
-    initialize_ADC_Offset();
-    initialize_UART();
-    unsigned char c=0;
+    //initialize_ADC_Offset();
+    //initialize_UART();
+    TOPMAG=1;
+    unsigned char c='o';
     motoron = 1;
     direction = CW;
     //write_duty(300);
     //timer1_on();
     while (1){
-        c = read_UART();
+        //c = read_UART();
         if (c=='o'){
             TOPMAG=1;
         }
         else if (c=='f'){
             TOPMAG=0;
+        }
+        else if (c=='u'){
+            //inc duty
+        }
+        else if (c=='d'){
+            //dec duty
+        }
+        else if (c=='m'){
+            //motor off
         }
     }
     return 0;
