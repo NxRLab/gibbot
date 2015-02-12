@@ -1,0 +1,95 @@
+body {	color:#666;	font:300 15px/15px Roboto,Arial,Helvetica;background-color:#fff;-webkit-font-smoothing:antialiased;background-color: #eee;}
+
+a{color:#411f5a; text-decoration:none;}
+a:hover{color:#666;}
+.btn,a,.btn:hover,a:hover {
+-webkit-transition: all 0.3s ease-in-out;
+-moz-transition: all 0.3s ease-in-out;
+-ms-transition: all 0.3s ease-in-out;
+-o-transition: all 0.3s ease-in-out;
+transition: all 0.3s ease-in-out;
+outline: none !important;
+}
+
+h1,h2,h3,h4{margin: 0;line-height: 1em;}
+h1{font:700 3em Raleway,Arial,Helvetica;padding:5em 0;text-transform: uppercase;color: #fff;}
+h2{font:700 1.5em Raleway,Arial,Helvetica;margin-bottom: 1.5em; color: #2b133e;}
+h3{font:700 1.25em Raleway,Arial,Helvetica;margin:0.5em; color: #fff;}
+
+p{font-size:1em;line-height: 1.7em; margin-bottom: 1.7em;}
+
+.container{width: 100%; max-width: 1400px;}
+.wrapper{background-color: #fff;}
+.spacer{padding:5em; padding-bottom:0; }
+
+
+.btn{border:none;border-radius: 0;padding: 0.75em 3em;text-transform: uppercase;}
+.btn-faint{background: rgb(99, 79, 114); color: #fff;}
+.btn-danger{background: rgb(65, 31, 90) !important;}
+.btn:hover,.btn:active{color: #fff;box-shadow: none;}
+
+
+.navbar-nav > li > a{font-size: 1em;line-height:2em;}
+.navbar-inverse{background: #111;}
+.navbar-brand{color: #fff !important;background: #2b133e  !important;margin-left: 0 !important;height: 60px;padding: 1em;font:700 1.25em Raleway; }
+.navbar-default .navbar-nav>li>a{color: #000 !important;}
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:hover, .navbar-default .navbar-nav>.active>a:focus{color: #fff !important;background-color: #2b133e ;}
+.navbar-nav.navbar-right:last-child{margin-right: 0 !important}
+.navbar-default{background:none;border:none; }
+.navbar-default .navbar-collapse{background:#fafafa; }
+
+
+.banner{background:url(../images/banner.jpg) #000;margin-top: 4em;background-size: cover;}
+.overlay{background:rgba(65, 31, 90, 0.9);}
+
+
+.carousel-control{width: 10%;}
+.carousel-control i.fa{top: 50%;position: absolute;margin-top: -30px;left: 0;right: 0;}
+.carousel .item a.view{position: absolute;top: -10%;left:50%;text-align: center;background: rgb(65, 31, 90);color: #fff;display: inline-block;padding:0.75em 2em;font-size: 1.25em;margin-top: -24px;margin-left: -70px;}
+.carousel .item:hover a.view{top:50%;text-decoration: none;}
+
+
+.service{padding:0 10em 2em 10em; color: #fff;}
+.service p{color: #fff;font-size: 0.90em;line-height:1.20em;margin: 0;}
+
+.social a{margin-right: 1em;}
+
+
+
+
+.footer{background-color: #111; color: #fff; font-size: 1em;color: #aaa;padding: 3em;}
+.footer a{color: #aaa;margin: 0 1em; }
+
+.gototop{position: fixed;bottom: 20px; right: 20px;background: rgba(0,0,0,0.5);padding: 10px;color: #fff;}
+.gototop i{line-height: 0.5em;}
+
+
+@media (max-width: 1200px) {		
+	.spacer{padding: 2em;}
+}
+
+@media (max-width: 900px) {
+	body{font-size:13px;line-height: 13px; }
+	h1{font-size:2em;}
+	h2{font-size:1.10em;margin-bottom: 0.5em;}
+	h3{font-size:1em;}
+	p{line-height: 1.15em;}
+	.service{padding: 0 0 1em 0;}
+	.service p{font-size: 0.85em;}
+	.btn{padding: 1em 2em;}
+	.spacer {padding: 1.5em 1.5em 0 1.5em;}
+	/*.navbar-brand{height: 56px;} */
+	.btn {padding: 0.5em 2em;}
+}	
+
+@media (max-width: 767px) {
+	body{font:300 12px/12px Roboto,Arial,Helvetica;}
+	h1{padding: 2em 0;}
+	.navbar-nav > li > a {line-height: 1em;}	
+	.navbar-brand{padding: 7px;height: 50px;line-height: 2em;margin-left: 15px !important;}	
+	.navbar-default{background: #fff !important;}
+	.navbar-default .navbar-toggle,.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus{background:#2b133e ;color: #fff;border: none;border-radius: 0;}
+	.navbar-default .navbar-toggle .icon-bar{background-color: #fff;} 
+	.footer{margin-top: 2em;padding-bottom: 2em;}
+
+}
