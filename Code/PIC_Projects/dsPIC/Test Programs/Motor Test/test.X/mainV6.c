@@ -32,14 +32,20 @@ int main(void) {
             // inc duty
             // for now, increase the duty by 10% of max duty
             write_duty(read_duty()+100);
+            c = 'x';
         }
         else if (c=='d'){
             // dec duty
             write_duty(read_duty()+100);
+            c = 'x';
         }
         else if (c=='m'){
             // motor off
             motoron = 0;
+        }
+        else if (c=='x'){
+            // make sure duty is only updated once per call 
+            continue;
         }
     }
     return 0;
