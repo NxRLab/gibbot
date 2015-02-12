@@ -29,13 +29,17 @@ int main(void) {
             TOPMAG=0;
         }
         else if (c=='u'){
-            //inc duty
+            // inc duty
+            // for now, increase the duty by 10% of max duty
+            write_duty(read_duty()+100);
         }
         else if (c=='d'){
-            //dec duty
+            // dec duty
+            write_duty(read_duty()+100);
         }
         else if (c=='m'){
-            //motor off
+            // motor off
+            motoron = 0;
         }
     }
     return 0;
