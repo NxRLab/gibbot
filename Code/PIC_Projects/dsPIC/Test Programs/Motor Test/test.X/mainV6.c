@@ -20,13 +20,21 @@ int main(void) {
     direction = CW;
     //write_duty(300);
     //timer1_on();
-    while (1){
-        //c = read_UART();
+
+    while (1) {
+        c = read_UART();
         if (c=='o'){
             TOPMAG=1;
         }
         else if (c=='f'){
             TOPMAG=0;
+        }
+        else if(c == 'g') {
+            //Turn on Bottom Magnet
+            write_UART2('1');
+        } else if(c =='h') {
+             //Turn off Bottom Magnet
+            write_UART2('2');
         }
         else if (c=='u'){
             // inc duty
