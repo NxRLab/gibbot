@@ -2,7 +2,10 @@
 import java.awt.*;
 import java.io.*;
 import java.nio.*;
+import java.util.HashMap;
+
 import javax.swing.*;
+
 import jssc.*;
 
 /**Wrapper class for jssc's SerialPort; gets all data from wireless
@@ -33,13 +36,27 @@ public class GUISerialPort {
 	 *for a double pendulum, but it will do for display purposes.*/
 	private final static double RADIUS = .15; //distance in meters from gyroscope to center of rotation
 
-	/**Holds initial floats from byte conversion*/
-	private static float[] floatHolder = new float[7];
-	/**Holds float values converted to ints and scaled while all processing occurs (see class comments).*/
-	private static int[] tempData = new int[7];
 	/**Holds final values to send for drawing; returned by {@link #update}.*/
-	private static int[] data = new int[7];
+	private static HashMap<String, Integer> data = new HashMap<String, Integer>();
+	/**Data names*/
+	private static String[] dataNames = new String[] {"motorCurrent", "motorTorque",
+		"motorTemperature", "batteryVoltage", "Gyroscope_Z_Primary",
+		"Gyroscope_Z_Secondary", "gibbotAngle", "gibbotXPos", "gibbotYPos"}; //xPos and yPos are middle position
+	static int NUM_DATA = dataNames.length; //number of data points (e.g. torque, blah blah)
+	
+	
+	/**Holds initial floats from byte conversion*/
+	//private static float[] floatHolder = new float[7];
+	private static float[] floatHolder = new float[NUM_DATA];
+	/**Holds float values converted to ints and scaled while all processing occurs (see class comments).*/
+	//private static int[] tempData = new int[7];
+	private static int[] tempData = new int[NUM_DATA];
+	/**Holds final values to send for drawing; returned by {@link #update}.*/
+	//private static int[] data = new int[7];
 
+	
+	
+	
 	/**True if {@link #port} is trying to send data rather than recieve it (only used for sending
 	 *goal coordinates from user (banana image coordinates). Value set by {@link #sendGoalCoors} and checked
 	 *by {@link #update}.*/
@@ -59,10 +76,13 @@ public class GUISerialPort {
     		System.out.println("Failed to open " + port.getPortName() + " due to: "); 
     		System.out.println(e.getExceptionType());
     	}
-    	
+    	/*
     	for(int i = 0; i < 7; i++){
 			data[i] = 20;
-    	}
+    	}*/
+		for(int i = 0;i < NUM_DATA; i++){
+			data.put(dataNames[i], 20); //20 is hardcoded for now, will soon get from PIC
+		}
 	}
 	
 	/**Currently an empty class, but eventually would be called by {@link Gibbot#updateRealCoors} to animate the robot image.
@@ -72,7 +92,10 @@ public class GUISerialPort {
 	
 	/**Returns {@link #data}. Called by all graph animations.
 	 *@return data The array with values for velocity, motor temp, battery, current, and torque.*/
-	public static int[] getData(){
+	/*public static int[] getData(){
+		return data;
+	}*/
+	public static HashMap<String, Integer> getData(){
 		return data;
 	}	 
 	
@@ -87,13 +110,21 @@ public class GUISerialPort {
 	public static void update(){  //called by GUILayeredPane in response to timer-generated events
 		
 		if(!port.isOpened()){
-			
+			/*
 			data[0] = 30;
 			data[1] = 13;
 			data[2] = 60;
 			data[3] = 48;
 			data[4] = 10;
 			data[5] = 80;
+			*/
+			data.put("motorCurrent", 30);
+			data.put("motorTorque", 13);
+			data.put("motorTemperature", 60);
+			data.put("batteryVoltage", 48);
+			data.put("motorTorque", 13);
+			data.put("Gyroscope_Z_Primary", 10);
+			data.put("Gyroscope_Z_Secondary", 18);
 		}
 		
 		else if(sending)
@@ -132,14 +163,23 @@ public class GUISerialPort {
 				tempData[5] = Math.abs((int)(floatHolder[5]*4*RADIUS));
 				//tempData[6] = (int)floatHolder[6]; //for battery signal?
 				
+				
+				/*
 				for(int i = 0; i < 7; i++)
 					data[i] = tempData[i];
+				*/
+				for(int i = 0; i < NUM_DATA; i++)
+					data.put(dataNames[i], tempData[i]);
 					
 			}
 
      		catch(SerialPortException e){
+     			/*
      			for(int i = 0; i < 7; i++)
 					data[i] = 100;
+				*/
+     			for(int i = 0; i < NUM_DATA; i++)
+     				data.put(dataNames[i], 100);
      		}			
 		}
 	}

@@ -1,6 +1,7 @@
 
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 
 /**Displays battery level in "sleep" mode. Based on max battery level 
@@ -8,7 +9,7 @@ import javax.swing.*;
  */
 public class ChargingBox extends JPanel implements ActionListener {
 	
-	private Image batteryBar = ImageHandler.getImage("batteryBar");
+	private Image batteryBar = ImageHandler.getImage("batteryBar.png");
 	
 	/**How many seconds the panel waits between checks for change in battery level*/
 	private final int SEC_PER_UPDATE = 10;
@@ -54,6 +55,16 @@ public class ChargingBox extends JPanel implements ActionListener {
     @param evt The timer event (not important to code but required by {@link java.awt.event#ActionListener} interface)
     */
     public void actionPerformed(ActionEvent evt){
+
+    	if(timerCount == SEC_PER_UPDATE*1000/millisPerFrame){ 
+    		batt = GUISerialPort.getData().get("batteryVoltage")*2; //*2 to scale
+    		timerCount = 0;
+    		repaint();
+    	}
+    	else
+    		timerCount++;
+    	
+    	/*
     	
     	if(timerCount == SEC_PER_UPDATE*1000/millisPerFrame){ 
     		batt = GUISerialPort.getData()[3]*2; //*2 to scale
@@ -62,6 +73,7 @@ public class ChargingBox extends JPanel implements ActionListener {
     	}
     	else
     		timerCount++;
+    	*/
     }
     
 }

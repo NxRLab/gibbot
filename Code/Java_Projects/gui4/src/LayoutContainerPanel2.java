@@ -9,11 +9,11 @@ import javax.swing.*;
  */
 public class LayoutContainerPanel2 extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
 
-	private Image batteryArrow = ImageHandler.getImage("batteryArrow");
-	private Image gibbotTab1 = ImageHandler.getImage("gibbotTab1");
-	private Image gibbotTab2 = ImageHandler.getImage("gibbotTab2");
-	private Image gibbotTab3 = ImageHandler.getImage("gibbotTab3");
-	private Image sleepBubble = ImageHandler.getImage("sleepBubble");
+	private Image batteryArrow = ImageHandler.getImage("batteryArrow.png");
+	private Image gibbotTab1 = ImageHandler.getImage("gibbotTab1.png");
+	private Image gibbotTab2 = ImageHandler.getImage("gibbotTab2.png");
+	private Image gibbotTab3 = ImageHandler.getImage("gibbotTab3.png");
+	private Image sleepBubble = ImageHandler.getImage("sleepBubble.png");
 	
 	/**Specified by GUILayeredPane parent. Used to determine anchor locations for pull tabs.*/
 	private int sizingWidth;

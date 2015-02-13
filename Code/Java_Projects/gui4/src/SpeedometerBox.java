@@ -1,16 +1,21 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.util.HashMap;
+
 import javax.swing.*;
 
 /**SpeedometerBox is what it sounds like; shows the linear velocity of the two links with two different colored "needles"
  */
 public class SpeedometerBox extends JPanel implements ActionListener{
 	
-	private Image chart = ImageHandler.getImage("speedometerChart");
-
-    /**Specified by LayoutContainerPanel parent. Used to set preferred dimensons in constructor*/
+	//private Image chart = ImageHandler.getImage("speedometerChart");
+	
+	private Image speedometer = ImageHandler.getImage("speedometer.png");
+	private Image batteryBar = ImageHandler.getImage("batteryBar.png");
+	
+    /**Specified by LayoutContainerPanel parent. Used to set preferred dimensions in constructor*/
 	private int height;
-	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensons in constructor*/
+	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensions in constructor*/
 	private int width;
 	
 
@@ -24,9 +29,9 @@ public class SpeedometerBox extends JPanel implements ActionListener{
 	/**Vertical scale for drawing chart image (not really needed unless {@link GUILayeredPane#DRAWING_HEIGHT} is altered)*/
 	private double yscale;
 	
-	/**Proportion of horizontal space this box will take up in {@link LayoutContainerPanel}. Stronly recommended not to alter.*/
+	/**Proportion of horizontal space this box will take up in {@link LayoutContainerPanel}. Strongly recommended not to alter.*/
 	private final double SPEEDOMETER_WIDTH_ALLOCATION = 1/3.0;
-	/**Proportion of vertical space this box will take up in {@link LayoutContainerPanel}. Stronly recommended not to alter.*/
+	/**Proportion of vertical space this box will take up in {@link LayoutContainerPanel}. Strongly recommended not to alter.*/
 	private final double SPEEDOMETER_HEIGHT_ALLOCATION = 1/3.25;
     
 	/**Horizontal margin around chart area when placed in panel. Strongly recommended not to alter.*/
@@ -37,12 +42,13 @@ public class SpeedometerBox extends JPanel implements ActionListener{
 	private final int CHARTX = 30;
 	/**Y-coor of upper left corner of {@link #chart}. Strongly recommended not to alter.*/
 	private final int CHARTY = 20;
+	
 	/**Radius of both needles on speedometer graphic. Alterations okay if needed.*/
 	private final int NEEDLE_RADIUS = 117;
 	/**X-coor of where needles on speedometer graphic are anchored.*/
-	private final int NEEDLE_XORIGIN = ImageHandler.SPEEDOMETER_NEEDLE_XORIGIN;
+	//private final int NEEDLE_XORIGIN = ImageHandler.SPEEDOMETER_NEEDLE_XORIGIN;
 	/**Y-coor of where needles on speedometer graphic are anchored.*/
-	private final int NEEDLE_YORIGIN = ImageHandler.SPEEDOMETER_NEEDLE_YORIGIN;
+	//private final int NEEDLE_YORIGIN = ImageHandler.SPEEDOMETER_NEEDLE_YORIGIN;
 	
 	/**Light shadow color*/
 	private final Color SHADOW1 = new Color(125, 125, 125, 50);
@@ -55,10 +61,10 @@ public class SpeedometerBox extends JPanel implements ActionListener{
 	/**Color of the rectangle the chart is in*/
 	private final Color CHART_BG = GibbotGUI3.SECONDARY_GLOBAL_BG;
 	
-	/**Color of needle on the speedometer cooresponding to first link. If altered, also alter 
+	/**Color of needle on the speedometer corresponding to first link. If altered, also alter 
 	 *{@link Gibbot#ARM1COLOR} with same first three values (RGB) but no fourth parameter (alpha).*/
 	public final Color ARM1COLOR = new Color(150, 150, 150, 100);
-	/**Color of needle on the speedometer cooresponding to second link. If altered, also alter 
+	/**Color of needle on the speedometer corresponding to second link. If altered, also alter 
 	 *{@link Gibbot#ARM2COLOR} with same first three values (RGB) but no fourth parameter (alpha).*/
 	public final Color ARM2COLOR = new Color(36, 149, 176, 125);
 	
@@ -82,8 +88,8 @@ public class SpeedometerBox extends JPanel implements ActionListener{
 		
 		w = width - 2*XMARGIN;
 		h = height - 2*YMARGIN;
-		xscale = w/(double)(ImageHandler.SPEEDOMETER_WIDTH);
-		yscale = h/(double)(ImageHandler.HEIGHT);
+		//xscale = w/(double)(ImageHandler.SPEEDOMETER_WIDTH);
+		//yscale = h/(double)(ImageHandler.HEIGHT);
 
 		GUITimer.addActionListener(this);
 	}
@@ -95,6 +101,17 @@ public class SpeedometerBox extends JPanel implements ActionListener{
      */ 
 	public void paintComponent(Graphics g){
 		
+		//drawTab(width, height - CHARTY, g);
+		
+		//battery bar
+		g.drawImage(batteryBar, 15, 10, 150, 200, this);
+		g.drawImage(speedometer, 170, 15, 200, 200, this); //image, x coor, y coor, x size, y size, this
+		
+		Graphics2D g2 = (Graphics2D)g;
+		g2.setColor(Color.RED);
+		g2.setStroke(new BasicStroke(3)); //thickness of needle
+		g2.drawLine(270, 115, 213, 175); //puts speedometer red needle at speedometer 0
+		/*
 		super.paintComponent(g);
 		drawTab(width, height - CHARTY, g);
 		g.drawImage(chart, CHARTX, CHARTY, w, h, this);
@@ -109,17 +126,23 @@ public class SpeedometerBox extends JPanel implements ActionListener{
 		g2.drawLine((int)(xscale*NEEDLE_XORIGIN) + CHARTX, (int)(yscale*NEEDLE_YORIGIN + CHARTY), 
 			(int)(xscale*(NEEDLE_XORIGIN - NEEDLE_RADIUS*Math.cos(arm2vel)) + CHARTX), 
 				(int)(yscale*(NEEDLE_YORIGIN - NEEDLE_RADIUS*Math.sin(arm2vel))) + CHARTY);
-
+		 */
 	}
 	
 	/**Gets velocity values from {@link GUISerialPort#data}. Called by {@link #actionPerformed}.
 	*/
 	public void updateForDrawing(){
+		/*
 	
 		int[] data = GUISerialPort.getData();	
 	
 		arm1vel = data[4]*Math.PI/180; //convert to radians
 		arm2vel = data[5]*Math.PI/180; //convert to radians
+		*/
+		HashMap<String, Integer> data = GUISerialPort.getData();	
+		
+		arm1vel = data.get("Gyroscope_Z_Primary")*Math.PI/180; //convert to radians
+		arm2vel = data.get("Gyroscope_Z_Secondary")*Math.PI/180; //convert to radians
 			
 	}
 				

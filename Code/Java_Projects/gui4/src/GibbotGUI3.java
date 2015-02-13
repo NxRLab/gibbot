@@ -1,5 +1,7 @@
 import javax.swing.*;
+
 import java.awt.Color;
+import java.io.File;
 
 /**GibbotGUI3 is a JFrame (window) object that runs the GUI. 
  *Note that {@link GUISerialPort}, {@link GUITimer}, and {@link ImageHandler} are activated here.
@@ -14,6 +16,10 @@ public class GibbotGUI3 extends JFrame{
 	
 	/**Panel that contains all graphics.*/
 	private static GUILayeredPane content;
+	
+	/** File representing the folder that contains the images to be loaded */
+	/** Change path accordingly based on computer */
+	static final File dir = new File("/Users/jeanettepranin1/Documents/eclipse_projects/gibbot/Code/Java_Projects/gui4/images");
     
    /** Main method that runs.
     *@param args String array of arguments when program is run on command line (handled in the background)*/
@@ -38,8 +44,8 @@ public class GibbotGUI3 extends JFrame{
  	 private GibbotGUI3() {
     	GUITimer.start();
       	GUISerialPort.openPort(); 
-      	ImageHandler.loadImages();
-      	ImageHandler.drawImages();
+      	ImageHandler.loadImages(dir);
+      	//ImageHandler.drawImages();
 
     	super.setUndecorated(true);
       	super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

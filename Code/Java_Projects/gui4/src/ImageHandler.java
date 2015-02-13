@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.image.*;
 import java.io.*;
 import java.util.*;
+
 import javax.imageio.*;
 
 /*ImageHandler downloads/draws all complex images at initialization of GUI (this class is 
@@ -16,73 +17,100 @@ public class ImageHandler {
 	/**Used to read image files*/
 	private static InputStream stream;
 	
-	/**Width, in pixels, of currentChart image. Set public for access by all "Box" classes.*/
+	
+	
+	/**Width, in pixels, of currentChart image. Set public for access by all "Box" classes.
 	public static final int CURRENT_WIDTH = 254;
-	/**Width, in pixels, of hardwareChart image. Set public for access by all "Box" classes.*/
+	/**Width, in pixels, of hardwareChart image. Set public for access by all "Box" classes.
 	public static final int HARDWARE_WIDTH = 146;
-	/**Width, in pixels, of speedometerChart image. Set public for access by all "Box" classes.*/
+	/**Width, in pixels, of speedometerChart image. Set public for access by all "Box" classes.
 	public static final int SPEEDOMETER_WIDTH = 363;
-	/**Width, in pixels, of currentChart image. Set public for access by all "Box" classes.*/
+	/**Width, in pixels, of currentChart image. Set public for access by all "Box" classes.
 	public static final int HEIGHT = 185;
 	
-	/**Width, in pixels, of the gray graph plane area on current graphic. Set public for access by {@link CurrentBox}.*/
+	/**Width, in pixels, of the gray graph plane area on current graphic. Set public for access by {@link CurrentBox}.
 	public static final int CURRENT_PLANE_WIDTH = 190;
-	/**X-coor of the left origin of the gray graph plane area on current graphic. Set public for access by {@link CurrentBox}.*/
+	/**X-coor of the left origin of the gray graph plane area on current graphic. Set public for access by {@link CurrentBox}.
 	public static final int CURRENT_PLANE_XORIGIN = 26;
-	/**Y-coor of the left origin of the gray graph plane area on current graphic. Set public for access by {@link CurrentBox}.*/
+	/**Y-coor of the left origin of the gray graph plane area on current graphic. Set public for access by {@link CurrentBox}.
 	public static final int CURRENT_PLANE_YORIGIN = 93;
 	
-	/**X-coor of left edge of temperature empty rectangle. Set public for access by {@link HardwareBox}.*/
+	/**X-coor of left edge of temperature empty rectangle. Set public for access by {@link HardwareBox}.
 	public static final int HARDWARE_TEMP_LEFT_EDGE = 15;
-	/**Width, in pixels, of temperature empty rectangle. Set public for access by {@link HardwareBox}.*/
+	/**Width, in pixels, of temperature empty rectangle. Set public for access by {@link HardwareBox}.
 	public static final int HARDWARE_TEMP_WIDTH = 31;
-	/**X-coor of left edge of battery empty rectangle. Set public for access by {@link HardwareBox}.*/
+	/**X-coor of left edge of battery empty rectangle. Set public for access by {@link HardwareBox}.
 	public static final int HARDWARE_BATT_LEFT_EDGE = 76;
-	/**Width, in pixels, of battery empty rectangle. Set public for access by {@link HardwareBox}.*/
+	/**Width, in pixels, of battery empty rectangle. Set public for access by {@link HardwareBox}.
 	public static final int HARDWARE_BATT_WIDTH = 47;
-	/**Y-coor of bottom edge of temperature and battery empty rectangles. Set public for access by {@link HardwareBox}.*/
+	/**Y-coor of bottom edge of temperature and battery empty rectangles. Set public for access by {@link HardwareBox}.
 	public static final int HARDWARE_BOTTOM_EDGE = 144;
 	
-	/**X-coor of where needles on speedometer graphic are anchored. Set public for access by {@link SpeedometerBox}.*/
+	/**X-coor of where needles on speedometer graphic are anchored. Set public for access by {@link SpeedometerBox}.
 	public static final int SPEEDOMETER_NEEDLE_XORIGIN = 182;
-	/**Y-coor of where needles on speedometer graphic are anchored. Set public for access by {@link SpeedometerBox}.*/
+	/**Y-coor of where needles on speedometer graphic are anchored. Set public for access by {@link SpeedometerBox}.
 	public static final int SPEEDOMETER_NEEDLE_YORIGIN = 163;
-	
-	
+	*/
+
 	/**Background color for chart animations*/
 	private static final Color CHART_BG = GibbotGUI3.SECONDARY_GLOBAL_BG;
 	
-	/**Font used throughtout the GUI*/
+	/**Font used throughout the GUI*/
 	private static Font andale;
+	
 	/**For displaying data in CurrentBox*/
-	private static BufferedImage currentChart = new BufferedImage(CURRENT_WIDTH, HEIGHT, BufferedImage.TYPE_BYTE_INDEXED);
+	//private static BufferedImage currentChart = new BufferedImage(CURRENT_WIDTH, HEIGHT, BufferedImage.TYPE_BYTE_INDEXED);
+	
 	/**For displaying data in HardwareBox*/
-	private static BufferedImage hardwareChart = new BufferedImage(HARDWARE_WIDTH, HEIGHT, BufferedImage.TYPE_BYTE_INDEXED);
+	//private static BufferedImage hardwareChart = new BufferedImage(HARDWARE_WIDTH, HEIGHT, BufferedImage.TYPE_BYTE_INDEXED);
+	
 	/**For displaying data in SpeedometerBox*/
-	private static BufferedImage speedometerChart = new BufferedImage(SPEEDOMETER_WIDTH, HEIGHT, BufferedImage.TYPE_BYTE_INDEXED);
+	//private static BufferedImage speedometerChart = new BufferedImage(SPEEDOMETER_WIDTH, HEIGHT, BufferedImage.TYPE_BYTE_INDEXED);
+	
+	
+	/** Array of supported extensions for the images */
+    static final String[] EXTENSIONS = new String[]{
+    	"png", "jpg", "jpeg" // and other formats you need
+    };
+    
+//http://stackoverflow.com/questions/11300847/load-and-display-all-the-images-from-a-folder
+	
+    /**Filter to identify images based on their extensions */
+	static final FilenameFilter IMAGE_FILTER = new FilenameFilter(){
+        public boolean accept(final File dir, final String name) {
+            for (final String ext : EXTENSIONS) {
+                if (name.endsWith("." + ext)) {
+                    return (true);
+                }
+            }
+            return (false);
+        }
+	};
+	
 	
 	/**Holds images in a map where each has a key of type String, so that other classes can easily access them.*/
-	private static HashMap<String, Image> map = new HashMap<String, Image>(15);
+	private static HashMap<String, Image> map = new HashMap<String, Image>();
 	/**All the keys for {@link #map}*/
-	private static String[] imageNames = new String[] {"currentChart", "hardwareChart", "speedometerChart",  
+	/*private static String[] imageNames = new String[] {"currentChart", "hardwareChart", "speedometerChart",  
 		"banana", "bananaBubble", "batteryArrow", "batteryBar", "board", "bunch", "gibbotBubble", 
-		"gibbotTab1", "gibbotTab2", "gibbotTab3", "sleepBubble", "jungle"};
+		"gibbotTab1", "gibbotTab2", "gibbotTab3", "sleepBubble", "jungle", "bicep", "speedometer", "thermometer"};*/
     
     /**Loads png image files and AndaleMono font*/
-    public static void loadImages(){ 
-    	//was 14
-    	for(int i = 3; i < imageNames.length; i++){
-    		try {
-    			Image img = ImageIO.read(new File(imageNames[i] + ".png"));
-				map.put(imageNames[i], img);
+    public static void loadImages(File directory){ 
+    	if(directory.isDirectory()){ // make sure it is a valid directory
+			for(final File f : directory.listFiles(IMAGE_FILTER)){
+				try {
+					BufferedImage img = ImageIO.read(f);
+					map.put(f.getName(), img);
+				}
+				catch(IOException e) {
+					System.out.println(f.getName() + " not found");
+					map.put(f.getName(), null);
+				}
 			}
-			catch(IOException e){
-				System.out.println(imageNames[i] + " not found");
-				map.put(imageNames[i], null);
-			}
-    	}
-    	
-    	try{
+			
+		}
+		try{
     		stream = new BufferedInputStream(new FileInputStream("AndaleMono.ttf"));
     		andale = (Font.createFont(Font.TRUETYPE_FONT, stream)).deriveFont(Font.BOLD, 12);
     	}
@@ -92,10 +120,12 @@ public class ImageHandler {
     	}
     }
     
-    /**Draws chart images (currentChart, hardwareChart, and speedometerChart)*/
+    /**Draws chart images (currentChart, hardwareChart, and speedometerChart)
     public static void drawImages(){ 
     	
  		Graphics2D g2;
+ 		
+ 		/*
     
     	//currentChart
     	g2 = currentChart.createGraphics();
@@ -141,6 +171,7 @@ public class ImageHandler {
     	g2.dispose();
     	map.put(imageNames[0], currentChart);
     	
+    	
     	//hardwareChart
     	g2 = hardwareChart.createGraphics();
     	g2.setColor(CHART_BG);
@@ -167,6 +198,7 @@ public class ImageHandler {
     	g2.drawString("life (V)", 70, 169);
     	g2.dispose();
     	map.put(imageNames[1], hardwareChart);
+    	
     	
     	//speedometerChart;
     	g2 = speedometerChart.createGraphics();
@@ -195,7 +227,10 @@ public class ImageHandler {
     	g2.dispose();
     	map.put(imageNames[2], speedometerChart);
     	
+    	
     }
+    */
+    
     
     /**Returns the image in {@link #map} that's associated with the given key.
      *@param s Key for desired image

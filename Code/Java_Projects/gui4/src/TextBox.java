@@ -139,16 +139,16 @@ public class TextBox extends JPanel implements ActionListener{
     @param evt The timer event (not important to code but required by {@link java.awt.event#ActionListener} interface)*/
     public void actionPerformed(ActionEvent evt){ 
 
-	    	if(timerCount % UPDATE_COUNT == 0){
-    			wireless++;
-    			repaint();
-	    	}
-    		
-	    	if(timerCount == UPDATE_COUNT*4){
-    			timerCount = 1;
-    			wireless = W0;
-	    	}
-    		else
-    			timerCount++;
+    	if(timerCount % UPDATE_COUNT == 0){
+			wireless++;
+			repaint();
+    	}
+		
+    	if(timerCount == UPDATE_COUNT*4){
+			timerCount = 1;
+			wireless = W0;
+    	}
+		else
+			timerCount++;
 		}   	  
 }

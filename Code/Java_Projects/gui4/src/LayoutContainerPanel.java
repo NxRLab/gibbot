@@ -37,10 +37,11 @@ public class LayoutContainerPanel extends JPanel{
 
     	setBackground(GibbotGUI3.GLOBAL_BG);
     	setLayout(new GridBagLayout());
-    	drawingHeight=drawH-1;
     	drawingWidth=drawW-1;
+    	drawingHeight=drawH-1;
     	
-    	bananapan = new BananaPanel1(drawingWidth, drawingHeight, sizeW, sizeH);
+    	bananapan = new BananaPanel1((int)(drawingWidth*2/3), (int)(drawingHeight*2/3), sizeW, sizeH);
+    	
     	c = new GridBagConstraints();
     	c.gridx=0;
     	c.gridy=0;
@@ -61,6 +62,7 @@ public class LayoutContainerPanel extends JPanel{
     	c.weightx = .25;
     	add(text, c);
     	
+    	
     	speed = new SpeedometerBox(drawingWidth, drawingHeight);
     	c.gridx = 1;
     	c.gridy = 1;
@@ -78,6 +80,7 @@ public class LayoutContainerPanel extends JPanel{
     	c.gridy = 1;
     	c.weightx = .25;
     	add(current, c);
+    	
     }
 }
 

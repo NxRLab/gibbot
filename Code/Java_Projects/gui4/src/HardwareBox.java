@@ -1,29 +1,33 @@
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.HashMap;
+
 import javax.swing.*;
 
 /**HardwareBox displays motor temperature and battery life in a bar chart graphic
  */
 public class HardwareBox extends JPanel implements ActionListener{
 	
-	private Image chart = ImageHandler.getImage("hardwareChart");
+	//private Image chart = ImageHandler.getImage("hardwareChart");
 
-    /**Specified by LayoutContainerPanel parent. Used to set preferred dimensons in constructor*/
+	private Image thermometer = ImageHandler.getImage("thermometer.png");
+	
+    /**Specified by LayoutContainerPanel parent. Used to set preferred dimensions in constructor*/
 	private int height;
-	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensons in constructor*/
+	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensions in constructor*/
 	private int width;
 	    
-    /**Width for drawing chart image*/
+    /**Width for drawing chart image
     private int w;
-    /**Height for drawing chart image*/
+    /**Height for drawing chart image
 	private int h;
 		
-	/**Horizontal scale for drawing chart image (not really needed unless {@link GUILayeredPane#DRAWING_WIDTH} is altered)*/
+	/**Horizontal scale for drawing chart image (not really needed unless {@link GUILayeredPane#DRAWING_WIDTH} is altered)
 	private double xscale;
-	/**Vertical scale for drawing chart image (not really needed unless {@link GUILayeredPane#DRAWING_HEIGHT} is altered)*/
+	/**Vertical scale for drawing chart image (not really needed unless {@link GUILayeredPane#DRAWING_HEIGHT} is altered)
 	private double yscale;
-	
+	*/
 	/**Proportion of horizontal space this box will take up in {@link LayoutContainerPanel}. Stronly recommended not to alter.*/
 	private final double HARDWARE_WIDTH_ALLOCATION = 1/6.0;
 	/**Proportion of vertical space this box will take up in {@link LayoutContainerPanel}. Stronly recommended not to alter.*/
@@ -40,15 +44,15 @@ public class HardwareBox extends JPanel implements ActionListener{
 	/**Space, in pixels, between outline of battery and temperature rectangles and the colored bars within.*/
 	private final int BAR_MARGIN = 2;
 	/**X-coor of left edge of temperature empty rectangle. Strongly recommended not to alter.*/
-	private final int TEMP_LEFT_EDGE = ImageHandler.HARDWARE_TEMP_LEFT_EDGE + BAR_MARGIN;
+	//private final int TEMP_LEFT_EDGE = ImageHandler.HARDWARE_TEMP_LEFT_EDGE + BAR_MARGIN;
 	/**Width, in pixels, of temperature empty rectangle.*/
-	private final int TEMP_WIDTH = ImageHandler.HARDWARE_TEMP_WIDTH - 2*BAR_MARGIN;
+	//private final int TEMP_WIDTH = ImageHandler.HARDWARE_TEMP_WIDTH - 2*BAR_MARGIN;
 	/**X-coor of left edge of battery empty rectangle.*/
-	private final int BATT_LEFT_EDGE = ImageHandler.HARDWARE_BATT_LEFT_EDGE + BAR_MARGIN;
+	//private final int BATT_LEFT_EDGE = ImageHandler.HARDWARE_BATT_LEFT_EDGE + BAR_MARGIN;
 	/**Width, in pixels, of battery empty rectangle.*/
-	private final int BATT_WIDTH = ImageHandler.HARDWARE_BATT_WIDTH - 2*BAR_MARGIN;
+	//private final int BATT_WIDTH = ImageHandler.HARDWARE_BATT_WIDTH - 2*BAR_MARGIN;
 	/**Y-coor of bottom edge of temperature and battery empty rectangles.*/
-	private final int BOTTOM_EDGE = ImageHandler.HARDWARE_BOTTOM_EDGE;
+	//private final int BOTTOM_EDGE = ImageHandler.HARDWARE_BOTTOM_EDGE;
 	
 	
 	/**Light shadow color*/
@@ -63,9 +67,9 @@ public class HardwareBox extends JPanel implements ActionListener{
 	private final Color CHART_BG = GibbotGUI3.SECONDARY_GLOBAL_BG;
 	
 	/**Color for temperature bar*/
-	private final Color TEMP_COLOR = new Color(207, 46, 46, 125); //reddish, transparent
+	//private final Color TEMP_COLOR = new Color(207, 46, 46, 125); //reddish, transparent
 	/**Color for battery bar*/
-	private final Color BATT_COLOR = new Color(36, 149, 176, 125); //bluish, transparent
+	//private final Color BATT_COLOR = new Color(36, 149, 176, 125); //bluish, transparent
 	
 	/**Value of motor temperature that's displayed in the graph*/ 
 	private int temp;
@@ -78,16 +82,19 @@ public class HardwareBox extends JPanel implements ActionListener{
     @param heightOfContainer used to set {@link #height}*/
 	public HardwareBox(int widthOfContainer, int heightOfContainer){
 		
+		
 		width = (int)(widthOfContainer*HARDWARE_WIDTH_ALLOCATION);
 		height = (int)(heightOfContainer*HARDWARE_HEIGHT_ALLOCATION);
+		
 		
 		setPreferredSize(new Dimension(width, height));
 		setBackground(GibbotGUI3.GLOBAL_BG);
 		
-		w = width - 2*XMARGIN;
-		h = height - 2*YMARGIN;
-		xscale = w/(double)(ImageHandler.HARDWARE_WIDTH);
-		yscale = h/(double)(ImageHandler.HEIGHT);
+		//w = width - 2*XMARGIN;
+		//h = height - 2*YMARGIN;
+		//xscale = w/(double)(ImageHandler.HARDWARE_WIDTH);
+		//yscale = h/(double)(ImageHandler.HEIGHT);
+		
 		
 		GUITimer.addActionListener(this);
 	}
@@ -99,7 +106,12 @@ public class HardwareBox extends JPanel implements ActionListener{
     @param g Graphics context for drawing. Kind of a black box; gets handled in the background somehow
      */ 
 	public void paintComponent(Graphics g){
+		//drawTab(width, height-CHARTY, g);
 		
+		//thermometer
+		g.drawImage(thermometer, 5, 15, 180, 180, this); //image, x coor, y coor, x size, y size, this
+		
+		/*
 		super.paintComponent(g);
 		drawTab(width, height - CHARTY, g);
 		g.drawImage(chart, CHARTX, CHARTY, w, h, this);
@@ -110,17 +122,23 @@ public class HardwareBox extends JPanel implements ActionListener{
 		g.setColor(BATT_COLOR);
 		g.fillRect((int)(CHARTX + xscale*BATT_LEFT_EDGE) + 1, (int)(CHARTY + yscale*BOTTOM_EDGE) - batt, 
 			(int)(xscale*BATT_WIDTH) - 1, batt - BAR_MARGIN); // +/- 1 to adjust placement
-
+		 */
 	}
 	
 	/**Gets battery and temperature values from {@link GUISerialPort#data}. Called by {@link #actionPerformed}.
 	*/
 	public void updateForDrawing(){
 	
+		/*
 		int[] data = GUISerialPort.getData();	
 	
 		batt = data[3]; 
 		temp = data[2]; 
+		*/
+		HashMap<String, Integer> data = GUISerialPort.getData();	
+		
+		batt = data.get("batteryVoltage"); 
+		temp = data.get("motorTemperature"); 
 			
 	}
 			
@@ -146,6 +164,7 @@ public class HardwareBox extends JPanel implements ActionListener{
    		g.setColor(CHART_BG);
     	g.fillRoundRect(3, 3, width - 19, height, 12, 12);
     	
+    	
 	}
 	
 	/**Specifies how to respond to timer events from {@link GUITimer}. This panel uses events as a signal to 
@@ -153,8 +172,7 @@ public class HardwareBox extends JPanel implements ActionListener{
     @param evt The timer event (not important to code but required by {@link java.awt.event#ActionListener} interface)
     */
 	public void actionPerformed(ActionEvent evt){
-
-			updateForDrawing();
-			repaint();
+		updateForDrawing();
+		repaint();
 	}
 }

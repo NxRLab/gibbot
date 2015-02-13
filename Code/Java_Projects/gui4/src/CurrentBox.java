@@ -1,6 +1,8 @@
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.HashMap;
+
 import javax.swing.*;
 
 /**CurrentBox displays current and torque as an animated line graph with a double y-axis.
@@ -10,40 +12,42 @@ import javax.swing.*;
  */
 public class CurrentBox extends JPanel implements ActionListener{
 
-    private Image chart = ImageHandler.getImage("currentChart");
+    //private Image chart = ImageHandler.getImage("currentChart");
+    private Image torque = ImageHandler.getImage("bicep.png");
     
-    /**Specified by LayoutContainerPanel parent. Used to set preferred dimensons in constructor*/
+    /**Specified by LayoutContainerPanel parent. Used to set preferred dimensions in constructor*/
 	private int height;
-	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensons in constructor*/
+	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensions in constructor*/
 	private int width;
 	
-    /**Width for drawing chart image*/
+    /**Width for drawing chart image
     private int w;
-    /**Height for drawing chart image*/
+    /**Height for drawing chart image
 	private int h;
 		
-	/**Horizontal scale for drawing chart image (not really needed unless {@link GUILayeredPane#DRAWING_WIDTH} is altered)*/
+	/**Horizontal scale for drawing chart image (not really needed unless {@link GUILayeredPane#DRAWING_WIDTH} is altered)
 	private double xscale;
-	/**Vertical scale for drawing chart image (not really needed unless {@link GUILayeredPane#DRAWING_HEIGHT} is altered)*/
+	/**Vertical scale for drawing chart image (not really needed unless {@link GUILayeredPane#DRAWING_HEIGHT} is altered)
 	private double yscale;
+	*/
 	
 	/**Proportion of horizontal space this box will take up in {@link LayoutContainerPanel}. Stronly recommended not to alter.*/
 	private final double CURRENT_WIDTH_ALLOCATION = .25;
 	/**Proportion of vertical space this box will take up in {@link LayoutContainerPanel}. Stronly recommended not to alter.*/
 	private final double CURRENT_HEIGHT_ALLOCATION = 1/3.25;
 	
-	/**Horizontal margin around chart area when placed in panel. Strongly recommended not to alter.*/
+	/**Horizontal margin around chart area when placed in panel. Strongly recommended not to alter.
 	private final int XMARGIN = 35;
-	/**Vertical margin around chart area when placed in panel. Strongly recommended not to alter.*/
+	/**Vertical margin around chart area when placed in panel. Strongly recommended not to alter.
 	private final int YMARGIN = 30;
-	/**X-coor of upper left corner of {@link #chart}. Strongly recommended not to alter.*/
+	/**X-coor of upper left corner of {@link #chart}. Strongly recommended not to alter.
 	private final int CHARTX = 25;
 	/**Y-coor of upper left corner of {@link #chart}. Strongly recommended not to alter.*/
 	private final int CHARTY = 20;
 	/**X-coor of the left origin of the gray graph plane area on current graphic.*/
-	private final int PLANE_XORIGIN = ImageHandler.CURRENT_PLANE_XORIGIN;
+	//private final int PLANE_XORIGIN = ImageHandler.CURRENT_PLANE_XORIGIN;
 	/**Y-coor of the left origin of the gray graph plane area on current graphic.*/
-	private final int PLANE_YORIGIN = ImageHandler.CURRENT_PLANE_YORIGIN;
+	//private final int PLANE_YORIGIN = ImageHandler.CURRENT_PLANE_YORIGIN;
 	
 	/**Light shadow color*/
 	private final Color SHADOW1 = new Color(125, 125, 125, 50);
@@ -56,25 +60,26 @@ public class CurrentBox extends JPanel implements ActionListener{
 	/**Color of the rectangle the chart is in*/
 	private final Color CHART_BG = GibbotGUI3.SECONDARY_GLOBAL_BG;
 	
-	/**Color of current axis label and line graph*/
+	/**Color of current axis label and line graph
 	private final Color CURRENT_COLOR = new Color(207, 46, 46); //reddish
-	/**Color of torque axis label and line graph*/
+	/**Color of torque axis label and line graph
 	private final Color TORQUE_COLOR = new Color(36, 149, 176); //bluish
+	*/
 	
-	/**Y-coor values for current chart on even {@link #par} (see class notes)*/
+	/**Y-coor values for current chart on even {@link #par} (see class notes)
 	private int[] milliampsE;
-	/**Y-coor values for current chart on odd {@link #par} (see class notes)*/
+	/**Y-coor values for current chart on odd {@link #par} (see class notes)
 	private int[] milliampsO;
-	/**Y-coor values for torque chart on even {@link #par} (see class notes)*/	
+	/**Y-coor values for torque chart on even {@link #par} (see class notes)
 	private int[] millinewtmetsE;
-	/**Y-coor values for torque chart on odd {@link #par} (see class notes)*/
+	/**Y-coor values for torque chart on odd {@link #par} (see class notes)
 	private int[] millinewtmetsO;
-	/**X-coor values for all charts*/
+	/**X-coor values for all charts
 	private int[] t; 
-	/**Number of points drawn (determined by width available for chart image)*/ 
+	/**Number of points drawn (determined by width available for chart image) 
 	private int n;
-	/**Tracks which arrays to draw/update (even or odd)*/ 
-	private int par;  
+	/**Tracks which arrays to draw/update (even or odd)
+	private int par;  */
 	
 	/**Constructor sets preferred size to tell layout manager of {@link LayoutContainerPanel} how to draw this panel;
     Initializes chart size variables as well as {@link #milliampsE}, {@link #milliampsO}, {@link #millinewtmetsE}, 
@@ -88,7 +93,7 @@ public class CurrentBox extends JPanel implements ActionListener{
 		
 		setPreferredSize(new Dimension(width, height));
     	setBackground(GibbotGUI3.GLOBAL_BG);
-		
+		/*
 		w = width - 2*XMARGIN;
 		h = height - 2*YMARGIN;
 		xscale = w/(double)(ImageHandler.CURRENT_WIDTH);
@@ -109,6 +114,7 @@ public class CurrentBox extends JPanel implements ActionListener{
 			millinewtmetsO[i] = CHARTY + (int)(PLANE_YORIGIN*yscale);
 			t[i] = 10*i + CHARTX + (int)(PLANE_XORIGIN*xscale);  
 		}
+		*/
 		
 		GUITimer.addActionListener(this);
 	}
@@ -120,6 +126,11 @@ public class CurrentBox extends JPanel implements ActionListener{
      */ 
 	public void paintComponent(Graphics g){
 		
+		//drawTab(width, height - CHARTY, g);	
+		g.drawImage(torque, 60, 15, 180, 180, this);
+		
+		
+		/*
 		super.paintComponent(g);
 		drawTab(width, height - CHARTY, g);	
 		g.drawImage(chart, CHARTX, CHARTY, w, h, this);
@@ -136,15 +147,16 @@ public class CurrentBox extends JPanel implements ActionListener{
     		g.setColor(TORQUE_COLOR);
     		g.drawPolyline(t, millinewtmetsO, n);	
     	}
+    	*/
 	}
 	
 	/**Gets current and torque values from {@link GUISerialPort#data} and updates {@link #milliampsE}, {@link #milliampsO},
 	 *{@link #millinewtmetsE}, and {@link #millinewtmetsO}. Called by {@link #actionPerformed}.
 	*/
 	public void updateForDrawing(){
-		
-		int[] data = GUISerialPort.getData();
-			
+		HashMap<String, Integer> data = GUISerialPort.getData();
+		//int[] data = GUISerialPort.getData();
+		/*
 		int newCurr = CHARTY + (int)(PLANE_YORIGIN*yscale) - data[0];
 		int newTor = CHARTY + (int)(PLANE_YORIGIN*yscale) -  data[1];
 		
@@ -168,6 +180,7 @@ public class CurrentBox extends JPanel implements ActionListener{
     			millinewtmetsO[i+1] = millinewtmetsE[i];
    			}
 		}
+		*/
 
 	}
 	
@@ -200,8 +213,7 @@ public class CurrentBox extends JPanel implements ActionListener{
     @param evt The timer event (not important to code but required by {@link java.awt.event#ActionListener} interface)
     */
 	public void actionPerformed(ActionEvent evt){
-
-			updateForDrawing();
-			repaint();
+		updateForDrawing();
+		repaint();
 	}	
 }

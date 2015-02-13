@@ -7,17 +7,16 @@ a banana on the screen), and controls animation of the robot in its movement tow
 by an instance of {@link LayoutContainerPanel}.*/
 public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
 	
-	private Image bananaImg = ImageHandler.getImage("banana");
-	private Image bananaBubble = ImageHandler.getImage("bananaBubble");
-	//private Image board = ImageHandler.getImage("board");
-	private Image board = ImageHandler.getImage("jungle");
-	private Image bunch = ImageHandler.getImage("bunch");
-	private Image gibbotBubble = ImageHandler.getImage("gibbotBubble");
+	private Image bananaImg = ImageHandler.getImage("banana.png");
+	private Image bananaBubble = ImageHandler.getImage("bananaBubble.png");
+	private Image board = ImageHandler.getImage("jungle.png");
+	private Image bunch = ImageHandler.getImage("bunch.png");
+	private Image gibbotBubble = ImageHandler.getImage("gibbotBubble.png");
 	private Font andaleBig = ImageHandler.getFont().deriveFont(Font.BOLD, 64);
 	
-	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensons in constructor*/
+	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensions in constructor*/
 	private int drawingHeight;
-	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensons in constructor*/
+	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensions in constructor*/
 	private int drawingWidth;
 	/**Specified by LayoutContainerPanel parent. Used to determine "out of bounds" area in x-direction.*/
 	private int sizingHeight;
@@ -58,7 +57,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     public BananaPanel1(int drawW, int drawH, int sizeW, int sizeH) {
     	
     	drawingWidth = drawW-30;
-    	drawingHeight = drawH*2/3;
+    	drawingHeight = (int)(drawH*2/3);
     	setPreferredSize(new Dimension(drawingWidth, drawingHeight));
     	
     	sizingWidth = sizeW;
