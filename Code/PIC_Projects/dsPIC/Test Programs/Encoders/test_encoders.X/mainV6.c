@@ -13,27 +13,15 @@
 #include "encoder.h"
 
 int main(void) {
+    //initialize all peripherals, encoder values
     initialize();
-    
-    long test_data;
-    int test=0;
-
-    //file initialization
-    FILE *outfile;
-    outfile = fopen("encoder_test.txt","w");
-    fprintf(outfile,"Testing...\n");
 
     while (1) {
         if (USER=1){
             TOPMAG=1;
-            test=1;
+            timer1_on();    //encoder reading is in ISR in time.c
         }
-        //test code
-        if (test=1){
-            //read motor encoder
-            test_data = read_MOTENC();
-            fprintf(outfile,"%ld \n",test_data);
-        }
+       
         //press reset to end code
     }
     return 0;

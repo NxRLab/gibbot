@@ -4,6 +4,7 @@
 #include "stdio.h"
 #include "motor.h"
 #include "initializeV6.h"
+#include "encoder.h"
 
 // File: time.c 
 // Author: Hannah Arntson
@@ -13,7 +14,7 @@
 
 //*********************************
 // function: timer1_on
-// initializes Timer1 in timer mode at 10Hz
+// initializes Timer1 in timer mode to interrupt every 30ms
 
 void timer1_on(void){
 	T1CONbits.TON = 0;  	//Disables the timer
@@ -21,8 +22,8 @@ void timer1_on(void){
 	T1CONbits.TGATE = 0; 	//Sets the mode to timer
 	T1CONbits.TCKPS=0b11; 	// Selects 1:256 presclar, 256 clk cycles per timer tick
 	TMR1 = 0x00;		 	//Clear timer register
-	PR1 = 0x7a12; 			//Load the period value
-							//Number of cycles to achieve 20Hz timer
+	PR1 = 0x249f; 			//Load the period value
+					//Number of cycles to 30ms period
 
 	IPC0bits.T1IP = 0x01; 	//Set Timer1 interrupt priority level
 	IFS0bits.T1IF = 0;  	//Clear Timer1 interrupt priority flag
@@ -101,13 +102,17 @@ void timer3_off(void){
 
 //*************************************
 // Interrupt 1
-
-int torque = 300;
+long test_data;
+int test_angle;
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void)
 {
-	//ISR here
-        write_duty(torque);
-	IFS0bits.T2IF = 0; 	//Clear Timer2 interrupt flag
+    //ISR here
+    LED1 = 1;   //test to check how long interrupt takes
+    //read motor encoder
+    test_data = read_MOTENC();
+    test_angle = encoder_to_angle(test_data,'m');
+    printf("%ld \n",test_angle);
+    LED1 = 0;   //turn LED off, interrupt complete
 }
 
 //**************************************
