@@ -111,7 +111,7 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void)
     //read motor encoder
     test_data = read_MOTENC();
     test_angle = encoder_to_angle(test_data,'m');
-    printf("%ld \n",test_angle);
+    printf("%d \n",test_angle);
     LED1 = 0;   //turn LED off, interrupt complete
 }
 
