@@ -22,8 +22,9 @@ void timer1_on(void){
 	T1CONbits.TGATE = 0; 	//Sets the mode to timer
 	T1CONbits.TCKPS=0b11; 	// Selects 1:256 presclar, 256 clk cycles per timer tick
 	TMR1 = 0x00;		 	//Clear timer register
-	PR1 = 0x249f; 			//Load the period value
-					//Number of cycles to 30ms period
+        PR1 = 0x7a12;                   //period value for 30ms
+	//PR1 = 0x16e36;                //period value for 300ms
+        //PR1=0x4c4b4;                  //period value for 1s
 
 	IPC0bits.T1IP = 0x01; 	//Set Timer1 interrupt priority level
 	IFS0bits.T1IF = 0;  	//Clear Timer1 interrupt priority flag
@@ -108,11 +109,14 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void)
 {
     //ISR here
     LED1 = 1;   //test to check how long interrupt takes
-    //read motor encoder
-    test_data = read_MOTENC();
+    //read topmag encoder encoder
+    test_data = read_TOPMAGENC();
     test_angle = encoder_to_angle(test_data,'m');
     printf("%d \n",test_angle);
     LED1 = 0;   //turn LED off, interrupt complete
+
+    //clear interrupt flag
+    IFS0bits.T1IF = 0;
 }
 
 //**************************************

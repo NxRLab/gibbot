@@ -14,7 +14,7 @@ int main(void) {
     initialize();
     //initialize_ADC_Offset();
     //initialize_UART();
-    TOPMAG=1;
+    //TOPMAG=1;
     unsigned char c='o';
     motoron = 1;
     direction = CW;

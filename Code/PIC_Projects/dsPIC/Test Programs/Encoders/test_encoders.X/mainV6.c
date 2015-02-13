@@ -15,9 +15,12 @@
 int main(void) {
     //initialize all peripherals, encoder values
     initialize();
+    initialize_ADC_Offset();
+    initialize_QEI();
+    initialize_UART();
 
     while (1) {
-        if (USER=1){
+        if (USER){
             TOPMAG=1;
             timer1_on();    //encoder reading is in ISR in time.c
         }
