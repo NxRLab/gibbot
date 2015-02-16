@@ -66,12 +66,12 @@ int main(void) {
         else if (c=='l'){
             //swing left
             TOPMAG=0;
-            write_duty(200);
-            
             //delay function in progress
-            delay();
-
+            //delay(0.1);
+            write_duty(200);
+            //delay(0.1);
             write_duty(0);
+            //delay(0.1);
             TOPMAG=1;
         }
     }
