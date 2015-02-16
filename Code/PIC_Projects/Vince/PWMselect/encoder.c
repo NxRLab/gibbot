@@ -81,18 +81,20 @@ long read_TOPMAGENC(void){
 }
 
 int encoder_to_angle(long val, char num){
-    int angle;
-    int cpr = 1800;
+    int angle, cpr;
     long start;
     switch (num){
         case 'l': //Low Magnet Encoder
             start = 1600;
+            cpr = 2000;
             break;
         case 'm': //Motor Encoder
             start = 1700;
+            cpr = 2000;
             break;
         case 't': //Top Magnet Encoder
             start = 1800;
+            cpr = 2000;
             break;
     }
     angle = (val - start)*360/cpr;

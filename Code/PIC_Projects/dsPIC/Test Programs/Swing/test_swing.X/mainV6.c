@@ -4,17 +4,21 @@
  */
 
 #include <p33EP512MC806.h>
+#include <stdio.h>
 #include "initializeV6.h"
 #include "motor.h"
 #include "test.h"
 #include "time.h"
 #include "UART.h"
+#include "encoder.h"
 
 int main(void) {
+    //initialize all peripherals, encoder values
     initialize();
-    //initialize_ADC_Offset();
-    //initialize_UART();
-    //TOPMAG=1;
+    initialize_ADC_Offset();
+    initialize_QEI();
+    initialize_UART();
+
     unsigned char c='o';
     motoron = 1;
     direction = CW;
@@ -23,6 +27,8 @@ int main(void) {
 
     while (1) {
         c = read_UART();
+
+        //commands to control specific components
         if (c=='o'){
             TOPMAG=1;
         }
@@ -52,8 +58,22 @@ int main(void) {
             motoron = 0;
         }
         else if (c=='x'){
-            // make sure duty is only updated once per call 
+            // make sure duty is only updated once per call
             continue;
+        }
+
+        //command to swing robot
+        else if (c=='l'){
+            //swing left
+            TOPMAG=0;
+            //delay function in progress
+            //look into __delay32() 
+            //delay(0.1);
+            write_duty(200);
+            //delay(0.1);
+            write_duty(0);
+            //delay(0.1);
+            TOPMAG=1;
         }
     }
     return 0;
