@@ -59,7 +59,8 @@ public class LayoutContainerPanel extends JPanel{
     	text = new TextBox(drawingWidth, drawingHeight);
     	c.gridx = 0;
     	c.gridy = 1;
-    	c.weightx = .25;
+    	c.weighty = 0.40; // did not exist before
+    	c.weightx = .80;//was 0.25
     	add(text, c);
     	
     	

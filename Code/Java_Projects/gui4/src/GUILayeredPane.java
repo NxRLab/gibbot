@@ -51,6 +51,7 @@ public class GUILayeredPane extends JLayeredPane implements ActionListener{
 	JButton b1 = new JButton("stop");//wouldn't be in final version
 	/*Changes view modes*/
 	JButton b2 = new JButton("switch modes");//wouldn't be in final version
+	JButton b3 = new JButton("reset");
 	
 	/**Used for serial data updates*/
 	private int timerCount = 0;
@@ -82,6 +83,7 @@ public class GUILayeredPane extends JLayeredPane implements ActionListener{
     	
     	add(asleep, new Integer(1));
     	
+    	
     	ButtonHandler listener = new ButtonHandler();//wouldn't be in final version
     	b2.addActionListener(listener);//wouldn't be in final version
     	
@@ -106,15 +108,15 @@ public class GUILayeredPane extends JLayeredPane implements ActionListener{
     */
     public void actionPerformed(ActionEvent evt){
 
-		    /*if(timerCount % factor == (factor - 1)){	
-    			GUISerialPort.update();
-    			timerCount = 0;
-    			if(GUISerialPort.getData()[6] < MIN_BATTERY || GUISerialPort.getData()[6] > MAX_BATTERY){ //or some other signal
-    			//{copy and paste content of actionPerformed() method from ButtonHandler}
-    			}
-		    }	
-	    	  else
-    	  		timerCount++;*/
+	    /*if(timerCount % factor == (factor - 1)){	
+			GUISerialPort.update();
+			timerCount = 0;
+			if(GUISerialPort.getData()[6] < MIN_BATTERY || GUISerialPort.getData()[6] > MAX_BATTERY){ //or some other signal
+			//{copy and paste content of actionPerformed() method from ButtonHandler}
+			}
+	    }	
+    	  else
+	  		timerCount++;*/
     	  		
 	  	GUISerialPort.update();
 	  	/*
@@ -177,5 +179,6 @@ public class GUILayeredPane extends JLayeredPane implements ActionListener{
     		GUITimer.removeActionListener(GUILayeredPane.this);
     	}
     }
+
     
 }

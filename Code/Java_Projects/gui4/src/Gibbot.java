@@ -4,7 +4,7 @@ import java.awt.*;
 /**A Gibbot object contains data on where the robot is on the board, to be translated to user interface.
  Right now its method for updating its own animation is a simulation, but a commented outline is above it
  for hypothetically getting the real coordinates from {@link GUISerialPort}, which also contains a dummy method now.
- All the get methods may not be neccessary (last four are currently unused) but they were left just in case.*/
+ All the get methods may not be necessary (last four are currently unused) but they were left just in case.*/
 public class Gibbot {
 	
 	/**Distance, in pixels, from motor to end of first link*/
@@ -43,6 +43,7 @@ public class Gibbot {
     	arm2Y = pivotY;
     	arm1X = pivotX-ARM2W;
     	arm1Y = pivotY;
+    	theta = -90;
   	
     }
     
@@ -88,7 +89,8 @@ public class Gibbot {
     /**Returns angle between the two links
     @return theta*/
     public double getTheta(){
-    	return Math.atan(Math.abs(arm1X-pivotX)/Math.abs(arm1Y-pivotY))+Math.atan(Math.abs(arm2X-pivotX)/Math.abs(arm2Y-pivotY));
+    	//return Math.atan(Math.abs(arm1X-pivotX)/Math.abs(arm1Y-pivotY))+Math.atan(Math.abs(arm2X-pivotX)/Math.abs(arm2Y-pivotY));
+    	return theta;
     }
     	
     
@@ -110,18 +112,40 @@ public class Gibbot {
      */
      public void arcMotionUpdate(double frameCount){
     	
-     		if((int)(frameCount/50)%2 == 0){             
-     			arm1X += 8;							   
-     			arm1Y = Math.sqrt(4*Math.pow(ARM1W,2)-Math.pow((arm1X-arm2X),2))+arm2Y;
-     			pivotX += 4;
-     			pivotY = Math.sqrt(Math.pow(ARM1W,2)-Math.pow((pivotX-arm2X),2))+arm2Y;
-     		}
-     		else{
-     			arm2X += 8;
-     			arm2Y = Math.sqrt(4*Math.pow(ARM1W,2)-Math.pow((arm2X-arm1X),2))+arm1Y;
-     			pivotX += 4;
-     			pivotY = Math.sqrt(Math.pow(ARM1W,2)-Math.pow((pivotX-arm1X),2))+arm1Y;
-     		}
+    	
+		
+ 		//Double Pendulum Code
+    	/*
+    	if((int)(frameCount/50)%2 == 0){   
+    		arm1X += 8;
+     		arm1Y = -1*(ARM1W/2)*Math.cos(theta);
+     		pivotX += 4;
+     		pivotY = Math.sqrt(Math.pow(ARM1W,2)-Math.pow((pivotX-arm2X),2))+arm2Y;
+    	}
+    	else{
+    		arm2X += 8;
+     		arm2Y = -1*ARM2W*(Math.cos(theta) + 0.5*Math.cos(theta*2));
+     		pivotX += 4;
+     		pivotY = Math.sqrt(Math.pow(ARM2W,2)-Math.pow((pivotX-arm1X),2))+arm1Y;
+    	}
+    	*/
+    	
+    	//Original Code
+    	/*
+ 		if((int)(frameCount/50)%2 == 0){             
+ 			arm1X += 8;							   
+ 			arm1Y = Math.sqrt(4*Math.pow(ARM1W,2)-Math.pow((arm1X-arm2X),2))+arm2Y;
+ 			pivotX += 4;
+ 			pivotY = Math.sqrt(Math.pow(ARM1W,2)-Math.pow((pivotX-arm2X),2))+arm2Y;
+ 		}
+ 		else{
+ 			arm2X += 8;
+ 			arm2Y = Math.sqrt(4*Math.pow(ARM1W,2)-Math.pow((arm2X-arm1X),2))+arm1Y;
+ 			pivotX += 4;
+ 			pivotY = Math.sqrt(Math.pow(ARM1W,2)-Math.pow((pivotX-arm1X),2))+arm1Y;
+ 		}*/
+ 		
+     		
      }	
      			
 	/**Draws gibbot animation, mostly to minimize clutter in {@link BananaPanel1#paintComponent}.
@@ -160,5 +184,6 @@ public class Gibbot {
     	arm2Y = pivotY;
     	arm1X = pivotX-ARM2W;
     	arm1Y = pivotY;
+    	theta = -90;
 	}
 }   

@@ -25,10 +25,12 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
 	
 	/**Margin around the board that can't be passed in the x direction when the user is placing banana image.
 	Note that the board image has upper left corner at (20, 10) with drawingWidth 1285 and drawingHeight 450.*/
-	private final int XBOUND = 35;
+	//private final int XBOUND = 35;
+	private int XBOUND;
 	/**Margin around the board that can't be passed in the y direction when the user is placing banana image.
 	Note that the board image has upper left corner at (20, 10) with drawingWidth 1285 and drawingHeight 450.*/ 
-	private final int YBOUND = 27;
+	//private final int YBOUND = 27;
+	private int YBOUND;
 	
 	/**True if the banana has been placed and gibbot movement is being animated.*/
 	private boolean animating;
@@ -55,10 +57,14 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     @param sizeW used to set {@link #sizingWidth}
     @param sizeH used to set {@link #sizingHeight}*/
     public BananaPanel1(int drawW, int drawH, int sizeW, int sizeH) {
+
     	
     	drawingWidth = drawW-30;
     	drawingHeight = (int)(drawH*2/3);
     	setPreferredSize(new Dimension(drawingWidth, drawingHeight));
+    	
+    	XBOUND = (int)(drawingWidth/30);
+    	YBOUND = (int)(drawingHeight/15);
     	
     	sizingWidth = sizeW;
     	sizingHeight = sizeH;
@@ -99,7 +105,9 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     			g.drawImage(bananaImg, banana.getX(), banana.getY(), 80, 60, this);
     			if(outOfBounds){
     				g.setColor(OUT_OF_BOUNDS_COLOR);
-    				g.fillRect(56, 37, sizingWidth - 140, sizingHeight/2 + 15);
+    				//g.fillRect(56, 37, sizingWidth - 140, sizingHeight/2 + 15);
+    				//g.fillRect((int)(drawingWidth/15), (int)(drawingHeight/10), (int)(sizingWidth*0.9), (int)(sizingHeight*0.5));
+    				g.fillRect(XBOUND, YBOUND, sizingWidth-2*XBOUND, sizingHeight-12*YBOUND);
     				g.setColor(Color.BLACK);
     				g.drawString("Out of Bounds!", 400, 240);
     			}
@@ -128,7 +136,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
         	bob.draw(g);    
     	}
     	
-    	g.drawImage(bunch, (int)(getWidth() - (getHeight()/1.8)), -30, (int)(getHeight()/1.7), (int)(getHeight()/1.7), this);        
+    	g.drawImage(bunch, (int)(getWidth() - (getHeight()/1.8)), -30, (int)(getHeight()/1.7), (int)(getHeight()/1.7), this);
     	
     }
     
@@ -174,7 +182,8 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
   	 	if(dragging){
    			banana.setX(x - 40);
     		banana.setY(y - 30);
-    		if(x < 20 + XBOUND || x > sizingWidth - 60 - XBOUND || y < 10 + YBOUND || y > sizingHeight/2 + 73 - YBOUND)
+    		//if(x < 20 + XBOUND || x > sizingWidth - 60 - XBOUND || y < 10 + YBOUND || y > sizingHeight/2 + 73 - YBOUND)
+    		if(x < XBOUND || x > sizingWidth-2*XBOUND || y < YBOUND || y > sizingHeight-12*YBOUND)
     			outOfBounds = true;
     		else
     			outOfBounds = false;
@@ -228,7 +237,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
    			if(animating){ 	//When the robot reaches the bananas, the panel resets itself.            
 	   			animating = false;
    				timerCount=0;
-   				bob.reset();
+   				//bob.reset();
    			}
 	
    			if(a > -255){ //for pulsing outline around bananaBubble image 
