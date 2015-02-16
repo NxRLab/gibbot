@@ -86,6 +86,6 @@ void delay(void){
     T1CONbits.TON = 1;  //turn on timer 1
 
     //output compare
-    
+    OC1CON1.OCTSEL = 0b100;
 
 }

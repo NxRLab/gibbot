@@ -58,7 +58,7 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void)
     LED1 = 1;   //test to check how long interrupt takes
     //read topmag encoder encoder
     test_data = read_TOPMAGENC();
-    test_angle = encoder_to_angle(test_data,'m');
+    //test_angle = encoder_to_angle(test_data,'m');
 
     //store to an array rather than print to screen every time
     /*if (count<(sizeof(angles)/sizeof(int))){
@@ -72,7 +72,7 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void)
         count=0;
     }*/
 
-    printf("%d \n",test_angle);
+    printf("%ld \n",test_data);
     LED1 = 0;   //turn LED off, interrupt complete
 
     //clear interrupt flag
