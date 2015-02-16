@@ -67,6 +67,7 @@ int main(void) {
             //swing left
             TOPMAG=0;
             //delay function in progress
+            //look into __delay32() 
             //delay(0.1);
             write_duty(200);
             //delay(0.1);
