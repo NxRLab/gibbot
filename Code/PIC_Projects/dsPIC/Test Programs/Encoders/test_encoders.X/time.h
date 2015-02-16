@@ -10,8 +10,5 @@
 
  void timer1_on(void);
  void timer1_off(void);
- void timer2_on(void);
- void timer2_off(void);
-
 
  #endif /*TIME_H*/
