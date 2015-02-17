@@ -10,6 +10,6 @@
 
  void timer1_on(void);
  void timer1_off(void);
- void delay(void);
+ //void delay(void);
 
  #endif /*TIME_H*/

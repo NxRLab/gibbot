@@ -79,7 +79,7 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void)
     IFS0bits.T1IF = 0;
 }
 
-void delay(void){
+/*void delay(void){
     //delay function
     TMR1 = 0;    //clear timer
     PR1 = 0x16e36;  //300 ms
@@ -88,4 +88,4 @@ void delay(void){
     //output compare
     OC1CON1.OCTSEL = 0b100;
 
-}
+}*/

@@ -3,8 +3,9 @@
  * can drive the motor, control the moagnets and read data from the Gibbot.
  */
 
-#include <p33EP512MC806.h>
+#include <libpic30.h>
 #include <stdio.h>
+#include <p33EP512MC806.h>
 #include "initializeV6.h"
 #include "motor.h"
 #include "test.h"
@@ -67,7 +68,7 @@ int main(void) {
             //swing left
             TOPMAG=0;
             //delay function in progress
-            //look into __delay32() 
+            __delay32(8000000);  //delay 8000000 cycles
             //delay(0.1);
             write_duty(200);
             //delay(0.1);
