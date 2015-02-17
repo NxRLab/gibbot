@@ -12,6 +12,11 @@ public class SpeedometerBox extends JPanel implements ActionListener{
 	
 	private Image speedometer = ImageHandler.getImage("speedometer.png");
 	private Image batteryBar = ImageHandler.getImage("batteryBar.png");
+	private final Font ANDALE_BIG = ImageHandler.getFont().deriveFont(Font.BOLD, 30);
+	
+	private int batterySpent;
+	private final int MAX_BATT = 127; //whatever it is
+	
 	
     /**Specified by LayoutContainerPanel parent. Used to set preferred dimensions in constructor*/
 	private int height;
@@ -20,14 +25,14 @@ public class SpeedometerBox extends JPanel implements ActionListener{
 	
 
     /**Width of chart image*/
-    private int w;
+    //private int w;
     /**Height of chart image*/
-	private int h;
+	//private int h;
 		
 	/**Horizontal scale for drawing chart image (not really needed unless {@link GUILayeredPane#DRAWING_WIDTH} is altered)*/
-	private double xscale;
+	//private double xscale;
 	/**Vertical scale for drawing chart image (not really needed unless {@link GUILayeredPane#DRAWING_HEIGHT} is altered)*/
-	private double yscale;
+	//private double yscale;
 	
 	/**Proportion of horizontal space this box will take up in {@link LayoutContainerPanel}. Strongly recommended not to alter.*/
 	private final double SPEEDOMETER_WIDTH_ALLOCATION = 1/3.0;
@@ -35,13 +40,13 @@ public class SpeedometerBox extends JPanel implements ActionListener{
 	private final double SPEEDOMETER_HEIGHT_ALLOCATION = 1/3.25;
     
 	/**Horizontal margin around chart area when placed in panel. Strongly recommended not to alter.*/
-	private final int XMARGIN = 35;
+	//private final int XMARGIN = 35;
 	/**Vertical margin around chart area when placed in panel. Strongly recommended not to alter.*/
-	private final int YMARGIN = 30;
+	//private final int YMARGIN = 30;
 	/**X-coor of upper left corner of {@link #chart}. Strongly recommended not to alter.*/
-	private final int CHARTX = 30;
+	//private final int CHARTX = 30;
 	/**Y-coor of upper left corner of {@link #chart}. Strongly recommended not to alter.*/
-	private final int CHARTY = 20;
+	//private final int CHARTY = 20;
 	
 	/**Radius of both needles on speedometer graphic. Alterations okay if needed.*/
 	private final int NEEDLE_RADIUS = 117;
@@ -51,15 +56,15 @@ public class SpeedometerBox extends JPanel implements ActionListener{
 	//private final int NEEDLE_YORIGIN = ImageHandler.SPEEDOMETER_NEEDLE_YORIGIN;
 	
 	/**Light shadow color*/
-	private final Color SHADOW1 = new Color(125, 125, 125, 50);
+	//private final Color SHADOW1 = new Color(125, 125, 125, 50);
 	/**Medium -light shadow color*/
-	private final Color SHADOW2 = new Color(125, 125, 125, 100);
+	//private final Color SHADOW2 = new Color(125, 125, 125, 100);
 	/**Medium-dark shadow color*/
-	private final Color SHADOW3 = new Color(125, 125, 125, 150);
+	//private final Color SHADOW3 = new Color(125, 125, 125, 150);
 	/**Dark shadow color*/
-	private final Color SHADOW4 = new Color(130, 130, 130, 200);
+	//private final Color SHADOW4 = new Color(130, 130, 130, 200);
 	/**Color of the rectangle the chart is in*/
-	private final Color CHART_BG = GibbotGUI3.SECONDARY_GLOBAL_BG;
+	//private final Color CHART_BG = GibbotGUI3.SECONDARY_GLOBAL_BG;
 	
 	/**Color of needle on the speedometer corresponding to first link. If altered, also alter 
 	 *{@link Gibbot#ARM1COLOR} with same first three values (RGB) but no fourth parameter (alpha).*/
@@ -86,12 +91,14 @@ public class SpeedometerBox extends JPanel implements ActionListener{
 		setPreferredSize(new Dimension(width, height));
 		setBackground(GibbotGUI3.GLOBAL_BG);
 		
-		w = width - 2*XMARGIN;
-		h = height - 2*YMARGIN;
+		//w = width - 2*XMARGIN;
+		//h = height - 2*YMARGIN;
 		//xscale = w/(double)(ImageHandler.SPEEDOMETER_WIDTH);
 		//yscale = h/(double)(ImageHandler.HEIGHT);
 
 		GUITimer.addActionListener(this);
+		
+		batterySpent = 0;
 	}
 	
 	/**Override of {@link javax.swing.JComponent#paintComponent}. super.paintComponent() call fills background color.
@@ -101,15 +108,26 @@ public class SpeedometerBox extends JPanel implements ActionListener{
      */ 
 	public void paintComponent(Graphics g){
 		
+		int MAX_BATT_HEIGHT = (int)(height*0.534);
 		//drawTab(width, height - CHARTY, g);
+		super.paintComponent(g);
+		g.setFont(ANDALE_BIG);
 		
-		//battery bar
-		g.drawImage(batteryBar, 15, 10, 150, 200, this);
-		g.drawImage(speedometer, 170, 15, 200, 200, this); //image, x coor, y coor, x size, y size, this
+		g.drawImage(batteryBar,(int)(width*0.036),(int)(height*0.042), (int)(width*0.36), (int)(height*0.84), this);
+		g.drawImage(speedometer, (int)(width*0.408), (int)(height*0.063), (int)(width*0.48), (int)(height*0.84), this); //image, x coor, y coor, x size, y size, this
+		
+		if(batterySpent <= MAX_BATT){
+			g.setColor(Color.GREEN);
+			g.fillRect(57, 45+batterySpent, 66, MAX_BATT_HEIGHT-batterySpent);
+		}
+		g.setColor(Color.BLACK);
+		g.drawString(100-(int)(100*batterySpent/MAX_BATT_HEIGHT) + "%", 56, 210);
+		
 		
 		Graphics2D g2 = (Graphics2D)g;
 		g2.setColor(Color.RED);
-		g2.setStroke(new BasicStroke(3)); //thickness of needle
+		g2.setStroke(new BasicStroke((int)(height*0.013))); //thickness of needle
+		
 		g2.drawLine(270, 115, 213, 175); //puts speedometer red needle at speedometer 0
 		/*
 		super.paintComponent(g);
@@ -132,6 +150,11 @@ public class SpeedometerBox extends JPanel implements ActionListener{
 	/**Gets velocity values from {@link GUISerialPort#data}. Called by {@link #actionPerformed}.
 	*/
 	public void updateForDrawing(){
+		
+		if(BananaPanel1.getAnimating() && batterySpent < MAX_BATT){
+			batterySpent++;
+		}
+		
 		/*
 	
 		int[] data = GUISerialPort.getData();	
@@ -140,7 +163,6 @@ public class SpeedometerBox extends JPanel implements ActionListener{
 		arm2vel = data[5]*Math.PI/180; //convert to radians
 		*/
 		HashMap<String, Integer> data = GUISerialPort.getData();	
-		
 		arm1vel = data.get("Gyroscope_Z_Primary")*Math.PI/180; //convert to radians
 		arm2vel = data.get("Gyroscope_Z_Secondary")*Math.PI/180; //convert to radians
 			
@@ -151,6 +173,7 @@ public class SpeedometerBox extends JPanel implements ActionListener{
     @param height Height of rectangle available to draw in
     @param g Graphics context to draw with.
      */
+	/*
 	public void drawTab(int width, int height, Graphics g){
     	
     	g.setColor(SHADOW1);
@@ -168,7 +191,7 @@ public class SpeedometerBox extends JPanel implements ActionListener{
    		g.setColor(CHART_BG);
     	g.fillRoundRect(3, 3, width - 19, height, 12, 12);
     	
-	}
+	}*/
 	
 	/**Specifies how to respond to timer events from {@link GUITimer}. This panel uses events as a signal to 
     call {@link #updateForDrawing} and repaint. Only updates for drawing if awake panel is active.
