@@ -1,0 +1,54 @@
+
+ 
+Td1[t] = D[T1[t], t];
+Td2[t] = D[T2[t], t];
+
+q = {T1[t], T2[t]};
+qd = {Td1[t], Td2[t]};
+
+X1 = r1*Sin[T1[t]];
+Y1 = -r1*Cos[T1[t]];
+X2 = L1*Sin[T1[t]] + r2*Sin[T1[t] + T2[t]];
+Y2 = -L1*Cos[T1[t]] - r2*Cos[T1[t] + T2[t]];
+
+(*)VX1 = r1*Cos[T1[t]]*Td1[t];
+VY1 = r1*Sin[T1[t]]*Td1[t] ;
+VX2 = L1*Cos[T1[t]]*Td1[t]+r2*Cos[T1[t]+T2[t]]*(Td2[t]+Td1[t]);
+VY2 = L1*Sin[T1[t]]*Td1[t] +r2*Sin[T1[t]+T2[t]]*(Td2[t] +Td1[t]);*)
+
+VX1 = D[X1, t];
+VY1 = D[Y1, t];
+VX2 = D[X2, t];
+VY2 = D[Y2, t];
+
+KE = 0.5*m1*(VX1^2 + VY1^2) + 0.5*I1*Td1[t]^2 + 
+   0.5*m2*(VX2^2 + VY2^2) + 0.5*I2*(Td1[t] + Td2[t])^2;
+
+(*PE = m1*g*(r1+Y1)+m2*g*(L1+r1+Y2);*)
+PE = m1*g*(Y1) + m2*g*(Y2);
+
+L = KE - PE;
+L // Simplify;
+U1 = D[D[L, Td1[t]], t] - D[L, T1[t]];
+U2 = D[D[L, Td2[t]], t] - D[L, T2[t]];
+
+M = D[KE, {qd, 2}];
+M // MatrixForm // Simplify
+
+G = -D[PE, {q}];
+G // MatrixForm // Simplify
+
+
+q[[1]];
+M[[1, 1]];
+
+Christofell[i_, j_, k_, M_, q_] := 
+ 0.5*(D[M[[i, j]], q[[k]]] + D[M[[i, k]], q[[j]]] - 
+    D[M[[k, j]], q[[i]]])
+Cij[i_, j_] := 
+  Total[Table[Christofell[i, j, k, M, q]*qd[[k]], {k, 1, Length[q]}]];
+
+
+Table[Cij[i, j], {i, 1, Length[q]}, {j, 1, Length[q]}];
+% // MatrixForm // Simplify 
+
