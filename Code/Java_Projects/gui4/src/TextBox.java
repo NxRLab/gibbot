@@ -12,9 +12,9 @@ public class TextBox extends JPanel implements ActionListener{
 	/**Font used to write. Set to bold, size 36.*/
 	private final Font ANDALE_BIG = ImageHandler.getFont().deriveFont(Font.BOLD, 36);
 	
-	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensons in constructor*/
+	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensions in constructor*/
 	private int height;
-	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensons in constructor*/
+	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensions in constructor*/
 	private int width;
 	
 	/**Horizontal margin around chart area when placed in panel. Strongly recommended not to alter.*/

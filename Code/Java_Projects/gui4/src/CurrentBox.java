@@ -1,7 +1,9 @@
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.*;
 import java.util.HashMap;
+import java.math.BigDecimal;
 
 import javax.swing.*;
 
@@ -14,6 +16,14 @@ public class CurrentBox extends JPanel implements ActionListener{
 
     //private Image chart = ImageHandler.getImage("currentChart");
     private Image torque = ImageHandler.getImage("bicep.png");
+    private final Font ANDALE_BIG = ImageHandler.getFont().deriveFont(Font.BOLD, 30);
+    
+    private double testTorqueLevel = 0;
+    
+    
+    QuadCurve2D q1 = new QuadCurve2D.Float();
+    QuadCurve2D q2 = new QuadCurve2D.Float();
+    QuadCurve2D q3 = new QuadCurve2D.Float();
     
     /**Specified by LayoutContainerPanel parent. Used to set preferred dimensions in constructor*/
 	private int height;
@@ -32,9 +42,9 @@ public class CurrentBox extends JPanel implements ActionListener{
 	*/
 	
 	/**Proportion of horizontal space this box will take up in {@link LayoutContainerPanel}. Stronly recommended not to alter.*/
-	private final double CURRENT_WIDTH_ALLOCATION = .25;
+	private final double CURRENT_WIDTH_ALLOCATION = 0.25;
 	/**Proportion of vertical space this box will take up in {@link LayoutContainerPanel}. Stronly recommended not to alter.*/
-	private final double CURRENT_HEIGHT_ALLOCATION = 1/3.25;
+	private final double CURRENT_HEIGHT_ALLOCATION = 0.30;
 	
 	/**Horizontal margin around chart area when placed in panel. Strongly recommended not to alter.
 	private final int XMARGIN = 35;
@@ -43,7 +53,7 @@ public class CurrentBox extends JPanel implements ActionListener{
 	/**X-coor of upper left corner of {@link #chart}. Strongly recommended not to alter.
 	private final int CHARTX = 25;
 	/**Y-coor of upper left corner of {@link #chart}. Strongly recommended not to alter.*/
-	private final int CHARTY = 20;
+	//private final int CHARTY = 20;
 	/**X-coor of the left origin of the gray graph plane area on current graphic.*/
 	//private final int PLANE_XORIGIN = ImageHandler.CURRENT_PLANE_XORIGIN;
 	/**Y-coor of the left origin of the gray graph plane area on current graphic.*/
@@ -126,11 +136,35 @@ public class CurrentBox extends JPanel implements ActionListener{
      */ 
 	public void paintComponent(Graphics g){
 		
-		//drawTab(width, height - CHARTY, g);	
-		g.drawImage(torque, 60, 15, 180, 180, this);
+		super.paintComponent(g);
+		setFont(ANDALE_BIG);
+		
+		
+		int upperX = (int)(width/5);
+		int upperY = (int)(height/20);
+		int size = (int)(width*0.6);
+		
+		g.drawImage(torque, upperX, upperY, size, size, this);
+		BigDecimal conversion = new BigDecimal(testTorqueLevel*(100/7));
+	    conversion.setScale(4);
+		g.drawString(conversion+"%", 230, 180);
+		
+		Graphics2D g2 = (Graphics2D)g;
+		g2.setStroke(new BasicStroke((int)testTorqueLevel));
+		q1.setCurve(upperX+25, upperY+90, upperX+22, upperY+120, upperX+45, upperY+130);
+		q2.setCurve(upperX+80, upperY+135, upperX+90, upperY+110, upperX+120, upperY+110);
+		q3.setCurve(upperX+135, upperY+95, upperX+150, upperY+90, upperX+155, upperY+70);
+		g2.draw(q1);
+		g2.draw(q2);
+		g2.draw(q3);
+		
+		
+		
 		
 		
 		/*
+		//drawTab(width, height - CHARTY, g);
+		//g.drawImage(torque, 60, 15, 180, 180, this);
 		super.paintComponent(g);
 		drawTab(width, height - CHARTY, g);	
 		g.drawImage(chart, CHARTX, CHARTY, w, h, this);
@@ -154,7 +188,16 @@ public class CurrentBox extends JPanel implements ActionListener{
 	 *{@link #millinewtmetsE}, and {@link #millinewtmetsO}. Called by {@link #actionPerformed}.
 	*/
 	public void updateForDrawing(){
-		HashMap<String, Integer> data = GUISerialPort.getData();
+		//testTorqueLevel = GUISerialPort.getData().get("motorTorque");
+		
+		if(BananaPanel1.getAnimating()){
+			if(testTorqueLevel < 7){
+				testTorqueLevel+=0.5;
+			}
+		}
+		
+		
+		
 		//int[] data = GUISerialPort.getData();
 		/*
 		int newCurr = CHARTY + (int)(PLANE_YORIGIN*yscale) - data[0];

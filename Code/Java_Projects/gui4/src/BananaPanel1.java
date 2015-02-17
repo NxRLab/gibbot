@@ -9,12 +9,13 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
 	
 	private Image bananaImg = ImageHandler.getImage("banana.png");
 	private Image bananaBubble = ImageHandler.getImage("bananaBubble.png");
-	private Image board = ImageHandler.getImage("jungle.png");
+	private Image jungle = ImageHandler.getImage("jungle.png");
 	private Image bunch = ImageHandler.getImage("bunch.png");
 	private Image gibbotBubble = ImageHandler.getImage("gibbotBubble.png");
 	private Font andaleBig = ImageHandler.getFont().deriveFont(Font.BOLD, 64);
+
+	double[] testArray = {10,GUILayeredPane.getScreenHeight()-10,0,0};
 	
-	private double[] testArray = {10,GUILayeredPane.getScreenHeight()-10,0,0};
 	
 	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensions in constructor*/
 	private int drawingHeight;
@@ -35,7 +36,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
 	private int YBOUND;
 	
 	/**True if the banana has been placed and gibbot movement is being animated.*/
-	private boolean animating;
+	private static boolean animating;
 	/**True if the user is dragging a banana object around the screen but hasn't placed it yet.*/
 	private boolean dragging;
 	/**True if the user is dragging a banana object around the screen and has breached margins set by {@link #XBOUND} or {@link #YBOUND}.*/
@@ -43,7 +44,6 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
 	
 	private Banana banana = new Banana();
 	private Gibbot bob = new Gibbot();
-	private double timerCount; //only for gibbot animation simulation
 	
 	/**Board lights up to this color when user drags banana image out of bounds*/
 	private Color OUT_OF_BOUNDS_COLOR = new Color(255, 0, 0, 150);
@@ -81,7 +81,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     	a = 0;
     	promptHighlight = new Color(207, 46, 46, a); //red with variable alpha value (transparancy)
     	
-    	timerCount = 0;
+    	//timerCount = 0;
     	addMouseListener(this);
     	addMouseMotionListener(this);
     	GUITimer.addActionListener(this);
@@ -99,7 +99,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     	
     	super.paintComponent(g);
     	
-    	g.drawImage(board, 1, 1, getWidth()-1, getHeight()-1, this);
+    	g.drawImage(jungle, 1, 1, getWidth()-1, getHeight()-1, this);
     	g.setColor(Color.BLACK);
 
     	if(!animating){	//Either nothing has happened or the user is moving the banana
@@ -231,7 +231,6 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
 											
    		if(animating && (int)bob.getPivotX() <= banana.getX()){  //If the robot is not to the bananas yet	
    			//bob.arcMotionUpdate(timerCount);
-   			//testArray = {10,10,0,0};
    			bob.arcMotionUpdate(testArray[0], testArray[1], testArray[2], testArray[3]);
    			testArray[0] += 4;
    			testArray[1] -= 4;
@@ -239,13 +238,13 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
    			testArray[3] += 15*(Math.PI/180);
    			
    			//With camera data, above call will be replaced by bob.updateRealCoors(); 
-   			timerCount++;
+   			//timerCount++;
    		}
    		
    		else{
    			if(animating){ 	//When the robot reaches the bananas, the panel resets itself.            
 	   			animating = false;
-   				timerCount=0;
+   				//timerCount=0;
    				//bob.reset();
    			}
 	
@@ -260,6 +259,11 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
    		}		 			
    		repaint();
    }
+   
+   public static boolean getAnimating(){
+	   return animating;
+   }
+   
    /**Required for MouseListener interface*/
    public void mouseClicked(MouseEvent evt){}
    /**Required for MouseListener interface*/

@@ -33,7 +33,7 @@ public class Gibbot {
 	/**Coordinates of center joint, ends of links*/
 	private double pivotX, pivotY, arm1X, arm1Y, arm2X, arm2Y;
 	/**Angle between links (currently unused in code)*/
-	private double theta;
+	//private double theta;
 
     /**Constructor initializes all coordinates.*/
     public Gibbot() {
@@ -43,7 +43,7 @@ public class Gibbot {
     	arm2Y = pivotY;
     	arm1X = pivotX-ARM2W;
     	arm1Y = pivotY;
-    	theta = -90;
+    	//theta = -90;
   	
     }
     
@@ -88,10 +88,10 @@ public class Gibbot {
     
     /**Returns angle between the two links
     @return theta*/
-    public double getTheta(){
+    /*public double getTheta(){
     	//return Math.atan(Math.abs(arm1X-pivotX)/Math.abs(arm1Y-pivotY))+Math.atan(Math.abs(arm2X-pivotX)/Math.abs(arm2Y-pivotY));
     	return theta;
-    }
+    }*/
     	
     
     /**This will update the animation based on real input from the robot*/
@@ -116,8 +116,6 @@ public class Gibbot {
     	arm1X = x;
     	arm1Y = -y + GUILayeredPane.getScreenHeight();
     	
-    	System.out.println(arm1X);
-    	System.out.println(arm1Y);
     	
     	pivotX = arm1X + (ARM1W*Math.sin(-th1));
     	pivotY = arm1Y - (ARM1W*Math.cos(th1));
@@ -195,6 +193,6 @@ public class Gibbot {
     	arm2Y = pivotY;
     	arm1X = pivotX-ARM2W;
     	arm1Y = pivotY;
-    	theta = -90;
+    	//theta = -90;
 	}
 }   
