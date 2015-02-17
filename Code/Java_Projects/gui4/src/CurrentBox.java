@@ -138,11 +138,13 @@ public class CurrentBox extends JPanel implements ActionListener{
 		
 		super.paintComponent(g);
 		setFont(ANDALE_BIG);
+	
 		
 		
 		int upperX = (int)(width/5);
 		int upperY = (int)(height/20);
 		int size = (int)(width*0.6);
+		
 		
 		g.drawImage(torque, upperX, upperY, size, size, this);
 		BigDecimal conversion = new BigDecimal(testTorqueLevel*(100/7));
@@ -151,9 +153,9 @@ public class CurrentBox extends JPanel implements ActionListener{
 		
 		Graphics2D g2 = (Graphics2D)g;
 		g2.setStroke(new BasicStroke((int)testTorqueLevel));
-		q1.setCurve(upperX+25, upperY+90, upperX+22, upperY+120, upperX+45, upperY+130);
-		q2.setCurve(upperX+80, upperY+135, upperX+90, upperY+110, upperX+120, upperY+110);
-		q3.setCurve(upperX+135, upperY+95, upperX+150, upperY+90, upperX+155, upperY+70);
+		q1.setCurve((int)(upperX*1.4), (int)(upperY*9.2), (int)(upperX*1.35), (int)(upperY*11.9), (int)(upperX*1.73), (int)(upperY*12.8));
+		q2.setCurve((int)(upperX*2.29), (int)(upperY*13.27), (int)(upperX*2.45), (int)(upperY*11), (int)(upperX*2.94), (int)(upperY*11));
+		q3.setCurve((int)(upperX*3.18), (int)(upperY*9.64), (int)(upperX*3.42), (int)(upperY*9.18), (int)(upperX*3.5), (int)(upperY*7.36));
 		g2.draw(q1);
 		g2.draw(q2);
 		g2.draw(q3);
@@ -191,7 +193,7 @@ public class CurrentBox extends JPanel implements ActionListener{
 		//testTorqueLevel = GUISerialPort.getData().get("motorTorque");
 		
 		if(BananaPanel1.getAnimating()){
-			if(testTorqueLevel < 7){
+			if(testTorqueLevel < 7){ //7 will become maxTorqueLevel
 				testTorqueLevel+=0.5;
 			}
 		}
@@ -232,6 +234,7 @@ public class CurrentBox extends JPanel implements ActionListener{
     @param height Height of rectangle available to draw in
     @param g Graphics context to draw with.
      */
+	/*
 	public void drawTab(int width, int height, Graphics g){
     	
     	g.setColor(SHADOW1);
@@ -249,7 +252,7 @@ public class CurrentBox extends JPanel implements ActionListener{
    		g.setColor(CHART_BG);
     	g.fillRoundRect(3, 3, width - 19, height, 12, 12);
     	
-	}
+	}*/
 	
 	/**Specifies how to respond to timer events from {@link GUITimer}. This panel uses events as a signal to 
     call {@link #updateForDrawing} and repaint. Only updates for drawing if awake panel is active.

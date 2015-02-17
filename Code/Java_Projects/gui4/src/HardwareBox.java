@@ -12,6 +12,10 @@ public class HardwareBox extends JPanel implements ActionListener{
 	//private Image chart = ImageHandler.getImage("hardwareChart");
 
 	private Image thermometer = ImageHandler.getImage("thermometer.png");
+	private final Font ANDALE_BIG = ImageHandler.getFont().deriveFont(Font.BOLD, 20);
+	private final Color TEMPERATURE_COLOR = Color.RED;
+	private final int TEMP_MAX = 100;
+	private int timer = 0;
 	
     /**Specified by LayoutContainerPanel parent. Used to set preferred dimensions in constructor*/
 	private int height;
@@ -34,15 +38,15 @@ public class HardwareBox extends JPanel implements ActionListener{
 	private final double HARDWARE_HEIGHT_ALLOCATION = 1/3.25;
 	
 	/**Horizontal margin around chart area when placed in panel. Strongly recommended not to alter.*/
-	private final int XMARGIN = 35;
+	//private final int XMARGIN = 35;
 	/**Vertical margin around chart area when placed in panel. Strongly recommended not to alter.*/
-	private final int YMARGIN = 30;
+	//private final int YMARGIN = 30;
 	/**X-coor of upper left corner of {@link #chart}. Strongly recommended not to alter.*/
-	private final int CHARTX = 30;
+	//private final int CHARTX = 30;
 	/**Y-coor of upper left corner of {@link #chart}. Strongly recommended not to alter.*/
-	private final int CHARTY = 20;
+	//private final int CHARTY = 20;
 	/**Space, in pixels, between outline of battery and temperature rectangles and the colored bars within.*/
-	private final int BAR_MARGIN = 2;
+	//private final int BAR_MARGIN = 2;
 	/**X-coor of left edge of temperature empty rectangle. Strongly recommended not to alter.*/
 	//private final int TEMP_LEFT_EDGE = ImageHandler.HARDWARE_TEMP_LEFT_EDGE + BAR_MARGIN;
 	/**Width, in pixels, of temperature empty rectangle.*/
@@ -56,15 +60,15 @@ public class HardwareBox extends JPanel implements ActionListener{
 	
 	
 	/**Light shadow color*/
-	private final Color SHADOW1 = new Color(125, 125, 125, 50);
+	//private final Color SHADOW1 = new Color(125, 125, 125, 50);
 	/**Medium -light shadow color*/
-	private final Color SHADOW2 = new Color(125, 125, 125, 100);
+	//private final Color SHADOW2 = new Color(125, 125, 125, 100);
 	/**Medium-dark shadow color*/
-	private final Color SHADOW3 = new Color(125, 125, 125, 150);
+	//private final Color SHADOW3 = new Color(125, 125, 125, 150);
 	/**Dark shadow color*/
-	private final Color SHADOW4 = new Color(130, 130, 130, 200);
+	//private final Color SHADOW4 = new Color(130, 130, 130, 200);
 	/**Color of the rectangle the chart is in*/
-	private final Color CHART_BG = GibbotGUI3.SECONDARY_GLOBAL_BG;
+	//private final Color CHART_BG = GibbotGUI3.SECONDARY_GLOBAL_BG;
 	
 	/**Color for temperature bar*/
 	//private final Color TEMP_COLOR = new Color(207, 46, 46, 125); //reddish, transparent
@@ -90,6 +94,8 @@ public class HardwareBox extends JPanel implements ActionListener{
 		setPreferredSize(new Dimension(width, height));
 		setBackground(GibbotGUI3.GLOBAL_BG);
 		
+		temp = 0; //fahrenheit for now
+		
 		//w = width - 2*XMARGIN;
 		//h = height - 2*YMARGIN;
 		//xscale = w/(double)(ImageHandler.HARDWARE_WIDTH);
@@ -108,8 +114,43 @@ public class HardwareBox extends JPanel implements ActionListener{
 	public void paintComponent(Graphics g){
 		//drawTab(width, height-CHARTY, g);
 		
+		super.paintComponent(g);
+		setFont(ANDALE_BIG);
+		
 		//thermometer
-		g.drawImage(thermometer, 5, 15, 180, 180, this); //image, x coor, y coor, x size, y size, this
+		int upperX = (int)(width*0.024);
+		int upperY = (int)(height*0.063);
+		int size = (int)(width*0.865);
+		
+		
+		
+		g.drawImage(thermometer, upperX, upperY, size, size, this); //image, x coor, y coor, x size, y size, this
+		g.setColor(TEMPERATURE_COLOR);
+		
+		//base circle for thermometer
+		//int x, int y, int width, int length
+		g.fillOval((int)(upperX*17.7), (int)(upperY*9.93), (int)(size*0.22), (int)(size*0.22));
+		
+		//int x, int y,int width,int height
+		if(temp < TEMP_MAX){
+			g.fillRect((int)(upperX*20), (int)((upperY*10)-temp), (int)(size*0.12), (int)((size*0.0167)+temp));
+		}
+		else{
+			g.fillRect((int)(upperX*20), (int)((upperY*10)-TEMP_MAX), (int)(size*0.12), (int)((size*0.0167)+TEMP_MAX));
+			g.fillOval((int)(upperX*20),(int)(upperY*2.48),(int)(size*0.112),(int)(size*0.112));
+			g.setColor(Color.BLACK);
+			if(timer%10 != 0){
+				g.drawString("DANGER!", (int)(upperX*31.25), (int)(upperY*14.29));
+			}
+			else{
+				g.drawString("DANGER!", (int)(upperX*30.5), (int)(upperY*14.29));
+			}
+			timer++;
+		}
+		
+		
+		
+		
 		
 		/*
 		super.paintComponent(g);
@@ -129,16 +170,15 @@ public class HardwareBox extends JPanel implements ActionListener{
 	*/
 	public void updateForDrawing(){
 	
-		/*
-		int[] data = GUISerialPort.getData();	
-	
-		batt = data[3]; 
-		temp = data[2]; 
-		*/
 		HashMap<String, Integer> data = GUISerialPort.getData();	
 		
-		batt = data.get("batteryVoltage"); 
-		temp = data.get("motorTemperature"); 
+		//batt = data.get("batteryVoltage"); 
+		//temp = data.get("motorTemperature"); 
+		
+		if(BananaPanel1.getAnimating()){
+			temp++;
+		}
+		
 			
 	}
 			
@@ -147,6 +187,7 @@ public class HardwareBox extends JPanel implements ActionListener{
     @param height Height of rectangle available to draw in
     @param g Graphics context to draw with.
      */
+	/*
 	public void drawTab(int width, int height, Graphics g){
     	
     	g.setColor(SHADOW1);
@@ -165,7 +206,7 @@ public class HardwareBox extends JPanel implements ActionListener{
     	g.fillRoundRect(3, 3, width - 19, height, 12, 12);
     	
     	
-	}
+	}*/
 	
 	/**Specifies how to respond to timer events from {@link GUITimer}. This panel uses events as a signal to 
     call {@link #updateForDrawing} and repaint. Only updates for drawing if awake panel is active.
