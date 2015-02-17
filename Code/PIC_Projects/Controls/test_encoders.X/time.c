@@ -52,7 +52,7 @@ void timer1_off(void){
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void)
 {
     long test_data;
-    int test_angle;
+    //int test_angle;
     
     //ISR here
     LED1 = 1;   //test to check how long interrupt takes
