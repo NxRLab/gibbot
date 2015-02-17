@@ -179,6 +179,13 @@ public class GUILayeredPane extends JLayeredPane implements ActionListener{
     		GUITimer.removeActionListener(GUILayeredPane.this);
     	}
     }
+    
+    public static int getScreenWidth(){
+    	return SCREEN_WIDTH;
+    }
+    public static int getScreenHeight(){
+    	return SCREEN_HEIGHT;
+    }
 
     
 }

@@ -110,10 +110,22 @@ public class Gibbot {
      /**Animation simulation. Called by {@link BananaPanel1#actionPerformed}.
       *@param frameCount Stands for time value in motion equations
      */
-     public void arcMotionUpdate(double frameCount){
+     public void arcMotionUpdate(double x, double y, double th1, double th2){
+    	//x, y, th1, th2
     	
+    	arm1X = x;
+    	arm1Y = -y + GUILayeredPane.getScreenHeight();
     	
-		
+    	System.out.println(arm1X);
+    	System.out.println(arm1Y);
+    	
+    	pivotX = arm1X + (ARM1W*Math.sin(-th1));
+    	pivotY = arm1Y - (ARM1W*Math.cos(th1));
+    	
+    	arm2X = pivotX + (ARM2W*Math.sin(-th1-th2));
+    	arm2Y = pivotY - (ARM2W*Math.cos(th1+th2));
+    	
+    	 
  		//Double Pendulum Code
     	/*
     	if((int)(frameCount/50)%2 == 0){   
@@ -170,7 +182,6 @@ public class Gibbot {
 		g2.fillOval((int)pivotX-RADIUS/2, (int)pivotY-RADIUS/2, RADIUS, RADIUS);
 		g2.fillOval((int)arm1X-RADIUS/2, (int)arm1Y-RADIUS/2, RADIUS, RADIUS);
 		g2.fillOval((int)arm2X-RADIUS/2, (int)arm2Y-RADIUS/2, RADIUS, RADIUS);
-		
 		
 	}
 	

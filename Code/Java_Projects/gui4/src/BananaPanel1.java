@@ -14,6 +14,8 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
 	private Image gibbotBubble = ImageHandler.getImage("gibbotBubble.png");
 	private Font andaleBig = ImageHandler.getFont().deriveFont(Font.BOLD, 64);
 	
+	private double[] testArray = {10,GUILayeredPane.getScreenHeight()-10,0,0};
+	
 	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensions in constructor*/
 	private int drawingHeight;
 	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensions in constructor*/
@@ -228,7 +230,14 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
    public void actionPerformed(ActionEvent evt){
 											
    		if(animating && (int)bob.getPivotX() <= banana.getX()){  //If the robot is not to the bananas yet	
-   			bob.arcMotionUpdate(timerCount);
+   			//bob.arcMotionUpdate(timerCount);
+   			//testArray = {10,10,0,0};
+   			bob.arcMotionUpdate(testArray[0], testArray[1], testArray[2], testArray[3]);
+   			testArray[0] += 4;
+   			testArray[1] -= 4;
+   			testArray[2] += 10*(Math.PI/180);
+   			testArray[3] += 15*(Math.PI/180);
+   			
    			//With camera data, above call will be replaced by bob.updateRealCoors(); 
    			timerCount++;
    		}
