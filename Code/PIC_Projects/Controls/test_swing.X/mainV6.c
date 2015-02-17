@@ -14,19 +14,19 @@
 #include "encoder.h"
 
 int main(void) {
-    //initialize all peripherals, encoder values
+    //initialize all peripherals
     initialize();
-    initialize_ADC_Offset();
-    initialize_QEI();
-    initialize_UART();
 
     unsigned char c='o';
-    motoron = 1;
+    motoron=0;
     direction = CW;
-    //write_duty(300);
-    //timer1_on();
+
 
     while (1) {
+        if(USER){
+            motoron=0;
+        }
+
         c = read_UART();
 
         //commands to control specific components
@@ -36,31 +36,32 @@ int main(void) {
         else if (c=='f'){
             TOPMAG=0;
         }
+
         else if(c == 'g') {
             //Turn on Bottom Magnet
             write_UART2('1');
-        } else if(c =='h') {
+        }
+
+        else if(c =='h') {
              //Turn off Bottom Magnet
             write_UART2('2');
         }
         else if (c=='u'){
             // inc duty
             // for now, increase the duty by 10% of max duty
+            motoron=1;
             write_duty(read_duty()+100);
             c = 'x';
         }
         else if (c=='d'){
             // dec duty
+            motoron=1;
             write_duty(read_duty()+100);
             c = 'x';
         }
         else if (c=='m'){
             // motor off
             motoron = 0;
-        }
-        else if (c=='x'){
-            // make sure duty is only updated once per call
-            continue;
         }
 
         //command to swing robot
@@ -75,6 +76,19 @@ int main(void) {
             write_duty(0);
             //delay(0.1);
             TOPMAG=1;
+        }
+
+        //test delay32
+        else if (c == 'q'){
+            LED1 = 1;
+            __delay32(40000000);
+            LED1 = 0;
+            c = 'x';
+        }
+
+        else if (c=='x'){
+            // make sure duty is only updated once per call
+            continue;
         }
     }
     return 0;
