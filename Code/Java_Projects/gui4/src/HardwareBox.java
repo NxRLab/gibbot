@@ -4,6 +4,7 @@ import java.awt.event.*;
 import java.util.HashMap;
 
 import javax.swing.*;
+import javax.swing.JFrame;
 
 /**HardwareBox displays motor temperature and battery life in a bar chart graphic
  */
@@ -12,7 +13,8 @@ public class HardwareBox extends JPanel implements ActionListener{
 	//private Image chart = ImageHandler.getImage("hardwareChart");
 
 	private Image thermometer = ImageHandler.getImage("thermometer.png");
-	private final Font ANDALE_BIG = ImageHandler.getFont().deriveFont(Font.BOLD, 20);
+	private final Font ANDALE_BIG = ImageHandler.getFont().deriveFont(Font.BOLD, 30);
+	private final Font ANDALE_SMALL = ImageHandler.getFont().deriveFont(Font.BOLD, 20);
 	private final Color TEMPERATURE_COLOR = Color.RED;
 	private final int TEMP_MAX = 100;
 	private int timer = 0;
@@ -115,7 +117,7 @@ public class HardwareBox extends JPanel implements ActionListener{
 		//drawTab(width, height-CHARTY, g);
 		
 		super.paintComponent(g);
-		setFont(ANDALE_BIG);
+		
 		
 		//thermometer
 		int upperX = (int)(width*0.024);
@@ -134,11 +136,16 @@ public class HardwareBox extends JPanel implements ActionListener{
 		//int x, int y,int width,int height
 		if(temp < TEMP_MAX){
 			g.fillRect((int)(upperX*20), (int)((upperY*10)-temp), (int)(size*0.12), (int)((size*0.0167)+temp));
+			g.setColor(Color.BLACK);
+			setFont(ANDALE_BIG);
+			final String DEGREE  = "\u00b0";
+			g.drawString(temp+DEGREE+"F", 130, 180);
 		}
 		else{
 			g.fillRect((int)(upperX*20), (int)((upperY*10)-TEMP_MAX), (int)(size*0.12), (int)((size*0.0167)+TEMP_MAX));
 			g.fillOval((int)(upperX*20),(int)(upperY*2.48),(int)(size*0.112),(int)(size*0.112));
 			g.setColor(Color.BLACK);
+			setFont(ANDALE_SMALL);
 			if(timer%10 != 0){
 				g.drawString("DANGER!", (int)(upperX*31.25), (int)(upperY*14.29));
 			}

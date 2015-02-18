@@ -12,7 +12,7 @@ import javax.swing.*;
  *depending on the value of the par (parity) variable - which is either zero or
  *one. This was done to cut back on lengthy array updating functions.
  */
-public class CurrentBox extends JPanel implements ActionListener{
+public class CurrentBox extends JComponent implements ActionListener, MouseListener{
 
     //private Image chart = ImageHandler.getImage("currentChart");
     private Image torque = ImageHandler.getImage("bicep.png");
@@ -60,15 +60,15 @@ public class CurrentBox extends JPanel implements ActionListener{
 	//private final int PLANE_YORIGIN = ImageHandler.CURRENT_PLANE_YORIGIN;
 	
 	/**Light shadow color*/
-	private final Color SHADOW1 = new Color(125, 125, 125, 50);
+	//private final Color SHADOW1 = new Color(125, 125, 125, 50);
 	/**Medium -light shadow color*/
-	private final Color SHADOW2 = new Color(125, 125, 125, 100);
+	//private final Color SHADOW2 = new Color(125, 125, 125, 100);
 	/**Medium-dark shadow color*/
-	private final Color SHADOW3 = new Color(125, 125, 125, 150);
+	//private final Color SHADOW3 = new Color(125, 125, 125, 150);
 	/**Dark shadow color*/
-	private final Color SHADOW4 = new Color(130, 130, 130, 200);
+	//private final Color SHADOW4 = new Color(130, 130, 130, 200);
 	/**Color of the rectangle the chart is in*/
-	private final Color CHART_BG = GibbotGUI3.SECONDARY_GLOBAL_BG;
+	//private final Color CHART_BG = GibbotGUI3.SECONDARY_GLOBAL_BG;
 	
 	/**Color of current axis label and line graph
 	private final Color CURRENT_COLOR = new Color(207, 46, 46); //reddish
@@ -126,6 +126,7 @@ public class CurrentBox extends JPanel implements ActionListener{
 		}
 		*/
 		
+    	addMouseListener(this);
 		GUITimer.addActionListener(this);
 	}
 	
@@ -261,5 +262,34 @@ public class CurrentBox extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent evt){
 		updateForDrawing();
 		repaint();
+	}
+
+	public void mouseClicked(MouseEvent arg0) {
+		/*
+		String text = "This is a measurement of torque,\n"
+				+ "or the Gibbot motor's tendency to turn\n"
+				+ "or twist";
+		JFrame frame = new JFrame("Torque Info");
+		JOptionPane.showMessageDialog(frame, text);
+		*/
+	}
+
+	public void mouseEntered(MouseEvent arg0) {
+		//this.setToolTipText("Click me for more info!");
+	}
+
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}	
 }

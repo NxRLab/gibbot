@@ -7,10 +7,10 @@ import javax.swing.*;
  *wireless signal.
  */
 
-public class TextBox extends JPanel implements ActionListener{
+public class TextBox extends JPanel{
 	
 	/**Font used to write. Set to bold, size 36.*/
-	private final Font ANDALE_BIG = ImageHandler.getFont().deriveFont(Font.BOLD, 36);
+	private final Font ANDALE_MED = ImageHandler.getFont().deriveFont(Font.BOLD, 20);
 	
 	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensions in constructor*/
 	private int height;
@@ -18,13 +18,13 @@ public class TextBox extends JPanel implements ActionListener{
 	private int width;
 	
 	/**Horizontal margin around chart area when placed in panel. Strongly recommended not to alter.*/
-	private final int XMARGIN = 15;
+	//private final int XMARGIN = 15;
 	/**Vertical margin around chart area when placed in panel. Strongly recommended not to alter.*/
-	private final int YMARGIN = 10;
+	//private final int YMARGIN = 10;
 	/**X-coor of upper left corner of box. Strongly recommended not to alter.*/
-	private final int BOXX = 10;
+	//private final int BOXX = 10;
 	/**Y-coor of upper left corner of box. Strongly recommended not to alter.*/
-	private final int BOXY = 20;
+	//private final int BOXY = 20;
 	
 	/**Proportion of horizontal space this box will take up in {@link LayoutContainerPanel}. Stronly recommended not to alter.*/
 	private final double TEXT_WIDTH_ALLOCATION = .23;
@@ -32,35 +32,35 @@ public class TextBox extends JPanel implements ActionListener{
 	private final double TEXT_HEIGHT_ALLOCATION = 1/3.45;
 	
 	/**Wireless signal: dot only*/
-	private final int W0 = 0;
+	//private final int W0 = 0;
 	/**Wireless signal: dot, one arc*/
-	private final int W1 = 1;
+	//private final int W1 = 1;
 	/**Wireless signal: dot, two arcs*/
-	private final int W2 = 2;
+	//private final int W2 = 2;
 	/**Wireless signal: dot, three arcs*/
-	private final int W3 = 3;
+	//private final int W3 = 3;
 	
 	/**Length, in pixels, of wireless signal dot*/
-	private final int DOT_RAD = 15;
+	//private final int DOT_RAD = 15;
 	/**Length, in pixels, of wireless signal first arc*/
-	private final int ARC1_RAD = 60;
+	//private final int ARC1_RAD = 60;
 	/**Length, in pixels, of wireless signal second arc*/
-	private final int ARC2_RAD = 90;
+	//private final int ARC2_RAD = 90;
 	/**Length, in pixels, of wireless signal third arc*/
-	private final int ARC3_RAD = 120;
+	//private final int ARC3_RAD = 120;
 	/**Degrees relative to pos. x-axis where arcs begin*/
-	private final int START_ANGLE = -45;
+	//private final int START_ANGLE = -45;
 	/**Degree measure of arcs*/
-	private final int ARC_ANGLE = 90;
+	//private final int ARC_ANGLE = 90;
 	
-	private final Color INDIGO = new Color(0, 51, 153);
+	//private final Color INDIGO = new Color(0, 51, 153);
 	
 	/**Set to W[int] to determine which wireless signal frame to draw.*/
-	private int wireless;
+	//private int wireless;
 	/**Used to update {@link #wireless} at even intervals.*/
-	private int timerCount;
+	//private int timerCount;
 	/**How many timer events heard before wireless is updated (currently set so that signal updates every .75 seconds*/
-	private final int UPDATE_COUNT = (int)(750/GUITimer.getMillisPerFrame()); //symbol updates every .75 seconds
+	//private final int UPDATE_COUNT = (int)(750/GUITimer.getMillisPerFrame()); //symbol updates every .75 seconds
 
     /**Constructor sets preferred size to tell layout manager of {@link LayoutContainerPanel} how to draw this panel;
     Initializes some graphics elements including wireless signal.
@@ -71,14 +71,15 @@ public class TextBox extends JPanel implements ActionListener{
     	width = (int)(widthOfContainer*TEXT_WIDTH_ALLOCATION);
     	height = (int)(heightOfContainer*TEXT_HEIGHT_ALLOCATION);
     	
+    	
     	setPreferredSize(new Dimension(width, height));
     	setBackground(GibbotGUI3.GLOBAL_BG);
-    	setFont(ANDALE_BIG);
+    	setFont(ANDALE_MED);
     	
-    	timerCount = 0;
-    	wireless = -1;
+    	//timerCount = 0;
+    	//wireless = -1;
     	
-    	GUITimer.addActionListener(this);
+    	//GUITimer.addActionListener(this);
     }
     
     /**Override of {@link javax.swing.JComponent#paintComponent}. super.paintComponent() call fills background color.
@@ -87,8 +88,19 @@ public class TextBox extends JPanel implements ActionListener{
      *@param g Graphics context for drawing. Kind of a black box; gets handled in the background somehow */  	
     public void paintComponent(Graphics g){
     	
+    	int xCoor = (int)(width*0.0347);
+    	int yCoor = (int)(height*0.245);
+    	
     	super.paintComponent(g);
-    	drawTextBubble(BOXX, BOXY, width - 2*XMARGIN, height - 2*YMARGIN, g);
+    	g.drawString("Name: Gibbot", xCoor, yCoor);
+    	g.drawString("Age : 6 months old", xCoor, (int)(yCoor*1.45));
+    	g.drawString("Home: NxR Lab @ NU", xCoor, (int)(yCoor*1.91));
+    	g.drawString("Hobbies:Eating bananas,", xCoor, (int)(yCoor*2.364));
+    	g.drawString("Swinging around,", (int)(xCoor*11.8), (int)(yCoor*2.818));
+    	g.drawString("Grooming friends", (int)(xCoor*11.8), (int)(yCoor*3.273));
+    	
+    	
+    	//drawTextBubble(BOXX, BOXY, width - 2*XMARGIN, height - 2*YMARGIN, g);
     	
     }
     
@@ -98,8 +110,8 @@ public class TextBox extends JPanel implements ActionListener{
     @param w Width of rectangle available to draw text in
     @param h Height of rectangle available to draw text in
     @param g Graphics context to draw with.*/
-    public void drawTextBubble(int x, int y, int w, int h, Graphics g){
-    	
+    /*public void drawTextBubble(int x, int y, int w, int h, Graphics g){
+    
     	g.setColor(INDIGO);
     	g.drawString("real time", x + 15, 70); //last two parameters give (x, y) coors of bottom left corner.
     	g.drawString("wireless", x + 24, 110);
@@ -131,13 +143,13 @@ public class TextBox extends JPanel implements ActionListener{
     			g2.drawArc(w - 65, h/2 - 37, ARC3_RAD, ARC3_RAD, START_ANGLE, ARC_ANGLE);
     			break;
     	}
-    }
+    }*/
     
     /**Specifies how to respond to timer events from {@link GUITimer}. This panel uses events as a signal to 
     update {@link #wireless} at frequency determined by {@link #UPDATE_COUNT}. Only updates  for drawing if awake
     panel is active.
     @param evt The timer event (not important to code but required by {@link java.awt.event#ActionListener} interface)*/
-    public void actionPerformed(ActionEvent evt){ 
+    /*public void actionPerformed(ActionEvent evt){ 
 
     	if(timerCount % UPDATE_COUNT == 0){
 			wireless++;
@@ -148,7 +160,9 @@ public class TextBox extends JPanel implements ActionListener{
 			timerCount = 1;
 			wireless = W0;
     	}
-		else
+		else{
 			timerCount++;
-		}   	  
+		}
+	}*/
+
 }

@@ -109,7 +109,6 @@ public class SpeedometerBox extends JPanel implements ActionListener{
 	public void paintComponent(Graphics g){
 		
 		int MAX_BATT_HEIGHT = (int)(height*0.534);
-		//drawTab(width, height - CHARTY, g);
 		super.paintComponent(g);
 		g.setFont(ANDALE_BIG);
 		
@@ -121,7 +120,9 @@ public class SpeedometerBox extends JPanel implements ActionListener{
 			g.fillRect(57, 45+batterySpent, 66, MAX_BATT_HEIGHT-batterySpent);
 		}
 		g.setColor(Color.BLACK);
-		g.drawString(100-(int)(100*batterySpent/MAX_BATT_HEIGHT) + "%", 56, 210);
+		int batt_height = (int)(100*batterySpent/MAX_BATT_HEIGHT);
+		g.drawString(100-batt_height + "%", (int)(width*0.16), (int)(height*0.882));
+		
 		
 		
 		Graphics2D g2 = (Graphics2D)g;
