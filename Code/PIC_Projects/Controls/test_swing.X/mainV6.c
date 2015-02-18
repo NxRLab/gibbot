@@ -28,6 +28,8 @@ int main(void) {
             motoron=0;
         }
 
+        //printf('Hi!');
+
         c = read_UART();    //read command from UART
 
         //commands to control specific components
@@ -47,6 +49,7 @@ int main(void) {
              //Turn off Bottom Magnet
             write_UART2('2');
         }
+        
         else if (c=='u'){
             //Turn on motor
             write_duty(200);

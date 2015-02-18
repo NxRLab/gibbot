@@ -21,9 +21,12 @@ int main(void) {
 
     while (1) {
         if (USER){
-            TOPMAG=1;
-            timer1_on();    //encoder reading is in ISR in time.c
+            //TOPMAG=1;
+            //timer1_on();    //encoder reading is in ISR in time.c
         }
+
+        //printf("hello world!\n");
+        write_UART('c');
        
         //press reset to end code
     }
