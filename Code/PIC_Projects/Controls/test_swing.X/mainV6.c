@@ -23,11 +23,12 @@ int main(void) {
 
 
     while (1) {
+        //safety to shut off motor 
         if(USER){
             motoron=0;
         }
 
-        c = read_UART();
+        c = read_UART();    //read command from UART
 
         //commands to control specific components
         if (c=='o'){
@@ -47,16 +48,18 @@ int main(void) {
             write_UART2('2');
         }
         else if (c=='u'){
-            // inc duty
-            // for now, increase the duty by 10% of max duty
+            //Turn on motor
+            write_duty(200);
             motoron=1;
-            write_duty(read_duty()+100);
+            kick();
+            // inc duty
+            //write_duty(read_duty()+100);
             c = 'x';
         }
         else if (c=='d'){
             // dec duty
             motoron=1;
-            write_duty(read_duty()+100);
+            write_duty(read_duty()-100);
             c = 'x';
         }
         else if (c=='m'){
