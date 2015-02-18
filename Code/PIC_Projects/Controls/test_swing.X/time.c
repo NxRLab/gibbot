@@ -79,13 +79,12 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void)
     IFS0bits.T1IF = 0;
 }
 
-/*void delay(void){
-    //delay function
-    TMR1 = 0;    //clear timer
-    PR1 = 0x16e36;  //300 ms
-    T1CONbits.TON = 1;  //turn on timer 1
+// takes in an integer as milliseconds value and delay
+void delay_ms(int x){
+    __delay32(x*40000);
+}
 
-    //output compare
-    OC1CON1.OCTSEL = 0b100;
-
-}*/
+// takes in an integer as microseconds value and delay
+void delay_us(int x){
+    __delay32(x*40);
+}
