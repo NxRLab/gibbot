@@ -106,7 +106,7 @@ int torque = 300;
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void)
 {
 	//ISR here
-        write_duty(torque);
+        //write_duty(torque);
 	IFS0bits.T2IF = 0; 	//Clear Timer2 interrupt flag
 }
 
@@ -115,7 +115,7 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void)
 
 void __attribute__((interrupt, no_auto_psv)) _T2Interrupt(void)
 {
-    write_duty(0);
+    //write_duty(0);
 	IFS0bits.T3IF = 0; //Clear Timer3 interrupt flag
 }
 
@@ -125,6 +125,6 @@ void __attribute__((interrupt, no_auto_psv)) _T2Interrupt(void)
 
 void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void)
 {
-    TOPMAG = 1;
-	//IFS0bits.T3IF = 0; //Clear Timer3 interrupt flag
+    //TOPMAG = 1;
+    IFS0bits.T3IF = 0; //Clear Timer3 interrupt flag
 }

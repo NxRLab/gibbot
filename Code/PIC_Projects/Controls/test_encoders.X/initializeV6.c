@@ -74,6 +74,7 @@ void initialize(void){
     initialize_QEI();
     initialize_UART();
     initialize_UART2();
+    initialize_ADC_Offset();
     //initialize_I2C_Master();
     lights();
     __delay32(10000000);

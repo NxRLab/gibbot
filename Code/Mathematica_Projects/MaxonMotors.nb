@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[    109701,       2493]
-NotebookOptionsPosition[    107870,       2429]
-NotebookOutlinePosition[    108241,       2445]
-CellTagsIndexPosition[    108198,       2442]
+NotebookDataLength[    109090,       2404]
+NotebookOptionsPosition[    107256,       2340]
+NotebookOutlinePosition[    107629,       2356]
+CellTagsIndexPosition[    107586,       2353]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -334,7 +334,7 @@ Cell[BoxData[{
            RowBox[{"wnl", " ", "-", " ", 
             RowBox[{
              RowBox[{"(", 
-              RowBox[{"s", " ", "/", " ", 
+              RowBox[{"stg", " ", "/", " ", 
                RowBox[{"G", "^", "2"}]}], ")"}], " ", "N"}]}], ",", " ", 
            RowBox[{"First", "@", 
             RowBox[{"MaxSpeed", "[", 
@@ -485,7 +485,7 @@ Cell[BoxData[{
         RowBox[{"wnl", " ", "-", " ", 
          RowBox[{
           RowBox[{"(", 
-           RowBox[{"s", "/", 
+           RowBox[{"stg", "/", 
             RowBox[{"G", "^", "2"}]}], ")"}], "N"}]}]}], ";", 
        "\[IndentingNewLine]", 
        RowBox[{"If", "[", 
@@ -658,8 +658,9 @@ Cell[BoxData[{
    3.6299777457292385`*^9}, {3.629977865071607*^9, 3.6299780840814323`*^9}, {
    3.6299781429680614`*^9, 3.6299781704154644`*^9}, {3.6299790049123974`*^9, 
    3.629979052692175*^9}, {3.6299793908362193`*^9, 3.6299794111265635`*^9}, {
-   3.632578233844664*^9, 3.6325782622178316`*^9}}]
-}, Open  ]],
+   3.632578233844664*^9, 3.6325782622178316`*^9}, {3.632794813016415*^9, 
+   3.6327948226883965`*^9}}]
+}, Closed]],
 
 Cell[CellGroupData[{
 
@@ -690,65 +691,49 @@ Cell[BoxData[{
     RowBox[{"nominal", " ", "voltage"}], " ", "-", " ", "V"}], " ", 
    "*)"}]}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{
-   RowBox[{"s", " ", "=", " ", "0.462"}], ";"}], " ", 
+  RowBox[{"stg", " ", "=", " ", "0.462"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{
      RowBox[{"speed", "/", "torque"}], " ", "gradient"}], " ", "-", " ", 
-    RowBox[{"rpm", "/", "mNm"}]}], " ", "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Nstall", " ", "=", " ", "4570"}], ";"}], " ", 
+    RowBox[{"rpm", "/", "mNm"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"Nstall", " ", "=", " ", "4570"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
-    RowBox[{"stall", " ", "torque"}], " ", "-", " ", "mNm"}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"wmax", " ", "=", " ", "5000"}], ";"}], " ", 
+    RowBox[{"stall", " ", "torque"}], " ", "-", " ", "mNm"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"wmax", " ", "=", " ", "5000"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{"max", " ", "permissible", " ", "speed"}], " ", "-", " ", "rpm"}],
-    " ", "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Nnom", " ", "=", " ", "533"}], ";"}], " ", 
+    " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"Nnom", " ", "=", " ", "533"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
-    RowBox[{"nominal", " ", "torque"}], " ", "-", " ", "mNm"}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Inom", " ", "=", " ", "2.27"}], ";"}], " ", 
+    RowBox[{"nominal", " ", "torque"}], " ", "-", " ", "mNm"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"Inom", " ", "=", " ", "2.27"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
-    RowBox[{"nominal", " ", "current"}], " ", "-", " ", "A"}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"wnom", " ", "=", " ", "1610"}], ";"}], " ", 
+    RowBox[{"nominal", " ", "current"}], " ", "-", " ", "A"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"wnom", " ", "=", " ", "1610"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
-    RowBox[{"nominal", " ", "speed"}], " ", "-", " ", "rpm"}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Tmax", " ", "=", " ", "125"}], ";"}], " ", 
+    RowBox[{"nominal", " ", "speed"}], " ", "-", " ", "rpm"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"Tmax", " ", "=", " ", "125"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{"maximum", " ", "winding", " ", "temperature"}], " ", "-", " ", 
-    "Celsius"}], " ", "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Ttc", " ", "=", " ", "46"}], ";"}], " ", 
+    "Celsius"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"Ttc", " ", "=", " ", "46"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{
     "thermal", " ", "time", " ", "constant", " ", "of", " ", "winding"}], " ",
-     "-", " ", "s"}], " ", "*)"}], 
-  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
- RowBox[{
+     "-", " ", "s"}], " ", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
   RowBox[{"G", " ", "=", "10"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{"SpeedTorqueCurve", "[", "G", "]"}]}], "Input",
  CellChangeTimes->{
@@ -760,7 +745,7 @@ Cell[BoxData[{
    3.629315907398362*^9}, {3.629316093119546*^9, 3.6293161103072634`*^9}, {
    3.629316209792968*^9, 3.629316209933611*^9}, {3.6293164076080947`*^9, 
    3.6293164077643433`*^9}, {3.629316439046012*^9, 3.6293164717964554`*^9}, {
-   3.6298547394144144`*^9, 3.6298547726094294`*^9}}],
+   3.6298547394144144`*^9, 3.6298547726094294`*^9}, 3.6327948324697175`*^9}],
 
 Cell[BoxData[{
  RowBox[{"Clear", "[", "G", "]"}], "\[IndentingNewLine]", 
@@ -774,8 +759,8 @@ Cell[BoxData[{
   RowBox[{
    RowBox[{"{", 
     RowBox[{
-    "kn", ",", " ", "Vnom", ",", " ", "s", ",", " ", "Nd", ",", " ", "wd"}], 
-    "}"}], ",", " ", 
+    "kn", ",", " ", "Vnom", ",", " ", "stg", ",", " ", "Nd", ",", " ", "wd"}],
+     "}"}], ",", " ", 
    RowBox[{"Solve", "[", 
     RowBox[{
      RowBox[{
@@ -784,12 +769,12 @@ Cell[BoxData[{
         RowBox[{"Vnom", "/", "G"}]}], " ", "-", " ", 
        RowBox[{
         RowBox[{"(", 
-         RowBox[{"s", " ", "/", " ", 
+         RowBox[{"stg", " ", "/", " ", 
           RowBox[{"G", "^", "2"}]}], ")"}], " ", "Nd"}]}], "\[Equal]", " ", 
       "wd"}], " ", ",", " ", "G"}], "]"}]}], "]"}]}], "Input",
  CellChangeTimes->{
   3.629247386916391*^9, 3.6292981502603264`*^9, {3.629299826735277*^9, 
-   3.629299826735277*^9}}]
+   3.629299826735277*^9}, {3.6327948383447704`*^9, 3.632794839313545*^9}}]
 }, Closed]],
 
 Cell[CellGroupData[{
@@ -800,22 +785,28 @@ Cell["EC 90 flat -- 24 V", "Section",
 
 Cell[BoxData[{
  RowBox[{
-  RowBox[{"kn", " ", "=", " ", "135"}], ";", " ", 
+  RowBox[{
+   RowBox[{"kn", " ", "=", " ", "135"}], ";"}], " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{"speed", " ", "coNstalltant"}], " ", "-", " ", 
-    RowBox[{"rpm", "/", "V"}]}], " ", "*)"}], "\[IndentingNewLine]", 
-  RowBox[{"km", " ", "=", " ", "70.5"}], ";", " ", 
+    RowBox[{"rpm", "/", "V"}]}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"km", " ", "=", " ", "70.5"}], ";"}], " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{"torque", " ", "coNstalltant"}], " ", "-", " ", 
-    RowBox[{"mNm", "/", "A"}]}], " ", "*)"}], "\[IndentingNewLine]", 
-  RowBox[{"Vnom", " ", "=", " ", "24"}], ";", " ", 
+    RowBox[{"mNm", "/", "A"}]}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Vnom", " ", "=", " ", "24"}], ";"}], " ", 
   RowBox[{"(*", " ", 
    RowBox[{
-    RowBox[{"nominal", " ", "voltage"}], " ", "-", " ", "V"}], " ", "*)"}], 
-  "\[IndentingNewLine]", 
-  RowBox[{"s", " ", "=", " ", "0.659"}], ";", " ", 
+    RowBox[{"nominal", " ", "voltage"}], " ", "-", " ", "V"}], " ", 
+   "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"stg", " ", "=", " ", "0.659"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{
@@ -867,7 +858,7 @@ Cell[BoxData[{
    3.629298184479533*^9}, 3.6292982791370525`*^9, 3.6292998267977777`*^9, {
    3.6293123848383417`*^9, 3.629312421401349*^9}, {3.629312491449145*^9, 
    3.629312500089904*^9}, {3.6293161196980543`*^9, 3.6293161293700023`*^9}, {
-   3.6293164136863127`*^9, 3.62931646981205*^9}}],
+   3.6293164136863127`*^9, 3.62931646981205*^9}, 3.6327948407510595`*^9}],
 
 Cell[BoxData[{
  RowBox[{"Clear", "[", "G", "]"}], "\[IndentingNewLine]", 
@@ -881,8 +872,8 @@ Cell[BoxData[{
   RowBox[{
    RowBox[{"{", 
     RowBox[{
-    "kn", ",", " ", "Vnom", ",", " ", "s", ",", " ", "Nd", ",", " ", "wd"}], 
-    "}"}], ",", " ", 
+    "kn", ",", " ", "Vnom", ",", " ", "stg", ",", " ", "Nd", ",", " ", "wd"}],
+     "}"}], ",", " ", 
    RowBox[{"Solve", "[", 
     RowBox[{
      RowBox[{
@@ -891,12 +882,13 @@ Cell[BoxData[{
         RowBox[{"Vnom", "/", "G"}]}], " ", "-", " ", 
        RowBox[{
         RowBox[{"(", 
-         RowBox[{"s", " ", "/", " ", 
+         RowBox[{"stg", " ", "/", " ", 
           RowBox[{"G", "^", "2"}]}], ")"}], " ", "Nd"}]}], "\[Equal]", " ", 
       "wd"}], " ", ",", " ", "G"}], "]"}]}], "]"}]}], "Input",
  CellChangeTimes->{
   3.629247069948141*^9, 3.6292472836200037`*^9, 3.6292981502603264`*^9, {
-   3.6292998267977777`*^9, 3.6292998267977777`*^9}}]
+   3.6292998267977777`*^9, 3.6292998267977777`*^9}, {3.6327948453292093`*^9, 
+   3.632794846469875*^9}}]
 }, Closed]],
 
 Cell[CellGroupData[{
@@ -928,65 +920,49 @@ Cell[BoxData[{
     RowBox[{"nominal", " ", "voltage"}], " ", "-", " ", "V"}], " ", 
    "*)"}]}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{
-   RowBox[{"s", " ", "=", " ", "0.798"}], ";"}], " ", 
+  RowBox[{"stg", " ", "=", " ", "0.798"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{
      RowBox[{"speed", "/", "torque"}], " ", "gradient"}], " ", "-", " ", 
-    RowBox[{"rpm", "/", "mNm"}]}], " ", "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Nstall", " ", "=", " ", "5010"}], ";"}], " ", 
+    RowBox[{"rpm", "/", "mNm"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"Nstall", " ", "=", " ", "5010"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
-    RowBox[{"stall", " ", "torque"}], " ", "-", " ", "mNm"}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"wmax", " ", "=", " ", "6000"}], ";"}], " ", 
+    RowBox[{"stall", " ", "torque"}], " ", "-", " ", "mNm"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"wmax", " ", "=", " ", "6000"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{"max", " ", "permissible", " ", "speed"}], " ", "-", " ", "rpm"}],
-    " ", "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Nnom", " ", "=", " ", "319"}], ";"}], " ", 
+    " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"Nnom", " ", "=", " ", "319"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
-    RowBox[{"nominal", " ", "torque"}], " ", "-", " ", "mNm"}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Inom", " ", "=", " ", "2.78"}], ";"}], " ", 
+    RowBox[{"nominal", " ", "torque"}], " ", "-", " ", "mNm"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"Inom", " ", "=", " ", "2.78"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
-    RowBox[{"nominal", " ", "current"}], " ", "-", " ", "A"}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"wnom", " ", "=", " ", "3490"}], ";"}], " ", 
+    RowBox[{"nominal", " ", "current"}], " ", "-", " ", "A"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"wnom", " ", "=", " ", "3490"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
-    RowBox[{"nominal", " ", "speed"}], " ", "-", " ", "rpm"}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Tmax", " ", "=", " ", "125"}], ";"}], " ", 
+    RowBox[{"nominal", " ", "speed"}], " ", "-", " ", "rpm"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"Tmax", " ", "=", " ", "125"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{"maximum", " ", "winding", " ", "temperature"}], " ", "-", " ", 
-    "Celsius"}], " ", "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Ttc", " ", "=", " ", "40"}], ";"}], " ", 
+    "Celsius"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"Ttc", " ", "=", " ", "40"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{
     "thermal", " ", "time", " ", "constant", " ", "of", " ", "winding"}], " ",
-     "-", " ", "s"}], " ", "*)"}], 
-  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
- RowBox[{
+     "-", " ", "s"}], " ", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
   RowBox[{"G", " ", "=", "6"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{"Show", "[", 
   RowBox[{
@@ -1017,7 +993,7 @@ Cell[BoxData[{
    3.6293164207801666`*^9, 3.6293164315771646`*^9}, {3.629325721386818*^9, 
    3.6293257513247375`*^9}, {3.629326049344307*^9, 3.629326094688681*^9}, 
    3.629326246487568*^9, {3.62932633520747*^9, 3.629326385114398*^9}, 
-   3.629855572881072*^9}],
+   3.629855572881072*^9, 3.632794847938608*^9}],
 
 Cell[BoxData[{
  RowBox[{"Clear", "[", "G", "]"}], "\[IndentingNewLine]", 
@@ -1031,8 +1007,8 @@ Cell[BoxData[{
   RowBox[{
    RowBox[{"{", 
     RowBox[{
-    "kn", ",", " ", "Vnom", ",", " ", "s", ",", " ", "Nd", ",", " ", "wd"}], 
-    "}"}], ",", " ", 
+    "kn", ",", " ", "Vnom", ",", " ", "stg", ",", " ", "Nd", ",", " ", "wd"}],
+     "}"}], ",", " ", 
    RowBox[{"Solve", "[", 
     RowBox[{
      RowBox[{
@@ -1041,12 +1017,12 @@ Cell[BoxData[{
         RowBox[{"Vnom", "/", "G"}]}], " ", "-", " ", 
        RowBox[{
         RowBox[{"(", 
-         RowBox[{"s", " ", "/", " ", 
+         RowBox[{"stg", " ", "/", " ", 
           RowBox[{"G", "^", "2"}]}], ")"}], " ", "Nd"}]}], "\[Equal]", " ", 
       "wd"}], " ", ",", " ", "G"}], "]"}]}], "]"}]}], "Input",
  CellChangeTimes->{
   3.6292472745095215`*^9, 3.6292981502603264`*^9, {3.629299826875922*^9, 
-   3.629299826875922*^9}}]
+   3.629299826875922*^9}, {3.6327948523605237`*^9, 3.63279485348555*^9}}]
 }, Closed]],
 
 Cell[CellGroupData[{
@@ -1081,7 +1057,7 @@ Cell[BoxData[{
    "*)"}]}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
-   RowBox[{"s", " ", "=", " ", "1.03"}], ";"}], " ", 
+   RowBox[{"stg", " ", "=", " ", "1.03"}], ";"}], " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{
@@ -1146,14 +1122,16 @@ Cell[BoxData[{
     " ", "-", " ", 
     RowBox[{"K", "/", "W"}]}], " ", "*)"}]}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{"Rth2", " ", "=", " ", "2.5"}], ";", " ", 
+  RowBox[{
+   RowBox[{"Rth2", " ", "=", " ", "2.5"}], ";"}], " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{"thermal", " ", "resistance", " ", "housing"}], "-", "ambient", 
     " ", "-", " ", 
-    RowBox[{"K", "/", "W"}]}], " ", "*)"}], "\[IndentingNewLine]", 
-  "\[IndentingNewLine]", 
-  RowBox[{"G", " ", "=", "9"}], ";"}], "\[IndentingNewLine]", 
+    RowBox[{"K", "/", "W"}]}], " ", "*)"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"G", " ", "=", "7"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{"SpeedTorqueCurve", "[", "G", "]"}]}], "Input",
  CellChangeTimes->{{3.6291739097053013`*^9, 3.629173939120207*^9}, {
    3.6291756195015063`*^9, 3.6291756195395317`*^9}, {3.6291756779550495`*^9, 
@@ -1187,118 +1165,119 @@ Cell[BoxData[{
    3.6298572490675573`*^9, 3.629857260184038*^9}, {3.6302514745078764`*^9, 
    3.6302514993984427`*^9}, {3.6307636314564037`*^9, 
    3.6307636818504095`*^9}, {3.632578048742092*^9, 3.632578068203938*^9}, {
-   3.6325781263072357`*^9, 3.6325781273099484`*^9}}],
+   3.6325781263072357`*^9, 3.6325781273099484`*^9}, {3.632794551826561*^9, 
+   3.6327945973582587`*^9}, 3.632794854657419*^9}],
 
 Cell[BoxData[
  TemplateBox[{GraphicsBox[
     GraphicsComplexBox[CompressedData["
-1:eJxdmHk4VH/7x2kjqRRFRbYW35DK2sK8K6lIZSkUoagQkn2ZDLIPSShLvllC
-9iUlxBglWQpl30m7EoWEfvNcv85xPc/9j+t9nTMf53zOmXter1v0rK22+Tw2
-NjYaOxvbf/4GK8z4mUscpixIEdA40UyF4o2vy+x4/WH4ol9ZgELFWtOM9MEl
-t6FfMrpUKc4DTq1B3sNdCWjJZ7CJL/CAZPF0U2RUKhQOvbq/2NYdwzFfm53r
-srArc+M2zXo3SNUqTwnX5aF81c720wpu+Hjw6YDIyAN80Iwwfh7uCrrYR0GX
-hUX4Ib4tbuuoC3yCOs2YQ8Xw+hPw28TQBV7fl/r9s6AM+ff/URp57IxPo34d
-FU4MmBv431IXc8YiwZa1a99WYCplY9bdECekqD57TrtciR2VS+7qfHHEiGzs
-b5OBp/jyNruw8YQjysRWxB2zr4J6c3RaZr4DPHHS/OP0cwSfe6bls9IBnzZ4
-F05bvYDmRJbQRqo92jiPXlk/VYMCg54q8c4rsCtge/jYug4xFbXhw/uvIMRI
-5/w5tpfYNMm2h++uHeIUHClFwa8QUecUq/DnMrZ8Lju2/2oDfFLuC22wuIzq
-XbwPt6s1Qjr+0FQX3RYlwx29XWxN0Jt6NMthZAMJJa747kdNUA1Ps90ia42T
-3oHh5ldfw/25ROyiESt0yHiopyu+wQMOcW5XpiWEu8uUnNiaoTCUqXjP3QI9
-ohYlt541w2320avqXRcx+sKP3YnaAqaYcpb38guotvtB7VRthfZbrQPjNeYY
-82h+MjPbine5fWJscWa4Jbw+3LGwDSqPRy6x25/DTMXDOAf3dvScCbMr3XYW
-Rc+ZltvkOkBbnl6ydIEp5OvX29pPd6CtOIW23cMYHApfFewfdeLBpWE+h3VG
-0FbYeLPapgsCUQre96pOwVghc+M9+W7wTMWbqVP0URGd4q7yrRucDr8b1w2e
-wND0CIdxUQ8iJJwfmOjqwHsiUaKZ2otM3Z+2EY3HUbLFbNGCdX2gSb+69HHs
-CKLa43n7r/ahetPoYFjvQazbddNbsKsPIkdmLt8Q3Q+j8yUl3or94KlYa9I7
-vge08CVhmTH92PbmUb5F3w5oXl5VJTfRD8ZV9bNHhsUQ/67wl+eZAbA9XrSB
-/eFIeepHh4QrvM7IVaQ+VQiiwiljyLhjywBoqS+U6S088I/xqnLkvYCOrzUc
-VTlUDITMhHOsGAC0ZbzC9deB60W9VJYqa73R6x/5tX9R1KZjeDx49WBbY3c/
-hEmFgGeg1PoFA+jjtWusOSICFBtUVSqyzk+WVlopyYE3rXtvRmmxssPKYGml
-Rsqz8vrkAN6D2Kl0wO17LRX5zsdc78/0w+RFd/SSO6LozBfmPbaddX2ufQar
-LnHDtoGjT1SD9flQ3SPid4cpO3vd1Zbos7LSNe/Pr9rKmWqy9Qm8ilj/Lfts
-UgOV9X/yhW2n+sG2gW9W8oAYJHK8H/NtZa339vGnKO7lKK2z9Ht/kPX59d3P
-+Vb8oPh19nxp0GVltufdE2eyy78MCNw9cJqVa1IXTH98V16qOyv0hnczbtQM
-npxuooL1mEYbJ/tB05LZtidaDMekH9CdpQbAOHKz3WorDwbV4wzU1VifD3io
-H5U3Tsky4GHI6rCySMH6O23FlJWm6vZpBv/Zzx8Dk2n95c/M3tcNGLJy/KlN
-f7Z8KSf6GR/TPmm0MJR8nkQm+lnUwgPw6Qkg+9lq7Z2+o8o0sp9Btfk89aYz
-2c88/BOTW/3tyH7Wp7CywU/GiuxnX57JzzcuMyP7Wcx7Rv5mZ2Oyn/HE8+x1
-ydAj+1mrV9G+bvPjZD8rlg1xO9SiSvaztnpdzWXecqx9/e8i7o/I3a6/+d+f
-ryTPmx/Qp9c7cAdrLkrU9z/xQUN1ZXrF42TIMX8qejm4g57u+MYvLx36UaVc
-y5QdoEWPGZU2yMVq7AtLfG2DoMVeNiJnCqAf6sJ5uuICdhW2eNa5PYS3QYc4
-m+BZBJwcwB3Hx0hxX27ba3EaLv7ZU9bSFWAYuQxKtqngZK6mnWY6EzzvKCaz
-N8QR+uOAl+lEDGsfGl5sW+wH8eOpUXoaSbj+sbdIgfX+Gu54rLNsw30IbM96
-erbBEdXtN7otKDl4anpdbr7NZZy2NJYTiczHC66r0voWFgi/qpnnVFiIBr4h
-ex6zcwgqHcoOelKEwkHVU7XmRtj+JOYTfxMD9Ggu6RqBfdj6bkWV7EEm0jQ+
-ZKhIbcXUqZ5+/c8RGIp1pk9W0FEaonxr64W7eLFcTqu01QtX9/aVSUqkYNOJ
-um7d864oFdtx4o9KJgxP97rGN15BmeSl8ZSVebB85R7C/v0SyrWYXE8DKiB3
-tf+NevxOXHULFLywtBKMdzlucudW4k36ZGSiVzQ2N1gqJhn7o443mi4WkQhf
-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
-yHnY3xqnt3/6mXCTnH/9Skjt609IIvP/AWHbvyo=
+1:eJxdmHk0Vd/7x5UhDYZEyVSUIWNUJHLfyUyUMhXKlKIQEUL3IpkyS0nIGEqm
+kMyNyq1IQn1KNEqUMmX63e9azrHW7/nnrvfa++z1nL33ee7r/Yjau5s6LWZi
+YqIuYmL6369Smvt5pfjdlMUzXR2VciF4XUDVujVCg5R79ntRejDCDM+PfS9P
+QFJThNxJx2BwhN/zPtVyFeOemS03Fgfjm4Wy6y3LLLgW9x58kUVDNVtnM+Ty
+If5UXbFzBw1BlkMKxreL0KnVcoDeTcWVPgmxGb0StGacqsvxoKJ5/52cH8Vl
+6AjdLei8lIqjq5mUUn5UIDc+KnqL6TnQjg7xJFhWQb7n8QkrWhDWsF+Z1U+7
+i7xex6+H6wMR4Jhln9pxD5g6YKQ+FwBLYxOBHTvr4dgZoNatEIAuLWs3Q41G
++LqzPjR3OwtKgb2fqE8TVrc87EpK8wen6+XG3Tea0anc3XnjuR9SzWQvPnh4
+H2H2e9yvcfqhjy2B+eTUAzQaT8abavjia6/ZnJfQIwxMsJp8O3sGN2g/crLM
+HiPNweCSRoEPXp4rCROOeAKvvo+PXXq8UZn36udYfgu2r+tJPLPWGxZJT2bH
+3z9FuNCyAS2906gsFEy2WNSKR29Se0ZCvRAgku7MLEKHVH7QHZ+Hnpi1HOnv
+NH2OVSqpAvdGT2Fnbc5ndq8XGApdLdC75RSEvJL0Ss1eYn/i0+yHdh6gK7up
+swy/RKVrtsJiSXe84xz3ZAtqQ56sl9GOvJPQf3osSGhtOwrdygL/sJwAX2pE
+68eCdkTLlvefPOeCZP7m7XSVV6jgOSiStOg4PP37/VrbXuGXn8dJNQdnFP8q
+n/G368AKG73f2b1O0DM4ab5zpgM7mmIjLu50xK7q17+LY15D5/pl8+2V9vjZ
+YVakI9yJ1ALdiRhlO4x31KuOVHWC5WirNV32MI5871y2R+8Noj2ileY2WEPy
+45uSe5/eAIEyilt6LHH9wq/Te4O6QO1Z3V2fYQZ/zeqzSRzd8FU4P9CaZorS
+3mMWgze6AY5c/ZpSY+gmPvH+o9oDpiLt+A+X9RD3l1K2/kkPer8HyVSka0JF
+NfO+nf1bMB0clBfQ3o6dCbfXmI68BTWIblVkJoW6oypjcwnvwJTHnmYQMNog
+254YWDxyCnzK9VYnZoIRGPCHrUCTMe5ixCaWx4cesZrhkhE7RF8xTInnC4HN
+hX2xgQLv0NjtJ2+bJIprp5KDOlwY82FwmEuXCcoP2DrujOyDriGPco5oCOjR
+1FfObO+AmxsesIxuBMeZB8315oz5kb/vFLRwQO7E0R0DQQxdvUb7xoZOyhBb
+ZlrDyC6I53ifvyUZgvNcl0etpxn5J09wWuZK4OHk20/lRu9ATcnyOKvNg89D
+gdYfTjOe3/7TOXT5H4r3d2P+0XCG9jjP1/TlQ4NtdLvcqxFFJO6VlCuTDsHH
+l9lhFuOM/VnmUEELlITova/exbqM9ahn7j0fXYVdJRE/u90Zz79DYlvrJKWt
+8GDBcAhDU99mKoaVN6yV2n3h30WGZnH5+M/7Z8POFJW9/0ZE8UyCibZVNgSx
+pZtedPx9C2jxX7j0XRIvrp6sl9FmrD/68cgEnRfDcVzKFicZzxcPSPnKzVDO
+RfX+PkFj6N7ed4KaTZTH7C0vzkQxtPXqylsVXxpcdes0AuMYusOWLUdwpIGo
+Z1nl1lOC9YnkeRKaqGfeV7jkQydjyXp2u0y/aOhjKFnPzAJyDg+YBJH1LBAO
+u/gifch6VjF7TX3K7xRZzwJmp2rSi1zIevYlKfPI3h2OZD2j2fApNLjZkvUs
+nzdnxS4+M7KeDQr3KNg8NSDr2WX2kw48tjvA9P+CeD9CF4W+YzeUryfnPT2+
+vvKWRgo6z1vKdttFYJxj2apykUzMapes3J9Hw14FtjXjzTlgVTiidIjVH1cV
+7P103Qpg4fkxV7HNC12cIjty1hfDLaGhqS/SDfKCbg5/z5YiyHjnmQQ9Z/De
+Oei6i14Oy7Biq8AMOxhUXtvsWV2DjiN0ZaGO3XDp9tUYYK9DiaRppuumTbjR
+Y9ppOJmEHVPNyaMHojHb9pXuypwO8dXdPtsY9zdtt8iu9ovZiBOoKR9cHgBp
+QSGRB3tu4OJW938167xRtIVt2+TXm6DJCHQsMvfAp6Cnzb59Jeh3+M/QdugY
+XFnYw1drlGOscknN4i/22Hz46hpb6RpMf8/IP6Wliz/pF/c2u9Uic3Mr0yWn
+LfjAcVpUWzsOQ/ukVpYFJGBw4mcyV+gVSD6bjKb/CsMvpfWUErXr6DtnNL3y
+ABUsgkODghO5aFzS+ZlXyRcrtG50PI0pxP1eu8qhVE84cGTqh+kw/n8EesKX
++wIfVznK8mTXgSrV90UkZw3WrDrxJbUzEf7NjnEUjhiw3Wq77vYlDeMW1AO0
+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
+U2QM2f9q3yrKviwyndT/B1Dxkr8=
      "], {{{}, {}, {}, {
         EdgeForm[], 
         Directive[
@@ -1381,8 +1360,8 @@ IOC9IILpoJoi0lhPBLep5RBZbOAulzhKLr1c5hiPaOIpIfwH2ONJGA==
        Thickness[Large], 
        TagBox[
         TooltipBox[
-         LineBox[{{14417.999999999998`, 0}, {14417.999999999998`, 6000}}], 
-         "\"Max Battery Current\"", LabelStyle -> "TextStyling"], 
+         LineBox[{{11214., 0}, {11214., 6000}}], "\"Max Battery Current\"", 
+         LabelStyle -> "TextStyling"], 
         Annotation[#, "Max Battery Current", "Tooltip"]& ], 
        RGBColor[0.5, 0, 0.5], 
        TagBox[
@@ -1396,16 +1375,16 @@ IOC9IILpoJoi0lhPBLep5RBZbOAulzhKLr1c5hiPaOIpIfwH2ONJGA==
         FormBox["\"Duty Cycle (%)\"", TraditionalForm]}, {
         FormBox["\"Torque (mNm)\"", TraditionalForm], 
         FormBox["\"Current (A)\"", TraditionalForm]}}, 
-     FrameTicks -> {{Automatic, {{45.234294825453034`, 
-          FormBox["10", TraditionalForm]}, {138.72045473925937`, 
-          FormBox["20", TraditionalForm]}, {200.413521704611, 
-          FormBox["30", TraditionalForm]}, {249.0362278807824, 
-          FormBox["40", TraditionalForm]}, {290.249901137899, 
-          FormBox["50", TraditionalForm]}, {326.58416529777526`, 
-          FormBox["60", TraditionalForm]}, {359.41043011901667`, 
-          FormBox["70", TraditionalForm]}, {389.56516174759963`, 
-          FormBox["80", TraditionalForm]}, {417.6009079961394, 
-          FormBox["90", TraditionalForm]}, {443.9043400000001, 
+     FrameTicks -> {{Automatic, {{58.158379061296614`, 
+          FormBox["10", TraditionalForm]}, {178.35487037904755`, 
+          FormBox["20", TraditionalForm]}, {257.67452790592836`, 
+          FormBox["30", TraditionalForm]}, {320.18943584672024`, 
+          FormBox["40", TraditionalForm]}, {373.1784443201558, 
+          FormBox["50", TraditionalForm]}, {419.89392681142516`, 
+          FormBox["60", TraditionalForm]}, {462.0991244387359, 
+          FormBox["70", TraditionalForm]}, {500.86949367548516`, 
+          FormBox["80", TraditionalForm]}, {536.9154531378937, 
+          FormBox["90", TraditionalForm]}, {570.7341514285714, 
           FormBox["100", TraditionalForm]}}}, {
        Automatic, Charting`ScaledFrameTicks[
          (Join[
@@ -1413,7 +1392,7 @@ IOC9IILpoJoi0lhPBLep5RBZbOAulzhKLr1c5hiPaOIpIfwH2ONJGA==
            FindDivisions[{#, #2}, 50]], 
           Map[{#, 
             NumberForm[
-             N[(#/$CellContext`km)/9], {5, 1}]}& , 
+             N[(#/$CellContext`km)/7], {5, 1}]}& , 
            FindDivisions[{#, #2}, 10]]]& )[
           SlotSequence[1]], {Identity, Identity}]& }}, 
      GridLines -> {None, None}, GridLinesStyle -> Directive[
@@ -1421,7 +1400,7 @@ IOC9IILpoJoi0lhPBLep5RBZbOAulzhKLr1c5hiPaOIpIfwH2ONJGA==
      Method -> {
       "DefaultBoundaryStyle" -> Automatic, "ScalingFunctions" -> None, 
        "AxesInFront" -> True}, 
-     PlotRange -> {{0, 37620}, {-1.0444346816325947`, 982.7434758227923}}, 
+     PlotRange -> {{0, 29260}, {-1.342844590670552, 1263.5273260578765`}}, 
      PlotRangeClipping -> True, PlotRangePadding -> {{
         Scaled[0.02], 
         Scaled[0.02]}, {
@@ -1697,8 +1676,7 @@ IOC9IILpoJoi0lhPBLep5RBZbOAulzhKLr1c5hiPaOIpIfwH2ONJGA==
      RowBox[{#, ",", 
        RowBox[{"Placed", "[", 
          RowBox[{#2, ",", "Above"}], "]"}]}], "]"}]& )]], "Output",
- CellChangeTimes->{{3.631619481113637*^9, 3.6316194977545085`*^9}, 
-   3.63257169588793*^9, 3.632571763845299*^9, 3.6325781934319134`*^9}]
+ CellChangeTimes->{3.632794932564398*^9, 3.633128296961088*^9}]
 }, Open  ]],
 
 Cell[BoxData[{
@@ -1713,8 +1691,8 @@ Cell[BoxData[{
   RowBox[{
    RowBox[{"{", 
     RowBox[{
-    "kn", ",", " ", "Vnom", ",", " ", "s", ",", " ", "Nd", ",", " ", "wd"}], 
-    "}"}], ",", " ", 
+    "kn", ",", " ", "Vnom", ",", " ", "stg", ",", " ", "Nd", ",", " ", "wd"}],
+     "}"}], ",", " ", 
    RowBox[{"Solve", "[", 
     RowBox[{
      RowBox[{
@@ -1723,14 +1701,15 @@ Cell[BoxData[{
         RowBox[{"Vnom", "/", "G"}]}], " ", "-", " ", 
        RowBox[{
         RowBox[{"(", 
-         RowBox[{"s", " ", "/", " ", 
+         RowBox[{"stg", " ", "/", " ", 
           RowBox[{"G", "^", "2"}]}], ")"}], " ", "Nd"}]}], "\[Equal]", " ", 
       "wd"}], " ", ",", " ", "G"}], "]"}]}], "]"}]}], "Input",
  CellChangeTimes->{{3.6291766703223705`*^9, 3.6291766813882217`*^9}, {
    3.629176777181306*^9, 3.6291768135361505`*^9}, {3.629177141896533*^9, 
    3.629177185929816*^9}, {3.6291772162873917`*^9, 3.6291772243291073`*^9}, {
    3.6291772614985247`*^9, 3.6291773142600236`*^9}, 3.6292463469953003`*^9, 
-   3.6292981502759643`*^9, {3.629299826954029*^9, 3.629299826954029*^9}}]
+   3.6292981502759643`*^9, {3.629299826954029*^9, 3.629299826954029*^9}, {
+   3.6327948583762197`*^9, 3.6327948593293495`*^9}}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -1745,82 +1724,64 @@ Cell[BoxData[{
    RowBox[{"kn", " ", "=", " ", "313"}], ";"}], " ", 
   RowBox[{"(*", " ", 
    RowBox[{
-    RowBox[{"speed", " ", "coNstalltant"}], " ", "-", " ", 
+    RowBox[{"speed", " ", "constant"}], " ", "-", " ", 
     RowBox[{"rpm", "/", "V"}]}], " ", "*)"}]}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
-   RowBox[{"km", " ", "=", " ", "30.5"}], ";"}], " ", 
-  RowBox[{"(*", " ", 
-   RowBox[{
-    RowBox[{"torque", " ", "coNstalltant"}], " ", "-", " ", 
-    RowBox[{"mNm", "/", "A"}]}], " ", "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
+   RowBox[{"km", " ", "=", " ", "30.5"}], ";", " ", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"torque", " ", "constant"}], " ", "-", " ", 
+     RowBox[{"mNm", "/", "A"}]}], " ", "*)"}], "\[IndentingNewLine]", 
    RowBox[{"Vnom", " ", "=", " ", "12"}], ";"}], " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{"nominal", " ", "voltage"}], " ", "-", " ", "V"}], " ", 
    "*)"}]}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{
-   RowBox[{"s", " ", "=", " ", "1.32"}], ";"}], " ", 
+  RowBox[{"stg", " ", "=", " ", "1.32"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{
      RowBox[{"speed", "/", "torque"}], " ", "gradient"}], " ", "-", " ", 
-    RowBox[{"rpm", "/", "mNm"}]}], " ", "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Nstall", " ", "=", " ", "2850"}], ";"}], " ", 
+    RowBox[{"rpm", "/", "mNm"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"Nstall", " ", "=", " ", "2850"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
-    RowBox[{"stall", " ", "torque"}], " ", "-", " ", "mNm"}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"wmax", " ", "=", " ", "6000"}], ";"}], " ", 
+    RowBox[{"stall", " ", "torque"}], " ", "-", " ", "mNm"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"wmax", " ", "=", " ", "6000"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{"max", " ", "permissible", " ", "speed"}], " ", "-", " ", "rpm"}],
-    " ", "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Nnom", " ", "=", " ", "231"}], ";"}], " ", 
+    " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"Nnom", " ", "=", " ", "231"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
-    RowBox[{"nominal", " ", "torque"}], " ", "-", " ", "mNm"}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Inom", " ", "=", " ", "7.81"}], ";"}], " ", 
+    RowBox[{"nominal", " ", "torque"}], " ", "-", " ", "mNm"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"Inom", " ", "=", " ", "7.81"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
-    RowBox[{"nominal", " ", "current"}], " ", "-", " ", "A"}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"wnom", " ", "=", " ", "3260"}], ";"}], " ", 
+    RowBox[{"nominal", " ", "current"}], " ", "-", " ", "A"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"wnom", " ", "=", " ", "3260"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
-    RowBox[{"nominal", " ", "speed"}], " ", "-", " ", "rpm"}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Tmax", " ", "=", " ", "125"}], ";"}], " ", 
+    RowBox[{"nominal", " ", "speed"}], " ", "-", " ", "rpm"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"Tmax", " ", "=", " ", "125"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{"maximum", " ", "winding", " ", "temperature"}], " ", "-", " ", 
-    "Celsius"}], " ", "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Ttc", " ", "=", " ", "40"}], ";"}], " ", 
+    "Celsius"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"Ttc", " ", "=", " ", "40"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{
     "thermal", " ", "time", " ", "constant", " ", "of", " ", "winding"}], " ",
-     "-", " ", "s"}], " ", "*)"}], 
-  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
- RowBox[{
+     "-", " ", "s"}], " ", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
   RowBox[{"G", " ", "=", "15"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{"SpeedTorqueCurve", "[", "G", "]"}]}], "Input",
  CellChangeTimes->{{3.6291411126088233`*^9, 3.629141140612727*^9}, {
@@ -1860,7 +1821,8 @@ Cell[BoxData[{
    3.629316240840251*^9, 3.629316244121555*^9}, {3.6293164851091375`*^9, 
    3.629316485312253*^9}, {3.6293166897427034`*^9, 3.6293167085554647`*^9}, {
    3.6293254097733374`*^9, 3.6293254118358397`*^9}, {3.629348446846103*^9, 
-   3.629348471018287*^9}}],
+   3.629348471018287*^9}, {3.632794751140911*^9, 3.6327947609378743`*^9}, 
+   3.6327948613918715`*^9}],
 
 Cell[BoxData[{
  RowBox[{"Clear", "[", "G", "]"}], "\[IndentingNewLine]", 
@@ -1874,8 +1836,8 @@ Cell[BoxData[{
   RowBox[{
    RowBox[{"{", 
     RowBox[{
-    "kn", ",", " ", "Vnom", ",", " ", "s", ",", " ", "Nd", ",", " ", "wd"}], 
-    "}"}], ",", " ", 
+    "kn", ",", " ", "Vnom", ",", " ", "stg", ",", " ", "Nd", ",", " ", "wd"}],
+     "}"}], ",", " ", 
    RowBox[{"Solve", "[", 
     RowBox[{
      RowBox[{
@@ -1884,12 +1846,13 @@ Cell[BoxData[{
         RowBox[{"Vnom", "/", "G"}]}], " ", "-", " ", 
        RowBox[{
         RowBox[{"(", 
-         RowBox[{"s", " ", "/", " ", 
+         RowBox[{"stg", " ", "/", " ", 
           RowBox[{"G", "^", "2"}]}], ")"}], " ", "Nd"}]}], "\[Equal]", " ", 
       "wd"}], " ", ",", " ", "G"}], "]"}]}], "]"}]}], "Input",
  CellChangeTimes->{
   3.6291775697496085`*^9, 3.629245155466458*^9, 3.6292981502759643`*^9, {
-   3.629299827032193*^9, 3.629299827032193*^9}}]
+   3.629299827032193*^9, 3.629299827032193*^9}, {3.632794866188775*^9, 
+   3.6327948669856577`*^9}}]
 }, Closed]],
 
 Cell[CellGroupData[{
@@ -1923,77 +1886,61 @@ Cell[BoxData[{
     RowBox[{"nominal", " ", "voltage"}], " ", "-", " ", "V"}], " ", 
    "*)"}]}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{
-   RowBox[{"s", " ", "=", " ", "3.82"}], ";"}], " ", 
+  RowBox[{"stg", " ", "=", " ", "3.82"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{
      RowBox[{"speed", "/", "torque"}], " ", "gradient"}], " ", "-", " ", 
-    RowBox[{"rpm", "/", "mNm"}]}], " ", "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Nstall", " ", "=", " ", "915"}], ";"}], " ", 
+    RowBox[{"rpm", "/", "mNm"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"Nstall", " ", "=", " ", "915"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
-    RowBox[{"stall", " ", "torque"}], " ", "-", " ", "mNm"}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"wmax", " ", "=", " ", "10000"}], ";"}], " ", 
+    RowBox[{"stall", " ", "torque"}], " ", "-", " ", "mNm"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"wmax", " ", "=", " ", "10000"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{"max", " ", "permissible", " ", "speed"}], " ", "-", " ", "rpm"}],
-    " ", "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Nnom", " ", "=", " ", "134"}], ";"}], " ", 
+    " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"Nnom", " ", "=", " ", "134"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
-    RowBox[{"nominal", " ", "torque"}], " ", "-", "mNm"}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Inom", " ", "=", " ", "0.936"}], ";"}], " ", 
+    RowBox[{"nominal", " ", "torque"}], " ", "-", "mNm"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"Inom", " ", "=", " ", "0.936"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
-    RowBox[{"nominal", " ", "current"}], " ", "-", " ", "A"}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"wnom", " ", "=", " ", "2540"}], ";"}], " ", 
+    RowBox[{"nominal", " ", "current"}], " ", "-", " ", "A"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"wnom", " ", "=", " ", "2540"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
-    RowBox[{"nominal", " ", "speed"}], " ", "-", " ", "rpm"}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Tmax", " ", "=", " ", "125"}], ";"}], " ", 
+    RowBox[{"nominal", " ", "speed"}], " ", "-", " ", "rpm"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"Tmax", " ", "=", " ", "125"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{"maximum", " ", "winding", " ", "temperature"}], " ", "-", " ", 
-    "Celsius"}], " ", "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Ttc", " ", "=", " ", "178"}], ";", " ", 
-   RowBox[{"(*", " ", 
+    "Celsius"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"Ttc", " ", "=", " ", "178"}], ";", " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
     RowBox[{
-     RowBox[{
-     "thermal", " ", "time", " ", "constant", " ", "of", " ", "winding"}], 
-     " ", "-", " ", "s"}], " ", "*)"}], "\[IndentingNewLine]", 
-   RowBox[{"Rth1", " ", "=", " ", "4.1"}], ";", " ", 
-   RowBox[{"(*", " ", 
-    RowBox[{
-     RowBox[{"thermal", " ", "resistance", " ", "winding"}], "-", "housing", 
-     " ", "-", " ", 
-     RowBox[{"K", "/", "W"}]}], " ", "*)"}], "\[IndentingNewLine]", 
-   RowBox[{"Rth2", " ", "=", " ", "3.56"}], ";"}], " ", 
+    "thermal", " ", "time", " ", "constant", " ", "of", " ", "winding"}], " ",
+     "-", " ", "s"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"Rth1", " ", "=", " ", "4.1"}], ";", " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"thermal", " ", "resistance", " ", "winding"}], "-", "housing", 
+    " ", "-", " ", 
+    RowBox[{"K", "/", "W"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"Rth2", " ", "=", " ", "3.56"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{"thermal", " ", "resistance", " ", "housing"}], "-", "ambient", 
     " ", "-", " ", 
-    RowBox[{"K", "/", "W"}]}], " ", "*)"}], 
-  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
- RowBox[{
+    RowBox[{"K", "/", "W"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
   RowBox[{"G", " ", "=", "10"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{"SpeedTorqueCurve", "[", "G", "]"}]}], "Input",
  CellChangeTimes->{{3.6291411126088233`*^9, 3.629141140612727*^9}, {
@@ -2036,7 +1983,8 @@ Cell[BoxData[{
    3.629976214250595*^9}, {3.6299762876224623`*^9, 3.6299763094608955`*^9}, {
    3.6299782474879503`*^9, 3.629978353606969*^9}, {3.6299783930918827`*^9, 
    3.6299783966433926`*^9}, {3.6299784497199163`*^9, 3.6299784498770237`*^9}, 
-   3.6299786249708047`*^9, {3.629979068230159*^9, 3.629979131740056*^9}}],
+   3.6299786249708047`*^9, {3.629979068230159*^9, 3.629979131740056*^9}, 
+   3.632794870720083*^9}],
 
 Cell[BoxData[{
  RowBox[{"Clear", "[", "G", "]"}], "\[IndentingNewLine]", 
@@ -2050,8 +1998,8 @@ Cell[BoxData[{
   RowBox[{
    RowBox[{"{", 
     RowBox[{
-    "kn", ",", " ", "Vnom", ",", " ", "s", ",", " ", "Nd", ",", " ", "wd"}], 
-    "}"}], ",", " ", 
+    "kn", ",", " ", "Vnom", ",", " ", "stg", ",", " ", "Nd", ",", " ", "wd"}],
+     "}"}], ",", " ", 
    RowBox[{"Solve", "[", 
     RowBox[{
      RowBox[{
@@ -2060,13 +2008,13 @@ Cell[BoxData[{
         RowBox[{"Vnom", "/", "G"}]}], " ", "-", " ", 
        RowBox[{
         RowBox[{"(", 
-         RowBox[{"s", " ", "/", " ", 
+         RowBox[{"stg", " ", "/", " ", 
           RowBox[{"G", "^", "2"}]}], ")"}], " ", "Nd"}]}], "\[Equal]", " ", 
       "wd"}], " ", ",", " ", "G"}], "]"}]}], "]"}]}], "Input",
  CellChangeTimes->{
   3.6291789658159885`*^9, {3.629235412649727*^9, 3.629235480666222*^9}, 
    3.629244994249868*^9, 3.6292981502759643`*^9, {3.629299827125926*^9, 
-   3.629299827125926*^9}}]
+   3.629299827125926*^9}, {3.6327948743607244`*^9, 3.6327948752982364`*^9}}]
 }, Closed]],
 
 Cell[CellGroupData[{
@@ -2100,81 +2048,61 @@ Cell[BoxData[{
     RowBox[{"nominal", " ", "voltage"}], " ", "-", " ", "V"}], " ", 
    "*)"}]}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{
-   RowBox[{"s", " ", "=", " ", "5.44"}], ";"}], " ", 
+  RowBox[{"stg", " ", "=", " ", "5.44"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{
      RowBox[{"speed", "/", "torque"}], " ", "gradient"}], " ", "-", " ", 
-    RowBox[{"rpm", "/", "mNm"}]}], " ", "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Nstall", " ", "=", " ", "1170"}], ";"}], " ", 
+    RowBox[{"rpm", "/", "mNm"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"Nstall", " ", "=", " ", "1170"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
-    RowBox[{"stall", " ", "torque"}], " ", "-", " ", "mNm"}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"wmax", " ", "=", " ", "10000"}], ";"}], " ", 
+    RowBox[{"stall", " ", "torque"}], " ", "-", " ", "mNm"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"wmax", " ", "=", " ", "10000"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{"max", " ", "permissible", " ", "speed"}], " ", "-", " ", "rpm"}],
-    " ", "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Nnom", " ", "=", " ", "112"}], ";"}], " ", 
+    " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"Nnom", " ", "=", " ", "112"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
-    RowBox[{"nominal", " ", "torque"}], " ", "-", "mNm"}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Inom", " ", "=", " ", "2.36"}], ";"}], " ", 
+    RowBox[{"nominal", " ", "torque"}], " ", "-", "mNm"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"Inom", " ", "=", " ", "2.36"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
-    RowBox[{"nominal", " ", "current"}], " ", "-", " ", "A"}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"wnom", " ", "=", " ", "4990"}], ";"}], " ", 
+    RowBox[{"nominal", " ", "current"}], " ", "-", " ", "A"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"wnom", " ", "=", " ", "4990"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
-    RowBox[{"nominal", " ", "speed"}], " ", "-", " ", "rpm"}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Tmax", " ", "=", " ", "125"}], ";"}], " ", 
+    RowBox[{"nominal", " ", "speed"}], " ", "-", " ", "rpm"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"Tmax", " ", "=", " ", "125"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{"maximum", " ", "winding", " ", "temperature"}], " ", "-", " ", 
-    "Celsius"}], " ", "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Ttc", " ", "=", " ", "178"}], ";"}], " ", 
+    "Celsius"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"Ttc", " ", "=", " ", "178"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{
     "thermal", " ", "time", " ", "constant", " ", "of", " ", "winding"}], " ",
-     "-", " ", "s"}], " ", "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Rth1", " ", "=", " ", "4.1"}], ";"}], " ", 
+     "-", " ", "s"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"Rth1", " ", "=", " ", "4.1"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{"thermal", " ", "resistance", " ", "winding"}], "-", "housing", 
     " ", "-", " ", 
-    RowBox[{"K", "/", "W"}]}], " ", "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Rth2", " ", "=", " ", "3.56"}], ";"}], " ", 
+    RowBox[{"K", "/", "W"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"Rth2", " ", "=", " ", "3.56"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{"thermal", " ", "resistance", " ", "housing"}], "-", "ambient", 
     " ", "-", " ", 
-    RowBox[{"K", "/", "W"}]}], " ", "*)"}], 
-  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
- RowBox[{
+    RowBox[{"K", "/", "W"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
   RowBox[{"G", " ", "=", "10"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{"SpeedTorqueCurve", "[", "G", "]"}]}], "Input",
  CellChangeTimes->{{3.6291411126088233`*^9, 3.629141140612727*^9}, {
@@ -2212,7 +2140,7 @@ Cell[BoxData[{
    3.629976365991865*^9, 3.629976395463698*^9}, {3.6299784698331327`*^9, 
    3.629978470019265*^9}, {3.629979167656447*^9, 3.6299791714841533`*^9}, {
    3.6307634274957247`*^9, 3.6307634276206975`*^9}, {3.631446614492673*^9, 
-   3.63144662093027*^9}}],
+   3.63144662093027*^9}, 3.6327948767982645`*^9}],
 
 Cell[BoxData[{
  RowBox[{"Clear", "[", "G", "]"}], "\[IndentingNewLine]", 
@@ -2226,8 +2154,8 @@ Cell[BoxData[{
   RowBox[{
    RowBox[{"{", 
     RowBox[{
-    "kn", ",", " ", "Vnom", ",", " ", "s", ",", " ", "Nd", ",", " ", "wd"}], 
-    "}"}], ",", " ", 
+    "kn", ",", " ", "Vnom", ",", " ", "stg", ",", " ", "Nd", ",", " ", "wd"}],
+     "}"}], ",", " ", 
    RowBox[{"Solve", "[", 
     RowBox[{
      RowBox[{
@@ -2236,12 +2164,13 @@ Cell[BoxData[{
         RowBox[{"Vnom", "/", "G"}]}], " ", "-", " ", 
        RowBox[{
         RowBox[{"(", 
-         RowBox[{"s", " ", "/", " ", 
+         RowBox[{"stg", " ", "/", " ", 
           RowBox[{"G", "^", "2"}]}], ")"}], " ", "Nd"}]}], "\[Equal]", " ", 
       "wd"}], " ", ",", " ", "G"}], "]"}]}], "]"}]}], "Input",
  CellChangeTimes->{
   3.6291789658159885`*^9, 3.629244970741169*^9, 3.6292981502915936`*^9, {
-   3.6292998272040496`*^9, 3.6292998272040496`*^9}}]
+   3.6292998272040496`*^9, 3.6292998272040496`*^9}, {3.632794880688921*^9, 
+   3.6327948814701786`*^9}}]
 }, Closed]],
 
 Cell[CellGroupData[{
@@ -2274,81 +2203,61 @@ Cell[BoxData[{
     RowBox[{"nominal", " ", "voltage"}], " ", "-", " ", "V"}], " ", 
    "*)"}]}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{
-   RowBox[{"s", " ", "=", " ", "4.26"}], ";"}], " ", 
+  RowBox[{"stg", " ", "=", " ", "4.26"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{
      RowBox[{"speed", "/", "torque"}], " ", "gradient"}], " ", "-", " ", 
-    RowBox[{"rpm", "/", "mNm"}]}], " ", "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Nstall", " ", "=", " ", "1460"}], ";"}], " ", 
+    RowBox[{"rpm", "/", "mNm"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"Nstall", " ", "=", " ", "1460"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
-    RowBox[{"stall", " ", "torque"}], " ", "-", " ", "mNm"}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"wmax", " ", "=", " ", "10000"}], ";"}], " ", 
+    RowBox[{"stall", " ", "torque"}], " ", "-", " ", "mNm"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"wmax", " ", "=", " ", "10000"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{"max", " ", "permissible", " ", "speed"}], " ", "-", " ", "rpm"}],
-    " ", "*)"}]}], "\n", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Nnom", " ", "=", " ", "128"}], ";"}], " ", 
+    " ", "*)"}], "\n", 
+  RowBox[{"Nnom", " ", "=", " ", "128"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
-    RowBox[{"nominal", " ", "torque"}], " ", "-", " ", "mNm"}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Inom", " ", "=", " ", "3.21"}], ";"}], " ", 
+    RowBox[{"nominal", " ", "torque"}], " ", "-", " ", "mNm"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"Inom", " ", "=", " ", "3.21"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
-    RowBox[{"nominal", " ", "current"}], " ", "-", " ", "A"}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"wnom", " ", "=", " ", "4860"}], ";"}], " ", 
+    RowBox[{"nominal", " ", "current"}], " ", "-", " ", "A"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"wnom", " ", "=", " ", "4860"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
-    RowBox[{"nominal", " ", "speed"}], " ", "-", " ", "rpm"}], " ", 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Tmax", " ", "=", " ", "125"}], ";"}], " ", 
+    RowBox[{"nominal", " ", "speed"}], " ", "-", " ", "rpm"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"Tmax", " ", "=", " ", "125"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{"maximum", " ", "winding", " ", "temperature"}], " ", "-", " ", 
-    "Celsius"}], " ", "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Ttc", " ", "=", " ", "178"}], ";"}], " ", 
+    "Celsius"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"Ttc", " ", "=", " ", "178"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{
     "thermal", " ", "time", " ", "constant", " ", "of", " ", "winding"}], " ",
-     "-", " ", "s"}], " ", "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Rth1", " ", "=", " ", "4.1"}], ";"}], " ", 
+     "-", " ", "s"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"Rth1", " ", "=", " ", "4.1"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{"thermal", " ", "resistance", " ", "winding"}], "-", "housing", 
     " ", "-", " ", 
-    RowBox[{"K", "/", "W"}]}], " ", "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Rth2", " ", "=", " ", "3.56"}], ";"}], " ", 
+    RowBox[{"K", "/", "W"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"Rth2", " ", "=", " ", "3.56"}], ";", " ", 
   RowBox[{"(*", " ", 
    RowBox[{
     RowBox[{"thermal", " ", "resistance", " ", "housing"}], "-", "ambient", 
     " ", "-", " ", 
-    RowBox[{"K", "/", "W"}]}], " ", "*)"}], 
-  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
- RowBox[{
+    RowBox[{"K", "/", "W"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
   RowBox[{"G", " ", "=", "10"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{"SpeedTorqueCurve", "[", "G", "]"}]}], "Input",
  CellChangeTimes->{{3.6291411126088233`*^9, 3.629141140612727*^9}, {
@@ -2394,7 +2303,8 @@ Cell[BoxData[{
    3.629979531765847*^9, 3.6299795345177917`*^9}, {3.6299795946032677`*^9, 
    3.629979595490896*^9}, {3.6299796681382537`*^9, 3.6299796761499157`*^9}, {
    3.629979811871862*^9, 3.6299798125693564`*^9}, {3.6307633978077207`*^9, 
-   3.630763397979595*^9}, {3.6314470571010675`*^9, 3.6314470659813604`*^9}}],
+   3.630763397979595*^9}, {3.6314470571010675`*^9, 3.6314470659813604`*^9}, 
+   3.632794882423319*^9}],
 
 Cell[BoxData[{
  RowBox[{"Clear", "[", "G", "]"}], "\[IndentingNewLine]", 
@@ -2408,8 +2318,8 @@ Cell[BoxData[{
   RowBox[{
    RowBox[{"{", 
     RowBox[{
-    "kn", ",", " ", "Vnom", ",", " ", "s", ",", " ", "Nd", ",", " ", "wd"}], 
-    "}"}], ",", " ", 
+    "kn", ",", " ", "Vnom", ",", " ", "stg", ",", " ", "Nd", ",", " ", "wd"}],
+     "}"}], ",", " ", 
    RowBox[{"Solve", "[", 
     RowBox[{
      RowBox[{
@@ -2418,18 +2328,19 @@ Cell[BoxData[{
         RowBox[{"Vnom", "/", "G"}]}], " ", "-", " ", 
        RowBox[{
         RowBox[{"(", 
-         RowBox[{"s", " ", "/", " ", 
+         RowBox[{"stg", " ", "/", " ", 
           RowBox[{"G", "^", "2"}]}], ")"}], " ", "Nd"}]}], "\[Equal]", " ", 
       "wd"}], " ", ",", " ", "G"}], "]"}]}], "]"}]}], "Input",
  CellChangeTimes->{
   3.6291789658159885`*^9, {3.6292449167848196`*^9, 3.629244917212125*^9}, {
    3.6292449483732705`*^9, 3.629244950883025*^9}, 3.6292981502915936`*^9, {
-   3.629299827282164*^9, 3.629299827282164*^9}}]
+   3.629299827282164*^9, 3.629299827282164*^9}, 3.6327948298915844`*^9, 
+   3.6327948857514687`*^9}]
 }, Closed]]
 },
 AutoGeneratedPackage->None,
 WindowSize->{704, 715},
-WindowMargins->{{Automatic, 0}, {Automatic, 0}},
+WindowMargins->{{190, Automatic}, {Automatic, 7}},
 FrontEndVersion->"10.0 for Microsoft Windows (64-bit) (December 4, 2014)",
 StyleDefinitions->"Default.nb"
 ]
@@ -2449,51 +2360,51 @@ Cell[CellGroupData[{
 Cell[885, 30, 195, 3, 70, "Section"],
 Cell[1083, 35, 9213, 158, 172, "Input",
  InitializationCell->True],
-Cell[10299, 195, 21661, 465, 1332, "Input",
+Cell[10299, 195, 21717, 466, 1332, "Input",
  InitializationCell->True]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[32053, 666, 130, 2, 56, "Section"],
+Cell[32186, 670, 3242, 77, 292, "Input"],
+Cell[35431, 749, 973, 27, 92, "Input"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[36441, 781, 132, 2, 56, "Section"],
+Cell[36576, 785, 3085, 75, 292, "Input"],
+Cell[39664, 862, 1005, 28, 92, "Input"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[40706, 895, 132, 2, 56, "Section"],
+Cell[40841, 899, 3925, 96, 312, "Input"],
+Cell[44769, 997, 974, 27, 92, "Input"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[45780, 1029, 132, 2, 56, "Section"],
+Cell[CellGroupData[{
+Cell[45937, 1035, 5789, 133, 332, "Input"],
+Cell[51729, 1170, 25335, 508, 448, "Output"]
+}, Open  ]],
+Cell[77079, 1681, 1234, 30, 92, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[31997, 665, 130, 2, 70, "Section"],
-Cell[32130, 669, 3428, 93, 292, "Input"],
-Cell[35561, 764, 921, 27, 72, "Input"]
+Cell[78350, 1716, 181, 2, 70, "Section"],
+Cell[78534, 1720, 5331, 104, 292, "Input"],
+Cell[83868, 1826, 1001, 28, 92, "Input"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[36519, 796, 132, 2, 56, "Section"],
-Cell[36654, 800, 2980, 69, 292, "Input"],
-Cell[39637, 871, 949, 27, 72, "Input"]
+Cell[84906, 1859, 307, 4, 56, "Section"],
+Cell[85216, 1865, 6134, 121, 332, "Input"],
+Cell[91353, 1988, 1049, 28, 92, "Input"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[40623, 903, 132, 2, 56, "Section"],
-Cell[40758, 907, 4113, 112, 312, "Input"],
-Cell[44874, 1021, 923, 27, 72, "Input"]
+Cell[92439, 2021, 309, 4, 56, "Section"],
+Cell[92751, 2027, 5749, 115, 332, "Input"],
+Cell[98503, 2144, 1005, 28, 92, "Input"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[45834, 1053, 132, 2, 56, "Section"],
-Cell[CellGroupData[{
-Cell[45991, 1059, 5687, 130, 332, "Input"],
-Cell[51681, 1191, 25444, 509, 448, "Output"]
-}, Open  ]],
-Cell[77140, 1703, 1176, 29, 72, "Input"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[78353, 1737, 181, 2, 70, "Section"],
-Cell[78537, 1741, 5494, 121, 292, "Input"],
-Cell[84034, 1864, 945, 27, 72, "Input"]
-}, Closed]],
-Cell[CellGroupData[{
-Cell[85016, 1896, 307, 4, 56, "Section"],
-Cell[85326, 1902, 6330, 136, 332, "Input"],
-Cell[91659, 2040, 995, 28, 72, "Input"]
-}, Closed]],
-Cell[CellGroupData[{
-Cell[92691, 2073, 309, 4, 56, "Section"],
-Cell[93003, 2079, 5987, 135, 332, "Input"],
-Cell[98993, 2216, 949, 27, 72, "Input"]
-}, Closed]],
-Cell[CellGroupData[{
-Cell[99979, 2248, 253, 3, 56, "Section"],
-Cell[100235, 2253, 6593, 143, 332, "Input"],
-Cell[106831, 2398, 1023, 28, 72, "Input"]
+Cell[99545, 2177, 253, 3, 56, "Section"],
+Cell[99801, 2182, 6357, 124, 332, "Input"],
+Cell[106161, 2308, 1079, 29, 92, "Input"]
 }, Closed]]
 }
 ]

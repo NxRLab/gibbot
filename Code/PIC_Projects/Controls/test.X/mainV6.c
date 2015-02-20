@@ -15,12 +15,15 @@ int main(void) {
     //initialize_ADC_Offset();
     //initialize_UART();
     //TOPMAG=1;
-    unsigned char c='o';
+    unsigned char c=0;
     motoron = 1;
     direction = CW;
-    //write_duty(300);
+    kick();
+    write_duty(512);
+    //write_duty(0);
     //timer1_on();
 
+    printf("hello world!\n");
     while (1) {
         c = read_UART();
         if (c=='o'){

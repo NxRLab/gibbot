@@ -12,21 +12,26 @@
 #include "UART.h"
 #include "encoder.h"
 
+#define TOPMAG_ON (TOPMAG = 1)
+#define BOTMAG_ON (write_UART2('1'))
+
+#define TOPMAG_OFF (TOPMAG = 0)
+#define BOTMAG_OFF (write_UART2('2'))
+
 int main(void) {
     //initialize all peripherals, encoder values
     initialize();
-    initialize_ADC_Offset();
-    initialize_QEI();
-    initialize_UART();
 
+    TOPMAG_OFF;
+    BOTMAG_OFF;
+
+    printf("hello world!\n");
     while (1) {
         if (USER){
-            //TOPMAG=1;
-            //timer1_on();    //encoder reading is in ISR in time.c
+            TOPMAG_ON;
+            BOTMAG_ON;
+            timer1_on();    //encoder reading is in ISR in time.c
         }
-
-        //printf("hello world!\n");
-        write_UART('c');
        
         //press reset to end code
     }
