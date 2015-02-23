@@ -1,0 +1,20 @@
+Library of test functions for swinging robot
+Author: Hannah Arntson
+Created on: February 22, 2015
+---------------------------------------------
+Load the program 'test_swing.X' onto the dsPIC and send the following
+wireless commands to control the robot.
+
+Important: Press 'USER' to shut off the motor
+
+Commands:
+'o' : turn on top magnet
+'f'	: turn off top magnet
+'g'	: turn on bottom magnet
+'h'	: turn off bottom magnet
+'u'	: increment duty cycle
+'d'	: decrement duty cycle
+'m'	: turn motor off
+'l'	: swing motor to the left one "swing"
+'r'	: swing motor to the right one "swing"
+'q'	: function to test delay32

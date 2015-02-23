@@ -36,6 +36,7 @@ int main(void) {
         if (c=='o'){
             TOPMAG=1;
         }
+
         else if (c=='f'){
             TOPMAG=0;
         }
@@ -52,11 +53,9 @@ int main(void) {
         
         else if (c=='u'){
             //Turn on motor
-            write_duty(200);
             motoron=1;
-            kick();
             // inc duty
-            //write_duty(read_duty()+100);
+            write_duty(read_duty()+100);
             c = 'x';
         }
         else if (c=='d'){
@@ -65,23 +64,49 @@ int main(void) {
             write_duty(read_duty()-100);
             c = 'x';
         }
+        
         else if (c=='m'){
             // motor off
+            write_duty(0);
             motoron = 0;
         }
 
-        //command to swing robot
+        //command to swing robot to the left
         else if (c=='l'){
-            //swing left
-            TOPMAG=0;
+            direction=CW;
+            //turn off bottom magnet
+            write_UART2('2');
             //delay function in progress
-            __delay32(8000000);  //delay 8000000 cycles
-            //delay(0.1);
+            delay_ms(100);  //delay 0.1 seconds
+            //start motor
             write_duty(200);
             //delay(0.1);
+            delay_ms(100);
+            //turn motor off
             write_duty(0);
             //delay(0.1);
-            TOPMAG=1;
+            delay_ms(100);
+            //Turn on Bottom Magnet
+            write_UART2('1');
+        }
+
+        //command to swing robot to the right
+        else if (c=='r'){
+            direction=CCW;
+            //turn off bottom magnet
+            write_UART2('2');
+            //delay function in progress
+            delay_ms(100);  //delay 0.1 seconds
+            //start motor
+            write_duty(200);
+            //delay(0.1);
+            delay_ms(100);
+            //turn motor off
+            write_duty(0);
+            //delay(0.1);
+            delay_ms(100);
+            //Turn on Bottom Magnet
+            write_UART2('1');
         }
 
         //test delay32
