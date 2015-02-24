@@ -12,10 +12,11 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
 	private Image jungle = ImageHandler.getImage("jungle.png");
 	private Image bunch = ImageHandler.getImage("bunch.png");
 	private Image gibbotBubble = ImageHandler.getImage("gibbotBubble.png");
-	private Font andaleBig = ImageHandler.getFont().deriveFont(Font.BOLD, 64);
+	private Font andaleBig = ImageHandler.getAndaleFont().deriveFont(Font.BOLD, 64);
 
-	double[] testArray = {10,GUILayeredPane.getScreenHeight()-10,0,0};
-	
+	/**CODE FOR TEST CASES*/
+	double[][] testArray = new double[100][4];// = {10,GUILayeredPane.getScreenHeight()-10,0,0};
+	int iterate;
 	
 	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensions in constructor*/
 	private int drawingHeight;
@@ -85,7 +86,22 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     	addMouseListener(this);
     	addMouseMotionListener(this);
     	GUITimer.addActionListener(this);
+    	
+
+    	
+    	int start_x = 250;
+    	int start_y = GUILayeredPane.getScreenHeight()-100;
+    	int th1 = -90;
+    	int th2 = -90; 
+    	for(int i = 0; i < testArray.length; i++){
+    		testArray[i][0] = start_x++;
+    		testArray[i][1] = start_y++;
+    		testArray[i][2] = (th1*=10*(Math.PI/180));
+    		testArray[i][3] = (th2*=15*(Math.PI/180));
+    	}
 		
+    	iterate = 0;
+    	
     }
     
     /**Override of {@link javax.swing.JComponent#paintComponent}. super.paintComponent() call fills background color.
@@ -107,9 +123,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     			g.drawImage(bananaImg, banana.getX(), banana.getY(), 80, 60, this);
     			if(outOfBounds){
     				g.setColor(OUT_OF_BOUNDS_COLOR);
-    				//g.fillRect(56, 37, sizingWidth - 140, sizingHeight/2 + 15);
-    				//g.fillRect((int)(drawingWidth/15), (int)(drawingHeight/10), (int)(sizingWidth*0.9), (int)(sizingHeight*0.5));
-    				g.fillRect(XBOUND, YBOUND, sizingWidth-2*XBOUND, sizingHeight-12*YBOUND);
+    				g.fillRect(XBOUND, YBOUND, sizingWidth-2*XBOUND, sizingHeight/2 + YBOUND);
     				g.setColor(Color.BLACK);
     				g.drawString("Out of Bounds!", 400, 240);
     			}
@@ -185,7 +199,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
    			banana.setX(x - 40);
     		banana.setY(y - 30);
     		//if(x < 20 + XBOUND || x > sizingWidth - 60 - XBOUND || y < 10 + YBOUND || y > sizingHeight/2 + 73 - YBOUND)
-    		if(x < XBOUND || x > sizingWidth-2*XBOUND || y < YBOUND || y > sizingHeight-12*YBOUND)
+    		if(x < XBOUND || x > sizingWidth-2*XBOUND || y < YBOUND || y > sizingHeight/2 + YBOUND)
     			outOfBounds = true;
     		else
     			outOfBounds = false;
@@ -231,11 +245,16 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
 											
    		if(animating && (int)bob.getPivotX() <= banana.getX()){  //If the robot is not to the bananas yet	
    			//bob.arcMotionUpdate(timerCount);
-   			bob.arcMotionUpdate(testArray[0], testArray[1], testArray[2], testArray[3]);
-   			testArray[0] += 4;
+   			//bob.arcMotionUpdate(testArray[0], testArray[1], testArray[2], testArray[3]);
+   			
+   			if(iterate < testArray.length){
+   				bob.arcMotionUpdate(testArray[iterate++]);
+   			}
+   			
+   			/*testArray[0] += 4;
    			testArray[1] -= 4;
    			testArray[2] += 10*(Math.PI/180);
-   			testArray[3] += 15*(Math.PI/180);
+   			testArray[3] += 15*(Math.PI/180);*/
    			
    			//With camera data, above call will be replaced by bob.updateRealCoors(); 
    			//timerCount++;

@@ -110,8 +110,13 @@ public class Gibbot {
      /**Animation simulation. Called by {@link BananaPanel1#actionPerformed}.
       *@param frameCount Stands for time value in motion equations
      */
-     public void arcMotionUpdate(double x, double y, double th1, double th2){
+     public void arcMotionUpdate(double[] array){//double x, double y, double th1, double th2
     	//x, y, th1, th2
+    	
+    	double x = array[0];
+    	double y = array[1];
+    	double th1 = array[2];
+    	double th2 = array[3];
     	
     	arm1X = x;
     	arm1Y = -y + GUILayeredPane.getScreenHeight();
