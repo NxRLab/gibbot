@@ -9,18 +9,25 @@
 #include "test.h"
 
 int main(void) {
+    int duty = 500;
     initialize();
-    initialize_ADC_Offset();
+    write_duty(duty); //apply duty cycle change
+    motoron = 1;//turn motor on
+    kick();//kick start commutation
     while (1){
+        commutate(2);
+        __delay32(40000000);
+        commutate(4);
+        __delay32(40000000);
+        commutate(3);
+        __delay32(40000000);
         if(USER){
-            LED1 = !LED1;
-            LED2 = !LED2;
-            LED3 = !LED3;
-            LED4 = !LED4;
-            //TOPMAG = !TOPMAG;
-            //commutate(7);
+            motoron=0;
         }
-       test_MayDay();
+        LED1 = !S3;
+        LED2 = !S2;
+        LED3 = !S1;
+        //test_MayDay();
     }
     return 0;
 }

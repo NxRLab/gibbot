@@ -16,9 +16,6 @@ int main(void) {
     __delay32(40000000);
     initialize_CurrentControl();
     while (1){
-        LED1 = !S3;
-        LED2 = !S2;
-        LED3 = !S1;
         if(USER){
             LED1 = !LED1;
             LED2 = !LED2;
