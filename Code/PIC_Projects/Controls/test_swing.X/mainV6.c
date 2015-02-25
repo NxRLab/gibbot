@@ -58,6 +58,7 @@ int main(void) {
             write_duty(read_duty()+100);
             c = 'x';
         }
+        
         else if (c=='d'){
             // dec duty
             motoron=1;

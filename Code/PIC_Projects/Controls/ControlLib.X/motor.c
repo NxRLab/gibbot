@@ -45,7 +45,7 @@ void __attribute__((interrupt, no_auto_psv)) _CNInterrupt(void) {
         commutate(0);     //Set all motor outputs to float
     }
     LED1 = !LED1;
-    //printf("%d\n",state);
+    //printf("%d",state);
     PORTD;                //Clear mismatch condition
     IFS1bits.CNIF = 0;    //Clear interrupt flag
 }

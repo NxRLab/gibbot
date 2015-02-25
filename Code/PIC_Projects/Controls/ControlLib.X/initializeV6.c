@@ -78,7 +78,7 @@ void initialize(void){
     lights();
     __delay32(10000000);
     //initialize_MPU();
-    //initialize_encoder_values(1600,1700,1800);
+    initialize_encoder_values(1600,1700,1800);
 }
 
 void lights(void){
