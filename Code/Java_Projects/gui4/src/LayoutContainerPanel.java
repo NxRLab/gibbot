@@ -17,13 +17,15 @@ public class LayoutContainerPanel extends JPanel{
 	/**bananapan is declared public for access by {@link GUILayeredPane} for enabling/disabling*/
 	public BananaPanel1 bananapan;
 	/**current is declared public for access by {@link GUILayeredPane} for enabling/disabling*/
-	public CurrentBox current;
+	public TorqueBox torque;
 	/**hardware is declared public for access by {@link GUILayeredPane} for enabling/disabling*/
-	public HardwareBox hardware;
+	public TemperatureBox temperature;
 	/**speed is declared public for access by {@link GUILayeredPane} for enabling/disabling*/
 	public SpeedometerBox speed;
 	/**text is declared public for access by {@link GUILayeredPane} for enabling/disabling*/
 	public TextBox text;
+	
+	//public BatteryBox battery;
 	
 	/**Tells layout manager where to position child components */
 	GridBagConstraints c;
@@ -34,7 +36,7 @@ public class LayoutContainerPanel extends JPanel{
 	 @param sizeW only used to pass to {@link BananaPanel1#BananaPanel1}; comes from {@link GUILayeredPane}.
 	 @param sizeH only used to pass to {@link BananaPanel1#BananaPanel1}; comes from {@link GUILayeredPane}.*/
     public LayoutContainerPanel(int drawW, int drawH, int sizeW, int sizeH) {
-
+    	
     	setBackground(GibbotGUI3.GLOBAL_BG);
     	setLayout(new GridBagLayout());
     	drawingWidth=drawW-1;
@@ -43,6 +45,8 @@ public class LayoutContainerPanel extends JPanel{
     	bananapan = new BananaPanel1((int)(drawingWidth*2/3), (int)(drawingHeight*2/3), sizeW, sizeH);
     	
     	c = new GridBagConstraints();
+    	//c.gridwidth = GridBagConstraints.REMAINDER;
+    	
     	c.gridx=0;
     	c.gridy=0;
     	c.gridwidth=4;
@@ -59,28 +63,33 @@ public class LayoutContainerPanel extends JPanel{
     	text = new TextBox(drawingWidth, drawingHeight);
     	c.gridx = 0;
     	c.gridy = 1;
-    	c.weighty = 0.40; // did not exist before
-    	c.weightx = .80;//was 0.25
+    	c.weightx = 0.8;//0.80
+    	c.weighty = 0.31;//0.40
     	add(text, c);
     	
     	
     	speed = new SpeedometerBox(drawingWidth, drawingHeight);
     	c.gridx = 1;
     	c.gridy = 1;
-    	c.weightx = .33;
+    	//c.gridwidth = 1;
+    	//c.gridwidth = GridBagConstraints.REMAINDER;
+    	c.weightx = 0.33; //0.33
     	add(speed, c);
     	
-    	hardware = new HardwareBox(drawingWidth, drawingHeight);
+    	
+    	temperature = new TemperatureBox(drawingWidth, drawingHeight);
+    	//temperature.setOpaque(false);
     	c.gridx = 2;
     	c.gridy = 1;
-    	c.weightx = .16;
-    	add(hardware, c);
+    	c.weightx = 0.16; //0.16
+    	add(temperature, c);
     	
-    	current = new CurrentBox(drawingWidth, drawingHeight);
+    	//c.gridwidth = 1;
+    	torque = new TorqueBox(drawingWidth, drawingHeight);
     	c.gridx = 3;
     	c.gridy = 1;
-    	c.weightx = .25;
-    	add(current, c);
+    	c.weightx = 0.25; //0.25
+    	add(torque, c);
     	
     }
 }

@@ -57,6 +57,7 @@ public class ImageHandler {
 	
 	/**Font used throughout the GUI*/
 	private static Font andale;
+	private static Font digital;
 	
 	/**For displaying data in CurrentBox*/
 	//private static BufferedImage currentChart = new BufferedImage(CURRENT_WIDTH, HEIGHT, BufferedImage.TYPE_BYTE_INDEXED);
@@ -113,10 +114,13 @@ public class ImageHandler {
 		try{
     		stream = new BufferedInputStream(new FileInputStream("AndaleMono.ttf"));
     		andale = (Font.createFont(Font.TRUETYPE_FONT, stream)).deriveFont(Font.BOLD, 12);
+    		stream = new BufferedInputStream(new FileInputStream("DS-DIGIT.TTF"));
+    		digital = (Font.createFont(Font.TRUETYPE_FONT, stream)).deriveFont(Font.BOLD, 12);
     	}
     	catch(Exception e){
     		System.out.println(e);
     		andale = new Font("Serif", Font.PLAIN, 15);
+    		digital = new Font("Serif", Font.PLAIN, 15);
     	}
     }
     
@@ -241,9 +245,11 @@ public class ImageHandler {
     
     /**Returns AndaleMono font.
      *@return andale The AndaleMono font.*/
-    public static Font getFont(){
+    public static Font getAndaleFont(){
     	return andale;
     }
-    
+    public static Font getDigitalFont(){
+    	return digital;
+    }
     
 }

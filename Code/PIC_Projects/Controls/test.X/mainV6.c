@@ -4,11 +4,7 @@
  */
 
 #include <p33EP512MC806.h>
-#include "initializeV6.h"
-#include "motor.h"
-#include "test.h"
-#include "time.h"
-#include "UART.h"
+#include "ControlLib.lib"
 
 int main(void) {
     initialize();
