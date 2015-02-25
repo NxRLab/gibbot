@@ -19,6 +19,7 @@
 #define BOTMAG_OFF (write_UART2('2'))
 
 int main(void) {
+    long test_data1 = 0;
     //initialize all peripherals, encoder values
     initialize();
 
@@ -27,11 +28,33 @@ int main(void) {
 
     printf("hello world!\n");
     while (1) {
+       /*
         if (USER){
             TOPMAG_ON;
             BOTMAG_ON;
             timer1_on();    //encoder reading is in ISR in time.c
         }
+       */
+
+         //read topmag encoder encoder
+    test_data1 = read_TOPMAGENC();
+
+
+    //store to an array rather than print to screen every time
+    /*if (count<(sizeof(angles)/sizeof(int))){
+        angles[count] = test_angle;
+    }
+    else{
+        int i =0;
+        for(i; i<(sizeof(angles)/sizeof(int)); i++){
+            printf("%d \n",angles[i]);
+        }
+        count=0;
+    }*/
+
+    printf("%ld\n",test_data1);
+
+    __delay32(20000000);
        
         //press reset to end code
     }
