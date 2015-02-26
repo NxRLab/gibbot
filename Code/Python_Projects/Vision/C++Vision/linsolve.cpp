@@ -2,7 +2,7 @@
 // http://eigen.tuxfamily.org/dox-devel/group__TutorialLinearAlgebra.html
 
 #include  <iostream>
-#include <Eigen/Dense>
+#include "Eigen/Dense"
 
 using namespace std;
 using namespace Eigen;

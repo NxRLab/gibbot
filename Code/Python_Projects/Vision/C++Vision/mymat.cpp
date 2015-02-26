@@ -1,7 +1,7 @@
 // based on: http://eigen.tuxfamily.org/dox/GettingStarted.html
 
 #include  <iostream>
-#include <Eigen/Dense>
+#include "Eigen/Dense"
 
 using Eigen::MatrixXd;
 
