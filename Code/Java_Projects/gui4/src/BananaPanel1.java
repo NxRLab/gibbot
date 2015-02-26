@@ -94,12 +94,12 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     	int th1 = -90;
     	int th2 = -90; 
     	for(int i = 0; i < testArray.length; i++){
-    		testArray[i][0] = start_x++;
+    		testArray[i][0] = start_x+=8;
     		testArray[i][1] = start_y++;
     		testArray[i][2] = (th1*=10*(Math.PI/180));
     		testArray[i][3] = (th2*=15*(Math.PI/180));
     	}
-		
+    	
     	iterate = 0;
     	
     }

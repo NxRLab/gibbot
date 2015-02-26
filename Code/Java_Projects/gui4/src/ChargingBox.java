@@ -22,6 +22,8 @@ public class ChargingBox extends JPanel implements ActionListener {
 	
 	/**Value of battery level that's displayed in the graph*/
 	private int batt;
+	
+	private int MAX_BATT = 230;
 
 	/**Constructor initializes {@link #batt} and {@link #timerCount} to zero, gets {@link #millisPerFrame}.*/
     public ChargingBox() {
@@ -42,12 +44,21 @@ public class ChargingBox extends JPanel implements ActionListener {
     	
     	super.paintComponent(g);
     	
-    	g.drawImage(batteryBar, 0, 0, batteryBar.getWidth(this), batteryBar.getHeight(this) + 23, this); //+23 to make space for the max
-    																									 //height of the charge bar to be
+    	int width = batteryBar.getWidth(this);
+    	int height = batteryBar.getHeight(this);
+    	g.drawImage(batteryBar, (int)(width*0.414), (int)(height*0.142), width, height, this); //+23 to make space for the max
+    	//batteryBar, 60, 35, batteryBar.getWidth(this), batteryBar.getHeight(this) + 23, this
+    	//System.out.println("width = " + batteryBar.getWidth(this) + " height = " + batteryBar.getHeight(this));																								 //height of the charge bar to be
     																									 //exactly 2*((int)4*max) voltage.
     																									 //See update() method of GUISerialPort. 
     	g.setColor(GREEN);
-    	g.fillRect(81, 299 - batt, 113, batt);
+    	if(batt < MAX_BATT){
+    		g.fillRect((int)(width*0.51), (int)(height*1.104) - batt, (int)(width*0.841), batt);
+    	}
+    	else{
+    		g.fillRect((int)(width*0.51), (int)(height*1.104) - MAX_BATT, (int)(width*0.841), MAX_BATT);
+    	}
+    	//81, 299 - batt, 113, batt
     }
     
     /**Specifies how to respond to timer events from {@link GUITimer}. This panel uses events as a signal to 
@@ -57,7 +68,8 @@ public class ChargingBox extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent evt){
 
     	if(timerCount == SEC_PER_UPDATE*1000/millisPerFrame){ 
-    		batt = GUISerialPort.getData().get("batteryVoltage")*2; //*2 to scale
+    		//batt = GUISerialPort.getData().get("batteryVoltage")*2; //*2 to scale
+    		batt+=10;
     		timerCount = 0;
     		repaint();
     	}

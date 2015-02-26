@@ -12,7 +12,7 @@ import javax.swing.*;
  *depending on the value of the par (parity) variable - which is either zero or
  *one. This was done to cut back on lengthy array updating functions.
  */
-public class TorqueBox extends JPanel implements ActionListener, MouseListener{
+public class TorqueBox extends JPanel implements ActionListener{
 	
     private Image torque = ImageHandler.getImage("bicep.png");
     private final Font ANDALE_BIG = ImageHandler.getAndaleFont().deriveFont(Font.BOLD, 30);
@@ -49,7 +49,6 @@ public class TorqueBox extends JPanel implements ActionListener, MouseListener{
     	setBackground(GibbotGUI3.GLOBAL_BG);
     	setFont(ANDALE_BIG);
 		
-    	addMouseListener(this);
 		GUITimer.addActionListener(this);
 	}
 	
@@ -61,8 +60,6 @@ public class TorqueBox extends JPanel implements ActionListener, MouseListener{
 	public void paintComponent(Graphics g){
 		
 		super.paintComponent(g);
-		//g.setColor(Color.BLACK);
-		//g.drawRect(0,0, width, height);
 		
 		int upperX = (int)(width/5);
 		int upperY = (int)(height/20);
@@ -72,7 +69,7 @@ public class TorqueBox extends JPanel implements ActionListener, MouseListener{
 		g.drawImage(torque, upperX, upperY, size, size, this);
 		BigDecimal conversion = new BigDecimal(testTorqueLevel*(100/7));
 	    conversion.setScale(4);
-		g.drawString(conversion+"%", 230, 180);
+		g.drawString(conversion+"%", (int)(upperX*3.71), (int)(upperY*16.4));
 		
 		Graphics2D g2 = (Graphics2D)g;
 		g2.setStroke(new BasicStroke((int)testTorqueLevel));
@@ -109,33 +106,4 @@ public class TorqueBox extends JPanel implements ActionListener, MouseListener{
 		updateForDrawing();
 		repaint();
 	}
-
-	public void mouseClicked(MouseEvent arg0) {
-		/*
-		String text = "This is a measurement of torque,\n"
-				+ "or the Gibbot motor's tendency to turn\n"
-				+ "or twist";
-		JFrame frame = new JFrame("Torque Info");
-		JOptionPane.showMessageDialog(frame, text);
-		*/
-	}
-
-	public void mouseEntered(MouseEvent arg0) {
-		//this.setToolTipText("Click me for more info!");
-	}
-
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}	
 }

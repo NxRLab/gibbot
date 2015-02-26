@@ -76,10 +76,6 @@ public class GUISerialPort {
     		System.out.println("Failed to open " + port.getPortName() + " due to: "); 
     		System.out.println(e.getExceptionType());
     	}
-    	/*
-    	for(int i = 0; i < 7; i++){
-			data[i] = 20;
-    	}*/
 		for(int i = 0;i < NUM_DATA; i++){
 			data.put(dataNames[i], 20); //20 is hardcoded for now, will soon get from PIC
 		}

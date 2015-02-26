@@ -45,7 +45,6 @@ public class GibbotGUI3 extends JFrame{
     	GUITimer.start();
       	GUISerialPort.openPort(); 
       	ImageHandler.loadImages(dir);
-      	//ImageHandler.drawImages();
 
     	super.setUndecorated(true);
       	super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

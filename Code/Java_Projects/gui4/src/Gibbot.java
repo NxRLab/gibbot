@@ -128,23 +128,6 @@ public class Gibbot {
     	arm2X = pivotX + (ARM2W*Math.sin(-th1-th2));
     	arm2Y = pivotY - (ARM2W*Math.cos(th1+th2));
     	
-    	 
- 		//Double Pendulum Code
-    	/*
-    	if((int)(frameCount/50)%2 == 0){   
-    		arm1X += 8;
-     		arm1Y = -1*(ARM1W/2)*Math.cos(theta);
-     		pivotX += 4;
-     		pivotY = Math.sqrt(Math.pow(ARM1W,2)-Math.pow((pivotX-arm2X),2))+arm2Y;
-    	}
-    	else{
-    		arm2X += 8;
-     		arm2Y = -1*ARM2W*(Math.cos(theta) + 0.5*Math.cos(theta*2));
-     		pivotX += 4;
-     		pivotY = Math.sqrt(Math.pow(ARM2W,2)-Math.pow((pivotX-arm1X),2))+arm1Y;
-    	}
-    	*/
-    	
     	//Original Code
     	/*
  		if((int)(frameCount/50)%2 == 0){             

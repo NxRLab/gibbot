@@ -66,6 +66,7 @@ public class GUILayeredPane extends JLayeredPane implements ActionListener{
     ActionListener for {@link GUITimer}.*/
     public GUILayeredPane() {
     	
+    	
     	awake = new LayoutContainerPanel(DRAWING_WIDTH, DRAWING_HEIGHT, SIZING_WIDTH, SIZING_HEIGHT); 
     	awake.setOpaque(true);
     	awake.setBounds(0, 0, SIZING_WIDTH, SIZING_HEIGHT); //first two parameters are (x, y) of the upper left corner. These can
