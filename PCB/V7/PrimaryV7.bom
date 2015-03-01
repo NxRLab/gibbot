@@ -1,28 +1,13 @@
 Partlist exported from /Users/mattcollins/Documents/gibbot_github/PCB/V7/Primary.sch at 2/2/15 2:31 PM
 
 Qty Value                              Device                             Parts                                                                      
-3   .03uF 15V                          CAP0603                            C32, C33, C34                                                              
-1   1nF                                CAP0603                            C21                                                                        
-1   1uF                                CAP1206                            C41                                                                        
-2   2.2k                               R0603                              R2, R3                                                                     
-1   2.2nF                              CAP0603                            C17                                                                        
 1   2k                                 R0603                              R10                                                                        
-1   7nF                                CAP0603                            C22                                                                        
 6   10                                 R0603                              R25, R26, R27, R28, R29, R30                                               
 2   10k                                R0402                              R4, R5                                                                     
 1   10k                                R0603                              R24                                                                        
 1   10nF                               CAP0603                            C18                                                                        
-1   10uF                               CAP-POL0603                        C1                                                                         
-2   10uF                               CAP0603                            C25, C36                                                                   
-4   10uF                               CAP1206                            C4, C5, C15, C42                                                           
 3   20k                                R0603                              R31, R32, R33                                                              
-1   22nF                               CAP0603                            C23                                                                        
-1   22uF                               CAP0603                            C27                                                                        
-1   22uF 15V                           CAP0603                            C28                                                                        
 1   30                                 R0603                              R23                                                                        
 1   51                                 R0603                              R22                                                                        
-1   DIGITAL-ISOLATOR-1CHSOIC8-N        DIGITAL-ISOLATOR-1CHSOIC8-N        U$61                                                                       
-1   DIGITAL-ISOLATOR-6CHSI8660EC-B-IS1 DIGITAL-ISOLATOR-6CHSI8660EC-B-IS1 U$46                                                                       
-10  ES1B                               DIODESMA                           D1, D2, D3, D4, D5, D6, D7, D8, D9, D10                                    
 6   IRLR024                            N-MOSDPAK                          1H, 1L, 2H, 2L, 3H, 3L                                                     
 1   N-MOSSOT23F                        N-MOSSOT23F                        M1                                                                         

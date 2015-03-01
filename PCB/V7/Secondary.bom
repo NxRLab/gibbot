@@ -1,0 +1,36 @@
+Partlist exported from /Users/mattcollins/Documents/gibbot_github/PCB/V7/Secondary.sch at 2/3/15 1:03 PM
+
+Qty Value                       Device                      Parts                                            
+1                               M02JST-PH-SMD               JP3                                              
+3                               M02JST-PH-TH                JP11, JP12, JP14                                 
+5                               M02JST-PH-V                 JP4, JP5, JP6, JP7, JP8                          
+3                               M04PH-TH                    JP9, JP10, JP13                                  
+1                               M05PICKIT3                  PROG_1                                           
+4   .01uF                       CAP0603                     C11, C12, C13, C14                               
+11  .1uF                        CAP0603                     C1, C7, C8, C9, C10, C17, C18, C24, C25, C26, C27
+2   .1uF                        CAP1206                     C3, C6                                           
+2   .1uF 24V                    CAP0603                     C20, C21                                         
+4   1k                          R0603                       R4, R5, R6, R7                                   
+2   2.2k                        R0603                       R1, R2                                           
+1   2.2nF                       CAP0603                     C19                                              
+1   5.1                         R0603                       R3                                               
+2   10k                         R0402                       R8, R9                                           
+1   10k                         R0603                       R10                                              
+1   10nF                        CAP0603                     C16                                              
+3   10uF                        CAP-POL0603                 C2, C4, C5                                       
+1   10uF                        CAP1206                     C15                                              
+2   10uF 24V                    CAP1206                     C22, C23                                         
+1   DC-DC-CONVERTER1.2A         DC-DC-CONVERTER1.2A         P2                                               
+1   DIGITAL-ISOLATOR-1CHSOIC8-N DIGITAL-ISOLATOR-1CHSOIC8-N D13                                              
+1   DSPIC33EP512MC806           DSPIC33EP512MC806           U$1                                              
+1   ES1B                        DIODESMA                    D1                                               
+1   ISO7221SMD                  ISO7221SMD                  D15                                              
+1   LINEAR-REG1117              LINEAR-REG1117              P4                                               
+1   LINEAR-REGLM2937            LINEAR-REGLM2937            P5                                               
+2   M01PTH                      M01PTH                      JP1, JP2                                         
+4   MOUNT-PAD-ROUND2.8          MOUNT-PAD-ROUND2.8          H1, H2, H3, H4                                   
+1   MPU-9150                    MPU-9150                    IMU2                                             
+1   N-MOSSOT23F                 N-MOSSOT23F                 M1                                               
+1   SK34A                       DIODESMA                    U$42                                             
+1   SLIDE_SWTHROUGHHOLE         SLIDE_SWTHROUGHHOLE         SW1                                              
+2   TACTILE_SWITCH              TACTILE_SWITCH              RESET2, USER                                     
