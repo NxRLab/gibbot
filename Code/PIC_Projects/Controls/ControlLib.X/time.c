@@ -60,18 +60,6 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void)
     test_data = read_TOPMAGENC();
     test_angle = encoder_to_angle(test_data,'m');
 
-    //store to an array rather than print to screen every time
-    /*if (count<(sizeof(angles)/sizeof(int))){
-        angles[count] = test_angle;
-    }
-    else{
-        int i =0;
-        for(i; i<(sizeof(angles)/sizeof(int)); i++){
-            printf("%d \n",angles[i]);
-        }
-        count=0;
-    }*/
-
     printf("%d \n",test_angle);
     LED1 = 0;   //turn LED off, interrupt complete
 

@@ -7,7 +7,6 @@
 #include <stdio.h>
 #include <p33EP512MC806.h>
 #include "ControlLib.h"
-#include "time.h"
 
 int main(void) {
     //initialize all peripherals
