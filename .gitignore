@@ -36,6 +36,7 @@ local.properties
 *.jcp
 *.jcu
 *.jcw
+jdk/
 
 
 #################
