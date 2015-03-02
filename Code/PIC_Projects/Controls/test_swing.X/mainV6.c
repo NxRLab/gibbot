@@ -6,12 +6,8 @@
 #include <libpic30.h>
 #include <stdio.h>
 #include <p33EP512MC806.h>
-#include "initializeV6.h"
-#include "motor.h"
-#include "test.h"
+#include "ControlLib.h"
 #include "time.h"
-#include "UART.h"
-#include "encoder.h"
 
 int main(void) {
     //initialize all peripherals

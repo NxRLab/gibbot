@@ -2,9 +2,7 @@
 #include <p33EP512MC806.h>
 #include "time.h"
 #include "stdio.h"
-#include "motor.h"
-#include "initializeV6.h"
-#include "encoder.h"
+#include "ControlLib.h"
 
 /* File: time.c
    Author: Hannah Arntson

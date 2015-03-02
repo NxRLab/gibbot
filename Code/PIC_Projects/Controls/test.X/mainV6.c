@@ -4,7 +4,7 @@
  */
 
 #include <p33EP512MC806.h>
-#include "ControlLib.lib"
+#include "ControlLib.h"
 
 int main(void) {
     initialize();

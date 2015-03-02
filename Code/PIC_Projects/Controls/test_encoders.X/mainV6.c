@@ -5,12 +5,7 @@
 
 #include <p33EP512MC806.h>
 #include <stdio.h>
-#include "initializeV6.h"
-#include "motor.h"
-#include "test.h"
-#include "time.h"
-#include "UART.h"
-#include "encoder.h"
+#include "ControlLib.h"
 
 #define TOPMAG_ON (TOPMAG = 1)
 #define BOTMAG_ON (write_UART2('1'))
@@ -20,6 +15,7 @@
 
 int main(void) {
     long test_data1 = 0;
+    long test_data2 = 0;
     //initialize all peripherals, encoder values
     initialize();
 
@@ -35,9 +31,11 @@ int main(void) {
             timer1_on();    //encoder reading is in ISR in time.c
         }
        */
+        TOPMAG_ON;
 
          //read topmag encoder encoder
-    test_data1 = read_TOPMAGENC();
+        test_data1 = read_TOPMAGENC();
+        //test_data2 = read_LOWMAGENC();
 
 
     //store to an array rather than print to screen every time
@@ -52,7 +50,7 @@ int main(void) {
         count=0;
     }*/
 
-    printf("%ld\n",test_data1);
+    printf("Top: %ld  Bottom: %ld\n",test_data1,test_data2);
 
     __delay32(20000000);
        
