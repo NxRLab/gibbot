@@ -1,0 +1,280 @@
+<!-- CURRENT FILE AS OF FRIDAY FEB. 13 -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Monkey Digital</title>
+
+<!-- Google fonts -->
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Raleway:400,700' rel='stylesheet' type='text/css'>
+
+<!-- font awesome -->
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+<!-- bootstrap -->
+<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
+
+<!-- animate.css -->
+<link rel="stylesheet" href="assets/animate/animate.css" />
+
+<!-- favicon -->
+<link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+<link rel="icon" href="images/favicon.png" type="image/x-icon">
+
+
+<link rel="stylesheet" href="assets/style.css">
+
+</head>
+
+<body id="home">
+
+ <!-- navbar Starts -->
+
+<div class="navbar-wrapper">
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation" id="top-nav">
+          <div class="container">
+            <div class="navbar-header">
+              <!-- Logo Starts -->
+              <a class="navbar-brand" href="index.html">NxR</a>
+              <!-- #Logo Ends -->
+
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+            </div>
+
+
+            <!-- Nav Starts -->
+            <div class="navbar-collapse  collapse">
+              <ul class="nav navbar-nav navbar-right ">
+                 <li class="active"><a href="#home">Home</a></li>
+                <li><a href="video.html">The Process</a></li>
+              	 <li><a href="controlIT.html">Control the Gibbot</a></li>
+			   <li><a href="gibbondetails.html">Nerdy Details</a></li>
+
+
+              </ul>
+            </div>
+            <!-- #Nav Ends -->
+
+          </div>
+        </div>
+
+      </div>
+
+ <!-- #navbar  -->
+
+<div class="container"><div class="wrapper"> 
+
+<!-- main banner-->
+<div class="banner">
+<div class="overlay">
+
+<h1 class="text-center">Gibbot Robotics Project </h1>
+
+
+
+<!-- header -->
+  <div class="service row text-center  wowload fadeInDownBig">
+  <div class="col-sm-3 col-xs-6">
+  <h3>what</h3>
+  <p>dynamic climbing robot <br>based on nature</p>
+  </div>
+  <div class="col-sm-3 col-xs-6">
+  <h3>who</h3>
+  <p>Northwestern University<br>NxR research team</p>
+  </div>
+  <div class="col-sm-3 col-xs-6">
+  <h3>how</h3>
+  <p>Mimics swinging motion<br>of a type of ape</p>
+  </div>
+  <div class="col-sm-3 col-xs-6">
+  <h3>when</h3>
+  <p>Project started in 2009<br>and finished in 2015</p>
+  </div>
+  </div>
+<!-- #hearder -->
+</div>
+</div>
+
+<!-- #main banner-->
+
+
+<!-- gibbot overview-->
+<div id="gibbot"  class="gibbot">
+  <div class="row">
+  <div class="col-sm-7 wowload fadeInLeft">
+    <div id="carousel-about" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner" role="listbox">
+      <div class="item active"><img src="images/portfolio/4.jpg" class="img-responsive"></div>
+      <div class="item"><img src="images/portfolio/5.jpg" class="img-responsive"></div>
+      <div class="item"><img src="images/portfolio/6.jpg" class="img-responsive"></div>
+    </div>    
+    <!-- Controls -->
+    <a class="left carousel-control" href="#carousel-about" role="button" data-slide="prev"><i class="fa fa-3x fa-angle-left"></i></a>
+    <a class="right carousel-control" href="#carousel-about" role="button" data-slide="next"><i class="fa fa-3x fa-angle-right"></i></a>
+    </div>
+  </div>
+  <div class="col-sm-5 wowload fadeInRight">
+  <div class="spacer"><h2>Gibbot Robot</h2>
+ <p>  This purple little guy is the Gibbot, a robot designed by Northwestern University. The Gibbot moves through repetitive horizontal swinging: there's no net vertical motion, which means that the Gibbot doesn't really have to expend much in the way of energy fighting gravity. Once it gets going, the Gibbot can move very fast by just grabbing on and letting go at the right times. Figuring out what these times are though is the tricky part.</p>
+  
+  </div>
+     <div class="row">
+
+
+   			<center>
+				<a class="btn btn-faint btn-xs" href = "video.html" ></i> Show me the <br>  creation processes</a></div>
+				</center>
+</div>
+<div class="spacer"> </div>
+
+   <div class="row">
+	
+	
+	
+		 	<center>
+				<a class="btn btn-faint btn-xs" href = "gibbotfacts.html" ></i> Show me the<br> the inner workings</a></div>
+			</center>
+		
+		</div>
+
+<div class="spacer"> </div>
+</div>
+  </div>
+  </div>  
+</div>
+<!-- #gibbot overview -->
+
+
+
+<!-- gibbon aka the inspiration -->
+<div id="inspiration"  class="inspiration">
+  <div class="row">
+  
+  <div class="col-sm-7 wowload fadeInRight">
+    <div id="carousel-works" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner" role="listbox">
+     <div class="item active"><img src="images/portfolio/1.jpg" class="img-responsive"> </div>
+     <div class="item"><img src="images/portfolio/2.jpg" class="img-responsive"></div>
+     <div class="item"><img src="images/portfolio/3.jpg" class="img-responsive"></div>
+    </div>    
+    <!-- Controls -->
+     <a class="left carousel-control" href="#carousel-works" role="button" data-slide="prev"><i class="fa fa-3x fa-angle-left"></i></a>
+    <a class="right carousel-control" href="#carousel-works" role="button" data-slide="next"><i class="fa fa-3x fa-angle-right"></i></a>
+  </div>
+  </div>
+  
+  <div class="col-sm-5 wowload fadeInLeft">
+ 
+  <div class="spacer"><h2>Inspiration</h2>
+  <p>The Gibbot is designed to explore a particular type of locomotion that's been perfected by a species of apes called Gibbons. Just as the Gibbons swings through the trees, the Gibbot swings across the steel wall.
+  </div>
+   <div class="row">
+   <center>
+	<a class="btn btn-faint btn-xs" href = "gibbondetails.html" ></i> I love <br> gibbons</a></div>
+</center>
+<div class="spacer"> </div>
+</div>
+  </div>
+  </div>
+  
+   
+  </div>  
+
+<!-- #gibbon aka the inspiration -->
+
+<!-- science -->
+<div id="science"  class="science">
+  <div class="row">
+  
+  <div class="col-sm-7 wowload fadeInRight">
+    <div id="carousel-works" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner" role="listbox">
+     <div class="item active"><img src="images/portfolio/1.jpg" class="img-responsive"> </div>
+     <div class="item"><img src="images/portfolio/2.jpg" class="img-responsive"></div>
+     <div class="item"><img src="images/portfolio/3.jpg" class="img-responsive"></div>
+    </div>    
+    <!-- Controls -->
+     <a class="left carousel-control" href="#carousel-works" role="button" data-slide="prev"><i class="fa fa-3x fa-angle-left"></i></a>
+    <a class="right carousel-control" href="#carousel-works" role="button" data-slide="next"><i class="fa fa-3x fa-angle-right"></i></a>
+  </div>
+  </div>
+  
+  <div class="col-sm-5 wowload fadeInLeft">
+ 
+  <div class="spacer"><h2>Engineering</h2>
+  <p>
+  		Lots of thought and engineering going on right now.
+  	
+  </p>
+  </div>
+   <div class="row">
+   <center>
+	<a class="btn btn-faint btn-xs" href = "nerd.html" ></i> Give me more<br> nerdy details</a></div>
+</center>
+<div class="spacer"> </div>
+</div>
+  </div>
+  </div>
+  
+   
+  </div>  
+
+
+<!-- #science -->
+
+
+<!-- large button that links to quizzes! -->
+<div id="control"  class="control">
+  <div class="container-fluid">
+  
+  <div class="spacer">  </div>
+      <center>
+        <a class="btn btn-danger btn-lg" href = "QuizPage.html" > Take fun <br> quizzes <i class="glyphicon glyphicon-ok-circle"></i></a></div>
+   	  </center>
+  
+  </div>
+ <div class="spacer">  
+ </div>
+  
+</div>
+<!--#large button that links to quizzes! -->
+
+
+
+
+<a href="#home" class="gototop "><i class="fa fa-angle-up  fa-3x"></i></a>
+
+</div>
+</div>
+
+<!-- jquery -->
+<script src="assets/jquery.js"></script>
+
+<!-- wow script -->
+<script src="assets/wow/wow.min.js"></script>
+
+
+<!-- boostrap -->
+<script src="assets/bootstrap/js/bootstrap.js" type="text/javascript" ></script>
+
+<!-- jquery mobile -->
+<script src="assets/mobile/touchSwipe.min.js"></script>
+
+
+<!-- custom script -->
+<script src="assets/script.js"></script>
+
+</body>
+</html>

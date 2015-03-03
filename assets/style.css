@@ -127,7 +127,13 @@
 }
 
 
+.bg-light-gray {
+    background-color: #f7f7f7;
+}
 
+.bg-darkest-gray {
+    background-color: #222;
+}
 
 
 body {	color:#666;	font:300 15px/15px Roboto,Arial,Helvetica;background-color:#fff;-webkit-font-smoothing:antialiased;background-color: #eee;}
@@ -149,6 +155,9 @@ h11{font:700 3em Raleway,Arial,Helvetica;text-transform: uppercase; color: #411f
 h2{font:700 1.5em Raleway,Arial,Helvetica;margin-bottom: 1.5em; color: #2b133e;}
 h22{font:700 1.5em Raleway,Arial,Helvetica; color: #2b133e;}
 h3{font:700 1.25em Raleway,Arial,Helvetica;margin:0.5em; color: #fff;}
+
+hC{font-size:1em;line-height: 1.5em; margin-bottom: 1.7em;}
+
 
 p{font-size:1em;line-height: 1.7em; margin-bottom: 1.7em;}
 
