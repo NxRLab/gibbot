@@ -1,5 +1,14 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
+/*
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+*/
+import java.util.ArrayList;
+import java.util.Scanner;
+
 import javax.swing.*;
 
 /**BananaPanel1 handles user directions for the robot's goal coordinates (in the form of dragging and dropping
@@ -12,10 +21,11 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
 	private Image jungle = ImageHandler.getImage("jungle.png");
 	private Image bunch = ImageHandler.getImage("bunch.png");
 	private Image gibbotBubble = ImageHandler.getImage("gibbotBubble.png");
-	private Font andaleBig = ImageHandler.getAndaleFont().deriveFont(Font.BOLD, 64);
+	private Font ANDALE_BIG = ImageHandler.getAndaleFont().deriveFont(Font.BOLD, 64);
+	private Font ANDALE_SMALL = ImageHandler.getAndaleFont().deriveFont(Font.BOLD, 18);
 
 	/**CODE FOR TEST CASES*/
-	double[][] testArray = new double[100][4];// = {10,GUILayeredPane.getScreenHeight()-10,0,0};
+	double[][] testArray = new double[202][4];// = {10,GUILayeredPane.getScreenHeight()-10,0,0};
 	int iterate;
 	
 	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensions in constructor*/
@@ -52,6 +62,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
 	private Color promptHighlight;
 	/**Alpha (transparency) value of promptHighlight; this is what changes.*/
 	private int a;
+	private double timerCount;
 	
     /**Constructor sets preferred size to tell layout manager of {@link LayoutContainerPanel} how to draw this panel;
     sets all boolean state variables to false, initializes some graphics elements.
@@ -77,29 +88,51 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     	outOfBounds = false;
     	
     	setBackground(GibbotGUI3.GLOBAL_BG);
-    	setFont(andaleBig);
+    	setFont(ANDALE_BIG);
     	
     	a = 0;
     	promptHighlight = new Color(207, 46, 46, a); //red with variable alpha value (transparancy)
     	
-    	//timerCount = 0;
+    	timerCount = 0;
     	addMouseListener(this);
     	addMouseMotionListener(this);
     	GUITimer.addActionListener(this);
     	
 
     	
-    	int start_x = 250;
+    	/*int start_x = 250;
     	int start_y = GUILayeredPane.getScreenHeight()-100;
     	int th1 = -90;
-    	int th2 = -90; 
+    	int th2 = -90; */
+    	/*
+    	Scanner s = null;
     	for(int i = 0; i < testArray.length; i++){
-    		testArray[i][0] = start_x+=8;
+    		int j = 0;
+    		try {
+				s = new Scanner(new BufferedReader(new FileReader("simple_swing.txt")));
+				while(s.hasNext() && j <= testArray[i].length){
+					if(s.hasNextInt()){
+						testArray[i][j] = s.nextInt(); 
+						System.out.println(s.nextInt());
+					}
+				}
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    	if (s != null) {   
+            s.close();   
+        }   */
+    	
+    	
+    	
+    	/*
+    	 * testArray[i][0] = start_x+=8;
     		testArray[i][1] = start_y++;
     		testArray[i][2] = (th1*=10*(Math.PI/180));
     		testArray[i][3] = (th2*=15*(Math.PI/180));
-    	}
-    	
+    	 */
     	iterate = 0;
     	
     }
@@ -117,6 +150,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     	
     	g.drawImage(jungle, 1, 1, getWidth()-1, getHeight()-1, this);
     	g.setColor(Color.BLACK);
+    	
 
     	if(!animating){	//Either nothing has happened or the user is moving the banana
     		if(dragging){ 	//user is moving the banana
@@ -142,6 +176,8 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     						  			getHeight()/10 + 49}, 
     						  3); //# of pts
     			g.drawImage(bananaBubble, getWidth()-getHeight(), getHeight()/10, this);
+    		
+    			
     		}
     		g.setColor(Color.BLACK);
     		bob.draw(g);
@@ -153,6 +189,41 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     	}
     	
     	g.drawImage(bunch, (int)(getWidth() - (getHeight()/1.8)), -30, (int)(getHeight()/1.7), (int)(getHeight()/1.7), this);
+    	
+    	g.setColor(Color.WHITE);
+		g.fillRect(0, 450, 1300, 40);
+		g.setColor(Color.BLACK);
+    	
+    	//label for text
+		//g.setColor(Color.WHITE);
+		g.setFont(ANDALE_SMALL);
+		//g.fillRect(85, 450, 140, 40);
+		//g.setColor(Color.BLACK);
+		g.drawString("Information", 95, 475);
+
+		//label for speedometer
+		g.setColor(Color.WHITE);
+		//g.fillRect(315, 450, 230, 40);
+		g.setColor(Color.BLACK);
+		g.drawString("Speed of Gibbot arms", 320, 475);
+		
+		//label for battery
+		g.setColor(Color.WHITE);
+		//g.fillRect(570, 450, 160, 40);
+		g.setColor(Color.BLACK);
+		g.drawString("Motor Battery", 580, 475);
+
+		//label for temperature
+		g.setColor(Color.WHITE);
+		//g.fillRect(760, 450, 180, 40);
+		g.setColor(Color.BLACK);
+		g.drawString("Temperature", 790, 475);
+		
+		//label for torque
+		g.setColor(Color.WHITE);
+		//g.fillRect(1000, 450, 210, 40);
+		g.setColor(Color.BLACK);
+		g.drawString("Torque", 1070, 475);
     	
     }
     
@@ -244,12 +315,12 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
    public void actionPerformed(ActionEvent evt){
 											
    		if(animating && (int)bob.getPivotX() <= banana.getX()){  //If the robot is not to the bananas yet	
-   			//bob.arcMotionUpdate(timerCount);
+   			bob.arcMotionUpdate(timerCount);
    			//bob.arcMotionUpdate(testArray[0], testArray[1], testArray[2], testArray[3]);
-   			
+   			/*
    			if(iterate < testArray.length){
    				bob.arcMotionUpdate(testArray[iterate++]);
-   			}
+   			}*/
    			
    			/*testArray[0] += 4;
    			testArray[1] -= 4;
@@ -257,14 +328,14 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
    			testArray[3] += 15*(Math.PI/180);*/
    			
    			//With camera data, above call will be replaced by bob.updateRealCoors(); 
-   			//timerCount++;
+   			timerCount++;
    		}
    		
    		else{
    			if(animating){ 	//When the robot reaches the bananas, the panel resets itself.            
 	   			animating = false;
-   				//timerCount=0;
-   				//bob.reset();
+   				timerCount=0;
+   				bob.reset();
    			}
 	
    			if(a > -255){ //for pulsing outline around bananaBubble image 

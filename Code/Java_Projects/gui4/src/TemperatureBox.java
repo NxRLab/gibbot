@@ -4,7 +4,6 @@ import java.awt.event.*;
 import java.util.HashMap;
 
 import javax.swing.*;
-import javax.swing.JFrame;
 
 /**HardwareBox displays motor temperature and battery life in a bar chart graphic
  */
@@ -12,7 +11,7 @@ public class TemperatureBox extends JPanel implements ActionListener{
 	
 	private Image thermometer = ImageHandler.getImage("thermometer.png");
 	private final Font ANDALE_BIG = ImageHandler.getAndaleFont().deriveFont(Font.BOLD, 30);
-	//private final Font ANDALE_SMALL = ImageHandler.getAndaleFont().deriveFont(Font.BOLD, 20);
+	private final Font ANDALE_SMALL = ImageHandler.getAndaleFont().deriveFont(Font.BOLD, 18);
 	private final Color TEMPERATURE_COLOR = Color.RED;
 	private final int TEMP_MAX = 100; //CHANGE WHEN YOU KNOW
 	private int timer = 0;
@@ -30,6 +29,12 @@ public class TemperatureBox extends JPanel implements ActionListener{
 	/**Value of motor temperature that's displayed in the graph*/ 
 	private int temp;
 	
+	
+	//for beta test
+	private int betaTest[] = new int[TEMP_MAX];
+	private int wait  = 0;
+	private int count = 0;
+	
 	/**Constructor sets preferred size to tell layout manager of {@link LayoutContainerPanel} how to draw this panel;
     Initializes chart size variables.
     @param widthOfContainer used to set {@link #width}
@@ -46,6 +51,9 @@ public class TemperatureBox extends JPanel implements ActionListener{
 		
 		temp = 0; //fahrenheit for now
 		
+		for(int i = 0; i < betaTest.length; i++){
+			betaTest[i] = i;
+		}
 		
 		GUITimer.addActionListener(this);
 	}
@@ -80,7 +88,8 @@ public class TemperatureBox extends JPanel implements ActionListener{
 			g.setColor(Color.BLACK);
 			setFont(ANDALE_BIG);
 			final String DEGREE  = "\u00b0";
-			g.drawString(temp+DEGREE+"F", upperX, (int)(upperY*19.5));//70, 195
+			int temp_string = (int)(temp*2.5);
+			g.drawString(temp_string+DEGREE+"F", upperX, (int)(upperY*19.5));//70, 195
 		}
 		else{
 			g.fillRect((int)(upperX*1.3), (int)(upperY*12)-TEMP_MAX, (int)(sizeX*0.26), (int)(sizeY*0.032)+TEMP_MAX);//91, 120-temp, 22, 5+temp
@@ -99,7 +108,17 @@ public class TemperatureBox extends JPanel implements ActionListener{
 		//temp = data.get("motorTemperature"); 
 		
 		if(BananaPanel1.getAnimating()){
-			temp++;
+			if(wait % 2 == 0 && count < TEMP_MAX / 2){
+				temp = betaTest[count];
+				count++;
+			}
+			else if (wait % 50 == 0){
+				count = TEMP_MAX / 2 - 2;
+				wait = 0;
+			}
+			
+			wait++;
+			//temp++;
 		}
 		
 	}

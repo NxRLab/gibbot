@@ -110,9 +110,9 @@ public class Gibbot {
      /**Animation simulation. Called by {@link BananaPanel1#actionPerformed}.
       *@param frameCount Stands for time value in motion equations
      */
-     public void arcMotionUpdate(double[] array){//double x, double y, double th1, double th2
+     public void arcMotionUpdate(double frameCount){//double x, double y, double th1, double th2
     	//x, y, th1, th2
-    	
+    	/*
     	double x = array[0];
     	double y = array[1];
     	double th1 = array[2];
@@ -127,9 +127,9 @@ public class Gibbot {
     	
     	arm2X = pivotX + (ARM2W*Math.sin(-th1-th2));
     	arm2Y = pivotY - (ARM2W*Math.cos(th1+th2));
-    	
+    	*/
     	//Original Code
-    	/*
+    	
  		if((int)(frameCount/50)%2 == 0){             
  			arm1X += 8;							   
  			arm1Y = Math.sqrt(4*Math.pow(ARM1W,2)-Math.pow((arm1X-arm2X),2))+arm2Y;
@@ -141,7 +141,7 @@ public class Gibbot {
  			arm2Y = Math.sqrt(4*Math.pow(ARM1W,2)-Math.pow((arm2X-arm1X),2))+arm1Y;
  			pivotX += 4;
  			pivotY = Math.sqrt(Math.pow(ARM1W,2)-Math.pow((pivotX-arm1X),2))+arm1Y;
- 		}*/
+ 		}
  		
      		
      }	

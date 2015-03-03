@@ -16,9 +16,9 @@ public class TorqueBox extends JPanel implements ActionListener{
 	
     private Image torque = ImageHandler.getImage("bicep.png");
     private final Font ANDALE_BIG = ImageHandler.getAndaleFont().deriveFont(Font.BOLD, 30);
+    private final Font ANDALE_SMALL = ImageHandler.getAndaleFont().deriveFont(Font.BOLD, 18);
     
     private double testTorqueLevel = 0;
-    
     
     QuadCurve2D q1 = new QuadCurve2D.Float();
     QuadCurve2D q2 = new QuadCurve2D.Float();
@@ -34,6 +34,10 @@ public class TorqueBox extends JPanel implements ActionListener{
 	/**Proportion of vertical space this box will take up in {@link LayoutContainerPanel}. Stronly recommended not to alter.*/
 	private final double CURRENT_HEIGHT_ALLOCATION = 0.30;
 	
+	//for beta test
+	private int i = 0; 
+	private int wait = 0;
+	private int betaTest[] = {0, 1, 2, 3, 4, 5, 6, 7, 6, 5, 4, 3, 2, 1, 0};
 	
 	/**Constructor sets preferred size to tell layout manager of {@link LayoutContainerPanel} how to draw this panel;
     Initializes chart size variables as well as {@link #milliampsE}, {@link #milliampsO}, {@link #millinewtmetsE}, 
@@ -67,9 +71,6 @@ public class TorqueBox extends JPanel implements ActionListener{
 		
 		
 		g.drawImage(torque, upperX, upperY, size, size, this);
-		BigDecimal conversion = new BigDecimal(testTorqueLevel*(100/7));
-	    conversion.setScale(4);
-		g.drawString(conversion+"%", (int)(upperX*3.71), (int)(upperY*16.4));
 		
 		Graphics2D g2 = (Graphics2D)g;
 		g2.setStroke(new BasicStroke((int)testTorqueLevel));
@@ -80,6 +81,10 @@ public class TorqueBox extends JPanel implements ActionListener{
 		g2.draw(q2);
 		g2.draw(q3);
 		
+		BigDecimal conversion = new BigDecimal(testTorqueLevel*(100/7));
+	    conversion.setScale(4);
+		g.drawString(conversion+"%", (int)(upperX*3.71), (int)(upperY*16.4));
+		
 	}
 	
 	/**Gets current and torque values from {@link GUISerialPort#data} and updates {@link #milliampsE}, {@link #milliampsO},
@@ -89,9 +94,25 @@ public class TorqueBox extends JPanel implements ActionListener{
 		//testTorqueLevel = GUISerialPort.getData().get("motorTorque");
 		
 		if(BananaPanel1.getAnimating()){
-			if(testTorqueLevel < 7){ //7 will become maxTorqueLevel
+			/*For beta test*/
+			if(wait % 3 == 0){
+				if(i >= betaTest.length){
+					i = 0;
+				}
+				testTorqueLevel = betaTest[i];
+				i++;
+			}
+			wait++;
+			/*
+			if(testTorqueLevel < 7 && wait % 25 == 0){ //7 will become maxTorqueLevel
 				testTorqueLevel+=0.5;
 			}
+			else if (testTorqueLevel > 7){
+				testTorqueLevel = 0;
+			}*/
+		}
+		else{
+			testTorqueLevel = 0;
 		}
 		
 
