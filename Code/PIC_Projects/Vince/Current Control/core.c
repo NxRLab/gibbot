@@ -1,5 +1,6 @@
 
 #include "core.h"
+#include <p33EP512MC806.h>
 //#include "dee_emulation_pic32.h" /// emulates an eeprom using program flash (thanks microchip!)
 
 #define AVERAGES 20	/// the number of averages we take when reading the ADC
@@ -13,8 +14,6 @@ enum State core_state = IDLE; // the current state
 static void adc_init(void);
 
 
-/// @brief Initializes SPI so we can read the encoder
-static void encoder_init(void);
 
 
 /// @brief Communcicates with the encoder
@@ -25,10 +24,12 @@ static int encoder_send(int read);
 
 void core_init(void)
 {
-	DataEEInit();		//initialize eeprom emulation
+	//DataEEInit();		//initialize eeprom emulation
+        //TODO in future: establish eeprom to save gains to memory
 	core_state = IDLE;	//initialize the state
 	adc_init();     	//initialize the analog to digital converter
-	encoder_init(); 	//initialize the encoders
+	initialize_QEI(); 	//initialize the encoders
+        //TODO: see encoder_init function below
 };
 
 short core_adc_read() 
@@ -63,17 +64,22 @@ int core_encoder_read(void)
 static void adc_init(void)
 {
 	// setup the analog to digital converter
-	AD1PCFG = 0xFFFE; 		// bit 1 is zero, so AN0 is input
-	AD1CHSbits.CH0SA = 0; 		// connect bit 0 as input
+	//AD1PCFG = 0xFFFE; 		// bit 1 is zero, so AN0 is input
+	AD1CHS0bits.CH0SA = 7; 		// connect bit 0 as input
+        // The above value was changed from 0 to 7 (see old ADC.c)
 	AD1CON1bits.ASAM = 0;		// start sampling manually
 	AD1CON1bits.SSRC = 0b111;	// automatic conversion after sampling
 	AD1CON3bits.ADRC = 0;		// use the peripheral bus clock, which is at 80 MHz
-	AD1CON3bits.ADCS = 2; 		// ADC clock period is Tad = 2 * (ADCS+1) * Tpb = 75 ns, (Tbp = 12.5 ns)
-	AD1CON3bits.SAMC = 3;		// sampling is 3 * Tad = 225 ns
+	AD1CON3bits.ADCS = 9; 		// ADC clock period is Tad = 2 * (ADCS+1) * Tpb = 75 ns, (Tbp = 12.5 ns)
+        // The above value was changed from 2 to 9 (see old ADC.c)
+	AD1CON3bits.SAMC = 15;		// sampling is 3 * Tad = 225 ns
+        // The above value was changed from 3 to 15 (see old ADC.c)
 	AD1CON1bits.ADON = 1; 		// turn on A/D converter
 }
 
-static void encoder_init(void)
+/*static void encoder_init(void) //TODO: make this work with new encoder
+ * when finished, uncomment all encoder functions and calls
+ * THIS FUNCTION HAS BEEN REPLACED WITH initialize_QEI() in encoder.c
 {
 	// Author:  Nick Marchuck
 	// SPI initialization for reading from the encoder chip
@@ -85,6 +91,7 @@ static void encoder_init(void)
 	SPI4STATCLR = 0x40; 	 // clear overflow
 	SPI4CON = 0x100086A0; 	 // MSSEN ON to enable SS, SPI ON, 16 bit xfer, SMP=1, Master Mode
 }
+*/
 
 static int encoder_send(int read)
 {
@@ -132,7 +139,7 @@ void core_register_float(float * a)
 	}
 }
 
-void core_gains_save()
+/*void core_gains_save()
 {
 	INTDisableInterrupts();
 	DataEEWrite(0xDEAD,0);
@@ -170,3 +177,5 @@ void core_gains_load()
 	}
 	INTEnableInterrupts();
 }
+*/
+//TODO: make the gain saving and loading function properly
