@@ -11,7 +11,25 @@
 
 
 int main(void) {
-    initialize();
+
+    while(1) {
+      initialize();
+      write_string_UART("Hello world\r\n",100);
+    __delay32(40000000);
+    }
+
+
+
+
+
+    
+
+
+
+
+
+
+    /*initialize();
     write_string_UART("Hello world\r\n",100);
     __delay32(40000000);
     initialize_CurrentControl();
@@ -27,4 +45,5 @@ int main(void) {
        //test_MayDay();
     }
     return 0;
+    */
 }
