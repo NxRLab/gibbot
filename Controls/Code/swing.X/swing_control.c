@@ -25,6 +25,7 @@ void write_swing(int n, struct args* control_args){
 
     int i;
     for (i=0; i<n; i++){
+        printf("Enter data for set %d \n", i);
         //Torque
         printf("Torque: \n");
         read_string_UART(torque_buf,4);
