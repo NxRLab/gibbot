@@ -169,7 +169,7 @@ void initialize_CN(void);
 void commutate(int state);
 void kick(void);
 
-extern char motoron;
+volatile extern char motoron;
 extern char state;
 extern int direction;
 

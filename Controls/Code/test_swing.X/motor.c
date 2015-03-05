@@ -25,7 +25,7 @@
 #include <p33EP512MC806.h>
 #include "ControlLib.h"
 #include "stdio.h"
-char motoron = 0;
+volatile char motoron = 0;
 char state = 0;
 int direction = CW;
 
@@ -39,49 +39,50 @@ int direction = CW;
 void __attribute__((interrupt, no_auto_psv)) _CNInterrupt(void) {
     state = (S3 << 2) | (S2 << 1) | S1; //Read hall effect sensors
     if(motoron == 1){     //If the motor has been turned on
+        LED1 = 1;
         commutate(state); //Change outputs based on hall effect sensor state
     } else {              //If the motor is off
         commutate(0);     //Set all motor outputs to float
     }
-    //LED1 = !LED1;
-    //printf("%d",state);
+    LED3 = !LED3;
+    //printf("%d\n",motoron);
 
-    //toggle LED to indicate current state
-    if (state==1){
-        LED1=1;
-        LED2=0;
-        LED3=0;
-    }
-    else if(state==2){
-        LED1=0;
-        LED2=1;
-        LED3=0;
-    }
-    else if(state==3){
-        LED1=1;
-        LED2=1;
-        LED3=0;
-    }
-    else if(state==4){
-        LED1=0;
-        LED2=0;
-        LED3=1;
-    }
-    else if(state==5){
-        LED1=1;
-        LED2=0;
-        LED3=1;
-    }
-    else if (state==6){
-        LED1=0;
-        LED2=1;
-        LED3=1;
-    }
-    else{
-        LED1=0;
-        LED2=0;
-        LED3=0;
-    }
+//    //toggle LED to indicate current state
+//    if (state==1){
+//        LED1=1;
+//        LED3=0;
+//        LED4=0;
+//    }
+//    else if(state==2){
+//        LED1=0;
+//        LED3=1;
+//        LED4=0;
+//    }
+//    else if(state==3){
+//        LED1=1;
+//        LED3=1;
+//        LED4=0;
+//    }
+//    else if(state==4){
+//        LED1=0;
+//        LED3=0;
+//        LED4=1;
+//    }
+//    else if(state==5){
+//        LED1=1;
+//        LED3=0;
+//        LED4=1;
+//    }
+//    else if (state==6){
+//        LED1=0;
+//        LED3=1;
+//        LED4=1;
+//    }
+//    else{
+//        LED1=0;
+//        LED3=0;
+//        LED4=0;
+//    }
 
     PORTD;                //Clear mismatch condition
     IFS1bits.CNIF = 0;    //Clear interrupt flag

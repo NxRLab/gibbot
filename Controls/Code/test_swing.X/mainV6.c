@@ -13,54 +13,76 @@ int main(void) {
     initialize();
 
     unsigned char c='o';
+
+    write_duty(0);
     motoron=0;
     direction = CW;
 
+    printf("%s %s\n", __DATE__, __TIME__);
+
 
     while (1) {
-        //safety to shut off motor 
+        //safety to shut off motor
         if(USER){
-            motoron=0;
+            //motoron=0;
         }
-
-        //printf('Hi!');
-
+//
+//        //printf('Hi!');
+//
         c = read_UART();    //read command from UART
+        //printf("%c",c);
 
         //commands to control specific components
         if (c=='o'){
             TOPMAG=1;
+            printf("Top magnet on");
         }
 
         else if (c=='f'){
             TOPMAG=0;
+            printf("Top magnet off");
         }
 
         else if(c == 'g') {
             //Turn on Bottom Magnet
             write_UART2('1');
+            printf("Bottom magnet on");
         }
 
         else if(c =='h') {
              //Turn off Bottom Magnet
-            write_UART2('2');
+            commutate(3);
         }
-        
-        else if (c=='u'){
+
+        else if (c=='b'){
             //Turn on motor
             motoron=1;
-            // inc duty
-            write_duty(read_duty()+100);
+            // write duty
+            write_duty(100);
+            kick();
+            int read = read_duty();
+            printf("%d  %d\n", read, motoron);
+            //kick();
             c = 'x';
         }
-        
+
+        else if (c=='u'){
+            //motoron=1;
+            write_duty(read_duty()+100);
+            int read = read_duty();
+            printf("%d  %d\n",read, motoron);
+            c='x';
+        }
+
         else if (c=='d'){
             // dec duty
-            motoron=1;
+            //motoron=1;
             write_duty(read_duty()-100);
+            int read = read_duty();
+            printf("%d  %d\n",read, motoron);
             c = 'x';
         }
-        
+
         else if (c=='m'){
             // motor off
             write_duty(0);

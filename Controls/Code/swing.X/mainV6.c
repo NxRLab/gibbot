@@ -17,9 +17,10 @@ int main(void) {
     //allocate struct array of max size
     struct args* control_args = (struct args*)malloc(N_MAX * sizeof(struct args));
 
-    while (1) {
-        //Give control arguments to PIC, check parameters and run swing
+    //Give control arguments to PIC, check parameters and run swing
         printf("Press w to write, r to read, and x to swing\n");
+
+    while (1) {
         c = read_UART();
         if(c=='w'){
             printf("Input n: \n");
