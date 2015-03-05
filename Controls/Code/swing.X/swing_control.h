@@ -8,20 +8,18 @@
 #ifndef SWING_CONTROL_H
 #define	SWING_CONTROL_H
 
+#define N_MAX 170   //maximum number of states
+
 //Arguments to pass to robot, define as struct args[n], with n being
 //the number of distinct states
 struct args {
     int torque;
-    int t_swing;    //miliseconds
-    int t_flight;   //miliseconds
+    int t_swing;    //milliseconds
+    int t_flight;   //milliseconds
 };
 
-//global variables
-int n;
-struct args control_args[n];
-
-void write_swing(void);
-void read_swing(char state);
+void write_swing(int n, struct args* control_args);
+void read_swing(char state, int n, struct args* control_args);
 
 #endif	/* SWING_CONTROL_H */
 
