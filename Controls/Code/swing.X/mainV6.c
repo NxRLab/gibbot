@@ -10,7 +10,8 @@
 int main(void) {
     initialize();
 
-    unsigned char buf[10];
+    printf("HelloWorld\n");
+    unsigned char buf[MESSAGE_MAX];
     unsigned char c='0';
     unsigned char state='x';
     int n=0;
@@ -18,14 +19,16 @@ int main(void) {
     //allocate struct array of max size
     struct args* control_args = (struct args*)malloc(N_MAX * sizeof(struct args));
 
-    //Give control arguments to PIC, check parameters and run swing
+    //get_input(control_args,c,state,n,buf);
     printf("Press w to write, r to read, and x to swing\n");
     printf("Input the number of arguments\n");
-    printf("If reading, input the state you want to check\n"); //or 'n' for all
+    printf("If reading, input the state you want to check\n\n"); //or 'n' for all
+    //read_string_UART(buf,10);
 
+    
     while (1) {
-        read_string_UART(buf,10);
-        sscanf(buf,"%c %d %c",c,&n,state);
+        read_string_UART(buf,MESSAGE_MAX);
+        //write_string_UART(buf,MESSAGE_MAX);
         
         if(c=='w'){
             //printf("Input n: \n");

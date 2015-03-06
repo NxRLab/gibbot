@@ -63,4 +63,19 @@ void read_swing(char state, int n, struct args* control_args){
     }
 }
 
+void get_input(struct args* control_args, char c, char state, int n, char* buf){
+    //Give control arguments to PIC, check parameters and run swing
+    printf("Press w to write, r to read, and x to swing\n");
+    printf("Input the number of arguments\n");
+    printf("If reading, input the state you want to check\n\n"); //or 'n' for all
+
+    read_string_UART(buf,10);
+    if(buf[0]=='w' || buf[0]=='r'){
+        sscanf(buf,"%c %d %c",c,&n,state);
+    }
+
+    printf("%c %c %d\n",c,state,n);
+}
+
+
 
