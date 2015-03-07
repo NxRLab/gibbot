@@ -7,22 +7,23 @@
 #include "initializeV6.h"
 #include "motor.h"
 #include "test.h"
-#include "core.h"
-
+//#include "core.h"
+#include "menu.h"
 
 int main(void) {
+    initialize();
 
-    while(1) {
-      initialize();
-      write_string_UART("Hello world\r\n",100);
-    __delay32(40000000);
-    }
+    LED1 = 0;
+    LED2 = 0;
+    LED3 = 0;
+    LED4 = 0;
 
+    write_string_UART("Hello World!\n",100);
 
-
-
-
+    menu_run();
     
+    return 0;
+
 
 
 

@@ -45,7 +45,7 @@ void write_UART2(unsigned char data){
 
 void write_string_UART(unsigned char *data, int n){
     int i = 0;
-    while(data[i] != '\n' && i < n){
+    while(data[i] != '\0' && i < n){
         write_UART(data[i]);
         i++;
     }
@@ -100,9 +100,9 @@ void enqueue(unsigned char c) {
 
     l = (LinkedList *) malloc(sizeof (LinkedList)); //Try to allocate memory
     if (l == NULL) { //If pointer is empty there is no remaining memory
-        read_error(); //Remove two entries from error buffer
-        read_error();
-        log_error(ERR_BUFF_FULL); //Add buffer full entry
+        //read_error(); //Remove two entries from error buffer
+        //read_error();
+        //log_error(ERR_BUFF_FULL); //Add buffer full entry
         l = (LinkedList *) malloc(sizeof (LinkedList)); //Allocate memory
     }
 
@@ -125,7 +125,7 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void){
     while (U1STAbits.URXDA){ //If there is data in the recieve register
         enqueue(U1RXREG);    //Add data to uart_buffer
     }
-    LED2 = !LED2;
+    //LED2 = !LED2;
     IFS0bits.U1RXIF = 0; //Clear interrupt flag
 }
 
@@ -133,7 +133,7 @@ void __attribute__((interrupt, no_auto_psv)) _U2RXInterrupt(void){
     while (U2STAbits.URXDA){ //If there is data in the recieve register
         enqueue(U2RXREG);    //Add data to uart_buffer
     }
-    LED3 = !LED3;
+    //LED3 = !LED3;
     IFS1bits.U2RXIF = 0; //Clear interrupt flag
 }
 

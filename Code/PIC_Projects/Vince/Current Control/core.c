@@ -5,7 +5,8 @@
 
 #define AVERAGES 20	/// the number of averages we take when reading the ADC
 
-enum State core_state = IDLE; // the current state
+//enum State core_state = IDLE; // the current state
+int core_state = COAST; // the current state
 
 
 /// @brief Initialized the analog to digital converter for
@@ -26,9 +27,9 @@ void core_init(void)
 {
 	//DataEEInit();		//initialize eeprom emulation
         //TODO in future: establish eeprom to save gains to memory
-	core_state = IDLE;	//initialize the state
+	core_state = COAST;	//initialize the state
 	adc_init();     	//initialize the analog to digital converter
-	initialize_QEI(); 	//initialize the encoders
+	//initialize_QEI(); 	//initialize the encoders
         //TODO: see encoder_init function below
 };
 
@@ -39,11 +40,13 @@ short core_adc_read()
 
     for (i = 0; i != AVERAGES; ++i) // read from the ADC AVERAGES times
     {
+        /*
         AD1CON1bits.SAMP = 1;	    // start sampling
         while (!AD1CON1bits.DONE)   // wait for conversion to complete
 	{
 		;
 	}
+        */
         avg += ADC1BUF0;	    // accumulate the current reading
     }
 
@@ -63,6 +66,7 @@ int core_encoder_read(void)
 
 static void adc_init(void)
 {
+    /*
 	// setup the analog to digital converter
 	//AD1PCFG = 0xFFFE; 		// bit 1 is zero, so AN0 is input
 	AD1CHS0bits.CH0SA = 7; 		// connect bit 0 as input
@@ -75,6 +79,7 @@ static void adc_init(void)
 	AD1CON3bits.SAMC = 15;		// sampling is 3 * Tad = 225 ns
         // The above value was changed from 3 to 15 (see old ADC.c)
 	AD1CON1bits.ADON = 1; 		// turn on A/D converter
+   */
 }
 
 /*static void encoder_init(void) //TODO: make this work with new encoder
@@ -99,7 +104,7 @@ static int encoder_send(int read)
 	int data = 0, temp = 0;
 	
 	SPI4BUF = read; // request the encoder position
-	
+	/*
 	while (!SPI4STATbits.SPIRBF)
 	{
 		;
@@ -112,6 +117,7 @@ static int encoder_send(int read)
 		;
 	}
     	temp = SPI4BUF;
+        */
 	return temp;
 }
 

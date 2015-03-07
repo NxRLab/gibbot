@@ -58,16 +58,25 @@ void core_gains_save();
 void core_gains_load();
 
 /// @brief A list of constants that determines the current state of the PIC
+/*
 enum State {
-		IDLE, 		/// The motors are off
-		PWM,		/// The motor PWM is directly controlled
-	    	TUNE, 		/// The current loop is being tuned
-		TRACK, 		/// The motor is tracking a trajectory
-		HOLD,		/// The motor is holding its position
-                TEST //added by Vince on 1/24/15 to test the output of an error value by the PI controller
+		IDLE=0, 		/// The motors are off
+		PWM=1,		/// The motor PWM is directly controlled
+	    	TUNE=2, 		/// The current loop is being tuned
+		TRACK=3, 		/// The motor is tracking a trajectory
+		HOLD=4,		/// The motor is holding its position
+                TEST=5 //added by Vince on 1/24/15 to test the output of an error value by the PI controller
 	   };
+*/
+#define COAST 0
+#define PWM 1
+#define TUNE 2
+#define TRACK 3
+#define HOLD 4
+#define TEST 5
 
 
 /// @brief The current state of the system. extern means it is instantiated (assigned memory) elsewhere 
-extern enum State core_state;
+//extern enum State core_state;
+extern int core_state;
 #endif

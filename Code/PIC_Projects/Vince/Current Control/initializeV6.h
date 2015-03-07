@@ -25,6 +25,8 @@
 #ifndef INITIALIZEV6_H
 #define	INITIALIZEV6_H
 
+#include <p33EP512MC806.h>
+
 #define LED1 LATBbits.LATB13
 #define LED2 LATBbits.LATB12
 #define LED3 LATDbits.LATD11

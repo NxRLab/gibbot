@@ -19,7 +19,8 @@ public class GibbotGUI3 extends JFrame{
 	
 	/** File representing the folder that contains the images to be loaded */
 	/** Change path accordingly based on computer */
-	static final File dir = new File("/Users/jeanettepranin1/Documents/eclipse_projects/gibbot/Code/Java_Projects/gui4/images");
+	//static final File dir = new File("/Users/jeanettepranin1/Documents/eclipse_projects/gibbot/Code/Java_Projects/gui4/images");
+	static final File dir = new File("./images");
     
    /** Main method that runs.
     *@param args String array of arguments when program is run on command line (handled in the background)*/

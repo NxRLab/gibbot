@@ -68,10 +68,10 @@ void initialize(void){
     RCON = 0;
 
     /* Initialize peripherals*/
-    initialize_PWM();
-    initialize_CN();
+    //initialize_PWM();
+    //initialize_CN();
     //initialize_ADC();
-    initialize_QEI();
+    //initialize_QEI();
     initialize_UART();
     initialize_UART2();
     //initialize_I2C_Master();

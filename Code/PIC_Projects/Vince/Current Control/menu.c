@@ -2,13 +2,21 @@
 #include "core.h"
 #include "current_control.h"
 #include "streaming.h"
+#include "initializeV6.h"
+
+#define COAST 0
+#define PWM 1
+#define TUNE 2
+#define TRACK 3
+#define HOLD 4
+#define TEST 5
 
 static char buffer[200]; // used for storing incoming and outgoing requests
 static const unsigned int BUF_SIZE = sizeof(buffer)/sizeof(buffer[0]);
 
 #define MAXDATA 200
 
-static const char assert_fail[] = "\a%s:%d Assertion failed. %s "; // format string for failed assertions
+static const char assert_fail[] = "\\a%s:%d Assertion failed. %s "; // format string for failed assertions
 
 /// @brief The sub-menu related to current control
 static void current_menu(void);
@@ -29,14 +37,18 @@ static void send_response(const char * buffer);
 
 void menu_run(void)
 {
+        LED1 = 1;
+
 	//core_gains_load(); //commented out until gain saving/loading is functional
 	while(1)
 	{
+            __delay32(40000000);
 		read_string_UART(buffer,BUF_SIZE);	//we expect the next character to be the menu command
 		switch (buffer[0])
 		{
 			case 'i':
 			{
+                                LED2 = 1;
 				current_menu();
 				break;
 			}
@@ -60,28 +72,58 @@ void menu_run(void)
 				//core_gains_load();
 				break;
 			}
+                        case 255: // returned from read_string_uart
+                        {
+                            break;
+                        }
 			default: 
 			{
 				// The final status message starts with a '\a' to indicate an error
-				write_string_UART("\aUnrecognized Command.",MAXDATA);
+				write_string_UART("\\aUnrecognized Command.",MAXDATA);
 				break;					   
 			}
 		}
+
+
+                memset(buffer, 0, BUF_SIZE);
+                sprintf(buffer, "core state: %d\r\n", core_state);
+                write_string_UART(buffer,MAXDATA);
+
+                memset(buffer, 0, BUF_SIZE);
+                sprintf(buffer, "TRACK: %d\r\n", TRACK);
+                write_string_UART(buffer,MAXDATA);
+
+                memset(buffer, 0, BUF_SIZE);
+                sprintf(buffer, "TUNE: %d\r\n", TUNE);
+                write_string_UART(buffer,MAXDATA);
+
+                memset(buffer, 0, BUF_SIZE);
+                sprintf(buffer, "IDLE: %d\r\n", COAST);
+                write_string_UART(buffer,MAXDATA);
+
+                memset(buffer, 0, BUF_SIZE);
+                sprintf(buffer, "random number: %d\r\n", -12);
+                write_string_UART(buffer,MAXDATA);
+
+
+#if 0
+
 		// there are certain states we should never be in after running a menu command.
 		// catch these errors and report them.  These are programming errors and indicate
 		// a bug in the code if they are ever triggered.
 		if (core_state == TRACK)
 		{
-			core_state = IDLE;
+			core_state = COAST;
 			sprintf(buffer,assert_fail,__FILE__,__LINE__,"Invalid state TRACK");
 			write_string_UART(buffer,MAXDATA);
 		}
 		else if(core_state == TUNE)
 		{
-			core_state = IDLE;
+			core_state = COAST;
 			sprintf(buffer,assert_fail,__FILE__,__LINE__,"Invalid state TUNE");
 			write_string_UART(buffer,MAXDATA);
 		}
+#endif
 		write_string_UART("\r\n",MAXDATA); //send the acknowledgment that Matlab expects
 	}
 }
@@ -94,7 +136,8 @@ static void current_menu(void)
 	{
 		case 'k':	// get and set the controller gains
 		{
-			core_state = IDLE;	// don't change the gains while we could potentially be executing a controller
+                        LED3 = 0;
+                        core_state = COAST;	// don't change the gains while we could potentially be executing a controller
 
 			// get the current gains as a string and write them to serial
 			current_gains_sprintf(buffer);
@@ -107,7 +150,7 @@ static void current_menu(void)
 		}
 		case 'r':  
 		{
-			core_state = IDLE;			//stop whatever we were doing
+			core_state = COAST;			//stop whatever we were doing
 			unsigned int nsamps = 50;		// the number of samples to record
 			read_string_UART(buffer,BUF_SIZE);	// read the number of samples from the uart
 			sscanf(buffer,"%d",&nsamps);
@@ -116,7 +159,7 @@ static void current_menu(void)
 
 			core_state = TUNE;			// start tuning mode
 			streaming_write();			// write the data as it is generated
-			core_state = IDLE;			// stop moving
+			core_state = COAST;			// stop moving
 			break;
 		}
 		case 'b':
@@ -127,12 +170,12 @@ static void current_menu(void)
 		}
 		case 'c':
 		{
-			core_state = IDLE;
+			core_state = COAST;
 			break;
 		}
 		default:	//ignore unrecognized commands
 		{
-			write_string_UART("\acurrent_menu: Unrecognized Command.",MAXDATA);
+			write_string_UART("\\acurrent_menu: Unrecognized Command.",MAXDATA);
 			break;
 		}
 	}
@@ -299,7 +342,7 @@ static void diagnostic_menu(void)
 			sscanf(buffer,"%d",&duty);
 			if (duty < -100 || duty > 100)
 			{
-				write_string_UART("\adiagnostic_menu: Enter a duty cycle between -100 and 100",MAXDATA);
+				write_string_UART("\\adiagnostic_menu: Enter a duty cycle between -100 and 100",MAXDATA);
 			}
 			else
 			{
@@ -328,7 +371,7 @@ static void diagnostic_menu(void)
 		}
 		default:
 		{
-			write_string_UART("\adiagnostic_menu: Unrecognized Command.",MAXDATA);
+			write_string_UART("\\adiagnostic_menu: Unrecognized Command.",MAXDATA);
 			break;
 		}
 	}

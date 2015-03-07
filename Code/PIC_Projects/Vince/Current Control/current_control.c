@@ -12,6 +12,7 @@
 #include "motor.h"
 #include "test.h"
 #include "UART.h"
+#include "initializeV6.h"
 
 
 static int kp = 1, ki = 0; //initialize gain variables
@@ -25,7 +26,7 @@ int pwm=0;//used in case: TEST
 int desiredpwm=500;//used in case: TEST
 
 
-
+#if 0
 void _ISR _T1Interrupt(void) { //Timer 1 interrupt (interrupts at frequency determined in intialize_TIMER1)
 
     /*if (count==0){
@@ -59,7 +60,7 @@ switch (core_state) //core_state is a global variable that changes elsewhere bas
                 }
 			break;
 		}
-		case IDLE:
+		case COAST:
 		{
 		write_duty(0);
 		eint = 0;
@@ -101,9 +102,10 @@ switch (core_state) //core_state is a global variable that changes elsewhere bas
 		}
 }
 }
+#endif
 
 void initialize_CurrentControl (void) {
-timer1_on();
+//timer1_on();
 core_init();
 //initialize_ADC_Single(); //only include this if it is not initialized elsewhere
 //include other initializations here
@@ -161,15 +163,16 @@ sensorcurrent = 0;
 void current_gains_sprintf(char * buffer)
 {
 
-sprintf(buffer, "%d %i",kp,ki);
+//sprintf(buffer, "%d %i",kp,ki);
 
 	// TODO: sprintf the gains ki and kp into the buffer
 	//For Now we return return a dummy buffer with fixed gains
 	//you will need to remove this
-	//buffer[0]='1'; //remove me when implemented
-	//buffer[1]=' '; //remove me when implemented
-	//buffer[2]='7'; //remove me when implemented
-	//buffer[3]='\0';//remove me when implemented
+        LED4 = 1;
+	buffer[0]='1'; //remove me when implemented
+	buffer[1]=' '; //remove me when implemented
+	buffer[2]='7'; //remove me when implemented
+	buffer[3]='\0';//remove me when implemented
 }
 
 void current_gains_sscanf(const char * buffer)
