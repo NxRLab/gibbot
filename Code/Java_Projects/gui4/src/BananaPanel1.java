@@ -109,7 +109,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     	
     	super.paintComponent(g);
     	
-    	int width = getWidth();
+    	int width = getWidth(); 
     	int height = getHeight();
     	
     	g.drawImage(jungle, 1, 1, width-1, height-1, this);
@@ -129,7 +129,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     		
     		else{ //nothing has happened
 //    			
-    			g.drawImage(gibbotBubble, (int)bob.getPivotX() - 30, (int)bob.getPivotY()+20, this);
+    			g.drawImage(gibbotBubble, (int)bob.getPivotX() - (int)(width*0.024), (int)bob.getPivotY()+(int)(height*0.042), (int)(width*0.157), (int)(height/3), this);
 //    			g.setColor(promptHighlight);
 //    			g.fillRoundRect(getWidth() - getHeight() + 3, getHeight()/10 + 3, 
 //    				bananaBubble.getWidth(this) - 42, bananaBubble.getHeight(this) - 16, 15, 15);
@@ -140,7 +140,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
 //    						  			getHeight()/10 + 89,
 //    						  			getHeight()/10 + 49}, 
 //    						  3); //# of pts
-    			g.drawImage(bananaBubble, getWidth()-getHeight(), getHeight()/10, this);
+    			g.drawImage(bananaBubble, width-height, height/10, (int)(width*0.22), (int)(height*0.31), this);
     		
     			
     		}
