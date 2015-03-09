@@ -156,7 +156,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     	g.drawImage(bunch, (int)(width - (height/1.8)), -(int)(width*0.024), (int)(height/1.7), (int)(height/1.7), this);
     	
     	g.setColor(Color.WHITE);
-		g.fillRect(0, (int)(sizingWidth*0.352), sizingWidth, (int)(sizingHeight*0.05)); //0, 450, 1300, 40
+		g.fillRect(0, (int)(sizingHeight*0.563), sizingWidth, (int)(sizingHeight*0.1)); //0, 450, 1300, 40
 		g.setColor(Color.BLACK);
     	
     	//label for text
