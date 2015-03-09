@@ -16,7 +16,7 @@ public class LayoutContainerPanel2 extends JPanel implements MouseListener, Mous
 	
 	/**Specified by GUILayeredPane parent. Used to determine anchor locations for pull tabs.*/
 	private int sizingWidth;
-	/**Difference bewteen sizingWidth and 1366 (the original width used to design the GUI)*/
+	/**Difference between sizingWidth and 1366 (the original width used to design the GUI)*/
 	private int widthCorrection;
 	
 	/**Furthest left user is allowed to get or pull top tab when closed*/

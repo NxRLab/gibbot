@@ -156,32 +156,25 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     	g.drawImage(bunch, (int)(width - (height/1.8)), -(int)(width*0.024), (int)(height/1.7), (int)(height/1.7), this);
     	
     	g.setColor(Color.WHITE);
-		g.fillRect(0, 450, 1300, 40); //0, 450, 1300, 40
+		g.fillRect(0, (int)(sizingWidth*0.352), sizingWidth, (int)(sizingHeight*0.05)); //0, 450, 1300, 40
 		g.setColor(Color.BLACK);
     	
     	//label for text
 		g.setFont(ANDALE_SMALL);
-		g.drawString("Information", 95, 475);
+		g.drawString("Information", (int)(sizingWidth*0.0743), (int)(sizingHeight*0.594)); //95, 475
 
 		//label for speedometer
-		g.setColor(Color.WHITE);
 		g.setColor(Color.BLACK);
-		g.drawString("Speed of Gibbot arms", 320, 475);
+		g.drawString("Speed of Gibbot arms", (int)(sizingWidth*0.25), (int)(sizingHeight*0.594)); //320, 475
 		
 		//label for battery
-		g.setColor(Color.WHITE);
-		g.setColor(Color.BLACK);
-		g.drawString("Motor Battery", 580, 475);
+		g.drawString("Motor Battery", (int)(sizingWidth*0.453), (int)(sizingHeight*0.594)); //580, 475
 
 		//label for temperature
-		g.setColor(Color.WHITE);
-		g.setColor(Color.BLACK);
-		g.drawString("Temperature", 790, 475);
+		g.drawString("Temperature", (int)(sizingWidth*0.6172), (int)(sizingHeight*0.594));
 		
 		//label for torque
-		g.setColor(Color.WHITE);
-		g.setColor(Color.BLACK);
-		g.drawString("Torque", 1070, 475);
+		g.drawString("Torque", (int)(sizingWidth*0.836), (int)(sizingHeight*0.594));
     	
     }
     
