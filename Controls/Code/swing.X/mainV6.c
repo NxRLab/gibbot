@@ -23,7 +23,7 @@ int main(void) {
     printf("Press w to write, r to read, and x to swing\n");
     printf("Input the number of arguments\n");
     printf("If reading, input the state you want to check\n\n"); //or 'n' for all
-    //read_string_UART(buf,10);
+    //read_string_UART(buf,MESSAGE_MAX);
 
     
     while (1) {
