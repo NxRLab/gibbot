@@ -53,11 +53,11 @@ public class TextBox extends JPanel{
     	
     	super.paintComponent(g);
     	g.drawString("Name: Gibbot", xCoor, yCoor);
-    	g.drawString("Age : 7 years old", xCoor, yCoor + 30);
-    	g.drawString("Home: NxR Lab @ NU", xCoor, yCoor + 60);
-    	g.drawString("Hobbies:Eating bananas,", xCoor, yCoor + 90);
-    	g.drawString("Swinging around,", (int)(xCoor*11.8), yCoor + 120);
-    	g.drawString("Grooming friends", (int)(xCoor*11.8), yCoor + 150);
+    	g.drawString("Age : 7 years old", xCoor, (int)(yCoor*1.86)); //65
+    	g.drawString("Home: NxR Lab @ NU", xCoor, (int)(yCoor*2.72)); //95
+    	g.drawString("Hobbies:Eating bananas,", xCoor, (int)(yCoor*3.572)); //125
+    	g.drawString("Swinging around,", (int)(xCoor*11.8), (int)(yCoor*4.43)); //155
+    	g.drawString("Grooming friends", (int)(xCoor*11.8), (int)(yCoor*5.29)); //185
     	
     }
 
