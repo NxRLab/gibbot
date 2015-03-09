@@ -9,10 +9,9 @@ import javax.swing.*;
 public class SpeedometerBox extends JPanel implements ActionListener{
 	
 	private Image batteryBar = ImageHandler.getImage("batteryBar.png");
-	private final Font ANDALE_BIG = ImageHandler.getAndaleFont().deriveFont(Font.BOLD, 30);
-	private final Font ANDALE_MED = ImageHandler.getAndaleFont().deriveFont(Font.BOLD, 27); //for 100% to be centered when displayed
-	private final Font ANDALE_SMALL = ImageHandler.getAndaleFont().deriveFont(Font.BOLD, 18); //for beta test
-	private final Font DIGITAL = ImageHandler.getDigitalFont().deriveFont(Font.BOLD, 65);
+	private final Font ANDALE_BIG;
+	private final Font ANDALE_MED; //for 100% to be centered when displayed
+	private final Font DIGITAL;
 	
 	private int batterySpent;
 	private final int MAX_BATT = 136; //CHANGE THIS WHEN YOU KNOW
@@ -57,9 +56,13 @@ public class SpeedometerBox extends JPanel implements ActionListener{
 		width = (int)(widthOfContainer*SPEEDOMETER_WIDTH_ALLOCATION); //417px
 		height = (int)(heightOfContainer*SPEEDOMETER_HEIGHT_ALLOCATION); //238px
 		
+		ANDALE_BIG = ImageHandler.getAndaleFont().deriveFont(Font.BOLD, (int)(width*0.072));
+		ANDALE_MED = ImageHandler.getAndaleFont().deriveFont(Font.BOLD, (int)(width*0.065));
+		DIGITAL = ImageHandler.getDigitalFont().deriveFont(Font.BOLD, (int)(width*0.156));
+		
+		
 		setPreferredSize(new Dimension(width, height));
 		setBackground(GibbotGUI3.GLOBAL_BG);
-		setFont(ANDALE_BIG);
 		
 		GUITimer.addActionListener(this);
 		

@@ -17,9 +17,6 @@ public class ImageHandler {
 	/**Used to read image files*/
 	private static InputStream stream;
 	
-	/**Background color for chart animations*/
-	private static final Color CHART_BG = GibbotGUI3.SECONDARY_GLOBAL_BG;
-	
 	/**Font used throughout the GUI*/
 	private static Font andale;
 	private static Font digital;
@@ -65,9 +62,9 @@ public class ImageHandler {
 		}
 		try{
     		stream = new BufferedInputStream(new FileInputStream("AndaleMono.ttf"));
-    		andale = (Font.createFont(Font.TRUETYPE_FONT, stream)).deriveFont(Font.BOLD, 12);
+    		andale = (Font.createFont(Font.TRUETYPE_FONT, stream)).deriveFont(Font.BOLD);
     		stream = new BufferedInputStream(new FileInputStream("DS-DIGIT.TTF"));
-    		digital = (Font.createFont(Font.TRUETYPE_FONT, stream)).deriveFont(Font.BOLD, 12);
+    		digital = (Font.createFont(Font.TRUETYPE_FONT, stream)).deriveFont(Font.BOLD);
     	}
     	catch(Exception e){
     		System.out.println(e);

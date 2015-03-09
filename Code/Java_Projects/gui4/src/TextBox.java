@@ -11,7 +11,7 @@ import javax.swing.*;
 public class TextBox extends JPanel{
 	
 	/**Font used to write. Set to bold, size 36.*/
-	private final Font ANDALE_SMALL = ImageHandler.getAndaleFont().deriveFont(Font.BOLD, 20);
+	private final Font ANDALE_SMALL;
 	
 	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensions in constructor*/
 	private int height;
@@ -24,9 +24,6 @@ public class TextBox extends JPanel{
 	/**Proportion of vertical space this box will take up in {@link LayoutContainerPanel}. Stronly recommended not to alter.*/
 	private final double TEXT_HEIGHT_ALLOCATION = 1/3.45;
 	
-	/**How many timer events heard before wireless is updated (currently set so that signal updates every .75 seconds*/
-	//private final int UPDATE_COUNT = (int)(750/GUITimer.getMillisPerFrame()); //symbol updates every .75 seconds
-
     /**Constructor sets preferred size to tell layout manager of {@link LayoutContainerPanel} how to draw this panel;
     Initializes some graphics elements including wireless signal.
     @param widthOfContainer used to set {@link #width}
@@ -36,9 +33,12 @@ public class TextBox extends JPanel{
     	width = (int)(widthOfContainer*TEXT_WIDTH_ALLOCATION);
     	height = (int)(heightOfContainer*TEXT_HEIGHT_ALLOCATION);
     	
+    	ANDALE_SMALL = ImageHandler.getAndaleFont().deriveFont(Font.BOLD, (int)(width*0.07));
+    	
     	setPreferredSize(new Dimension(width, height));
     	setBackground(GibbotGUI3.GLOBAL_BG);
     	setFont(ANDALE_SMALL);
+  
     	
     }
     

@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -15,25 +14,23 @@ public class LayoutContainerPanel2 extends JPanel implements MouseListener, Mous
 	private Image gibbotTab3 = ImageHandler.getImage("gibbotTab3.png");
 	private Image sleepBubble = ImageHandler.getImage("sleepBubble.png");
 	
-	private final int SCREEN_WIDTH = GUILayeredPane.getScreenWidth();
-	
 	/**Specified by GUILayeredPane parent. Used to determine anchor locations for pull tabs.*/
 	private int sizingWidth;
 	/**Difference bewteen sizingWidth and 1366 (the original width used to design the GUI)*/
 	private int widthCorrection;
 	
 	/**Furthest left user is allowed to get or pull top tab when closed*/
-	private final int LEFT_BOUND_1 = (int)(SCREEN_WIDTH*0.141); //180
+	private final int LEFT_BOUND_1 = 180;
 	/**Furthest left user is allowed to get or pull middle tab when closed*/
-	private final int LEFT_BOUND_2 = (int)(SCREEN_WIDTH*0.11); //140
+	private final int LEFT_BOUND_2 = 140;
 	/**Furthest right user is allowed to get or pull top tab when open*/
-	private final int RIGHT_BOUND_1 = (int)(SCREEN_WIDTH*0.8); //1330
+	private final int RIGHT_BOUND_1 = 1330;
 	/**Furthest right user is allowed to get or pull middle tab when open*/
-	private final int RIGHT_BOUND_2 = (int)(SCREEN_WIDTH*0.8); //1290
+	private final int RIGHT_BOUND_2 = 1290;
 	/**Furthest up user is allowed to get or pull either tab*/
-	private final int TOP_BOUND = (int)(SCREEN_WIDTH*0.278); //355
+	private final int TOP_BOUND = 355;
 	/**Furthest down user is allowed to get or pull either tab*/
-	private final int BOTTOM_BOUND = (int)(SCREEN_WIDTH*0.528); //675
+	private final int BOTTOM_BOUND = 675;
 	
 	/**X-coor of top tab when closed; set in constructor method*/
 	private final int CLOSED_X1;
@@ -77,7 +74,7 @@ public class LayoutContainerPanel2 extends JPanel implements MouseListener, Mous
 	/**Time between timer fires (sec), used to update velocity of a "floating" tab*/
 	private double dt = (double)GUITimer.getMillisPerFrame()/1000;
 	/**Acceleration of a "floating" tab*/
-	private double a = -4000; //-6000
+	private double a = -6000;
 	
 	/**Transparent dark gray, for the background*/
 	private final Color TRANSPARENT_BG = new Color(125, 125, 125, 180); 
@@ -88,7 +85,6 @@ public class LayoutContainerPanel2 extends JPanel implements MouseListener, Mous
 	/**Constructor adds an instance of {@link ChargingBox} and initializes all boolean state variables to false
 	 *@param sizeW Used to set {@link #sizingWidth}*/
     public LayoutContainerPanel2(int sizeW) {
-    	
     	
     	sizingWidth = sizeW;
     	
@@ -104,9 +100,7 @@ public class LayoutContainerPanel2 extends JPanel implements MouseListener, Mous
   
     	charge = new ChargingBox();
     	charge.setOpaque(false);
-    	
-    	//location and dimensions of battery charging icon
-    	charge.setBounds((int)(SCREEN_WIDTH*0.762), 5, (int)(SCREEN_WIDTH*0.196), (int)(SCREEN_WIDTH*0.274)); //975, 5, 250, 350
+    	charge.setBounds(975, 5, 250, 350); //location and dimensions of battery charging icon
     	add(charge);
     	
     	addMouseListener(this);
@@ -132,7 +126,7 @@ public class LayoutContainerPanel2 extends JPanel implements MouseListener, Mous
     	g.setColor(TRANSPARENT_BG);
     	g.fillRect(0, 0, getWidth(), getHeight());
     	g.drawImage(sleepBubble, 0, 0, this);
-    	g.drawImage(batteryArrow, (int)(SCREEN_WIDTH*0.586), (int)(SCREEN_WIDTH*0.008), this); //batteryArrow, 750, 10, this
+    	g.drawImage(batteryArrow, 750, 10, this);
     	g.drawImage(gibbotTab3, sizingWidth - gibbotTab3.getWidth(this), //third tab doesn't move, so it's always drawn															 
 				sleepBubble.getHeight(this), this);						 //in the same place.
     			
@@ -187,7 +181,7 @@ public class LayoutContainerPanel2 extends JPanel implements MouseListener, Mous
     	}
     	
     	if(pulled1 && !pulled2){ //either the user can pull the top tab closed again or pull the second tab open
-    		if(x > LEFT_BOUND_2 + widthCorrection && x < (int)(SCREEN_WIDTH*1.032) + widthCorrection && y > TOP_BOUND && y < BOTTOM_BOUND){ //1320
+    		if(x > LEFT_BOUND_2 + widthCorrection && x < 1320 + widthCorrection && y > TOP_BOUND && y < BOTTOM_BOUND){
     			pulling2 = true;
     			mouseAt = x;
     			offset = mouseAt - CLOSED_X2;

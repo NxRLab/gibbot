@@ -10,11 +10,9 @@ import javax.swing.*;
 public class TemperatureBox extends JPanel implements ActionListener{
 	
 	private Image thermometer = ImageHandler.getImage("thermometer.png");
-	private final Font ANDALE_BIG = ImageHandler.getAndaleFont().deriveFont(Font.BOLD, 30);
-	private final Font ANDALE_SMALL = ImageHandler.getAndaleFont().deriveFont(Font.BOLD, 18);
+	private final Font ANDALE_BIG;
 	private final Color TEMPERATURE_COLOR = Color.RED;
 	private final int TEMP_MAX = 100; //CHANGE WHEN YOU KNOW
-	private int timer = 0;
 	
     /**Specified by LayoutContainerPanel parent. Used to set preferred dimensions in constructor*/
 	private int height;
@@ -45,6 +43,7 @@ public class TemperatureBox extends JPanel implements ActionListener{
 		width = (int)(widthOfContainer*HARDWARE_WIDTH_ALLOCATION);
 		height = (int)(heightOfContainer*HARDWARE_HEIGHT_ALLOCATION);
 		
+		ANDALE_BIG = ImageHandler.getAndaleFont().deriveFont(Font.BOLD, (int)(width*0.145));
 		
 		setPreferredSize(new Dimension(width, height));
 		setBackground(GibbotGUI3.GLOBAL_BG);
@@ -94,7 +93,6 @@ public class TemperatureBox extends JPanel implements ActionListener{
 		else{
 			g.fillRect((int)(upperX*1.3), (int)(upperY*12)-TEMP_MAX, (int)(sizeX*0.26), (int)(sizeY*0.032)+TEMP_MAX);//91, 120-temp, 22, 5+temp
 			g.fillOval((int)(upperX*1.29), (int)(upperY*1.8), (int)(sizeX*0.271), (int)(sizeY*0.132));//90, 18, 23, 21
-			timer++;
 		}
 		
 	}
@@ -118,7 +116,6 @@ public class TemperatureBox extends JPanel implements ActionListener{
 			}
 			
 			wait++;
-			//temp++;
 		}
 		
 	}

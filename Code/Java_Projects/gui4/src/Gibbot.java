@@ -8,20 +8,20 @@ import java.awt.*;
 public class Gibbot {
 	
 	/**Distance, in pixels, from motor to end of first link*/
-	private final int ARM1W = 100;
+	private final int ARM1W;
 	/**Distance, in pixels, from motor to end of second link*/
-	private final int ARM2W = 100;
+	private final int ARM2W;
 	/**Height, in pixels, of first link*/
-	private final int ARM1H = 20;
+	private final int ARM1H;
 	/**Height, in pixels, of second link*/
-	private final int ARM2H = 20;
+	private final int ARM2H;
 	/**Initial x-coor of center joint of gibbot animation*/
-	private final int STARTX = 250;
+	private final int STARTX;
 	/**Initial y-coor of center joint of gibbot animation*/
-	private final int STARTY = 100;
+	private final int STARTY;
 	/**Specifies radius, in pixels, of circles at the joints of the gibbot animation. 
 	 *NOTE: if height of arm1 and arm2 are different, this will need to be changed. */
-	private final int RADIUS = (ARM1H % 2 == 0 ? ARM1H + 12 : ARM1H + 11);   																			  
+	private final int RADIUS;   																			  
 
 	/**Color of the first link in the animation. If altered, also alter 
 	 *{@link Speedometer#ARM1COLOR} with same first three values (RGB) and fourth value (alpha) = 100.*/
@@ -32,18 +32,28 @@ public class Gibbot {
 	
 	/**Coordinates of center joint, ends of links*/
 	private double pivotX, pivotY, arm1X, arm1Y, arm2X, arm2Y;
-	/**Angle between links (currently unused in code)*/
-	//private double theta;
 
     /**Constructor initializes all coordinates.*/
     public Gibbot() {
+    	
+    	int screenWidth = GUILayeredPane.getScreenWidth(); //1280
+    	
+    	ARM1W = (int)(screenWidth*0.0782); //100
+    	ARM2W = ARM1W;
+    	ARM1H = (int)(screenWidth*0.0157); //20
+    	ARM2H = ARM1H;
+    	STARTX = (int)(screenWidth*0.196); //250
+    	STARTY = (int)(screenWidth*0.0782); //100
+    	
+    	
+    	RADIUS = (ARM1H % 2 == 0 ? ARM1H + 12 : ARM1H + 11);
+    	
     	pivotX = STARTX;
     	pivotY = STARTY;
     	arm2X = pivotX+ARM2W;
     	arm2Y = pivotY;
     	arm1X = pivotX-ARM2W;
     	arm1Y = pivotY;
-    	//theta = -90;
   	
     }
     
@@ -181,6 +191,5 @@ public class Gibbot {
     	arm2Y = pivotY;
     	arm1X = pivotX-ARM2W;
     	arm1Y = pivotY;
-    	//theta = -90;
 	}
 }   

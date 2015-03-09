@@ -1,13 +1,5 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.io.*;
-/*
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-*/
-import java.util.ArrayList;
-import java.util.Scanner;
 
 import javax.swing.*;
 
@@ -21,11 +13,11 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
 	private Image jungle = ImageHandler.getImage("jungle.png");
 	private Image bunch = ImageHandler.getImage("bunch.png");
 	private Image gibbotBubble = ImageHandler.getImage("gibbotBubble.png");
-	private Font ANDALE_BIG = ImageHandler.getAndaleFont().deriveFont(Font.BOLD, 64);
-	private Font ANDALE_SMALL = ImageHandler.getAndaleFont().deriveFont(Font.BOLD, 18);
+	private Font ANDALE_BIG;
+	private Font ANDALE_SMALL;
 
 	/**CODE FOR TEST CASES*/
-	double[][] testArray = new double[202][4];// = {10,GUILayeredPane.getScreenHeight()-10,0,0};
+	//double[][] testArray = new double[202][4];// = {10,GUILayeredPane.getScreenHeight()-10,0,0};
 	int iterate;
 	
 	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensions in constructor*/
@@ -73,7 +65,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     public BananaPanel1(int drawW, int drawH, int sizeW, int sizeH) {
 
     	
-    	drawingWidth = drawW-30;
+    	drawingWidth = drawW-(int)(getWidth()*0.024);
     	drawingHeight = (int)(drawH*2/3);
     	setPreferredSize(new Dimension(drawingWidth, drawingHeight));
     	
@@ -87,6 +79,9 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     	dragging = false;
     	outOfBounds = false;
     	
+    	
+    	ANDALE_BIG = ImageHandler.getAndaleFont().deriveFont(Font.BOLD, (int)(drawingWidth*0.08));
+    	ANDALE_SMALL = ImageHandler.getAndaleFont().deriveFont(Font.BOLD, (int)(drawingWidth*0.023));
     	setBackground(GibbotGUI3.GLOBAL_BG);
     	setFont(ANDALE_BIG);
     	
@@ -99,40 +94,6 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     	GUITimer.addActionListener(this);
     	
 
-    	
-    	/*int start_x = 250;
-    	int start_y = GUILayeredPane.getScreenHeight()-100;
-    	int th1 = -90;
-    	int th2 = -90; */
-    	/*
-    	Scanner s = null;
-    	for(int i = 0; i < testArray.length; i++){
-    		int j = 0;
-    		try {
-				s = new Scanner(new BufferedReader(new FileReader("simple_swing.txt")));
-				while(s.hasNext() && j <= testArray[i].length){
-					if(s.hasNextInt()){
-						testArray[i][j] = s.nextInt(); 
-						System.out.println(s.nextInt());
-					}
-				}
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    	}
-    	if (s != null) {   
-            s.close();   
-        }   */
-    	
-    	
-    	
-    	/*
-    	 * testArray[i][0] = start_x+=8;
-    		testArray[i][1] = start_y++;
-    		testArray[i][2] = (th1*=10*(Math.PI/180));
-    		testArray[i][3] = (th2*=15*(Math.PI/180));
-    	 */
     	iterate = 0;
     	
     }
@@ -148,33 +109,37 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     	
     	super.paintComponent(g);
     	
-    	g.drawImage(jungle, 1, 1, getWidth()-1, getHeight()-1, this);
+    	int width = getWidth();
+    	int height = getHeight();
+    	
+    	g.drawImage(jungle, 1, 1, width-1, height-1, this);
     	g.setColor(Color.BLACK);
     	
 
     	if(!animating){	//Either nothing has happened or the user is moving the banana
     		if(dragging){ 	//user is moving the banana
-    			g.drawImage(bananaImg, banana.getX(), banana.getY(), 80, 60, this);
+    			g.drawImage(bananaImg, banana.getX(), banana.getY(), (int)(width*0.07), (int)(height*0.1381), this);
     			if(outOfBounds){
     				g.setColor(OUT_OF_BOUNDS_COLOR);
     				g.fillRect(XBOUND, YBOUND, sizingWidth-2*XBOUND, sizingHeight/2 + YBOUND);
     				g.setColor(Color.BLACK);
-    				g.drawString("Out of Bounds!", 400, 240);
+    				g.drawString("Out of Bounds!", (int)(width*0.313), (int)(height*0.497));
     			}
     		}	
     		
     		else{ //nothing has happened
+//    			
     			g.drawImage(gibbotBubble, (int)bob.getPivotX() - 30, (int)bob.getPivotY()+20, this);
-    			g.setColor(promptHighlight);
-    			g.fillRoundRect(getWidth() - getHeight() + 3, getHeight()/10 + 3, 
-    				bananaBubble.getWidth(this) - 42, bananaBubble.getHeight(this) - 16, 15, 15);
-    			g.fillPolygon(new int[]{getWidth() - getHeight() + bananaBubble.getWidth(this) - 39, //x-coors
-    									getWidth() - getHeight() + bananaBubble.getWidth(this) - 39,
-    									getWidth() - getHeight() + bananaBubble.getWidth(this) - 13}, 
-    						  new int[]{getHeight()/10 + 13, //y-coors
-    						  			getHeight()/10 + 89,
-    						  			getHeight()/10 + 49}, 
-    						  3); //# of pts
+//    			g.setColor(promptHighlight);
+//    			g.fillRoundRect(getWidth() - getHeight() + 3, getHeight()/10 + 3, 
+//    				bananaBubble.getWidth(this) - 42, bananaBubble.getHeight(this) - 16, 15, 15);
+//    			g.fillPolygon(new int[]{getWidth() - getHeight() + bananaBubble.getWidth(this) - 39, //x-coors
+//    									getWidth() - getHeight() + bananaBubble.getWidth(this) - 39,
+//    									getWidth() - getHeight() + bananaBubble.getWidth(this) - 13}, 
+//    						  new int[]{getHeight()/10 + 13, //y-coors
+//    						  			getHeight()/10 + 89,
+//    						  			getHeight()/10 + 49}, 
+//    						  3); //# of pts
     			g.drawImage(bananaBubble, getWidth()-getHeight(), getHeight()/10, this);
     		
     			
@@ -184,44 +149,37 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     	}
     	
     	else{		//If the user dropped the banana, this is where we call draw for animation images
-        	g.drawImage(bananaImg, banana.getX(), banana.getY(), 80, 60, this);
+        	g.drawImage(bananaImg, banana.getX(), banana.getY(), (int)(width*0.063), (int)(height*0.1243), this);
         	bob.draw(g);    
     	}
     	
-    	g.drawImage(bunch, (int)(getWidth() - (getHeight()/1.8)), -30, (int)(getHeight()/1.7), (int)(getHeight()/1.7), this);
+    	g.drawImage(bunch, (int)(width - (height/1.8)), -(int)(width*0.024), (int)(height/1.7), (int)(height/1.7), this);
     	
     	g.setColor(Color.WHITE);
-		g.fillRect(0, 450, 1300, 40);
+		g.fillRect(0, 450, 1300, 40); //0, 450, 1300, 40
 		g.setColor(Color.BLACK);
     	
     	//label for text
-		//g.setColor(Color.WHITE);
 		g.setFont(ANDALE_SMALL);
-		//g.fillRect(85, 450, 140, 40);
-		//g.setColor(Color.BLACK);
 		g.drawString("Information", 95, 475);
 
 		//label for speedometer
 		g.setColor(Color.WHITE);
-		//g.fillRect(315, 450, 230, 40);
 		g.setColor(Color.BLACK);
 		g.drawString("Speed of Gibbot arms", 320, 475);
 		
 		//label for battery
 		g.setColor(Color.WHITE);
-		//g.fillRect(570, 450, 160, 40);
 		g.setColor(Color.BLACK);
 		g.drawString("Motor Battery", 580, 475);
 
 		//label for temperature
 		g.setColor(Color.WHITE);
-		//g.fillRect(760, 450, 180, 40);
 		g.setColor(Color.BLACK);
 		g.drawString("Temperature", 790, 475);
 		
 		//label for torque
 		g.setColor(Color.WHITE);
-		//g.fillRect(1000, 450, 210, 40);
 		g.setColor(Color.BLACK);
 		g.drawString("Torque", 1070, 475);
     	
@@ -269,7 +227,6 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
   	 	if(dragging){
    			banana.setX(x - 40);
     		banana.setY(y - 30);
-    		//if(x < 20 + XBOUND || x > sizingWidth - 60 - XBOUND || y < 10 + YBOUND || y > sizingHeight/2 + 73 - YBOUND)
     		if(x < XBOUND || x > sizingWidth-2*XBOUND || y < YBOUND || y > sizingHeight/2 + YBOUND)
     			outOfBounds = true;
     		else

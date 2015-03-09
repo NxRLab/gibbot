@@ -150,8 +150,6 @@ public class GUILayeredPane extends JLayeredPane implements ActionListener{
     			GUITimer.removeActionListener(awake.torque);
     			GUITimer.removeActionListener(awake.temperature);
     			GUITimer.removeActionListener(awake.speed);
-    			//GUITimer.removeActionListener(awake.battery);
-    			//GUITimer.removeActionListener(awake.text);
     		}
     		else{
     			awake.bananapan.addMouseListener(awake.bananapan);
@@ -159,8 +157,6 @@ public class GUILayeredPane extends JLayeredPane implements ActionListener{
     			GUITimer.addActionListener(awake.torque);
     			GUITimer.addActionListener(awake.temperature);
     			GUITimer.addActionListener(awake.speed);
-    			//GUITimer.addActionListener(awake.battery);
-    			//GUITimer.addActionListener(awake.text);
     			GUITimer.removeActionListener(asleep.charge);
     			asleep.resetTabs();
     		}

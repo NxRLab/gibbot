@@ -46,13 +46,10 @@ public class GUISerialPort {
 	
 	
 	/**Holds initial floats from byte conversion*/
-	//private static float[] floatHolder = new float[7];
 	private static float[] floatHolder = new float[NUM_DATA];
 	/**Holds float values converted to ints and scaled while all processing occurs (see class comments).*/
-	//private static int[] tempData = new int[7];
 	private static int[] tempData = new int[NUM_DATA];
 	/**Holds final values to send for drawing; returned by {@link #update}.*/
-	//private static int[] data = new int[7];
 
 	
 	
@@ -106,14 +103,7 @@ public class GUISerialPort {
 	public static void update(){  //called by GUILayeredPane in response to timer-generated events
 		
 		if(!port.isOpened()){
-			/*
-			data[0] = 30;
-			data[1] = 13;
-			data[2] = 60;
-			data[3] = 48;
-			data[4] = 10;
-			data[5] = 80;
-			*/
+			
 			data.put("motorCurrent", 30);
 			data.put("motorTorque", 13);
 			data.put("motorTemperature", 60);
@@ -160,20 +150,13 @@ public class GUISerialPort {
 				//tempData[6] = (int)floatHolder[6]; //for battery signal?
 				
 				
-				/*
-				for(int i = 0; i < 7; i++)
-					data[i] = tempData[i];
-				*/
 				for(int i = 0; i < NUM_DATA; i++)
 					data.put(dataNames[i], tempData[i]);
 					
 			}
 
      		catch(SerialPortException e){
-     			/*
-     			for(int i = 0; i < 7; i++)
-					data[i] = 100;
-				*/
+     			
      			for(int i = 0; i < NUM_DATA; i++)
      				data.put(dataNames[i], 100);
      		}			

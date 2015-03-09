@@ -15,8 +15,7 @@ import javax.swing.*;
 public class TorqueBox extends JPanel implements ActionListener{
 	
     private Image torque = ImageHandler.getImage("bicep.png");
-    private final Font ANDALE_BIG = ImageHandler.getAndaleFont().deriveFont(Font.BOLD, 30);
-    private final Font ANDALE_SMALL = ImageHandler.getAndaleFont().deriveFont(Font.BOLD, 18);
+    private final Font ANDALE_BIG;
     
     private double testTorqueLevel = 0;
     
@@ -48,6 +47,8 @@ public class TorqueBox extends JPanel implements ActionListener{
 		
 		width = (int)(widthOfContainer*CURRENT_WIDTH_ALLOCATION);
 		height = (int)(heightOfContainer*CURRENT_HEIGHT_ALLOCATION);
+		
+		ANDALE_BIG = ImageHandler.getAndaleFont().deriveFont(Font.BOLD, (int)(width*0.096));
 		
 		setPreferredSize(new Dimension(width, height));
     	setBackground(GibbotGUI3.GLOBAL_BG);
@@ -103,13 +104,6 @@ public class TorqueBox extends JPanel implements ActionListener{
 				i++;
 			}
 			wait++;
-			/*
-			if(testTorqueLevel < 7 && wait % 25 == 0){ //7 will become maxTorqueLevel
-				testTorqueLevel+=0.5;
-			}
-			else if (testTorqueLevel > 7){
-				testTorqueLevel = 0;
-			}*/
 		}
 		else{
 			testTorqueLevel = 0;
