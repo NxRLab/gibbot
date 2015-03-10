@@ -66,6 +66,7 @@ int JNIListener::GetLEDPixelCoordinates(double *&data)
 	mtx.unlock();
 
 	data = copy.data();
+
 	return static_cast<int> (copy.size());
 }
 
@@ -87,6 +88,8 @@ JNIEXPORT jdoubleArray JNICALL Java_GibbotVision_getGibbotData(JNIEnv *env, jobj
 	int n;
 	jdouble *d;
 	jdoubleArray jPos;
+
+	cout << "At least I made it this far..." << endl;
 
 	d = NULL;
 	n = listener->GetLEDPixelCoordinates(d);
