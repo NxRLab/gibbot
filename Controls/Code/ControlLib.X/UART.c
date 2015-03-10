@@ -22,7 +22,7 @@ void read_string_UART(unsigned char *data, int n){
     int i = 0,j = 0;
     while(i < n && j != 1){
        data[i] = read_UART();
-       if(data[i] == '\n'){
+       if(data[i] == '\n' || data[i]=='\r'){
            j = 1;
        }
        else{

@@ -10,7 +10,6 @@
 int main(void) {
     initialize();
 
-    printf("HelloWorld\n");
     unsigned char buf[MESSAGE_MAX];
     unsigned char c='0';
     unsigned char state='x';
