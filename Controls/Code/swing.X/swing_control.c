@@ -18,16 +18,15 @@
 void write_swing(int n, struct args* control_args){
     //Note: this function will be condensed after testing
     //get input from user and send to the PIC
-    int torque, t_swing, t_flight;
+    int torque, t_swing, t_flight, mag_state;
 
-    char torque_buf[10], swing_buf[10], fly_buf[10];
+    char torque_buf[10], swing_buf[10], fly_buf[10], mag_buf[5];
     char message[MESSAGE_MAX];
-    //struct args control_args[n];
 
     int i;
     for (i=0; i<n; i++){
-        sprintf(message, "Enter data for set %d\r\n", i+1);
-        printf(message);
+        printf("Enter data for set %d\r\n", i+1);
+        //printf(message);
 
         //Torque
         printf("Torque: ");
@@ -49,9 +48,17 @@ void write_swing(int n, struct args* control_args){
         printf("Time to fly: ");
         read_string_UART(fly_buf,10);
         sscanf(fly_buf, "%d", &t_flight);
-        printf("%d \r\n\n", t_flight);
+        printf("%d \r\n", t_flight);
         //NU32_WriteUART1(message);
         control_args[i].t_flight = t_flight;
+
+        //Magnet state
+        printf("Enter desired magnet state\n");
+        printf("0=both off, 1=top only, 2=bottom only, 3=both on: ");
+        read_string_UART(mag_buf,5);
+        sscanf(mag_buf, "%d", &mag_state);
+        printf("%d \r\n\n", mag_state);
+        control_args[i].mag_state = mag_state;
     }
     return 0;
 }
@@ -64,12 +71,12 @@ void read_swing(int n, struct args* control_args){
     char message[MESSAGE_MAX];
     int i;
 
-    printf(message, "       Torque  Swing(ms)  Fly(ms)\r\n");
+    printf(message, "       Torque  Swing(ms)  Fly(ms)  Magnets\r\n");
     //NU32_WriteUART1(message);
 
     //print entire struct array
     for (i=0; i<n; i++){
-        printf("Set %d: %6d %9d %8d \r\n",i+1,control_args[i].torque,control_args[i].t_swing,control_args[i].t_flight);
+        printf("Set %d: %6d %9d %8d %8d \r\n",i+1,control_args[i].torque,control_args[i].t_swing,control_args[i].t_flight,control_args[i].mag_state);
         //NU32_WriteUART1(message);
     }
     printf("\r\n");

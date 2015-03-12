@@ -17,6 +17,7 @@ struct args {
     int torque;
     int t_swing;    //milliseconds
     int t_flight;   //milliseconds
+    int mag_state;  // 00=both off, 01=top on, 10=bottom on, 11=both on
 };
 
 void write_swing(int n, struct args* control_args);
