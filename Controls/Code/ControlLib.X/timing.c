@@ -1,7 +1,10 @@
 #include <libpic30.h>
 #include <p33EP512MC806.h>
-#include "time.h"
-#include "ControlLib.h"
+#include "timing.h"
+#include "stdio.h"
+#include "motor.h"
+#include "initializeV6.h"
+#include "encoder.h"
 
 /* File: time.c
    Author: Hannah Arntson
@@ -48,14 +51,15 @@ void timer1_off(void){
 
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void)
 {
-    long test_data;
-    int test_angle;
-    
+    long test_data1, test_data2;
+    //int test_angle;
+
     //ISR here
     LED1 = 1;   //test to check how long interrupt takes
     //read topmag encoder encoder
-    test_data = read_TOPMAGENC();
-    test_angle = encoder_to_angle(test_data,'m');
+    test_data1 = read_TOPMAGENC();
+    //test_angle = encoder_to_angle(test_data,'m');
+    test_data2 = read_LOWMAGENC();
 
     //store to an array rather than print to screen every time
     /*if (count<(sizeof(angles)/sizeof(int))){
@@ -69,7 +73,7 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void)
         count=0;
     }*/
 
-    printf("%d \n",test_angle);
+    printf("%ld \t %ld\n",test_data1, test_data2);
     LED1 = 0;   //turn LED off, interrupt complete
 
     //clear interrupt flag
