@@ -7,41 +7,39 @@
 #include "ControlLib.h"
 #include "swing_control.h"
 
+#include "swing_control.h"
+
 int main(void) {
     initialize();
 
-    unsigned char buf[MESSAGE_MAX];
-    unsigned char c='0';
-    unsigned char state='x';
+    char buf[MESSAGE_MAX];
+    int c='0';
+    char state='x';
     int n=0;
 
     //allocate struct array of max size
-    struct args* control_args = (struct args*)malloc(N_MAX * sizeof(struct args));
+    //struct args control_args = (struct args)malloc(N_MAX * sizeof(struct args));
+    struct args control_args[N_MAX];
 
-    //get_input(control_args,c,state,n,buf);
-    printf("Press w to write, r to read, and x to swing\n");
-    printf("Input the number of arguments\n");
-    printf("If reading, input the state you want to check\n\n"); //or 'n' for all
-    //read_string_UART(buf,MESSAGE_MAX);
 
-    
     while (1) {
+    	printf("Press w to write, r to read, and x to swing\r\n");
         read_string_UART(buf,MESSAGE_MAX);
-        //write_string_UART(buf,MESSAGE_MAX);
-        
+
+        c = buf[0];
+
         if(c=='w'){
-            //printf("Input n: \n");
-            //scanf("%d",&n);
+            printf("Input n: \r\n");
+            read_string_UART(buf, MESSAGE_MAX);
+            sscanf(buf,"%d", &n);
             write_swing(n, control_args);
         }
         else if(c=='r'){
-            //printf('Enter n to print everything, or specify state to check\n');
-            //state = read_UART();
-            read_swing(state,n,control_args);
+            read_swing(n,control_args);
         }
         else if(c=='x'){
             //swing robot
         }
     }
-    free(control_args);
+    //free(control_args);
 }

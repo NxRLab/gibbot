@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   swing_control.h
  * Author: harntson
  *
@@ -20,8 +20,7 @@ struct args {
 };
 
 void write_swing(int n, struct args* control_args);
-void read_swing(char state, int n, struct args* control_args);
-void get_input(struct args* control_args, char c, char state, int n, char* buf);
+void read_swing(int n, struct args* control_args);
 
 #endif	/* SWING_CONTROL_H */
 

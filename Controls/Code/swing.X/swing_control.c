@@ -20,61 +20,59 @@ void write_swing(int n, struct args* control_args){
     //get input from user and send to the PIC
     int torque, t_swing, t_flight;
 
-    unsigned char torque_buf[4], swing_buf[4], flight_buf[4];
+    char torque_buf[10], swing_buf[10], fly_buf[10];
+    char message[MESSAGE_MAX];
     //struct args control_args[n];
 
     int i;
     for (i=0; i<n; i++){
-        printf("Enter data for set %d \n", i);
+        sprintf(message, "Enter data for set %d\r\n", i+1);
+        printf(message);
+
         //Torque
-        printf("Torque: \n");
-        read_string_UART(torque_buf,4);
-        sscanf(torque_buf, '%d', &torque);
+        printf("Torque: ");
+        read_string_UART(torque_buf, 10);
+        sscanf(torque_buf, "%d", &torque);
+        printf("%d \r\n", torque);
+        //NU32_WriteUART1(message);
         control_args[i].torque = torque;
+
         //Time swinging
-        printf("Time to swing: \n");
-        read_string_UART(swing_buf,4);
-        scanf(swing_buf, '%d', &t_swing);
+        printf("Time to swing: ");
+        read_string_UART(swing_buf, 10);
+        sscanf(swing_buf, "%d", &t_swing);
+        printf("%d \r\n", t_swing);
+        //NU32_WriteUART1(message);
         control_args[i].t_swing = t_swing;
+
         //Time in flight
-        printf("Time to fly: \n");
-        read_string_UART(flight_buf,4);
-        scanf(flight_buf, '%d',&t_flight);
+        printf("Time to fly: ");
+        read_string_UART(fly_buf,10);
+        sscanf(fly_buf, "%d", &t_flight);
+        printf("%d \r\n\n", t_flight);
+        //NU32_WriteUART1(message);
         control_args[i].t_flight = t_flight;
     }
+    return 0;
 }
 
 
 /* Function: read_swing
    Reads back the control parameters loaded onto the PIC */
 
-void read_swing(char state, int n, struct args* control_args){
-    //read args from PIC and print to screen
-    if (state='n'){
-        int i;
-        //print entire struct array
-        for (i=0; i<n; i++){
-            printf("%i %i %i \n",control_args[i].torque, control_args[i].t_swing, control_args[i].t_flight);
-        }
-    }
-    else{
-        //print specified state parameters
-        printf("%i %i %i \n",control_args[(int)state].torque, control_args[(int)state].t_swing, control_args[(int)state].t_flight);
-    }
-}
+void read_swing(int n, struct args* control_args){
+    char message[MESSAGE_MAX];
+    int i;
 
-void get_input(struct args* control_args, char c, char state, int n, char* buf){
-    //Give control arguments to PIC, check parameters and run swing
-    printf("Press w to write, r to read, and x to swing\n");
-    printf("Input the number of arguments\n");
-    printf("If reading, input the state you want to check\n\n"); //or 'n' for all
+    printf(message, "       Torque  Swing(ms)  Fly(ms)\r\n");
+    //NU32_WriteUART1(message);
 
-    read_string_UART(buf,10);
-    if(buf[0]=='w' || buf[0]=='r'){
-        sscanf(buf,"%c %d %c",c,&n,state);
+    //print entire struct array
+    for (i=0; i<n; i++){
+        printf("Set %d: %6d %9d %8d \r\n",i+1,control_args[i].torque,control_args[i].t_swing,control_args[i].t_flight);
+        //NU32_WriteUART1(message);
     }
-
-    printf("%c %c %d\n",c,state,n);
+    printf("\r\n");
 }
 
 
