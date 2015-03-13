@@ -12,7 +12,7 @@
 int main(void) {
     initialize();
 
-    char buf[MESSAGE_MAX];
+    char buf[MESSAGE_MAX], message[MESSAGE_MAX];
     int c='0';
     char state='x';
     int n=0;
@@ -23,15 +23,17 @@ int main(void) {
 
 
     while (1) {
-    	printf("Press w to write, r to read, and x to swing\r\n");
+    	printf("Press w to write, r to read, and x to swing: ");
         read_string_UART(buf,MESSAGE_MAX);
 
         c = buf[0];
+        printf("%c\r\n",c);
 
         if(c=='w'){
-            printf("Input n: \r\n");
+            printf("Input n: ");
             read_string_UART(buf, MESSAGE_MAX);
             sscanf(buf,"%d", &n);
+            printf("%d\r\n",n);
             write_swing(n, control_args);
         }
         else if(c=='r'){

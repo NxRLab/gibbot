@@ -68,16 +68,12 @@ void write_swing(int n, struct args* control_args){
    Reads back the control parameters loaded onto the PIC */
 
 void read_swing(int n, struct args* control_args){
-    char message[MESSAGE_MAX];
     int i;
 
-    printf(message, "       Torque  Swing(ms)  Fly(ms)  Magnets\r\n");
-    //NU32_WriteUART1(message);
-
+    printf("       Torque  Swing(ms)  Fly(ms)  Magnets\r\n");
     //print entire struct array
     for (i=0; i<n; i++){
-        printf("Set %d: %6d %9d %8d %8d \r\n",i+1,control_args[i].torque,control_args[i].t_swing,control_args[i].t_flight,control_args[i].mag_state);
-        //NU32_WriteUART1(message);
+        printf("Set %d: %6d %9d %8d %9d \r\n",i+1,control_args[i].torque,control_args[i].t_swing,control_args[i].t_flight,control_args[i].mag_state);
     }
     printf("\r\n");
 }

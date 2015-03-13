@@ -18,19 +18,37 @@ unsigned char read_UART(void){
     return dequeue();
 }
 
-void read_string_UART(unsigned char *data, int n){
-    int i = 0,j = 0;
-    while(i < n && j != 1){
-       data[i] = read_UART();
-       if(data[i] == '\n' || data[i]=='\r'){
-           j = 1;
-       }
-       else{
-           j = 0;
-       }
-        i++;
+void read_string_UART(unsigned char *message, int n){
+//    int i = 0,j = 0;
+//    while(i < n && j != 1){
+//       data[i] = read_UART();
+//       if(data[i] == '\n' || data[i]=='\r'){
+//           j = 1;
+//       }
+//       else{
+//           j = 0;
+//       }
+//        i++;
+//    }
+//    data[i] = '\n';
+
+  //Modifications by Hannah Arntson, 13th March
+  char data = 0;
+  int complete = 0, num_bytes = 0;
+  // loop until you get a '\r' or '\n'
+  while (!complete) {
+    data = read_UART();
+    if (data!=EOF){ //value returned by dequeue() if queue is empty
+        if ((data == '\n') || (data == '\r')) {
+            complete = 1;
+          } else {
+            message[num_bytes] = data;
+            ++num_bytes;
+      }
     }
-    data[i] = '\n';
+  }
+  // end the string
+  message[num_bytes] = '\0';
 }
 
 void write_UART(unsigned char data){
