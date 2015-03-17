@@ -7,6 +7,8 @@ import java.awt.*;
  All the get methods may not be necessary (last four are currently unused) but they were left just in case.*/
 public class Gibbot {
 	
+	/**GIBBOT IS HARDCODED FOR BETA TEST, WILL BE CONVERTED INTO RELATIVE COORDINATES*/
+	
 	/**Distance, in pixels, from motor to end of first link*/
 	private final int ARM1W = 100;
 	/**Distance, in pixels, from motor to end of second link*/
@@ -43,7 +45,6 @@ public class Gibbot {
     	arm2Y = pivotY;
     	arm1X = pivotX-ARM2W;
     	arm1Y = pivotY;
-    	//theta = -90;
   	
     }
     
@@ -89,7 +90,6 @@ public class Gibbot {
     /**Returns angle between the two links
     @return theta*/
     /*public double getTheta(){
-    	//return Math.atan(Math.abs(arm1X-pivotX)/Math.abs(arm1Y-pivotY))+Math.atan(Math.abs(arm2X-pivotX)/Math.abs(arm2Y-pivotY));
     	return theta;
     }*/
     	
@@ -109,9 +109,12 @@ public class Gibbot {
      
      /**Animation simulation. Called by {@link BananaPanel1#actionPerformed}.
       *@param frameCount Stands for time value in motion equations
+      *In the future this function's parameters will be double x, double y, double th1, double th2
      */
-     public void arcMotionUpdate(double frameCount){//double x, double y, double th1, double th2
-    	//x, y, th1, th2
+  
+     public void arcMotionUpdate(double frameCount){
+    	
+    	//Motion code that corresponds with brachiation of the Gibbot
     	/*
     	double x = array[0];
     	double y = array[1];
@@ -128,8 +131,8 @@ public class Gibbot {
     	arm2X = pivotX + (ARM2W*Math.sin(-th1-th2));
     	arm2Y = pivotY - (ARM2W*Math.cos(th1+th2));
     	*/
-    	//Original Code
     	
+    	//Hardcoded motion code used for conducting beta test
  		if((int)(frameCount/50)%2 == 0){             
  			arm1X += 8;							   
  			arm1Y = Math.sqrt(4*Math.pow(ARM1W,2)-Math.pow((arm1X-arm2X),2))+arm2Y;
@@ -181,6 +184,5 @@ public class Gibbot {
     	arm2Y = pivotY;
     	arm1X = pivotX-ARM2W;
     	arm1Y = pivotY;
-    	//theta = -90;
 	}
 }   

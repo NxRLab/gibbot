@@ -4,7 +4,7 @@ import javax.swing.*;
 
 /**GUITimer is a wrapper class for Swing Timer; gets started by {@link GibbotGUI3} and is used for animations. 
  *{@link GUILayeredPane#actionPerformed} listens for timer fires and calls {@link GUISerialPort#update} in 
- *response, so that individual components don't all have to. Any object in the GUI that adds itself as an
+ *response, so that individual components does not have to. Any object in the GUI that adds itself as an
  *ActionListener using {@link addActionListener} 'hears' the timer fires, and does with them what it wishes.
  *Has capability to run GUI at 30 Hz without updating serial data at that rate (see {@link #serialFactor}, 
  *but currently everything runs as intended at 30 Hz. */

@@ -51,7 +51,5 @@ public class GibbotGUI3 extends JFrame{
       	
     	content = new GUILayeredPane();
     	setContentPane(content);
-    	
  	 }
-    
 }

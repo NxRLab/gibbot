@@ -23,7 +23,7 @@ public class ChargingBox extends JPanel implements ActionListener {
 	/**Value of battery level that's displayed in the graph*/
 	private int batt;
 	
-	private int MAX_BATT = 230;
+	private int MAX_BATT = 230; //230 is hardcoded for beta test, will be replaced with actual max battery value
 
 	/**Constructor initializes {@link #batt} and {@link #timerCount} to zero, gets {@link #millisPerFrame}.*/
     public ChargingBox() {
@@ -47,8 +47,6 @@ public class ChargingBox extends JPanel implements ActionListener {
     	int width = batteryBar.getWidth(this);
     	int height = batteryBar.getHeight(this);
     	g.drawImage(batteryBar, (int)(width*0.414), (int)(height*0.142), width, height, this); //+23 to make space for the max
-    	//batteryBar, 60, 35, batteryBar.getWidth(this), batteryBar.getHeight(this) + 23, this
-    	//System.out.println("width = " + batteryBar.getWidth(this) + " height = " + batteryBar.getHeight(this));																								 //height of the charge bar to be
     																									 //exactly 2*((int)4*max) voltage.
     																									 //See update() method of GUISerialPort. 
     	g.setColor(GREEN);
@@ -58,7 +56,6 @@ public class ChargingBox extends JPanel implements ActionListener {
     	else{
     		g.fillRect((int)(width*0.51), (int)(height*1.104) - MAX_BATT, (int)(width*0.841), MAX_BATT);
     	}
-    	//81, 299 - batt, 113, batt
     }
     
     /**Specifies how to respond to timer events from {@link GUITimer}. This panel uses events as a signal to 
@@ -68,24 +65,14 @@ public class ChargingBox extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent evt){
 
     	if(timerCount == SEC_PER_UPDATE*1000/millisPerFrame){ 
-    		//batt = GUISerialPort.getData().get("batteryVoltage")*2; //*2 to scale
-    		batt+=10;
+    		//batt = GUISerialPort.getData().get("batteryVoltage"); Will be used when live-updating is incorporated
+    		batt+=10; //hardcoded for beta test
     		timerCount = 0;
     		repaint();
     	}
     	else
     		timerCount++;
     	
-    	/*
-    	
-    	if(timerCount == SEC_PER_UPDATE*1000/millisPerFrame){ 
-    		batt = GUISerialPort.getData()[3]*2; //*2 to scale
-    		timerCount = 0;
-    		repaint();
-    	}
-    	else
-    		timerCount++;
-    	*/
     }
     
 }

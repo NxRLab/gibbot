@@ -6,8 +6,8 @@ import java.util.*;
 
 import javax.imageio.*;
 
-/*ImageHandler downloads/draws all complex images at initialization of GUI (this class is 
- *called by GibbotGUI3). Also downloads AndaleMono font, which is used throughout
+/**ImageHandler downloads/draws all complex images at initialization of GUI (this class is 
+ *called by GibbotGUI3). Also downloads AndaleMono and DIGITAL font, which are used throughout
  *the GUI. Methods that need any images from here call getImage() before their
  *constructor method. Strongly discouraged from changing any fields declared final.
  */
@@ -26,9 +26,7 @@ public class ImageHandler {
     static final String[] EXTENSIONS = new String[]{
     	"png", "jpg", "jpeg" // and other formats you need
     };
-    
-//http://stackoverflow.com/questions/11300847/load-and-display-all-the-images-from-a-folder
-	
+    	
     /**Filter to identify images based on their extensions */
 	static final FilenameFilter IMAGE_FILTER = new FilenameFilter(){
         public boolean accept(final File dir, final String name) {

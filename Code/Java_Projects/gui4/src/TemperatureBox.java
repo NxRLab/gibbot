@@ -5,14 +5,14 @@ import java.util.HashMap;
 
 import javax.swing.*;
 
-/**HardwareBox displays motor temperature and battery life in a bar chart graphic
+/**HardwareBox displays motor temperature and battery life in a thermometer graphic
  */
 public class TemperatureBox extends JPanel implements ActionListener{
 	
 	private Image thermometer = ImageHandler.getImage("thermometer.png");
 	private final Font ANDALE_BIG;
 	private final Color TEMPERATURE_COLOR = Color.RED;
-	private final int TEMP_MAX = 100; //CHANGE WHEN YOU KNOW
+	private final int TEMP_MAX = 100; //Will be changed to actual maximum temperature, hardcoded for beta test
 	
     /**Specified by LayoutContainerPanel parent. Used to set preferred dimensions in constructor*/
 	private int height;

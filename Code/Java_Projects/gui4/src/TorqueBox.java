@@ -7,11 +7,7 @@ import java.math.BigDecimal;
 
 import javax.swing.*;
 
-/**CurrentBox displays current and torque as an animated line graph with a double y-axis.
- *Stores points in two different arrays and updates/draws them alternatively 
- *depending on the value of the par (parity) variable - which is either zero or
- *one. This was done to cut back on lengthy array updating functions.
- */
+/**CurrentBox displays torque as an animated bicep.*/
 public class TorqueBox extends JPanel implements ActionListener{
 	
     private Image torque = ImageHandler.getImage("bicep.png");
@@ -19,6 +15,7 @@ public class TorqueBox extends JPanel implements ActionListener{
     
     private double testTorqueLevel = 0;
     
+    /**Curves used to draw muscle definition on the torque bicep*/
     QuadCurve2D q1 = new QuadCurve2D.Float();
     QuadCurve2D q2 = new QuadCurve2D.Float();
     QuadCurve2D q3 = new QuadCurve2D.Float();
@@ -33,7 +30,7 @@ public class TorqueBox extends JPanel implements ActionListener{
 	/**Proportion of vertical space this box will take up in {@link LayoutContainerPanel}. Stronly recommended not to alter.*/
 	private final double CURRENT_HEIGHT_ALLOCATION = 0.30;
 	
-	//for beta test
+	//USED FOR BETA TEST
 	private int i = 0; 
 	private int wait = 0;
 	private int betaTest[] = {0, 1, 2, 3, 4, 5, 6, 7, 6, 5, 4, 3, 2, 1, 0};
@@ -93,6 +90,7 @@ public class TorqueBox extends JPanel implements ActionListener{
 	*/
 	public void updateForDrawing(){
 		//testTorqueLevel = GUISerialPort.getData().get("motorTorque");
+		//above will be used in live-updating
 		
 		if(BananaPanel1.getAnimating()){
 			/*For beta test*/
@@ -108,8 +106,6 @@ public class TorqueBox extends JPanel implements ActionListener{
 		else{
 			testTorqueLevel = 0;
 		}
-		
-
 	}
 	
 	

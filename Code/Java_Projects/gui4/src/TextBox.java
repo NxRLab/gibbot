@@ -4,13 +4,11 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-/**TextBox displays the message: "real time wireless data from the gibbot" with an animated
- *wireless signal.
- */
+/**TextBox displays information about the Gibbot with easter eggs about the project */
 
 public class TextBox extends JPanel{
 	
-	/**Font used to write. Set to bold, size 36.*/
+	/**Font used to write*/
 	private final Font ANDALE_SMALL;
 	
 	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensions in constructor*/
@@ -19,9 +17,9 @@ public class TextBox extends JPanel{
 	private int width;
 	
 	
-	/**Proportion of horizontal space this box will take up in {@link LayoutContainerPanel}. Stronly recommended not to alter.*/
+	/**Proportion of horizontal space this box will take up in {@link LayoutContainerPanel}.*/
 	private final double TEXT_WIDTH_ALLOCATION = .23;
-	/**Proportion of vertical space this box will take up in {@link LayoutContainerPanel}. Stronly recommended not to alter.*/
+	/**Proportion of vertical space this box will take up in {@link LayoutContainerPanel}.*/
 	private final double TEXT_HEIGHT_ALLOCATION = 1/3.45;
 	
     /**Constructor sets preferred size to tell layout manager of {@link LayoutContainerPanel} how to draw this panel;
@@ -53,11 +51,11 @@ public class TextBox extends JPanel{
     	
     	super.paintComponent(g);
     	g.drawString("Name: Gibbot", xCoor, yCoor);
-    	g.drawString("Age : 7 years old", xCoor, (int)(yCoor*1.86)); //65
-    	g.drawString("Home: NxR Lab @ NU", xCoor, (int)(yCoor*2.72)); //95
-    	g.drawString("Hobbies:Eating bananas,", xCoor, (int)(yCoor*3.572)); //125
-    	g.drawString("Swinging around,", (int)(xCoor*11.8), (int)(yCoor*4.43)); //155
-    	g.drawString("Grooming friends", (int)(xCoor*11.8), (int)(yCoor*5.29)); //185
+    	g.drawString("Age : 7 years old", xCoor, (int)(yCoor*1.86));
+    	g.drawString("Home: NxR Lab @ NU", xCoor, (int)(yCoor*2.72));
+    	g.drawString("Hobbies:Eating bananas,", xCoor, (int)(yCoor*3.572));
+    	g.drawString("Swinging around,", (int)(xCoor*11.8), (int)(yCoor*4.43));
+    	g.drawString("Grooming friends", (int)(xCoor*11.8), (int)(yCoor*5.29));
     	
     }
 

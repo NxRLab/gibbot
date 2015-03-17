@@ -4,7 +4,8 @@ import javax.swing.*;
 
 /**This is the "asleep" view of the GUI. The gibbotTab images contain "public-friendly" 
  *descriptions of how the robot works. Only subpanel is a {@link ChargingBox} instance.
- *Strongly recommended not to alter any fields declared final.
+ *
+ *CURRENTLY HARDCODED FOR BETA TEST, WILL CHANGE SWIPING PANELS IN THE FUTURE
  */
 public class LayoutContainerPanel2 extends JPanel implements MouseListener, MouseMotionListener, ActionListener {
 

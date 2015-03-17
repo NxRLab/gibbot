@@ -24,19 +24,14 @@ public class GUILayeredPane extends JLayeredPane implements ActionListener{
 	private static int SCREEN_WIDTH = (int)screenSize.getWidth();
 	private static int SCREEN_HEIGHT = (int)screenSize.getHeight();
 	
-	
-	/**Width of screen: adjust as necessary. Suggested range: 1320 - 1420 (designed for 1366)*/
-	//private final int SIZING_WIDTH = 1320;
+	/**Width of screen*/
 	private final int SIZING_WIDTH = SCREEN_WIDTH;
-	/**Height of screen: adjust as necessary. Suggested range: 685 - 775 (designed for 775)*/	
-	//private final int SIZING_HEIGHT = 775;
+	/**Height of screen*/
 	private final int SIZING_HEIGHT = SCREEN_HEIGHT;
 	
-	/**Width of rectangle drawn on: avoid altering!*/
-	//private final int DRAWING_WIDTH = 1300;
+	/**Width of rectangle drawn on*/
 	private final int DRAWING_WIDTH = (int)(SIZING_WIDTH*0.98);
-	/**Height of rectangle drawn on: avoid altering!*/
-	//private final int DRAWING_HEIGHT = 800;
+	/**Height of rectangle drawn on*/
 	private final int DRAWING_HEIGHT = (int)(SIZING_HEIGHT*0.969);
 	
 	
@@ -109,24 +104,10 @@ public class GUILayeredPane extends JLayeredPane implements ActionListener{
     */
     public void actionPerformed(ActionEvent evt){
 
-	    /*if(timerCount % factor == (factor - 1)){	
-			GUISerialPort.update();
-			timerCount = 0;
-			if(GUISerialPort.getData()[6] < MIN_BATTERY || GUISerialPort.getData()[6] > MAX_BATTERY){ //or some other signal
-			//{copy and paste content of actionPerformed() method from ButtonHandler}
-			}
-	    }	
-    	  else
-	  		timerCount++;*/
-    	  		
 	  	GUISerialPort.update();
-	  	/*
-	  	if(GUISerialPort.getData()[6] < MIN_BATTERY || GUISerialPort.getData()[6] > MAX_BATTERY){ //or some other signal
-			//{copy and paste content of actionPerformed() method from ButtonHandler}
-			}
-			*/
 	  	HashMap<String, Integer> data = GUISerialPort.getData();
 	  	 
+	  	//currently does not update
 	  	if(data.get("batteryVoltage") < MIN_BATTERY || data.get("batteryVoltage") > MAX_BATTERY){ //or some other signal
 			//{copy and paste content of actionPerformed() method from ButtonHandler}
 			}

@@ -25,8 +25,6 @@ public class LayoutContainerPanel extends JPanel{
 	/**text is declared public for access by {@link GUILayeredPane} for enabling/disabling*/
 	public TextBox text;
 	
-	//public BatteryBox battery;
-	
 	/**Tells layout manager where to position child components */
 	GridBagConstraints c;
 
@@ -63,32 +61,28 @@ public class LayoutContainerPanel extends JPanel{
     	text = new TextBox(drawingWidth, drawingHeight);
     	c.gridx = 0;
     	c.gridy = 1;
-    	c.weightx = 0.8;//0.80
-    	c.weighty = 0.31;//0.40
+    	c.weightx = 0.8;
+    	c.weighty = 0.31;
     	add(text, c);
     	
     	
     	speed = new SpeedometerBox(drawingWidth, drawingHeight);
     	c.gridx = 1;
     	c.gridy = 1;
-    	//c.gridwidth = 1;
-    	//c.gridwidth = GridBagConstraints.REMAINDER;
-    	c.weightx = 0.33; //0.33
+    	c.weightx = 0.33;
     	add(speed, c);
     	
     	
     	temperature = new TemperatureBox(drawingWidth, drawingHeight);
-    	//temperature.setOpaque(false);
     	c.gridx = 2;
     	c.gridy = 1;
-    	c.weightx = 0.16; //0.16
+    	c.weightx = 0.16;
     	add(temperature, c);
     	
-    	//c.gridwidth = 1;
     	torque = new TorqueBox(drawingWidth, drawingHeight);
     	c.gridx = 3;
     	c.gridy = 1;
-    	c.weightx = 0.25; //0.25
+    	c.weightx = 0.25;
     	add(torque, c);
     	
     }

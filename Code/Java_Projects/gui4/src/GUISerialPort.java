@@ -42,7 +42,7 @@ public class GUISerialPort {
 	private static String[] dataNames = new String[] {"motorCurrent", "motorTorque",
 		"motorTemperature", "batteryVoltage", "Gyroscope_Z_Primary",
 		"Gyroscope_Z_Secondary", "gibbotAngle", "gibbotXPos", "gibbotYPos"}; //xPos and yPos are middle position
-	static int NUM_DATA = dataNames.length; //number of data points (e.g. torque, blah blah)
+	static int NUM_DATA = dataNames.length; //number of data
 	
 	
 	/**Holds initial floats from byte conversion*/
@@ -54,12 +54,12 @@ public class GUISerialPort {
 	
 	
 	
-	/**True if {@link #port} is trying to send data rather than recieve it (only used for sending
+	/**True if {@link #port} is trying to send data rather than receive it (only used for sending
 	 *goal coordinates from user (banana image coordinates). Value set by {@link #sendGoalCoors} and checked
 	 *by {@link #update}.*/
 	private static boolean sending = false;
 	
-	/**Override for SerialPort's openPort() method. Configures port and initiallizes values
+	/**Override for SerialPort's openPort() method. Configures port and initializes values
 	 *in data to non-null.*/
 	public static void openPort(){
 		try{
@@ -85,9 +85,6 @@ public class GUISerialPort {
 	
 	/**Returns {@link #data}. Called by all graph animations.
 	 *@return data The array with values for velocity, motor temp, battery, current, and torque.*/
-	/*public static int[] getData(){
-		return data;
-	}*/
 	public static HashMap<String, Integer> getData(){
 		return data;
 	}	 
@@ -104,6 +101,7 @@ public class GUISerialPort {
 		
 		if(!port.isOpened()){
 			
+			//Hardcoded for beta test
 			data.put("motorCurrent", 30);
 			data.put("motorTorque", 13);
 			data.put("motorTemperature", 60);
@@ -121,7 +119,6 @@ public class GUISerialPort {
 			try {
 				port.writeString("s");
 				
-				//System.out.println("sent");
 				int bytes = port.getInputBufferBytesCount();
 				
 				if(bytes == 24){ //makes a byte hasn't been dropped

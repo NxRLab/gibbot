@@ -16,10 +16,6 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
 	private Font ANDALE_BIG;
 	private Font ANDALE_SMALL;
 
-	/**CODE FOR TEST CASES*/
-	//double[][] testArray = new double[202][4];// = {10,GUILayeredPane.getScreenHeight()-10,0,0};
-	int iterate;
-	
 	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensions in constructor*/
 	private int drawingHeight;
 	/**Specified by LayoutContainerPanel parent. Used to set preferred dimensions in constructor*/
@@ -29,13 +25,9 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
 	/**Specified by LayoutContainerPanel parent. Used to determine "out of bounds" area in y-direction.*/
 	private int sizingWidth;
 	
-	/**Margin around the board that can't be passed in the x direction when the user is placing banana image.
-	Note that the board image has upper left corner at (20, 10) with drawingWidth 1285 and drawingHeight 450.*/
-	//private final int XBOUND = 35;
+	/**Margin around the board that can't be passed in the x direction when the user is placing banana image.*/
 	private int XBOUND;
-	/**Margin around the board that can't be passed in the y direction when the user is placing banana image.
-	Note that the board image has upper left corner at (20, 10) with drawingWidth 1285 and drawingHeight 450.*/ 
-	//private final int YBOUND = 27;
+	/**Margin around the board that can't be passed in the y direction when the user is placing banana image.*/
 	private int YBOUND;
 	
 	/**True if the banana has been placed and gibbot movement is being animated.*/
@@ -50,10 +42,9 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
 	
 	/**Board lights up to this color when user drags banana image out of bounds*/
 	private Color OUT_OF_BOUNDS_COLOR = new Color(255, 0, 0, 150);
-	/**Color of the pulsing outline around the prompt to drag and drop a banana.*/
-	private Color promptHighlight;
-	/**Alpha (transparency) value of promptHighlight; this is what changes.*/
-	private int a;
+	
+	/**Used to keep track of how long the gibbot has been swinging
+	 * Only for hardcoded movement of gibbot. Not needed when live-updating is implemented.*/
 	private double timerCount;
 	
     /**Constructor sets preferred size to tell layout manager of {@link LayoutContainerPanel} how to draw this panel;
@@ -85,16 +76,11 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     	setBackground(GibbotGUI3.GLOBAL_BG);
     	setFont(ANDALE_BIG);
     	
-    	a = 0;
-    	promptHighlight = new Color(207, 46, 46, a); //red with variable alpha value (transparancy)
-    	
     	timerCount = 0;
     	addMouseListener(this);
     	addMouseMotionListener(this);
     	GUITimer.addActionListener(this);
     	
-
-    	iterate = 0;
     	
     }
     
@@ -127,19 +113,8 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     			}
     		}	
     		
-    		else{ //nothing has happened
-//    			
+    		else{ //nothing has happened		
     			g.drawImage(gibbotBubble, (int)bob.getPivotX() - (int)(width*0.024), (int)bob.getPivotY()+(int)(height*0.042), (int)(width*0.157), (int)(height/3), this);
-//    			g.setColor(promptHighlight);
-//    			g.fillRoundRect(getWidth() - getHeight() + 3, getHeight()/10 + 3, 
-//    				bananaBubble.getWidth(this) - 42, bananaBubble.getHeight(this) - 16, 15, 15);
-//    			g.fillPolygon(new int[]{getWidth() - getHeight() + bananaBubble.getWidth(this) - 39, //x-coors
-//    									getWidth() - getHeight() + bananaBubble.getWidth(this) - 39,
-//    									getWidth() - getHeight() + bananaBubble.getWidth(this) - 13}, 
-//    						  new int[]{getHeight()/10 + 13, //y-coors
-//    						  			getHeight()/10 + 89,
-//    						  			getHeight()/10 + 49}, 
-//    						  3); //# of pts
     			g.drawImage(bananaBubble, width-height, height/10, (int)(width*0.22), (int)(height*0.31), this);
     		
     			
@@ -148,7 +123,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
     		bob.draw(g);
     	}
     	
-    	else{		//If the user dropped the banana, this is where we call draw for animation images
+    	else{	//If the user dropped the banana, this is where we call draw for animation images
         	g.drawImage(bananaImg, banana.getX(), banana.getY(), (int)(width*0.063), (int)(height*0.1243), this);
         	bob.draw(g);    
     	}
@@ -159,7 +134,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
 		g.fillRect(0, (int)(sizingHeight*0.563), sizingWidth, (int)(sizingHeight*0.1)); //0, 450, 1300, 40
 		g.setColor(Color.BLACK);
     	
-    	//label for text
+    	//label for information
 		g.setFont(ANDALE_SMALL);
 		g.drawString("Information", (int)(sizingWidth*0.0743), (int)(sizingHeight*0.594)); //95, 475
 
@@ -244,7 +219,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
    @param evt Used to get x, y coordinates of mouse press event*/
    public void mouseReleased(MouseEvent evt){
    		
-   		if(dragging){		//NOTE: also need some restriction on target coors to keep real robot from falling off board
+   		if(dragging){
 	   		if(outOfBounds){
 	   			dragging = false;
 	   			repaint();
@@ -252,7 +227,7 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
 	   		else{
 	   			dragging = false;
    				animating = true;
-   				//GUISerialPort.sendGoalCoors(evt.getX(), evt.getY());
+   				//GUISerialPort.sendGoalCoors(evt.getX(), evt.getY()); Will be used when live-updating is implemented
 	   		}
    		}	
    }
@@ -266,35 +241,15 @@ public class BananaPanel1 extends JPanel implements MouseListener, MouseMotionLi
 											
    		if(animating && (int)bob.getPivotX() <= banana.getX()){  //If the robot is not to the bananas yet	
    			bob.arcMotionUpdate(timerCount);
-   			//bob.arcMotionUpdate(testArray[0], testArray[1], testArray[2], testArray[3]);
-   			/*
-   			if(iterate < testArray.length){
-   				bob.arcMotionUpdate(testArray[iterate++]);
-   			}*/
-   			
-   			/*testArray[0] += 4;
-   			testArray[1] -= 4;
-   			testArray[2] += 10*(Math.PI/180);
-   			testArray[3] += 15*(Math.PI/180);*/
-   			
    			//With camera data, above call will be replaced by bob.updateRealCoors(); 
    			timerCount++;
    		}
    		
    		else{
-   			if(animating){ 	//When the robot reaches the bananas, the panel resets itself.            
+   			if(animating){ 	//When the robot reaches the bananas, the panel resets itself. Will not reset when live-updating is implemented.            
 	   			animating = false;
    				timerCount=0;
    				bob.reset();
-   			}
-	
-   			if(a > -255){ //for pulsing outline around bananaBubble image 
-   				promptHighlight = new Color(255, 0, 0, Math.abs(a));
-   				a -= 7;
-   			}
-   			else{
-   				a = 255;
-   				promptHighlight = new Color(255, 0, 0, a);
    			}
    		}		 			
    		repaint();

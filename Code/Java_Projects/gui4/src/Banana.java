@@ -1,7 +1,7 @@
  
 import java.awt.*;
 
-/**A Banana object contains a banana image's coordinates. Basically just exists to keep some clutter out of {@link BananaPanel1}.*/
+/**A Banana object contains a banana image's coordinates.*/
   
 public class Banana {
 
