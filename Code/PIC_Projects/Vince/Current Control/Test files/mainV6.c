@@ -1,13 +1,7 @@
-/* First iteration of code to go with the Gibbot v5 control board. This code
- * will be developed to interface with a python controller on the PC that
- * can drive the motor, control the moagnets and read data from the Gibbot.
- */
 
 #include <p33EP512MC806.h>
 #include "initializeV6.h"
 #include "motor.h"
-#include "test.h"
-#include "menu.h"
 #include "current_control.h"
 
 int main(void) {
@@ -27,15 +21,15 @@ int main(void) {
     printf("%s %s\rHi! Welcome to the current control menu. Please press the number corresponding to your choice.\r1 = Idle\r2 = PWM Select\r3 = Tuning\r4 = Activate PI controller\r\n", __DATE__, __TIME__);
 
 
-    while(1){
+    while(1){ //The actual running menu portion is currently commented out to test the controller output. 
 
-        test_output();
-        delay_ms(5000);
+        test_output(); 
+        delay_ms(10000);
         LED1=!LED1;
 
 
 
-
+//MENU
 
         /*if (USER){
             motoron=0;
@@ -85,6 +79,7 @@ int main(void) {
 
         if (b=='4'){
             printf("PI controller activated.");
+			run='1';
             motoron=1;
             write_duty(10);
             kick();

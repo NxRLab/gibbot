@@ -1,5 +1,5 @@
 /*
-*File: current_control.h
+*File: current_control.c
 *Author: Vince Martinez
 *V1.1
 */
@@ -9,42 +9,45 @@
 #include <p33EP512MC806.h>
 #include "initializeV6.h"
 #include "motor.h"
-#include "test.h"
 #include "UART.h"
 #include "initializeV6.h"
 
 #define WAVEFORMSIZE 1000
 #define kt 53.4 //torque constant for Maxon EC60
 
-static int kp = 2, ki = 1; //initialize gain variables
+static int kp = 0, ki = 0; //initialize gain variables
 int waveform[WAVEFORMSIZE];
+int current_buffer[WAVEFORMSIZE];
+int effort_buffer[WAVEFORMSIZE];
 static int count = 0;
-int u = 0;
-static int uff;
-static int epro; //initialize proportional error value
+static int u = 0; //initialize feedback control signal
+static int uff = 0; //initialize feed forward control signal
+static int epro = 0; //initialize proportional error value
 static int eint = 0; //initialize integral error value
 static double desired_torque; //This is a value provided by the motion controller to be used in the current controller
-static double desired_current;
+static double desired_current; 
 char tune = '0';
+char run = '0';
 
 
 
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) //NOTE: May interfere with other code using timer 1
 {
     if (tune=='1'){
-        motoron=1;
-        controltune(count);
+        motoron=1;            
+        control_tune(count);
         count=count+1;
-        if (count>1000){
+        if (count>=1000){
             tune='0';
             count=0;
         }
     }
 
 
-    else {
-        calc_effort(desired_torque,current_amps_get(),kp,ki);
-        desired_current=desired_torque*kt;
+    if (run=='1'){ // This is the main PI controller block. It will run infinitely and produce current based on the desired_torque variable, which should come from the motion controller.
+	    motoron=1;
+		desired_current=desired_torque*kt;
+        calc_effort(desired_current,current_amps_get(),kp,ki);
         write_duty(u);
     }
 
@@ -79,9 +82,9 @@ u = (kp*epro) + (ki*eint) + uff;
 int current_amps_get()
 {
 int ticks;
-int reftickslow = 0;    // TODO: measure adc ticks at zero load current
-int reftickshigh = 1000;    // TODO: measure adc ticks at stall current
-int amprange = 750;   // TODO: measure range from 0 current to stall current in mA
+int reftickslow = 0;    // TODO: measure adc ticks at zero load current (0 for now)
+int reftickshigh = 1000;    // TODO: measure adc ticks at stall current (1000 for now)
+int amprange = 750;   // TODO: measure range from 0 current to stall current in mA (750 for now)
 int sensorcurrent;
 int offset;
 
@@ -101,19 +104,22 @@ ticks = reftickshigh;
 //sets an offset to adjust the range of readings to be centered around 0:
 offset = reftickslow + ((reftickshigh-reftickslow)/2);
 
-//calculates a current value (mA) and returns it:
+//converts the ADC reading to current units (mA) and returns the result:
 sensorcurrent = (ticks-offset)*(amprange/((reftickshigh-reftickslow)/2)); // in mA
 return sensorcurrent;
 
 }
 
-
-void controltune(int i){
+//This function runs the PI controller on a reference waveform produced in the track_wave function for tuning:
+void control_tune(int i){
     calc_effort(waveform[i], current_amps_get(), kp, ki);
-    write_duty(u);
+    current_buffer[i] = current_amps_get();
+	effort_buffer[i] = u;
+	write_duty(u);
 }
 
-void track_wave(int reference){ //this function creates either a square wave or sine wave at the desired frequency based on its input
+//This function creates a one-cycle square wave from 0 to the input reference current argument:
+void track_wave(int reference){ 
     int i;
     count=0;
         for (i = 0; i < WAVEFORMSIZE; i++){
@@ -129,36 +135,29 @@ void track_wave(int reference){ //this function creates either a square wave or 
 
 //This is to test that the PI controller functions are outputting reasonable values without the motor running or ADC functioning
 void test_output(void){
+
+/*int somenumber=7;              //I added this quick test to see how printf acts with different arguments
+printf("%d\r\n",somenumber);*/
+
     track_wave(750);
         int ADC_fake[1000];
-        int effort[1000];
+        int test_effort[1000];
+		
         int j;
         for (j = 0; j < 1000; j++){
             ADC_fake[j]=j;
             calc_effort(waveform[j],ADC_fake[j],1,1);
-            effort[j]=u;
+            test_effort[j]=u;
         }
 
-        int somenumber=7;
-        printf("%d\r\n",somenumber);
-        /*int k;
+
+        int k;
 
         for (k = 0; k < 1000; k++){
             int adcfake=ADC_fake[k];
-            printf("%d",adcfake);
+			int testeffort=test_effort[k];
+			int wave=waveform[k];
+            printf("%d %d %d\r\n",adcfake,testeffort,wave);
         }
 
-        k=0;
-        delay_ms(5000);
-
-        for (k = 0; k < 1000; k++){
-            printf("%d",effort[k]);
-        }
-
-        k=0;
-        delay_ms(5000);
-
-        for (k = 0; k < 1000; k++){
-            printf("%d",waveform[k]);
-        }*/
 }

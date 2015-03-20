@@ -7,11 +7,11 @@
 #ifndef CURRENT_CONTROL_H_
 #define CURRENT_CONTROL_H_
 
-void initialize_CurrentControl(void); //Initialize dsPIC bits (timer and PWM)
-//short current_amps_get(); //Detect current
-void current_pwm_set(int duty_percent); //Converts a duty cycle percentage (0-100) to a PWM value
-void calc_effort(int desired, short sensed, int kp, int ki, double kt); // Calculates error signal (PWM) from the sensed and desired current
-void current_gains_sprintf(char * buffer);
-void current_gains_sscanf(const char * buffer);
+
+int current_amps_get(void); //Detect and output current from ADC
+void calc_effort(int desired, short sensed, int kp, int ki); // Calculates effort signal "u" (PWM signal) from the sensed and desired current
+void track_wave(int reference);
+void control_tune(int i); //
+void test_output(void);
 
 #endif
