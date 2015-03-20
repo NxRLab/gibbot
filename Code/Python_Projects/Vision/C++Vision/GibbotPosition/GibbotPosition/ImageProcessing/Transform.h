@@ -6,14 +6,10 @@ using namespace Eigen;
 using namespace std;
 using namespace CameraLibrary;
 
+///=== NEED TO CALCULATE NEW TRANSFORM MATRIX BASED ON CORNER BLOBS ===
+
 //variables
 float BOARD_SIZE[2] = {2394.0, 1231.9};
-
-//CameraList list;
-//int camCount = list.Count();
-//board corners NW, SW, SE, NE where 0,2,4 and 6 array positions correspond to X coordinates and odd positions to Y coordinates
-//float boardCorners[8] = {0, 0, 0, BOARD_SIZE[1], BOARD_SIZE[0]/2, BOARD_SIZE[1], BOARD_SIZE[0]/2, 0};
-
 
 
 float * getBoardCorners(){
@@ -99,6 +95,7 @@ float * transformBlob(cObject * blob, MatrixXf transform){
 
 	return newCoords;
 }
+
 
 // get the 4 marker LED coordinates that each camera sees
 cObject ** getCornerBlobs(cObject ** blobArray, int numBlobs, Camera * camera){

@@ -25,5 +25,8 @@
     <ClInclude Include="Transform.h">
       <Filter>SupportCode</Filter>
     </ClInclude>
+    <ClInclude Include="TransformandCluster.h">
+      <Filter>SupportCode</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

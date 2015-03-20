@@ -10,8 +10,9 @@
 #include "supportcode.h"       //== Boiler-plate code for application window init ===---
 #include "cameralibrary.h"     //== Camera Library header file ======================---
 #include <math.h>
-#include "Transform.h"
-#include "Cluster.h"
+//#include "Transform.h"
+//#include "Cluster.h"
+#include "TransformandCluster.h"
 
 
 using namespace CameraLibrary;
@@ -129,7 +130,7 @@ int main(int argc, char* argv[])
 			
 			//Get transform matrix
 			MatrixXf TSolve = getTransformData(cameraArray,boardArray);
-			
+
 			float ** newBlobCoords = new (nothrow) float*[objcount];
 			for (int jj = 0; jj < objcount; jj++){
 				newBlobCoords[jj] = transformBlob(objArray[jj],TSolve);
@@ -154,7 +155,7 @@ int main(int argc, char* argv[])
 			//if (objcount != 10) continue;
 			//get cluster center
 			float * gibbotPositions = new (nothrow) float [6];
-			gibbotPositions = getClusters(filteredArray, objcount - 4);
+			//gibbotPositions = getClusters(filteredArray, objcount - 4);
 			float test1 = gibbotPositions[0];
 			float test2 = gibbotPositions[1];
 			float test3 = gibbotPositions[2];

@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include "cameralibrary.h"
 #include "Eigen/Dense"
-#include <math.h>
 
 using namespace Eigen;
 using namespace std;
@@ -138,20 +137,21 @@ cObject ** getCornerBlobs(cObject ** blobArray, int numBlobs, Camera * camera, b
 	cObject * bestSblob;
 	cObject * bestNangle;
 	cObject * bestSangle;
+	int camY = camera->Height();
 	int camX = 0;
-	int camY = 0;
-	if (!isLeft){
-		int camY = camera->Height();
-		int camX = camera->Width();
+	if (!isLeft){ //not left means right
+		camX = camera->Width();
 	}
+
 	int Nskip, Sskip;
 	float bestNDistSq = 10000000;
 	float bestSDistSq = 10000000;
 	float nAngleVal = 10;
 	float sAngleVal = 10;
+
 	for (int i = 0; i < numBlobs; i++) {
-		float y = blobArray[i]->Y();
-		float x = blobArray[i]->X();
+		float y = blobArray[i]->Y(); 
+		float x = blobArray[i]->X(); 
 		if (pow(x,2)+pow(y,2) < bestNDistSq){
 			bestNDistSq = pow(x,2) + pow(y,2);
 			bestNblob = blobArray[i];
@@ -324,7 +324,7 @@ int NelsonCode(int nCams, Camera ** camera, bool isLeftCam){
 		}
 
 		//find corner blobs and change them to float arrays
-		cObject **cornerArray = getCornerBlobs(objArray,objcount,camera[i], isLeftCam);
+		cObject **cornerArray = getCornerBlobs(objArray,objcount,camera[i]);
 		
 		//use corner blobs to get new transform
 		float * transformCorners = new float[8];
@@ -447,41 +447,7 @@ int NelsonCode(int nCams, Camera ** camera, bool isLeftCam){
 			}
 		}
 	}
-
-	//now let's make an array that returns the position of cluster 3, the angle between the arms, and the angle with respect to the board
-	float x1, x2, x3, y1, y2, y3, theta1, theta2;
-	x1 = cluster1center[0];
-	y1 = cluster1center[1];
-	x2 = cluster2center[0];
-	y2 = cluster2center[1];
-	x3 = cluster3center[0];
-	y3 = cluster3center[1];
-	float * GibbotPosition = new float[4];
 	
-	// cluster 3 x in first spot of array, y in second spot
-	GibbotPosition[0] = x3;
-	GibbotPosition[1] = y3;
 
-	//probably wrong  //find angle between arms (theta1) and put in third spot
-	float dist1, dist2, dist3;
-	dist1 = sqrt(pow(x1-x3,2)+pow(y1-y3,2));
-	dist2 = sqrt(pow(x1-x2,2)+pow(y1-y2,2));
-	dist3 = sqrt(pow(x2-x3,2)+pow(y2-y3,2));
-	theta1 = acos((dist1*dist1+dist2*dist2-dist3*dist3)/(2*dist1*dist2))*180/3.14159265; // theta1 in degrees
-
-	//find absolute angle from center gibbot to arm "3"
-	theta2 = acos((x3-x1)/dist1)*180/3.14159265;
-
-	if (x1 > x3)
-	{
-
-	}
-
-	//find absolute angle from center to arm "2"
-
-	//add absolute angles to get relative angle between the two arms
-
-	
-	//probably want to return array here:
 	return 0;
 }

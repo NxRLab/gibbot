@@ -2,7 +2,12 @@
 
 #include <stdio.h>
 #include "cameralibrary.h"
+#include <vector>
 
+#define MAX_D 25
+
+ 
+///=== NEED TO CALCULATE NEW TRANSFORM MATRIX BASED ON CORNER BLOBS ===
 
 using namespace std;
 using namespace CameraLibrary;
@@ -11,7 +16,7 @@ using namespace CameraLibrary;
 
 float * findCenters(float ** bArray){
 
-	float * ansArray = new (nothrow) float [6];
+	float * ansArray = new float [6];
 	int j = 0, tag = 0;
 	float dist;
 	int numHold1 = -1;
@@ -97,8 +102,79 @@ return clusterCenters;
 }
 
 
+/* === Different Approach ===
+float * VecAvg(vector<float *> vec){
+	float * sum = new float [2];
+	for (int i = 0; i < vec.size(); i++){
+		sum[0] += vec.at(i)[0];
+		sum[1] += vec.at(i)[1];
+	}
+	sum[0] = sum[0]/vec.size();
+	sum[1] = sum[1]/vec.size();
+	return sum;
+}
+*/
 
+/* 
+float * dealWithAllBlobs(float **bArray){
+	vector<float *> bVec;
+	vector<float *> vec1;
+	vector<float *> vec2;
+	vector<float *> vec3;
+	vector<float *> shitVec;
+	float x, y, x1, y1, x2, y2, x3, y3;
 
+	for (int m = 0; bArray[m] != NULL; m++){
+		bVec.push_back(bArray[m]);
+	}
+	for (int q = 0; q < bVec.size(); q++){
+		x = bVec.at(q)[0];
+		y = bVec.at(q)[1];
+		
+		if (q==0){
+			vec1.push_back(bVec.at(q));
+			x1 = vec1.front()[0];
+			y1 = vec1.front()[1];
+		}
+		else if (sqrt(pow(x - x1,2)+pow(y-y1,2)) < MAX_D){
+			vec1.push_back(bVec.at(q));
+		}
+		else if (vec2.size() == 0){
+			vec2.push_back(bVec.at(q));
+			x2 = vec2.front()[0];
+			y2 = vec2.front()[1];
+		}
+		else if (sqrt(pow(x - x2,2)+pow(y-y2,2)) < MAX_D){
+			vec2.push_back(bVec.at(q));
+		}
+		else if (vec3.size() == 0){
+			vec3.push_back(bVec.at(q));
+			x3 = vec3.front()[0];
+			y3 = vec3.front()[1];
+		}
+		else if (sqrt(pow(x - x3,2)+pow(y-y3,2)) < MAX_D){
+			vec3.push_back(bVec.at(q));
+		}
+		else {
+			shitVec.push_back(bVec.at(q));
+		}
+	}
+	vector<float *> topSpot;
+	//start at top y
+	if (VecAvg(vec1)[1] > VecAvg(vec2)[1]){
+		if (VecAvg(vec1)[1] > VecAvg(vec3)[1])
+			topSpot = vec1;
+		else 
+			topSpot = vec3;
+	}
+	else if (VecAvg(vec2)[1] > VecAvg(vec3)[1]) topSpot = vec2;		
+	else topSpot = vec3;
+			
+	
+
+}
+
+*/
 //=== If greater than 6 ===
 
 //Separate by camera.
