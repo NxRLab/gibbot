@@ -3,6 +3,7 @@
 #include <mutex>
 #include <cameralibrary.h>
 #include "GibbotVision.h"
+#include "TransformandCluster.h"
 
 using namespace std;
 using namespace CameraLibrary;
@@ -16,6 +17,7 @@ public:
 	int GetLEDPixelCoordinates(double *&d);
 	int GetGibbotPositions(double *&d);
 	vector<double> copy;
+										
 
 private:
 	vector<double> positions;
@@ -76,23 +78,32 @@ int JNIListener::GetGibbotPositions(double *&data)
 	copy = positions;
 	mtx.unlock();
 
-	// insert clustering algorithm here
-	// remember data is null; must allocate
-	// space, if necessary.
+	cout << "In Gibbot Positions" << endl;
 
-	return 0;
+	vector<double> GibPos;
+	GibPos = TransformandCluster(nCams, camera);
+	
+	data = GibPos.data();
+
+	//Making sure positions are correct the only way Craig knows how:		...never got here...
+	cout << GibPos[0] << " " << GibPos[1] << " " << GibPos[2] << " " << GibPos[3] << endl;
+
+	return static_cast<int> (GibPos.size());
 }
 
 JNIEXPORT jdoubleArray JNICALL Java_GibbotVision_getGibbotData(JNIEnv *env, jobject obj)
 {
-	int n;
-	jdouble *d;
+	int n,m;
+	jdouble *d, *dd;
 	jdoubleArray jPos;
 
-	cout << "At least I made it this far..." << endl;
 
 	d = NULL;
 	n = listener->GetLEDPixelCoordinates(d);
+
+	//Craig starting to try to output data:
+	dd = NULL;
+	m = listener->GetGibbotPositions(dd);
 
 	jPos = env->NewDoubleArray(n);
 	if (jPos == NULL) {
@@ -142,7 +153,7 @@ JNIEXPORT jboolean JNICALL Java_GibbotVision_startCameras(JNIEnv *env, jobject o
 
 			camera[i]->SetExposure(38);
 			camera[i]->SetThreshold(200);
-			camera[i]->SetIntensity(15);
+			camera[i]->SetIntensity(26);
 			//camera[i]->AttachModule(new cModulePrelabel());
 			camera[i]->SetVideoType(Core::ObjectMode);
 			camera[i]->SetTextOverlay(true);

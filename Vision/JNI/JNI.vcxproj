@@ -145,6 +145,7 @@ XCOPY "$(SolutionDir)..\Camera SDK\lib\CameraLibrary*S.dll" "$(SolutionDir)" /D 
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GibbotVision.h" />
+    <ClInclude Include="TransformandCluster.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

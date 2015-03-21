@@ -23,5 +23,8 @@
     <ClInclude Include="GibbotVision.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TransformandCluster.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

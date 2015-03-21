@@ -133,11 +133,16 @@ float * transformBlob(float * coordinates, MatrixXf transform){
 }
 
 // get the 4 marker LED coordinates that each camera sees
-cObject ** getCornerBlobs(cObject ** blobArray, int numBlobs, Camera * camera, bool isLeft){
-	cObject * bestNblob;
-	cObject * bestSblob;
-	cObject * bestNangle;
-	cObject * bestSangle;
+float ** getCornerBlobs(cObject ** blobArray, int numBlobs, Camera * camera, bool isLeft){
+
+	cObject * bestNblob = new cObject;
+	cObject * bestSblob = new cObject;
+	//cObject * bestNangle = new cObject;
+	//cObject * bestSangle = new cObject;
+	float * bestNangle = new float[2];
+	float * bestSangle = new float[2];
+
+
 	int camX = 0;
 	int camY = 0;
 	if (!isLeft){
@@ -152,22 +157,42 @@ cObject ** getCornerBlobs(cObject ** blobArray, int numBlobs, Camera * camera, b
 	for (int i = 0; i < numBlobs; i++) {
 		float y = blobArray[i]->Y();
 		float x = blobArray[i]->X();
-		if (pow(x,2)+pow(y,2) < bestNDistSq){
-			bestNDistSq = pow(x,2) + pow(y,2);
+		if (pow(x, 2) + pow(y, 2) < bestNDistSq){
+			bestNDistSq = pow(x, 2) + pow(y, 2);
 			bestNblob = blobArray[i];
 			Nskip = i;
 		}
-		if (pow(x-camX,2)+pow(y-camY,2) < bestSDistSq){
-			bestSDistSq = pow(x-camX,2)+pow(y-camY,2);
+		if (pow(x - camX, 2) + pow(y - camY, 2) < bestSDistSq){
+			bestSDistSq = pow(x - camX, 2) + pow(y - camY, 2);
 			bestSblob = blobArray[i];
 			Sskip = i;
 		}
 	}
-	cObject ** newblobArray = new cObject * [numBlobs-2];
+
+
+
+	//now convert bestNblob and bestSblob into float arrays
+	float * NewBestNblob = new float[2];
+	float * NewBestSblob = new float[2];
+	NewBestNblob[0] = bestNblob->X();
+	NewBestNblob[1] = bestNblob->Y();
+	NewBestSblob[0] = bestSblob->X();
+	NewBestSblob[1] = bestSblob->Y();
+
+	cout << "1 ";
+
+	//cObject ** newblobArray = new cObject * [numBlobs-2];
+	float ** newblobArray = new float *[numBlobs - 2];					//***THIS IS THE PROBLEM LINE***//
+
+
+	cout << "2 ";
+
 	int k = 0;
 	for (int j = 0; j < numBlobs; j++){
 		if (j == Nskip || j == Sskip) continue;
-		newblobArray[k] = blobArray[j];
+		//newblobArray[k] = blobArray[j];
+		newblobArray[k][0] = blobArray[j]->X();
+		newblobArray[k][1] = blobArray[j]->Y();
 		k++;
 	}
 	for (int ii = 0; ii < k; ii++){
@@ -175,23 +200,38 @@ cObject ** getCornerBlobs(cObject ** blobArray, int numBlobs, Camera * camera, b
 		float nX = bestNblob->X();
 		float sY = bestSblob->Y();
 		float sX = bestSblob->X();
-		float testX = newblobArray[ii]->Y();
-		float testY = newblobArray[ii]->X();
-		if (abs((sY-testY)/(sX-testX)) < sAngleVal){
-			bestSangle = newblobArray[ii];
-			sAngleVal = abs((sY-testY)/(sX-testX));
+		float testX = newblobArray[ii][0];
+		float testY = newblobArray[ii][1];
+		if (abs((sY - testY) / (sX - testX)) < sAngleVal){
+			//bestSangle = newblobArray[ii];
+			bestSangle[0] = newblobArray[ii][0];
+			bestSangle[1] = newblobArray[ii][1];
+			sAngleVal = abs((sY - testY) / (sX - testX));
 		}
-		if (abs((nY-testY)/(nX-testX)) < nAngleVal){
-			bestNangle = newblobArray[ii];
-			nAngleVal = abs((nY-testY)/(nX-testX));
+		if (abs((nY - testY) / (nX - testX)) < nAngleVal){
+			//bestNangle = newblobArray[ii];
+			bestNangle[0] = newblobArray[ii][0];
+			bestNangle[1] = newblobArray[ii][1];
+			nAngleVal = abs((nY - testY) / (nX - testX));
 		}
 	}
 
-	cObject ** returnArray = new cObject * [4];
-	returnArray[0] = bestNblob;
-	returnArray[1] = bestSblob;
-	returnArray[2] = bestSangle;
-	returnArray[3] = bestNangle;
+
+	//cObject ** returnArray = new cObject * [4];
+	//returnArray[0] = bestNblob;
+	//returnArray[1] = bestSblob;
+	//returnArray[2] = bestSangle;
+	//returnArray[3] = bestNangle;
+
+	float ** returnArray = new float  *[4]; //again might have to do a deeper copy here
+	returnArray[0][0] = NewBestNblob[0];
+	returnArray[0][1] = NewBestNblob[1];
+	returnArray[1][0]= NewBestSblob[0];
+	returnArray[1][1] = NewBestSblob[1];
+	returnArray[2][0] = bestSangle[0];
+	returnArray[2][1] = bestSangle[1];
+	returnArray[3][0] = bestNangle[0];
+	returnArray[3][1] = bestNangle[1];
 
 	return returnArray;
 }
@@ -294,8 +334,8 @@ float * getClusterCenter(float ** cluster, int nClust){
 }
 
 
-int NelsonCode(int nCams, Camera ** camera, bool isLeftCam){
-
+vector<double> TransformandCluster(int nCams, Camera ** camera){
+	bool isLeftCam = false;
 	int MAX_OFFSET_DIST = 50;
 	float * boardArray = getBoardCorners();
 	float *** cameraBlobs = new float** [nCams]; //an array of arrays containing gibbot LED coordinates
@@ -303,6 +343,13 @@ int NelsonCode(int nCams, Camera ** camera, bool isLeftCam){
 
 	for (int i = 0; i < nCams; i++){
 		
+		//determine whether camera is right or left -- we will assume ID 199314 is left and 199313 is right
+		if (camera[i]->CameraID() == 199314)
+		{
+			isLeftCam = true;
+		}
+
+
 		//get objects a.k.a. LED positions
 		Frame *frame = camera[i]->GetLatestFrame();
 		int objcount = frame->ObjectCount();
@@ -312,28 +359,34 @@ int NelsonCode(int nCams, Camera ** camera, bool isLeftCam){
 			objArray[ii] = frame->Object(ii);
 		}
 
+
 		//get array of corners in camera frame
 		float * cameraArray = getCamCorners(camera[i]);
+		
 
 		//Get transform matrix for board to frame
 		MatrixXf TSolve = getTransformData(cameraArray,boardArray);
+		
 
 		float ** newBlobCoords = new float*[objcount];
 		for (int jj = 0; jj < objcount; jj++){
 			newBlobCoords[jj] = transformBlob(objArray[jj],TSolve);
 		}
 
+
 		//find corner blobs and change them to float arrays
-		cObject **cornerArray = getCornerBlobs(objArray,objcount,camera[i], isLeftCam);
-		
+		float **cornerArray = getCornerBlobs(objArray,objcount,camera[i], isLeftCam);
+
+
 		//use corner blobs to get new transform
 		float * transformCorners = new float[8];
 		for (int l = 0; l < 4; l++){
-			transformCorners[2*l] = cornerArray[l]->X();
-			transformCorners[2*l+1] = cornerArray[l]->Y();
+			transformCorners[2*l] = cornerArray[l][0];
+			transformCorners[2*l+1] = cornerArray[l][0];
 		}
 		float * halfBoardArray = getBoardCorners(isLeftCam);
 		MatrixXf newTransform = getTransformData(halfBoardArray,transformCorners);
+
 
 		//Filter out corners
 		float ** fourCorners = new float * [4];
@@ -341,6 +394,7 @@ int NelsonCode(int nCams, Camera ** camera, bool isLeftCam){
 			fourCorners[kk] = transformBlob(cornerArray[kk],TSolve);
 		}
 		float ** filteredArray = filterBlobs(newBlobCoords, fourCorners, objcount, 4);
+
 
 		//transform remaining blobs in to correct board locations
 		for (int K = 0; K < objcount - 4; K++){
@@ -351,6 +405,7 @@ int NelsonCode(int nCams, Camera ** camera, bool isLeftCam){
 		cameraBlobs[i] = filteredArray;
 
 	}
+
 
 	pair<float**,int> ans;
 
@@ -449,7 +504,7 @@ int NelsonCode(int nCams, Camera ** camera, bool isLeftCam){
 	}
 
 	//now let's make an array that returns the position of cluster 3, the angle between the arms, and the angle with respect to the board
-	float x1, x2, x3, y1, y2, y3, theta1, theta2;
+	float x1, x2, x3, y1, y2, y3, theta1, theta2, theta3;
 	x1 = cluster1center[0];
 	y1 = cluster1center[1];
 	x2 = cluster2center[0];
@@ -470,18 +525,32 @@ int NelsonCode(int nCams, Camera ** camera, bool isLeftCam){
 	theta1 = acos((dist1*dist1+dist2*dist2-dist3*dist3)/(2*dist1*dist2))*180/3.14159265; // theta1 in degrees
 
 	//find absolute angle from center gibbot to arm "3"
-	theta2 = acos((x3-x1)/dist1)*180/3.14159265;
+	theta2 = atan((y3-y1)/(x3-x1))*180/3.14159265;
 
 	if (x1 > x3)
 	{
-
+		theta2 += 180; //if x1 is larger than x3 then angle in opposite quadrant
 	}
 
 	//find absolute angle from center to arm "2"
+	theta3 = atan((y2 - y1) / (x2 - x1)) * 180 / 3.1415265;
 
-	//add absolute angles to get relative angle between the two arms
+	if (x1 > x2)
+	{
+		theta3 += 180;
+	}
+
+	//add absolute angles to get relative angle between the two arms ***theta 1 is degrees arm 2 is in clockwise direction
+	theta1 = theta3 - theta2;
 
 	
 	//probably want to return array here:
-	return 0;
+	vector<double> rvec;
+
+	rvec[0] = x3;
+	rvec[1] = y3;
+	rvec[2] = theta1;
+	rvec[3] = theta2;
+
+	return rvec;
 }
