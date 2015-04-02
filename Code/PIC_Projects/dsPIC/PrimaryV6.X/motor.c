@@ -37,14 +37,61 @@ int direction = CW;
  *
  * Interrupt vector names are in Table 7-4 p101 of the MPLAB C30 User's Guide
  */
+volatile char last_state;
 void __attribute__((interrupt, no_auto_psv)) _CNInterrupt(void) {
+    unsigned int ccwpat[] = {-1, 3, 6, 2, 5, 1, 4, -1};
+    unsigned int cwpat[] = {-1, 5, 3, 1, 6, 4, 2, -1};
+
     state = (S3 << 2) | (S2 << 1) | S1; //Read hall effect sensors
     if(motoron == 1){     //If the motor has been turned on
-        commutate(state); //Change outputs based on hall effect sensor state
+        // is state transition valid?
+        if (last_state == -1 || (state == ccwpat[last_state] || state == cwpat[last_state])) {
+            commutate(state); //Change outputs based on hall effect sensor state
+        }
     } else {              //If the motor is off
         commutate(0);     //Set all motor outputs to float
+        printf("motor off: current state is %d\n", state);
     }
-    LED1 = !LED1;
+
+    if(USER) {
+        commutate(0);
+        motoron = 0;
+    }
+
+    if (last_state && (state != ccwpat[last_state] && state != cwpat[last_state])) {
+        LED1 = 0;
+        //commutate(0);
+        //printf("noisy state...ending program\n");
+        //printf("last state: %u  next state: %u valid next states: %u %u\n",
+        //        last_state, state, ccwpat[last_state], cwpat[last_state]);
+        /*
+        while (1) {
+            LED3 = !(state & 0x1);
+            LED2 = !(state & 0x2);
+            LED1 = !(state & 0x4);
+        }
+        */
+    }
+    else {
+        LED1 = 1;
+    }
+
+    if(state == 0 || state == 7) {
+        char reread = (S3 << 2) | (S2 << 1) | S1; //Read hall effect sensors
+        commutate(0);
+        printf("error state...ending program\n");
+        printf("last state: %u  next state: %u valid next states: %u %u\n",
+                last_state, state, ccwpat[last_state], cwpat[last_state]);
+
+        
+        printf("reread port and got %d as the current state\n", reread);
+
+        while (1);
+    }
+
+    last_state = state;
+
+    //LED1 = !LED1;
     //printf("%d",state);
     PORTD;                //Clear mismatch condition
     IFS1bits.CNIF = 0;    //Clear interrupt flag
@@ -81,7 +128,7 @@ void initialize_PWM(void){
     //PTPER = 80 MHz / (20kHz * 4) = 1000
     PTPER = 1000;
     //PTPER = 80 MHz / (50kHz * 4) = 400
-    //PTPER = 400;
+    PTPER = 400;
 
     IOCON1bits.PMOD = 0; //Set PWM1 to Complementary Mode
     IOCON2bits.PMOD = 0; //Set PWM2 to Complementary Mode
@@ -113,6 +160,7 @@ void initialize_PWM(void){
     PWMCON3bits.MDCS = 1;
 
     MDC = 100; // Sets master duty cycle at 10%. 100% is at MDC = 1000
+    MDC = 10;
 
     commutate(0); //Set all motor outputs to float
 
@@ -298,6 +346,6 @@ void kick(void){
     } else{ //direction == CCW
         kick = CCWtable[state-1];
     }
-    printf("%d",kick);
+    printf("k: %d duty: %d\n",kick, read_duty());
     commutate(kick);
 }
