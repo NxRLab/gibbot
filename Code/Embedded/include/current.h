@@ -42,7 +42,7 @@ extern void set_offset_ema_filter_alpha(double alpha);
 extern void init_cur(double mV_per_A);
 
 /// Current (as in Amps) information for each board
-extern volatile Current my_boards_current;
+extern volatile Current my_current;
 
 /// List of coefficients to multiply by
 extern fractional cur_filter[ADC_SAMPS];

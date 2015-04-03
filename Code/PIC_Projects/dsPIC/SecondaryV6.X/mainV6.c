@@ -12,6 +12,9 @@ int main(void) {
     if (error_buffer.len > 0){
         LED2 = !LED2;
     }
+
+    LOWMAG = 1;
+
     while (1){
         if(USER){
             LED1 = !LED1;

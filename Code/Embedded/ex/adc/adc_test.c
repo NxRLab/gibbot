@@ -17,7 +17,7 @@ int main()
     print_banner(&pv7);
     printf("Hello World!\n");
 
-    mA_cnts = my_boards_current.q15_to_mA;
+    mA_cnts = my_current.q15_to_mA;
     
     long double conv = cur_12bit_conversion_time_in_ns() / 1000;
     printf("ADC clock: %Lg us --- %d samples will take %Lg us\n", 
@@ -29,8 +29,8 @@ int main()
     printf("the resolution will also be overwritten, so that ");
     printf(" ADC_MIN = -1.65 and ADC_MAX = 1.65\n");
     set_offset_ema_filter_alpha(0);
-    my_boards_current.offset = 0;
-    my_boards_current.q15_to_mA = VOLTS_PER_12BIT_COUNT / SCALED_VOLTS;
+    my_current.offset = 0;
+    my_current.q15_to_mA = VOLTS_PER_12BIT_COUNT / SCALED_VOLTS;
 
     attn("************* printing out current readings. **************\n");
 
@@ -55,9 +55,9 @@ int main()
         }
 
         printf("volts on ANx pin: %g V (%d counts) -- mA/cnts: %g offset: %d\n",
-            1.65 * (1.0 + (double) Fract2Float(my_boards_current.counts)),
-            my_boards_current.counts, my_boards_current.q15_to_mA,
-            my_boards_current.offset);
+            1.65 * (1.0 + (double) Fract2Float(my_current.counts)),
+            my_current.counts, my_current.q15_to_mA,
+            my_current.offset);
 
         read_xbee(&c, 1);
     }
@@ -66,7 +66,7 @@ int main()
     float_pins();
     printf("is the motor floating? %d\n", is_motor_floating());
     set_offset_ema_filter_alpha(0.01);
-    my_boards_current.q15_to_mA = mA_cnts;
+    my_current.q15_to_mA = mA_cnts;
 
     attn("************* printing out current readings. **************\n");
 
@@ -79,12 +79,12 @@ int main()
             warn("Press ENTER to stop or any other key to keep reading\n");
         }
 
-        double offset = 1.65*(1+Fract2Float(my_boards_current.offset));
-        mA_cnts = my_boards_current.mA - offset;
+        double offset = 1.65*(1+Fract2Float(my_current.offset));
+        mA_cnts = my_current.mA - offset;
         double meas = mA_cnts*1000.0/37.0;
 
         printf("m: %1.4f \t o: %1.4f \t d: %1.4f \t a: %1.4f \t r: %1.4f e: %1.2f\n",
-            my_boards_current.mA, offset, mA_cnts, meas, ref, fabs(meas) - ref);
+            my_current.mA, offset, mA_cnts, meas, ref, fabs(meas) - ref);
 
         if(c == '=') {
             DUTY = MAX_DUTY;
@@ -114,10 +114,10 @@ int main()
 
         /*
         printf("current: %g counts: %g (%d) -- mA/cnts: %g offset: %g (%d)\n",
-            my_boards_current.mA, (double)
-            Fract2Float(my_boards_current.counts), my_boards_current.counts,
-            my_boards_current.q15_to_mA, (double)
-            Fract2Float(my_boards_current.offset), my_boards_current.offset);
+            my_current.mA, (double)
+            Fract2Float(my_current.counts), my_current.counts,
+            my_current.q15_to_mA, (double)
+            Fract2Float(my_current.offset), my_current.offset);
         */
 
         read_xbee(&c, 1);

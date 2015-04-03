@@ -66,6 +66,8 @@ void sv6_init_pins()
 void sv6_init_periphs()
 {
     init_pic2pic();
+    init_magnet_enc(US_DIGITAL_E3_1800_750_NE_H_D_B);
+    init_motor_enc(US_DIGITAL_E3_1800_750_NE_H_D_B);
 }
 
 void sv6_flash_lights(void)

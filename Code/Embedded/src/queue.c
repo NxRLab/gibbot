@@ -66,4 +66,50 @@ void print_q(size_t n, RingBuffer *r)
     printf("*********************************************\n");
 }
 
-/* other queue functions are inlined and can be found in queue.h */
+size_t size_of_q(RingBuffer *r)
+{
+    return r->mask + 1;
+}
+
+size_t num_bytes_in_q(RingBuffer *r)
+{
+    return (r->write_index - r->read_index) & r->mask;
+}
+
+bool is_q_full(RingBuffer *r)
+{
+    return num_bytes_in_q(r) == r->mask;
+}
+
+bool is_q_empty(RingBuffer *r)
+{
+    return num_bytes_in_q(r) == 0;
+}
+
+bool enq(unsigned char c, RingBuffer *r)
+{
+    if(is_q_full(r)) {
+        return false;
+    }
+
+    // modulo write into the buffer
+    r->buffer[r->write_index & r->mask] = c;
+    r->write_index++;
+    return true;
+}
+
+bool deq(unsigned char *c, RingBuffer *r)
+{
+    if(c == NULL) {
+        printf("deq: destination buffer is null.\n");
+        return false;
+    }
+    else if(is_q_empty(r)) {
+        return false;
+    }
+
+    // modulo read from the buffer
+    *c = r->buffer[r->read_index & r->mask];
+    r->read_index++;
+    return true;
+}

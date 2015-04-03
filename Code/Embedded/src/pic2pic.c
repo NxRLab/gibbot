@@ -4,8 +4,19 @@
 
 /// The PIC-to-PIC baud rate
 #define PIC_BAUD 115200UL
+#define RX_PRIORITY 5 // low = 1, high = 7
+#define TX_PRIORITY 5 // low = 1, high = 7
+#define DMA_RX_IRQ 30
+#define DMA_TX_IRQ 31
+#define INTERRUPT_EVERY_CHAR 0
+#define DMA_BYTE_TRFRS 1
+#define DMA_ONE_SHOT 1
+#define DMA_WRITE_TO_PERIPH 1
+#define DMA4_RX_PRIORITY 5 // low = 1, high = 7
+#define DMA5_TX_PRIORITY 5 // low = 1, high = 7
 
-#define RXE_PRIORITY 5 // low = 1, high = 7
+volatile __eds__ GIBDMA OtherPICsData rx_data, tx_data;
+volatile OtherPICsData other_boards_data;
 
 /// Returns true if the PIC-to-PIC peripheral is present and enabled
 bool is_pic2pic_on()
@@ -20,62 +31,8 @@ void init_pic2pic()
     U2MODEbits.BRGH = true; // turn High Baud Rate Mode On
     U2BRG = calc_baud(PIC_BAUD, true);
 
-    _U2RXIP = RXE_PRIORITY - 1;
-    _U2RXIF = false;
-    _U2RXIE = true;
-    
-    /*
-    IPC16bits.U2EIP = RXE_PRIORITY; // set RX error interrupt priority
-    IFS4bits.U2EIF = false; // clear the Receive Interrupt Flag
-    IEC4bits.U2EIE = true; // enable RX error interrupts
-    */
-
     U2MODEbits.UARTEN = true; // enable the UART
     U2STAbits.UTXEN = true; // enable transmitting
-}
-
-int pic2pic_write(void *buffer, unsigned int len)
-{
-    // disable FERR int
-
-    // transmit break
-    // package
-    // transmit break
-    // wait for ack
-    // next step or retransmit
-
-    // wait for break
-    // package
-    // wait for break
-    // send ack
-
-    // enable FERR int
-    return EOF;
-}
-
-int pic2pic_read(void *buffer, unsigned int len)
-{
-    // must give prio = 6 for desi == 0 to be valid 
-    // i.e., pic2pic_write might have reset desi.
-
-    // disable FERR int
-
-    // wait for break
-    // package
-    // wait for break
-    // send ack
-
-    // proc command: read or write data
-    //assert(desi > 0);
-
-    // transmit break
-    // package
-    // transmit break
-    // wait for ack
-    // next step or retransmit
-
-    // enable FERR int
-    return EOF;
 }
 
 /** Sends the content of the buffer to the other PIC
@@ -109,160 +66,111 @@ int write_pic2pic(void *buffer, unsigned int len)
 */
 int read_pic2pic(void *buffer, unsigned int len)
 {
-    // char *b = (char *) buffer;
+    int i;
+    char b;
 
-    // read buffer
+    if (!is_pic2pic_on()) {
+        return EOF;
+    }
+    else if(_U2RXIE) {
+        warn("read_pic2pic: can't poll for data wth an enabled interrupt.\n");
+        return 0;
+    }
+    else if (U2STAbits.OERR) {
+        // clear overrun flag to keep receiving. clearing the flag before
+        // reading the UART, deletes all data in fifo; this is fine since we
+        // want the newest data
+        U2STAbits.OERR = false;
+        error("read_pic2pic: overrun error.\n");
+    }
 
-    return 0;
-}
-
-//#define SOT 0 // start of transmission byte
-#define MAX_DISI 0x3fff // max permissible time to disable interrupt
-#define BUF_LEN 256
-#if 0
-void read_protocol()
-{
-    packet c;
-    // when this is working make rb and buf global and just reset read and write
-    RingBuffer rb;
-    unsigned char buf[BUF_LEN];
-
-    init_q(buf, BUF_LEN, &rb);
-    // is it a legit new frame?
-    c.data = U2RXREG;
-    if(c.data == SOT) {
-        printB("legit new frame %d\n", DISICNT);
-        // a new frame is being sent
-        while (!U2STAbits.URXDA && DISICNT);
-        c.cmd = DISICNT ? U2RXREG : NUM_HANDLES;
-        printB("is it a legit handle? %d (cmd = %d) %d\n", c.handle, c.cmd,
-            DISICNT);
-        // does the command have a valid handle?
-        if(c.handle < NUM_HANDLES) {
-            printB("legit handle %d\n", DISICNT);
-            // handle is valid; store data until the end of frame
-            while (!U2STAbits.FERR && DISICNT) {
-                while (!U2STAbits.URXDA && DISICNT);
-                if(DISICNT) {
-                    c.data = U2RXREG;
-                    enq(c.data, &rb);
-                    printB("data: %d %d\n", c.data, DISICNT);
-                }
-            }
-            printB("exiting %d %d\n", U2STAbits.FERR, DISICNT);
-
-            if(DISICNT) {
-                // check the crc and ack frame
-            }
+    b = 0;
+    for (i = len; i; i--) {
+        if (U2STAbits.FERR) {
+            warn("read_pic2pic: frame error.\n");
+            break; 
         }
+
+        while ((U2STAbits.URXDA) == false);
+        b = U2RXREG;
+        *(char *) (buffer++) = b;
     }
 
-    while(1) {
-        while (!U2STAbits.URXDA);
-        c.data = U2RXREG;
-        printf("reg: %d ferr: %d\n", c.data, U2STAbits.FERR);
-    }
+    // return number of bytes read
+    return len - i;
 }
-#endif
 
-void GIBINT _U2ErrInterrupt(void)
+void enable_dma4_on_rx()
 {
-    unsigned char c;
+    // UART interrupt settings
+    U2MODEbits.UARTEN = false;
+    U2STAbits.URXISEL = INTERRUPT_EVERY_CHAR;
 
-    // we need to ensure that an entire frame is always received
-    // without any race conditions, so monopolize UART
+    // set up DMA for RX
+    DMA4CONbits.SIZE = DMA_BYTE_TRFRS;
+    DMA4CONbits.MODE = DMA_ONE_SHOT;
+    DMA4REQbits.IRQSEL = DMA_RX_IRQ; 
+    DMA4PAD = (VUI) &U2RXREG;
+    DMA4STAL = __builtin_dmaoffset(&rx_data);
+    DMA4CNT = sizeof(rx_data) - 1;
 
-    /*
-    while (U2STAbits.URXDA) {
-        c = U2RXREG;
-        printf("reg: %d ferr: %d\n", c, U2STAbits.FERR);
-    }
+    _DMA4IP = DMA4_RX_PRIORITY;
+    _DMA4IF = false;
+    _DMA4IE = true;
 
-    if (U2STAbits.OERR) {
-        // the fifo buffer was full, clear the flag.
-        U2STAbits.OERR = false;
-        printR("_U2RXInterrupt: overrun error.\n");
-    }
-    */
-
-    _U2EIF = false;
-    return;
-
-
-    // disable interrupts and start timer
-    __builtin_disi(MAX_DISI);
-
-    info("_U2RXInterrupt: in the interrupt.\n");
-    // we only care about bytes with FERRs
-    while (U2STAbits.URXDA && !U2STAbits.FERR) {
-        c = U2RXREG;
-    }
-
-    if (U2STAbits.URXDA && U2STAbits.FERR) {
-        error("_U2RXInterrupt: frame error.\n");
-        // get info
-        //read_protocol();
-
-        // do some processing
-
-        // and now send info back
-    }
-
-    if (U2STAbits.PERR) {
-        // data is corrupt
-        error("_U2RXInterrupt: parity error.\n");
-    }
-
-    if (U2STAbits.OERR) {
-        // the fifo buffer was full, clear the flag.
-        U2STAbits.OERR = false;
-        error("_U2RXInterrupt: overrun error.\n");
-    }
-
-    // log how long it took to run
-
-    // reenable interrupts and clear interrupt flag
-    __builtin_disi(0);
-    _U2EIF = false;
+    // enable the peripherals
+    DMA4CONbits.CHEN = true;
+    U2MODEbits.UARTEN = true;
+    U2STAbits.UTXEN = true;
 }
 
-/// The inter-PIC UART interrupt
-// FERR corresponds to the current character in U2RXREG
-
-#define SOT 'a'
-#define OCCURANCES 2
-volatile int sot = 0, eot, pkt;
-volatile unsigned char p;
-void GIBINT _U2RXInterrupt(void)
+void GIBINT _DMA4Interrupt(void)
 {
-    unsigned char c = U2RXREG;
-    printf("%c \t \t p: %c sot: %d pkt: %d eot: %d \t", c, p, sot, pkt, eot);
-
-    if(pkt) {
-        printf("saving packets");
-    }
-    
-    if(c == SOT && p == SOT) {
-        sot++;
-    }
-    else {
-        sot = 0;
-    }
-
-    p = c;
-
-    if(sot == OCCURANCES) {
-        sot = 0;
-        p = 0;
-        pkt = !pkt;
-        if(pkt)
-            printf("\nstart transmission");
-        else
-            printf("\nend transmission");
-    }
-
-    printf("\n");
-
-    _U2RXIF = false;
-    return;
+    _DMA4IF = false;
+    other_boards_data = rx_data;
+    DMA4CONbits.CHEN = true;
 }
+
+void enable_dma5_on_tx()
+{
+    // set up initial transfer
+    tx_data.magnet_enc = my_magnet_enc.read();
+    tx_data.motor_enc = my_motor_enc.read();
+
+    // set TX to interrupt after every byte
+    U2MODEbits.UARTEN = false;
+    U2STAbits.UTXISEL0 = INTERRUPT_EVERY_CHAR;
+    U2STAbits.UTXISEL1 = INTERRUPT_EVERY_CHAR;
+
+    // set up DMA for TX
+    DMA5CONbits.SIZE = DMA_BYTE_TRFRS;
+    DMA5CONbits.MODE = DMA_ONE_SHOT;
+    DMA5CONbits.DIR = DMA_WRITE_TO_PERIPH;
+    DMA5REQbits.IRQSEL = DMA_TX_IRQ; 
+    DMA5PAD = (VUI) &U2TXREG;
+    DMA5STAL = __builtin_dmaoffset(&tx_data);
+    DMA5CNT = sizeof(tx_data) - 1;
+
+    // set up DMA5 interrupt
+    _DMA5IP = DMA5_TX_PRIORITY;
+    _DMA5IF = false;
+    _DMA5IE = true;
+
+    // enable the peripheral
+    DMA5CONbits.CHEN = true;
+    U2MODEbits.UARTEN = true;
+    U2STAbits.UTXEN = true;
+}
+
+void GIBINT _DMA5Interrupt(void)
+{
+    _DMA5IF = false;
+    tx_data.magnet_enc = my_magnet_enc.read();
+    tx_data.motor_enc = my_motor_enc.read();
+    DMA4CONbits.CHEN = true;
+}
+
+
+// TODO make sure that all periphs that are not enabled do not get used since
+// they're associated data types and functions may be null or undefined.
+

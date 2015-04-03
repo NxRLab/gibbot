@@ -7,6 +7,8 @@
 
 /// A function interrupt attribute
 #define GIBINT __attribute__((interrupt, no_auto_psv))
+/// Attribute for defining variables in DPSRAM space
+#define GIBDMA __attribute__((eds, space(dma)))
 
 extern void initialize_board(const Board *);
 extern void print_banner(const Board *);

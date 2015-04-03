@@ -29,6 +29,7 @@
 #include <motor_pwm.h>
 #include <encoder.h>
 #include <magnet_enc.h>
+#include <motor_enc.h>
 
 // microchip lib
 #include <libpic30.h> // this header must come **after** FCY defined in <osc.h>

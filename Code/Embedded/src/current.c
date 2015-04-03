@@ -53,9 +53,6 @@
 */
 #define DMA3_PRIORITY 5
 
-/// Attribute for defining variables in DPSRAM space
-#define GIBDMA __attribute__((eds, space(dma)))
-
 /// Keeps track of which buffer has new data each DMA interrupt
 static volatile bool use_buf_a = true;
 
@@ -65,7 +62,7 @@ GIBDMA fractional cur_buf_a[ADC_PINS][ADC_SAMPS];
 /// DMA3's "B" buffer
 GIBDMA fractional cur_buf_b[ADC_PINS][ADC_SAMPS];
 
-volatile Current my_boards_current;
+volatile Current my_current;
 
 /**
     The filter array for the current samples.  It is #ADC_SAMPS long and is
@@ -194,7 +191,7 @@ void init_cur(double mV_per_A)
     long double tad;
 
     // save the sensor's resolution (mV / A = V / mA)
-    my_boards_current.q15_to_mA = CURRENT_ZERO_VREF / mV_per_A;
+    my_current.q15_to_mA = CURRENT_ZERO_VREF / mV_per_A;
 
     // ADC mode -- use system clock (running at FCY) as clock source for TAD
     // with samples in Q1.15 format
@@ -220,7 +217,7 @@ void init_cur(double mV_per_A)
 
     // DMA set up -- DMA3 will use ADC as source peripherial
     DMA3REQbits.IRQSEL = ADC_IRQ;
-    DMA3PAD = (volatile unsigned int) &ADC1BUF0;
+    DMA3PAD = (VUI) &ADC1BUF0;
 
     // DMA determines where in memory to place data
     DMA3CONbits.AMODE = DMA_INCREMENTS_ADDR;
@@ -293,18 +290,18 @@ void GIBINT _DMA3Interrupt(void)
     // update offset
     if(is_motor_floating()) {
         // take exponential moving average
-        fractional ema_data[EMA_LEN] = {c, my_boards_current.offset};
-        my_boards_current.offset = 
+        fractional ema_data[EMA_LEN] = {c, my_current.offset};
+        my_current.offset = 
             VectorDotProduct(EMA_LEN, ema_data, offset_ema_filter);
     }
-    offset = my_boards_current.offset;
+    offset = my_current.offset;
 
     // update current 
-    my_boards_current.counts = c;
+    my_current.counts = c;
     //c = _Q15sub(c, offset);
-    //my_boards_current.mA = (1.65*(1+Fract2Float(c))-1.65) * 1000.0 / 37.0;
-    my_boards_current.mA = (1.65*(1+Fract2Float(c)));
-    //my_boards_current.mA = Fract2Float(c) * my_boards_current.q15_to_mA;
+    //my_current.mA = (1.65*(1+Fract2Float(c))-1.65) * 1000.0 / 37.0;
+    my_current.mA = (1.65*(1+Fract2Float(c)));
+    //my_current.mA = Fract2Float(c) * my_current.q15_to_mA;
 
     use_buf_a ^= true;
 }
