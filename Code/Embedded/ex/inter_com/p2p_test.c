@@ -19,17 +19,16 @@ int main()
     buf[2] = 'c';
     buf[3] = '\0';
 
-    printf("writing the pic2pic peripheral in loop-back mode to test features.\n");
+    //printf("writing the pic2pic peripheral in loop-back mode to test features.\n");
     write_pic2pic(buf, sizeof(buf));
     memset(buf, 0, sizeof(buf));
     read_pic2pic(buf, sizeof(buf));
 
-    printf("in the buffer: %s\n", buf);
+    //printf("in the buffer: %s\n", buf);
 
-    printf("now enable dma on pic2pic RX\n");
-    printf("other board's data reads: mag enc: %lu mot enc: %lu mag: %d\n",
-        other_boards_data.magnet_enc, other_boards_data.motor_enc,
-        other_boards_data.mag);
+    //printf("now enable dma on pic2pic RX\n");
+    //printf("other board's data reads: mag enc: %ld mot enc: %ld\n",
+    //    other_boards_data.magnet_enc, other_boards_data.motor_enc);
 
     // pretend we're a secondary board.
     init_motor_enc(1800);
@@ -38,8 +37,8 @@ int main()
 
     OtherPICsData fake_data;
 
-    printf("before: other board's data reads: mag enc: %ld mot enc: %ld\n",
-        other_boards_data.magnet_enc, other_boards_data.motor_enc);
+    //printf("before: other board's data reads: mag enc: %ld mot enc: %ld\n",
+    //    other_boards_data.magnet_enc, other_boards_data.motor_enc);
 
     int i;
     for(i = 1; i < 5; i++) {
@@ -49,25 +48,25 @@ int main()
 
         write_pic2pic(&fake_data, sizeof(fake_data));
 
-        printf("now: other board's data reads: mag enc: %ld mot enc: %ld\n",
-            other_boards_data.magnet_enc, other_boards_data.motor_enc);
+        //printf("now: other board's data reads: mag enc: %ld mot enc: %ld\n",
+        //    other_boards_data.magnet_enc, other_boards_data.motor_enc);
         
-        printf("\n");
+        //printf("\n");
     }
 
 
     my_magnet_enc.write(12345);
     my_motor_enc.write(12345);
     MAG = 1;
-    printf("my board's data reads: mag enc: %ld mot enc: %ld\n",
-        my_magnet_enc.read(), my_motor_enc.read());
+    //printf("my board's data reads: mag enc: %ld mot enc: %ld\n",
+    //    my_magnet_enc.read(), my_motor_enc.read());
 
     enable_dma5_on_tx();
 
     __delay_ms(100);
 
-    printf("after dma5: other board's data is mag enc: %ld mot enc: %ld\n",
-            other_boards_data.magnet_enc, other_boards_data.motor_enc);
+    //printf("after dma5: other board's data is mag enc: %ld mot enc: %ld\n",
+    //        other_boards_data.magnet_enc, other_boards_data.motor_enc);
      
     attn("Done!\n");
     while(1);

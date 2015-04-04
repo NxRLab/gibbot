@@ -3,7 +3,8 @@
 /// @file
 
 /// The PIC-to-PIC baud rate
-#define PIC_BAUD 115200UL
+//#define PIC_BAUD (16UL*115200UL)
+#define PIC_BAUD (115200UL)
 #define RX_PRIORITY 5 // low = 1, high = 7
 #define TX_PRIORITY 5 // low = 1, high = 7
 #define DMA_RX_IRQ 30
@@ -124,10 +125,16 @@ void enable_dma4_on_rx()
     U2STAbits.UTXEN = true;
 }
 
+// took 0.975 us --- given baud rate 2 32-bit numbers would take 34.72 us
 void GIBINT _DMA4Interrupt(void)
 {
     _DMA4IF = false;
+
+    // transfer data to buffered output
     other_boards_data = rx_data;
+
+    // start DMA4 again
+    DMA4STAL = __builtin_dmaoffset(&rx_data);
     DMA4CONbits.CHEN = true;
 }
 
@@ -162,12 +169,17 @@ void enable_dma5_on_tx()
     U2STAbits.UTXEN = true;
 }
 
+// interrupt took  2.35 us to run
 void GIBINT _DMA5Interrupt(void)
 {
     _DMA5IF = false;
+
     tx_data.magnet_enc = my_magnet_enc.read();
     tx_data.motor_enc = my_motor_enc.read();
-    DMA4CONbits.CHEN = true;
+
+    DMA5STAL = __builtin_dmaoffset(&tx_data);
+    DMA5CONbits.CHEN = true;
+    DMA5REQbits.FORCE = true;
 }
 
 
