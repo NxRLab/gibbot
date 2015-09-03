@@ -48,11 +48,20 @@ void pv6_init_pins()
     
     /**************************************/
 
+    // configure HALL as change notification pins
+    CNENDbits.CNIED3 = true; // turn on CN for RD3
+    CNENDbits.CNIED4 = true; // turn on CN for RD4
+    CNENDbits.CNIED5 = true; // turn on CN for RD5
+
+    /**************************************/
+
     // configure dsPIC <-> XBee
     TRISDbits.TRISD2 = 1;       // set UART1 RX pin as input
     TRISDbits.TRISD1 = 0;       // set UART1 TX pin as output
     RPINR18bits.U1RXR = 66;     // map UART1 RX to RP66 (RD2)
     RPOR0bits.RP65R = 1;        // map UART1 TX to RP65 (RD1)
+    RPINR18bits.U1CTSR = 70;    // map UART1 CTS to RP70 (RD6)
+    RPOR3bits.RP71R = 2;        // map UART1 RTS to RP71 (RD7)
 
     /**************************************/
 

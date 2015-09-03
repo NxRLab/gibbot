@@ -17,15 +17,14 @@ void init_q(void *buffer, size_t len, RingBuffer *r)
     r->buffer = (unsigned char *) buffer;
 
     if(buffer == NULL) {
-        printf("init_q: the input buffer pointer is null.\n");
+        warn("init_q: the input buffer pointer is null.\n");
         r->mask = 0;
         return;
     }
 
     if(n != len) {
-        // make this a warning
-        printf("init_q: %u is not a power of two, ", len);
-        printf("using a buffer length of %u instead.\n", n);
+        warn("init_q: %u is not a power of two, ", len);
+        warn("using a buffer length of %u instead.\n", n);
     }
 }
 
@@ -86,6 +85,7 @@ bool is_q_empty(RingBuffer *r)
     return num_bytes_in_q(r) == 0;
 }
 
+/// @TODO change c into a pointer (char *)
 bool enq(unsigned char c, RingBuffer *r)
 {
     if(is_q_full(r)) {

@@ -21,8 +21,10 @@
 
 #include <gibbot.h>
 
-/// Resolution of ADC in 12-bit mode in Amps per ADC count.
-#define AMPS_PER_COUNT ((unsigned int)(3300.0L/4096.0L))
+/// Number of millivolts per volt
+#define MV_PER_V 1000
+/// Number of milliamps per amp
+#define MA_PER_A 1000
 
 /// ADC FORM value for Q1.15 output after sample is converted
 #define ADC_Q15 3 
@@ -191,7 +193,7 @@ void init_cur(double mV_per_A)
     long double tad;
 
     // save the sensor's resolution (mV / A = V / mA)
-    my_current.q15_to_mA = CURRENT_ZERO_VREF / mV_per_A;
+    my_current.q15_to_mA = CURRENT_ZERO_VREF / mV_per_A * MV_PER_V * MA_PER_A;
 
     // ADC mode -- use system clock (running at FCY) as clock source for TAD
     // with samples in Q1.15 format
@@ -298,10 +300,8 @@ void GIBINT _DMA3Interrupt(void)
 
     // update current 
     my_current.counts = c;
-    //c = _Q15sub(c, offset);
-    //my_current.mA = (1.65*(1+Fract2Float(c))-1.65) * 1000.0 / 37.0;
-    my_current.mA = (1.65*(1+Fract2Float(c)));
-    //my_current.mA = Fract2Float(c) * my_current.q15_to_mA;
+    c = _Q15sub(c, offset);
+    my_current.mA = Fract2Float(c) * my_current.q15_to_mA;
 
     use_buf_a ^= true;
 }

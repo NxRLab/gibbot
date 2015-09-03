@@ -1,3 +1,4 @@
+# TODO have Makefile create hex/ and lib/ if they don't exist
 # microchip's compiler
 CC:=xc16-gcc
 # microchip's archiver
@@ -62,7 +63,8 @@ CFLAGS+=-I $(DIR)
 LDFLAGS+=-Wl,-Map=$(TARGET_LST)
 MKFL:=$(TARGET_HEX).d
 TRGTL:=$(TARGET_HEX): $(SRC) lib $(LIB_GIB)
-CMPL:=$(CC) $(CFLAGS) $(LDFLAGS) -o $(TARGET_ELF) $(SRC) $(LDLIBS)
+CMPL:=$(CC) $(CFLAGS) $(LDFLAGS) $(XFLAGS) -o $(TARGET_ELF) $(SRC) \
+	$(LDLIBS) $(XLIB)
 HXL:=$(HX) $(TARGET_ELF)
 RML:=$(RM) $(TARGET_ELF)
 $(file > $(MKFL),$(TRGTL))

@@ -20,9 +20,6 @@ int main()
 
     init_q(states, sizeof(states), &rb);
 
-    CNENDbits.CNIED3 = true; //Turn on CN for RD3
-    CNENDbits.CNIED4 = true; //Turn on CN for RD4
-    CNENDbits.CNIED5 = true; //Turn on CN for RD5
     _CNIP = 4; //Set priority to 4 
     _CNIF = false;     //Clear interrupt flag
 /*
@@ -122,8 +119,9 @@ int main()
         }
     }
 
-    DUTY = 0;
+    commutate = false;
     float_pins();
+    DUTY = 0;
 
     attn("Done!\n");
     while(1);

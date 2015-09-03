@@ -11,7 +11,7 @@
     @param prescaler The prescaler used
     @return The corresponding time in milliseconds
 */
-long double ticks_to_ms(unsigned int tcnts, int prescaler)
+long double ticks_to_ms(unsigned long int tcnts, int prescaler)
 {
     long double x = 1000ULL * tcnts * prescaler;
     return x / FCY;
@@ -23,22 +23,29 @@ long double ticks_to_ms(unsigned int tcnts, int prescaler)
     @param prescaler The desired prescaler 
     @return The corresponding time in timer counts
 
-    @warning If \a ms is too large to represent in a 16-bit timer, the value is
-    automatically capped at UINT16_MAX.  It is up to the user to determine
-    whether UINT16_MAX means ms is too large given the prescaler or if ms maps
-    to UINT16_MAX in timer counts.
-*/
-unsigned int ms_to_ticks(long double ms, int prescaler)
-{
-    unsigned long x = (unsigned long) (ms * FCY / 1000 / prescaler);
+    @todo update documentation for this entry
 
-    if(x > UINT16_MAX) {
+    @warning If \a ms is too large to represent in a 32-bit timer, the value is
+    automatically capped at UINT32_MAX.  It is up to the user to determine
+    whether UINT32_MAX means ms is too large given the prescaler or if ms maps
+    to UINT32_MAX in timer counts.
+
+    @note This function assumes assignments to a smaller type will be implictly
+    or explicitly casted to the appropriate size.
+*/
+unsigned long int ms_to_ticks(long double ms, int prescaler, bool bits16)
+{
+    unsigned long long x = (unsigned long long) (ms * FCY / 1000 / prescaler);
+
+    if(bits16 && x > UINT16_MAX) {
         x = UINT16_MAX;
     }
+    else if(x > UINT32_MAX) {
+        x = UINT32_MAX;
+    }
 
-    return (unsigned int) x;
+    return (unsigned long int) x;
 }
-
 
 /**  Sets up TMR1-TMR9 as 16-bit timers in timer mode.
     @param ms the desired period in milliseconds
@@ -81,7 +88,7 @@ void set_16_bit_timer(long double ms, VUI *con, VUI *prd, VUI *tmr)
 
     // compute the counts given the desired amount of time in ms
     for(i = 0; i < N_PS; i++) {
-        tcnts[i] = ms_to_ticks(ms, ps[i]);
+        tcnts[i] = ms_to_ticks(ms, ps[i], true);
     }
     
     // find the prescaler that gives a count closest to the desired value
@@ -100,3 +107,72 @@ void set_16_bit_timer(long double ms, VUI *con, VUI *prd, VUI *tmr)
     *prd = tcnts[j];
     *tmr = 0;
 }
+
+
+/// for 32-bit timers the even number starts/stops and the odd # is for
+//interrupt flag
+void set_32_bit_timer(long double ms, TMR32Bit tmr32)
+{
+    int i, j;
+    long double err, min_error;
+    unsigned long int tcnts[N_PS];
+    unsigned int ps[N_PS] = {1, 8, 64, 256};
+    VUI *con, *tmr_b, *tmr_c, *prd_b, *prd_c;
+
+    // compute the counts given the desired amount of time in ms
+    for(i = 0; i < N_PS; i++) {
+        tcnts[i] = ms_to_ticks(ms, ps[i], false);
+    }
+    
+    // find the prescaler that gives a count closest to the desired value
+    j = 0;
+    min_error = LDBL_MAX; // max value for unsigned int
+    for(i = 0; i < N_PS; i++) {
+        err = fabsl(ms - ticks_to_ms(tcnts[i], ps[i]));
+        if(err < min_error) {
+            min_error = err;
+            j = i;
+        }
+    }
+
+    if(tmr32 == TIMER23) {
+        con = &T2CON;
+        prd_c = &PR3;
+        prd_b = &PR2;
+        tmr_c = &TMR3HLD;
+        tmr_b = &TMR2;
+    }
+    else if(tmr32 == TIMER45) {
+        con = &T4CON;
+        prd_c = &PR5;
+        prd_b = &PR4;
+        tmr_c = &TMR5HLD;
+        tmr_b = &TMR4;
+    }
+    else if(tmr32 == TIMER67) {
+        con = &T6CON;
+        prd_c = &PR7;
+        prd_b = &PR6;
+        tmr_c = &TMR7HLD;
+        tmr_b = &TMR6;
+    }
+    else if(tmr32 == TIMER89) {
+        con = &T8CON;
+        prd_c = &PR9;
+        prd_b = &PR8;
+        tmr_c = &TMR9HLD;
+        tmr_b = &TMR8;
+    }
+    else {
+        error("set_32_bit_timer: invalid 32-bit timer pair.");
+        return;
+    }
+
+    // set the registers
+    *con |= ((j << _T1CON_TCKPS_POSITION) | (1 << _T2CON_T32_POSITION));
+    *prd_c = tcnts[j] >> MSW_SHIFT; // most-significant word
+    *prd_b = tcnts[j] & LSW_MASK; // least-significant word
+    *tmr_c = 0; // write msw first
+    *tmr_b = 0; // write lsw second
+}
+

@@ -2,9 +2,14 @@
 #define TIMERS_H
 /// @file
 
-extern long double ticks_to_ms(unsigned int , int);
-extern unsigned int ms_to_ticks(long double, int);
-extern void set_16_bit_timer(long double, VUI *, VUI *, VUI *);
+enum TMR32Bit {
+TIMER23,
+TIMER45,
+TIMER67,
+TIMER89
+};
+
+typedef enum TMR32Bit TMR32Bit;
 
 /// Returns the TxCONbits register, 0 < x < 10
 #define TxCONbits(x) T ## x ## CONbits
@@ -16,8 +21,6 @@ extern void set_16_bit_timer(long double, VUI *, VUI *, VUI *);
 #define TMR(x) TMR ## x
 /// Returns the TxIF bit, 0 < x < 10
 #define TxIF(x) _T ## x ## IF
-
-
 
 /// Starts a timer for profiling code.
 /** 
@@ -67,5 +70,11 @@ extern void set_16_bit_timer(long double, VUI *, VUI *, VUI *);
     } while(0)
 
 /// @}
+
+extern long double ticks_to_ms(unsigned long int , int);
+extern unsigned long int ms_to_ticks(long double, int, bool);
+extern void set_16_bit_timer(long double, VUI *, VUI *, VUI *);
+extern void set_32_bit_timer(long double, TMR32Bit);
+
 
 #endif /* TIMERS_H */

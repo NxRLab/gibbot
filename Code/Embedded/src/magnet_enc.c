@@ -17,15 +17,15 @@ long read_magnet_enc()
     my_magnet_enc.low16 = POS1CNTL;
     my_magnet_enc.high16 = POS1HLD;
     my_magnet_enc.value = 
-        (my_magnet_enc.high16 << HI_ENC_SHIFT)  | my_magnet_enc.low16;
+        (my_magnet_enc.high16 << MSW_SHIFT)  | my_magnet_enc.low16;
 
     return my_magnet_enc.value;
 }
 
 void write_magnet_enc(long int value)
 {
-    POS1HLD = value >> HI_ENC_SHIFT;
-    POS1CNTL = value & LOW_ENC_MASK;
+    POS1HLD = value >> MSW_SHIFT;
+    POS1CNTL = value & LSW_MASK;
 }
 
 void init_magnet_enc(long int counts_per_revolution)

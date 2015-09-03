@@ -20,9 +20,6 @@ struct Encoder {
 
 typedef struct Encoder Encoder;
 
-#define LOW_ENC_MASK 0xFFFF
-#define HI_ENC_SHIFT 16
-#define MODULO_COUNT 6
 #define DEGREES(enc) ((enc.read() - enc.offset) * 360.0L / enc.cpr)
 
 #endif /* ENCODER_H */

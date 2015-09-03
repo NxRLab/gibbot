@@ -3,8 +3,21 @@
 /// @file
 
 /// The PIC-to-PIC baud rate
-//#define PIC_BAUD (16UL*115200UL)
-#define PIC_BAUD (115200UL)
+#define PIC_BAUD (8*115200UL)
+
+/// The max waiting time read_pic2pic should wait for an incoming byte.
+/**
+Empirically measured to be about ~13.8 ms in a tight loop when at maximum value
+for an unsigned int.
+
+\code
+    unsigned int timeout = TIMEOUT;
+    TxTICK(1, "timeout", 20);
+    while(--timeout);
+    TxTOCK(1, "timeout");
+\endcode
+*/
+#define TIMEOUT -1
 
 /// Returns true if the PIC-to-PIC peripheral is present and enabled
 bool is_pic2pic_on()
@@ -51,11 +64,16 @@ int write_pic2pic(void *buffer, unsigned int len)
 
     @note If there's a bug here don't forget to check read_xbee(),
     which has similar code.
+
+    @note If there is an overrun error, this function will clear the overrun
+    flag to keep the UART receiving.  Clearing the flag before reading the UART
+    fifo deletes all data in fifo.
 */
 int read_pic2pic(void *buffer, unsigned int len)
 {
     int i;
     char b;
+    unsigned int timeout;
 
     if (!is_pic2pic_on()) {
         return EOF;
@@ -64,22 +82,25 @@ int read_pic2pic(void *buffer, unsigned int len)
         warn("read_pic2pic: can't poll for data wth an enabled interrupt.\n");
         return 0;
     }
-    else if (U2STAbits.OERR) {
-        // clear overrun flag to keep receiving. clearing the flag before
-        // reading the UART, deletes all data in fifo; this is fine since we
-        // want the newest data
-        U2STAbits.OERR = false;
-        error("read_pic2pic: overrun error.\n");
-    }
 
     b = 0;
+    timeout = TIMEOUT;
     for (i = len; i; i--) {
         if (U2STAbits.FERR) {
             warn("read_pic2pic: frame error.\n");
             break; 
         }
+        else if (U2STAbits.OERR) {
+            // clear overrun flag
+            U2STAbits.OERR = false;
+            error("read_pic2pic: overrun error.\n");
+        }
 
-        while ((U2STAbits.URXDA) == false);
+        while (((U2STAbits.URXDA) == false) && (timeout--));
+        if((U2STAbits.URXDA) == false) {
+            break;
+        }
+
         b = U2RXREG;
         *(char *) (buffer++) = b;
     }

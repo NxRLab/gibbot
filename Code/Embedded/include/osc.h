@@ -3,7 +3,7 @@
 /// @file
 
 /// Clock Speed (instructions per second) set in init_osc_40_MHz()
-#define FCY 40000000UL 
+#define FCY 40000000ULL 
 
 /// Number of seconds in a nanosecond
 #define SEC_TO_NS 1000000000ULL

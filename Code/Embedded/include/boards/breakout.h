@@ -25,7 +25,7 @@
     leads to a shift of 3 bits to the right and a mask of 0b111 = 7 to only keep
     those 3 bits of interest.
 */
-#define HALL(x) ((PORTD >> 3) & 7)
+#define HALL ((PORTD >> 3) & 7)
 
 // LED on/off
 #define LED_ON 1

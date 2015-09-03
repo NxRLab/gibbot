@@ -2,8 +2,8 @@
 /** @file
 */
 
-#include <boards/pv7.h>
-//#include <boards/breakout.h>
+//#include <boards/pv7.h>
+#include <boards/breakout.h>
 #include <gibbot.h>
 
 #define PRINT_NTIMES 5
@@ -17,7 +17,8 @@ int main()
     char buf[LEN];
 
     // turn_off_color_output(); // call if color not supported by PC terminal
-    initialize_board(&pv7);
+    //initialize_board(&pv7);
+    initialize_board(&breakout);
 
    info("printing Hello World! %d times...\n", PRINT_NTIMES);
     for(i = 1; i <= PRINT_NTIMES; i++) {

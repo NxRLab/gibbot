@@ -23,6 +23,8 @@
 */
 #define XBEE_BAUD 111111UL 
 
+#define ENABLE_CTS_RTS_TX_RX 2
+
 /// Returns true if the XBee UART is present and enabled
 bool is_xbee_on()
 {
@@ -35,7 +37,10 @@ void init_xbee()
     U1MODEbits.BRGH = true; //Turn High Baud Rate Mode on
     U1BRG = calc_baud(XBEE_BAUD, true); //Baud Rate =112044 0.8% error
 
-    // according to UART reference maual UTXEN must come after UARTEN
+    // enable peripheral pins
+    U1MODEbits.UEN = ENABLE_CTS_RTS_TX_RX;
+
+    // according to UART reference manual UTXEN must come after UARTEN
     U1MODEbits.UARTEN = true;   //enable the UART
     U1STAbits.UTXEN = true;     //Enable transmitting
 }
@@ -79,7 +84,12 @@ int write_xbee(void *buffer, unsigned int len)
 
     @note If there's a bug here don't forget to check read_pic2pic(),
     which has similar code.
+
     @note carriage returns (\r) are treated as line feeds (\n) characters
+
+    @note If there is an overrun error, this function will clear the overrun
+    flag to keep the UART receiving.  Clearing the flag before reading the UART
+    fifo deletes all data in fifo.
 */
 int read_xbee(void *buffer, unsigned int len)
 {
@@ -93,14 +103,7 @@ int read_xbee(void *buffer, unsigned int len)
     else if(_U1RXIE) {
         printf("read_xbee: can't poll for data while interrupt is active.\n");
         return 0;
-    }
-    else if (U1STAbits.OERR) {
-        // clear overrun flag to keep receiving. clearing the flag before
-        // reading the UART, deletes all data in fifo; this is fine since we
-        // want the newest data
-        U1STAbits.OERR = false;
-        printf("read_xbee: overrun error.\n");
-    }
+    } 
 
     b = 0;
     for (i = len; (b != LF) && i; i--) {
@@ -108,7 +111,11 @@ int read_xbee(void *buffer, unsigned int len)
             printf("read_xbee: frame error.\n");
             break; 
         }
-
+        else if (U1STAbits.OERR) {
+            // clear overrun flag to keep receiving
+            U1STAbits.OERR = false;
+            printf("read_xbee: overrun error.\n");
+        }
         while ((U1STAbits.URXDA) == false);
         b = U1RXREG;
 
