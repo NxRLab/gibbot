@@ -35,7 +35,7 @@ int main(void) {
 
          //read topmag encoder encoder
         test_data1 = read_TOPMAGENC();
-        //test_data2 = read_LOWMAGENC();
+        test_data2 = read_MOTENC();
 
 
     //store to an array rather than print to screen every time
@@ -50,11 +50,10 @@ int main(void) {
         count=0;
     }*/
 
-    printf("Top: %ld  Bottom: %ld\n",test_data1,test_data2);
+    printf("Top: %ld  Motor: %ld\n",test_data1,test_data2);
 
     __delay32(20000000);
        
-        //press reset to end code
     }
     return 0;
 }

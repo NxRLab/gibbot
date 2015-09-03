@@ -11,7 +11,10 @@ using namespace CameraLibrary;
 float BOARD_SIZE[2] = {2394.0, 1231.9};
 
 
-float * getBoardCorners(){
+float * getBoardCorners(){   //this function is called if the user calls it without arguments
+							 //it returns the size of the full board
+
+	//corners are (0,0) (0,y) (x,y) and (x,0)
 	float * boardArray = new float[8];
 	boardArray[0] = 0;
 	boardArray[1] = 0;
@@ -25,10 +28,13 @@ float * getBoardCorners(){
 	return boardArray;
 }
 
-float * getBoardCorners(bool isLeft){
+float * getBoardCorners(bool isLeft){	//this function is called if the user wants just half the board
+										//the user puts in a bool saying whether they want the left or the right half coordinates
+										//and the funciton returns either the left or the right half coordinates
 	
 	float * boardArray = new float[8];
-	
+		
+		// right side of board coordinates are (x/2,0) (x/2,y) (x,y) (x,0)
 	if (!isLeft){
 		boardArray[0] = BOARD_SIZE[0]/2;
 		boardArray[1] = 0;
@@ -40,6 +46,8 @@ float * getBoardCorners(bool isLeft){
 		boardArray[7] = 0;
 	}
 	else {
+
+		//left side of board coordinates are (0,0) (0,y) (x/2,y) (x/2,0)
 		boardArray[0] = 0;
 		boardArray[1] = 0;
 		boardArray[2] = 0;
@@ -56,10 +64,12 @@ float * getBoardCorners(bool isLeft){
 // get camera corners
 float * getCamCorners(Camera * camera){
 	float * camCorners = new float [8];
+
+	//this assumes camera is straight up and down (attached on bottom)
 	int X = camera->Width();
 	int Y = camera->Height();
 
-	
+	//camera frame coordinates are (0,0) (0,y) (x,y) (x,0)
 	camCorners[0] = 0;
 	camCorners[1] = 0;
 	camCorners[2] = 0;
@@ -75,10 +85,9 @@ float * getCamCorners(Camera * camera){
 
 
 
-//VectorXd pts8(8); //declared as array to assert that we only need 8 points
-//VectorXd b0,b1,b2,b3,a0,a1,a2,a3;
 
-    /* Code */
+
+
 //Desitnation array followed by Source array
 MatrixXf getTransformData(float * aArray, float * bArray){   //Camera array in aArray and board array in bArray
 		
@@ -92,10 +101,13 @@ MatrixXf getTransformData(float * aArray, float * bArray){   //Camera array in a
 	float b2[2]; b2[0] = bArray[4]; b2[1] = bArray[5];
 	float b3[2]; b3[0] = bArray[6]; b3[1] = bArray[7];
 
+	//initialize an 8 by 8 matrix 'A'
 	MatrixXf A(8,8);
+
+	//initialize a vector of length 8 'B'
 	VectorXf B(8,1);
 	
-	//make Matrix
+	//put data in matrix
 	A << a0[0], a0[1], 1,     0,     0, 0, -a0[0]*b0[0], -a0[1]*b0[0],
              0,     0, 0, a0[0], a0[1], 1, -a0[0]*b0[1], -a0[1]*b0[1],
          a1[0], a1[1], 1,     0,     0, 0, -a1[0]*b1[0], -a1[1]*b1[0],
@@ -105,13 +117,13 @@ MatrixXf getTransformData(float * aArray, float * bArray){   //Camera array in a
          a3[0], a3[1], 1,     0,     0, 0, -a3[0]*b3[0], -a3[1]*b3[0],
              0,     0, 0, a3[0], a3[1], 1, -a3[0]*b3[1], -a3[1]*b3[1];
 	
-	//make vector
+	//put data in vector
 	B << b0[0], b0[1], b1[0], b1[1], b2[0], b2[1], b3[0], b3[1];
 	
 	return A.jacobiSvd(ComputeThinU|ComputeThinV).solve(B); // solve A\B and return answer
 }
 
-
+//use a transform matrix to move the coordinates of points from one plane to another
 float * transformBlob(cObject * blob, MatrixXf transform){
 	float y = blob->Y(); 
 	float x = blob->X(); 
@@ -122,6 +134,7 @@ float * transformBlob(cObject * blob, MatrixXf transform){
 	return newCoords;
 }
 
+//same function as above but modified so that it can be called with a float* instead of a cObject
 float * transformBlob(float * coordinates, MatrixXf transform){
 	float x = coordinates[0]; 
 	float y = coordinates[1]; 
@@ -132,9 +145,11 @@ float * transformBlob(float * coordinates, MatrixXf transform){
 	return newCoords;
 }
 
-// get the 4 marker LED coordinates that each camera sees
+// get the 4 marker LED coordinates that each camera sees (the corners and middle of the board)
+//Note: commented out code here is due to a changing from getting coordinates from cObject to float*. Either should work though
 float ** getCornerBlobs(cObject ** blobArray, int numBlobs, Camera * camera, bool isLeft){
 
+	//make a new cObjects to put the best LED selection for in
 	cObject * bestNblob = new cObject;
 	cObject * bestSblob = new cObject;
 	//cObject * bestNangle = new cObject;
@@ -142,36 +157,42 @@ float ** getCornerBlobs(cObject ** blobArray, int numBlobs, Camera * camera, boo
 	float * bestNangle = new float[2];
 	float * bestSangle = new float[2];
 
-
+	//initialize ideal locations depending upon whether camera is right or left
 	int camX = 0;
 	int camY = 0;
 	if (!isLeft){
 		int camY = camera->Height();
 		int camX = camera->Width();
 	}
+
+	//initialize other variables
 	int Nskip, Sskip;
 	float bestNDistSq = 10000000;
 	float bestSDistSq = 10000000;
 	float nAngleVal = 10;
 	float sAngleVal = 10;
+
+	//go through all possible points and compare based on distance to camera corners
+	//here we are finding board corner LEDs (as opposed to board middle LEDs)
 	for (int i = 0; i < numBlobs; i++) {
 		float y = blobArray[i]->Y();
 		float x = blobArray[i]->X();
 		if (pow(x, 2) + pow(y, 2) < bestNDistSq){
 			bestNDistSq = pow(x, 2) + pow(y, 2);
 			bestNblob = blobArray[i];
-			Nskip = i;
+			Nskip = i; //save the location of the best upper point so we can filter it out later
 		}
 		if (pow(x - camX, 2) + pow(y - camY, 2) < bestSDistSq){
 			bestSDistSq = pow(x - camX, 2) + pow(y - camY, 2);
 			bestSblob = blobArray[i];
-			Sskip = i;
+			Sskip = i; //save the location of the best lower point so we can filter it out later
 		}
 	}
 
 
 
 	//now convert bestNblob and bestSblob into float arrays
+	//this is because of the change from cObjects to float*. If you change back you can ignore.
 	float * NewBestNblob = new float[2];
 	float * NewBestSblob = new float[2];
 	NewBestNblob[0] = bestNblob->X();
@@ -179,14 +200,17 @@ float ** getCornerBlobs(cObject ** blobArray, int numBlobs, Camera * camera, boo
 	NewBestSblob[0] = bestSblob->X();
 	NewBestSblob[1] = bestSblob->Y();
 
+	//this is me testing to see where the JNI code throws the error
 	cout << "1 ";
 
-	//cObject ** newblobArray = new cObject * [numBlobs-2];
+	//make a new array for the points excluding the 2 corners we already found
+		//cObject ** newblobArray = new cObject * [numBlobs-2];
 	float ** newblobArray = new float *[numBlobs - 2];					//***THIS IS THE PROBLEM LINE***//
 
-
+	//again testing to find error
 	cout << "2 ";
 
+	//put the points in an array skipping the points we have already determined to be corners
 	int k = 0;
 	for (int j = 0; j < numBlobs; j++){
 		if (j == Nskip || j == Sskip) continue;
@@ -195,6 +219,9 @@ float ** getCornerBlobs(cObject ** blobArray, int numBlobs, Camera * camera, boo
 		newblobArray[k][1] = blobArray[j]->Y();
 		k++;
 	}
+
+	//find the other two corners by comparing the angles from the corners we have to the other points.
+	//whichever angles are closest to 0 or 180 (depending on right/left) are the angles we want
 	for (int ii = 0; ii < k; ii++){
 		float nY = bestNblob->Y();
 		float nX = bestNblob->X();
@@ -202,7 +229,7 @@ float ** getCornerBlobs(cObject ** blobArray, int numBlobs, Camera * camera, boo
 		float sX = bestSblob->X();
 		float testX = newblobArray[ii][0];
 		float testY = newblobArray[ii][1];
-		if (abs((sY - testY) / (sX - testX)) < sAngleVal){
+		if (abs((sY - testY) / (sX - testX)) < sAngleVal){	//since the smallest y/x results in the smallest tan(y/x) we only need to check y/x
 			//bestSangle = newblobArray[ii];
 			bestSangle[0] = newblobArray[ii][0];
 			bestSangle[1] = newblobArray[ii][1];
@@ -223,7 +250,7 @@ float ** getCornerBlobs(cObject ** blobArray, int numBlobs, Camera * camera, boo
 	//returnArray[2] = bestSangle;
 	//returnArray[3] = bestNangle;
 
-	float ** returnArray = new float  *[4]; //again might have to do a deeper copy here
+	float ** returnArray = new float  *[4];
 	returnArray[0][0] = NewBestNblob[0];
 	returnArray[0][1] = NewBestNblob[1];
 	returnArray[1][0]= NewBestSblob[0];
@@ -256,6 +283,7 @@ float ** filterBlobs(float ** fullArray, float ** removeArray, int fullArraySize
 	return newArray;
 }
 
+//remove float*s from an array of float*
 float ** filterBlobs(float ** fullArray, float ** removeArray){
 	int fullArraySize = 0, removeArraySize = 0;
 	for (int m = 0; fullArray[m][0] != NULL; m++){fullArraySize = m;}
@@ -279,35 +307,52 @@ float ** filterBlobs(float ** fullArray, float ** removeArray){
 }
 
 
-
+//find and return clusters of size nClust
+//also returns which camera it was found in
+//returns null if none found
 pair<float **,int> getClusterN(float***allPoints,int numCams, int nClust){
 
-	//float * coordArray = new float [2];
+	//initialize variables
+		//float * coordArray = new float [2];
 	float ** holdClusters = new float * [nClust];
 	int MAX_DIST = 30;
-	int countSecondArray = 0;
 	int whichCam = 0;
 
+	//look through both cameras
 	for (int i = 0; i < numCams; i++){
 		int maxArrayNum = 0;
 		float dist = 0;
 		whichCam = i;
-		for (int m = 0; allPoints[m][0][0] != NULL; m++){
+
+		//find how many points there are in the camera we are using
+		for (int m = 0; allPoints[i][m][0] != NULL; m++){
 			maxArrayNum = m;
 		}
-		countSecondArray = i;
+
+		//search through the points in the camera
 		for (int j = 0; j < maxArrayNum; j++){
-			int tag = 1;
+			
+			//set the first point in the cluster array to try
 			holdClusters[0][0] = allPoints[i][j][0];
 			holdClusters[0][1] = allPoints[i][j][1];
 
-			for (int k = j+1; k < 6; k++){
+			//there is one point in the cluster array so tag is 1
+			int tag = 1;
+
+			//compare the other points in the array to the first one
+			for (int k = j+1; k < maxArrayNum; k++){
 				dist = sqrt(pow(allPoints[i][j][0]-allPoints[i][k][0],2)+pow(allPoints[i][j][1]-allPoints[i][k][1],2));
+				
+				//if the distance is good then we add it to the next spot in the array and add one to tag
 				if (dist < MAX_DIST){
 					holdClusters[tag][0] = allPoints[i][k][0];
 					holdClusters[tag][1] = allPoints[i][k][1];
 					tag++;
 				}
+
+				//if tag (the number of points in the array) is equal to the cluster count we want then return the array and the camera we found it in
+				//this means that we have to call this function on the biggest cluster groups first
+				//also if there is more than 1 point when we call it for a cluster of size 1 it doesn't check to find the right point
 				if (tag == nClust){
 					pair<float **, int> make_pair(holdClusters, whichCam);
 					return pair<float **, int>(holdClusters,whichCam);
@@ -315,11 +360,15 @@ pair<float **,int> getClusterN(float***allPoints,int numCams, int nClust){
 			}
 		}
 	}
+
+	//if nothing is found return a null pointer
 	float ** nullPoint;
 	pair<float **, int> make_pair(nullPoint,whichCam);
 	return pair<float**,int>(nullPoint,whichCam);
 }
 
+
+//find the center of the cluster by taking an average
 float * getClusterCenter(float ** cluster, int nClust){
 	float * clusterSum = new float [2];
 	float * coordArray = new float [2];
@@ -333,14 +382,19 @@ float * getClusterCenter(float ** cluster, int nClust){
 	return coordArray;
 }
 
-
+//this is the main function getting called
+//it puts all of the other functions together
+//call it with a the number of cameras in a list and the list of cameras
 vector<double> TransformandCluster(int nCams, Camera ** camera){
+	
+	//initialize variables
 	bool isLeftCam = false;
 	int MAX_OFFSET_DIST = 50;
 	float * boardArray = getBoardCorners();
 	float *** cameraBlobs = new float** [nCams]; //an array of arrays containing gibbot LED coordinates
 	vector<double> copy;
 
+	//go through both cameras
 	for (int i = 0; i < nCams; i++){
 		
 		//determine whether camera is right or left -- we will assume ID 199314 is left and 199313 is right
@@ -513,11 +567,11 @@ vector<double> TransformandCluster(int nCams, Camera ** camera){
 	y3 = cluster3center[1];
 	float * GibbotPosition = new float[4];
 	
-	// cluster 3 x in first spot of array, y in second spot
+	// cluster 3; x in first spot of array, y in second spot
 	GibbotPosition[0] = x3;
 	GibbotPosition[1] = y3;
 
-	//probably wrong  //find angle between arms (theta1) and put in third spot
+	//find angle between arms (theta1) and put in third spot
 	float dist1, dist2, dist3;
 	dist1 = sqrt(pow(x1-x3,2)+pow(y1-y3,2));
 	dist2 = sqrt(pow(x1-x2,2)+pow(y1-y2,2));
@@ -544,7 +598,7 @@ vector<double> TransformandCluster(int nCams, Camera ** camera){
 	theta1 = theta3 - theta2;
 
 	
-	//probably want to return array here:
+	//finally return the vector here:
 	vector<double> rvec;
 
 	rvec[0] = x3;
